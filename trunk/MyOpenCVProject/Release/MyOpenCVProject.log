@@ -1,3 +1,0 @@
-﻿  main.cpp
-MSVCRT.lib(crtexe.obj) : error LNK2001: unresolved external symbol _main
-F:\WorkingFolder\MyOpenCVProject\Release\MyOpenCVProject.exe : fatal error LNK1120: 1 unresolved externals
