@@ -28,9 +28,10 @@ private:
 	int nonMaxSize;
 	//kerner for non-max suppression
 	cv::Mat kernel;
-	// Get the corner map from the computed Harris values
-	cv::Mat getCornerMap(double qualityLevel);
+
 	
+	// Get the corner map from the computed Harris values
+	cv::Mat getCornerMap(double qualityLevel);	
 	//Get the feature points from the computed corner map
 	void getCorners(std::vector<cv::Point>&,const cv::Mat& cornerMap);
 
@@ -43,6 +44,6 @@ public:
 	//Draw circles at the feature point locations on an image
 	void drawOnImage(cv::Mat& image,
 		const std::vector<cv::Point>& point,
-		cv::Scalar color=cv::Scalar(255,255,255),
-		int radius=3,int thickness=2);
+		cv::Scalar color=cv::Scalar(255,255,255),int radius=3,int thickness=2);
+
 };

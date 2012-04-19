@@ -20,5 +20,8 @@ int main(void)
 		std::getchar();
 	}
 	detector.detect(image);
-
+	std::vector<cv::Point> pts;
+	detector.getCorners(pts,0.01);
+	detector.drawOnImage(image,pts);
+	cv::waitKey(0);
 }
