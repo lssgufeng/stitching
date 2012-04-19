@@ -14,7 +14,7 @@
 int main(void)
 {
 	HarrisDetector detector;
-	cv::Mat image=cv::imread("knee_1.bmp");
+	cv::Mat image=cv::imread("photo.jpg",0);
 	if(!image.data){
 		std::cout<<"Error: Image Not Found!";
 		std::getchar();

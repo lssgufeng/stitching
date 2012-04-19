@@ -4,8 +4,8 @@
   @author Krishna Paudel (krishna444@gmai.com)
 **/
 #include "opencv2\highgui\highgui.hpp"
-//#include "opencv2\features2d\features2d.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
+
 class HarrisDetector{
 private: 
 	//image of corner strength value
