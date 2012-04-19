@@ -11,7 +11,7 @@
 #include "HarrisDetector.h"
 #include <iostream>
 
-void main(void)
+int main(void)
 {
 	HarrisDetector detector;
 	cv::Mat image=cv::imread("knee_1.bmp");
@@ -20,4 +20,5 @@ void main(void)
 		std::getchar();
 	}
 	detector.detect(image);
+
 }
