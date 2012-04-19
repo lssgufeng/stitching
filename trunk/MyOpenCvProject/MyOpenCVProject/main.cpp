@@ -27,3 +27,8 @@ char* corners_window = "Corners detected";
 /// Function header
 void cornerHarris_demo( int, void* );
 void readme();
+
+void main(void)
+{
+	printf("this is test");
+}
