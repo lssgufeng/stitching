@@ -4,6 +4,8 @@
   @author Krishna Paudel (krishna444@gmai.com)
 **/
 #include "opencv2\highgui\highgui.hpp"
+//#include "opencv2\features2d\features2d.hpp"
+#include "opencv2\imgproc\imgproc.hpp"
 class HarrisDetector{
 private: 
 	//image of corner strength value
@@ -13,7 +15,7 @@ private:
 	//image of localmax
 	cv::Mat localMax;
 	//size of neighboorhood for derivative smoothing
-	int neighboorhood;
+	int neighbourhood;
 	//aperture for gradient computation
 	int aperture;
 	//Harris Parameter
@@ -28,12 +30,14 @@ private:
 	cv::Mat kernel;
 	// Get the corner map from the computed Harris values
 	cv::Mat getCornerMap(double qualityLevel);
-	// Compute Harris corners
-	void detect(const cv::Mat& image);
+	
 	//Get the feature points from the computed corner map
 	void getCorners(std::vector<cv::Point>&,const cv::Mat& cornerMap);
 
 public:
+	HarrisDetector();
+	// Compute Harris corners
+	void detect(const cv::Mat& image);
 	//get the feature points from the computed corner map
 	void getCorners(std::vector<cv::Point>&,double qualityLevel);
 	//Draw circles at the feature point locations on an image
