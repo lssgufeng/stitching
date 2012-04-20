@@ -12,7 +12,7 @@
 #include "Corners.h";
 #include <iostream>
 
-int main(void)
+int main(void)  
 {
 	HarrisDetector detector;
 	cv::Mat image=cv::imread("2.png",0);
