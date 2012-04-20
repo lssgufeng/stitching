@@ -24,12 +24,18 @@
     <ClCompile Include="Corners.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Matching.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarrisDetector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Corners.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matching.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
