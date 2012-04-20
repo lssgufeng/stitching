@@ -39,5 +39,5 @@ int main(void)
 
 	corner.DrawKeyPoints(image,keyPoints,outputImage);
 	cv::imshow("KeyPoints",outputImage);
-	cv::waitKey(0);
+	cv::waitKey(0);	
 }
