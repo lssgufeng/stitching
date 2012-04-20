@@ -1,7 +1,7 @@
 /**
- * @function cornerHarris_Demo.cpp
- * @brief Demo code for detecting corners using Harris-Stephens method
- * @author OpenCV team
+ * @function main
+ * @brief main function as entry point. 
+ * @author Krishna
  */
 
 #include "opencv2/highgui/highgui.hpp"
