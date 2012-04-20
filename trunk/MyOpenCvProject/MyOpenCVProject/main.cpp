@@ -15,7 +15,7 @@
 int main(void)
 {
 	HarrisDetector detector;
-	cv::Mat image=cv::imread("image1.jpg",0);
+	cv::Mat image=cv::imread("2.png",0);
 	if(!image.data){
 		printf("Error: Image Not Found!");
 		std::getchar();		
@@ -28,9 +28,15 @@ int main(void)
 
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints;
-	//corner.GetGoodFeaturesToTrack(image,keyPoints);
-	corner.GetFastFeatures(image,keyPoints);
+	corner.GetGoodFeaturesToTrack(image,keyPoints);
+	//corner.GetFastFeatures(image,keyPoints);
+	//corner.GetSiftFeatures(image,keyPoints);
+	//corner.GetSurfFeatures(image,keyPoints);
+	printf("Key Points=%d",keyPoints.size());
 	cv::Mat outputImage;
+	//cv::SiftFeatureDetector sift(0.01,10);
+	//sift.detect(image,keyPoints);
+
 	corner.DrawKeyPoints(image,keyPoints,outputImage);
 	cv::imshow("KeyPoints",outputImage);
 	cv::waitKey(0);
