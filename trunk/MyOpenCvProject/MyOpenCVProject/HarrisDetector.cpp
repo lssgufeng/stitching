@@ -1,8 +1,8 @@
 #include "HarrisDetector.h"
 
 HarrisDetector::HarrisDetector():neighbourhood(3),aperture(3),
-	k(0.01),maxStrength(10),
-	threshold(0.001),nonMaxSize(3){
+	k(0.04),maxStrength(10),
+	threshold(0.0001),nonMaxSize(6){
 }
 
 void HarrisDetector::detect(const cv::Mat& image){
@@ -61,7 +61,6 @@ cv::Mat HarrisDetector::getCornerMap(double qualityLevel){
 			 cv::circle(image,*it,radius, color,thickness);
 			 ++it;
 		 }
-
  }
 
 
