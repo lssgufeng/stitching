@@ -48,7 +48,7 @@ int main(void)
 
 	Matching matching;
 	std::vector<cv::DMatch> matches;
-	matching.GetMatchesSift(image1,image2,keyPoints1,keyPoints2,matches);
+	matching.GetMatchesBrief(image1,image2,keyPoints1,keyPoints2,matches);
 
 	
 }
