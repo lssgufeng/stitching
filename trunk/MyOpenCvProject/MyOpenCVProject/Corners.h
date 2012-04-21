@@ -1,7 +1,7 @@
 /**
 * @class Corners
 * @description Detects the corners. The methods here are already implemented by the library
-* @author Krishna
+* @author Krishna Paudel(krishna444@gmail.com)
 **/
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"

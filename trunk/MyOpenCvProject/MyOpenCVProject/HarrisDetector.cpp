@@ -1,8 +1,8 @@
 #include "HarrisDetector.h"
 
 HarrisDetector::HarrisDetector():neighbourhood(3),aperture(3),
-	k(0.04),maxStrength(10),
-	threshold(0.0001),nonMaxSize(6){
+	k(0.04),maxStrength(4),
+	threshold(0.000001),nonMaxSize(6){
 }
 
 void HarrisDetector::detect(const cv::Mat& image){

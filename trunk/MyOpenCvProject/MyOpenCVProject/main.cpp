@@ -15,15 +15,18 @@
 int main(void)  
 {
 	HarrisDetector detector;
-	cv::Mat image=cv::imread("2.png",0);
+	cv::Mat image=cv::imread("knee_1.bmp",0);
 	if(!image.data){
 		printf("Error: Image Not Found!");
 		std::getchar();		
 	}
 	detector.detect(image);
 	std::vector<cv::Point> pts;
-	detector.getCorners(pts,0.01);
-	detector.drawOnImage(image,pts);
+	detector.getCorners(pts,0.00001);
+	cv::Mat tmpImage=image.clone();
+
+	detector.drawOnImage(tmpImage,pts);
+	cv::imshow("harris Points",tmpImage);
 	cv::waitKey(0);
 
 	Corners corner;
