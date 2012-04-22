@@ -60,7 +60,7 @@ int main(void)
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches);	
 
 
-	/* Get Top 24 matches */
+	/* Get Top 14 matches */
 	std::nth_element(matches.begin(),matches.begin()+14,matches.end());
 	matches.erase(matches.begin()+14,matches.end());
 
