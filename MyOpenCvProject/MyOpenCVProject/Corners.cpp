@@ -6,7 +6,7 @@ Corners::Corners(){
 void Corners::GetGoodFeaturesToTrack(
 	const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints){
 		int maxCorners=500;
-		double qualityLevel=0.01;
+		double qualityLevel=0.001;
 		int minDistance=15;
 		cv::GoodFeaturesToTrackDetector gftt(maxCorners,
 			qualityLevel,minDistance);

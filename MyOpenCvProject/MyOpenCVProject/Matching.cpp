@@ -14,7 +14,7 @@ void Matching::GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::DMatch>& matches){
 		cv::SurfDescriptorExtractor extractor;
 		extractor.compute(image1,keyPoints1,this->descriptors1);
-		extractor.compute(image2,keyPoints1,this->descriptors2);
+		extractor.compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches);
 }
 
@@ -23,7 +23,7 @@ void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::DMatch>& matches){
 		cv::SiftDescriptorExtractor extractor;
 		extractor.compute(image1,keyPoints1,this->descriptors1);
-		extractor.compute(image2,keyPoints1,this->descriptors2);
+		extractor.compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches);
 }
 
