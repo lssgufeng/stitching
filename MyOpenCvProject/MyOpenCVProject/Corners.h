@@ -10,6 +10,7 @@
 class Corners{
 private: 
 	//if any private variables..include here
+	cv::Ptr<cv::FeatureDetector> detector;
 public:
 	Corners();
 	//Get the good features 

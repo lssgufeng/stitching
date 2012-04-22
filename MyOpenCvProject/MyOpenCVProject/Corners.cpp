@@ -8,30 +8,30 @@ void Corners::GetGoodFeaturesToTrack(
 		int maxCorners=500;
 		double qualityLevel=0.001;
 		int minDistance=15;
-		cv::GoodFeaturesToTrackDetector gftt(maxCorners,
+		this->detector= new cv::GoodFeaturesToTrackDetector(maxCorners,
 			qualityLevel,minDistance);
-		gftt.detect(image,keyPoints);
+		this->detector->detect(image,keyPoints);
 }
 
 void Corners::GetFastFeatures(
 	const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints){
 		int threshold=5;
-		cv::FastFeatureDetector fast(threshold);	
-		fast.detect(image,keyPoints);		
+		this->detector= new cv::FastFeatureDetector(threshold);	
+		this->detector->detect(image,keyPoints);		
 }
 
 void Corners::GetSurfFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
 		double threshold=20;
-		cv::SurfFeatureDetector surf(threshold);
-		surf.detect(image,keyPoints);
+		this->detector=new cv::SurfFeatureDetector(threshold);
+		this->detector->detect(image,keyPoints);
 }
 void Corners::GetSiftFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
 		double threshold=0.01;
 		double linesThreshold=10;
-		cv::SiftFeatureDetector sift(threshold,linesThreshold);
-		sift.detect(image,keyPoints);
+		this->detector=new cv::SiftFeatureDetector(threshold,linesThreshold);
+		this->detector->detect(image,keyPoints);
 }
 
 
