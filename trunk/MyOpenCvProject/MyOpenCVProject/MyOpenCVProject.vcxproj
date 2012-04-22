@@ -89,12 +89,14 @@
   <ItemGroup>
     <ClCompile Include="Corners.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
+    <ClCompile Include="Homography.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Corners.h" />
     <ClInclude Include="HarrisDetector.h" />
+    <ClInclude Include="Homography.h" />
     <ClInclude Include="Matching.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

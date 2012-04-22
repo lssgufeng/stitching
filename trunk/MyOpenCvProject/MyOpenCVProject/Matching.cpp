@@ -1,29 +1,29 @@
 #include "Matching.h"
 
 void Matching::GetMatchesBrief(cv::Mat& image1,cv::Mat& image2,
-	std::vector<cv::KeyPoint> keyPoints1,std::vector<cv::KeyPoint> keyPoints2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<cv::DMatch>& matches){
-		cv::BriefDescriptorExtractor extractor;
-		extractor.compute(image1,keyPoints1,this->descriptors1);
-		extractor.compute(image2,keyPoints2,this->descriptors2);
+		this->extractor=new cv::BriefDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches);
 }
 
 void Matching::GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
-	std::vector<cv::KeyPoint> keyPoints1,std::vector<cv::KeyPoint> keyPoints2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<cv::DMatch>& matches){
-		cv::SurfDescriptorExtractor extractor;
-		extractor.compute(image1,keyPoints1,this->descriptors1);
-		extractor.compute(image2,keyPoints2,this->descriptors2);
+		this->extractor=new cv::SurfDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches);
 }
 
 void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
-	std::vector<cv::KeyPoint> keyPoints1,std::vector<cv::KeyPoint> keyPoints2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<cv::DMatch>& matches){
-		cv::SiftDescriptorExtractor extractor;
-		extractor.compute(image1,keyPoints1,this->descriptors1);
-		extractor.compute(image2,keyPoints2,this->descriptors2);
+		this->extractor=new cv::SiftDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches);
 }
 

@@ -27,6 +27,9 @@
     <ClCompile Include="Matching.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Homography.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarrisDetector.h">
@@ -36,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Matching.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Homography.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
