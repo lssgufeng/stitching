@@ -16,8 +16,8 @@
 int main(void)  
 {
 	HarrisDetector detector;
-	cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_1.bmp",0);
+	cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();		
@@ -36,19 +36,37 @@ int main(void)
 
 	corner.GetGoodFeaturesToTrack(image1,keyPoints1);
 	corner.GetGoodFeaturesToTrack(image2,keyPoints2);
-	
-	/*corner.GetFastFeatures(image1,keyPoints1);
-	corner.GetFastFeatures(image2,keyPoints2);
 
-	corner.GetSiftFeatures(image1,keyPoints1);
+		
+	/*corner.GetFastFeatures(image1,keyPoints1);
+	corner.GetFastFeatures(image2,keyPoints2);*/
+
+	/*corner.GetSiftFeatures(image1,keyPoints1);
 	corner.GetSiftFeatures(image2,keyPoints2);
 
 	corner.GetSurfFeatures(image1,keyPoints1);
 	corner.GetSurfFeatures(image2,keyPoints2);*/
 
+	printf("KeyPoints1=%d",keyPoints1.size());
+	printf("KeyPoints2=%d",keyPoints2.size());
+
+	cv::drawKeypoints(image1,keyPoints1,tmpImage);
+	cv::imshow("keypoints1",tmpImage);
+	cv::waitKey(0);
+
+
 	Matching matching;
 	std::vector<cv::DMatch> matches;
-	matching.GetMatchesBrief(image1,image2,keyPoints1,keyPoints2,matches);
+	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches);	
 
-	
+
+	/* Get Top 24 matches */
+	std::nth_element(matches.begin(),matches.begin()+14,matches.end());
+	matches.erase(matches.begin()+14,matches.end());
+
+	cv::Mat imageMatches;
+	cv::drawMatches(image1,keyPoints1,
+		image2,keyPoints2,matches,imageMatches);
+	cv::imshow("Matches",imageMatches);
+	cv::waitKey(0);
 }
