@@ -12,18 +12,18 @@ private:
 	cv::Ptr<cv::DescriptorExtractor> extractor;
 	cv::Mat descriptors1,descriptors2;
 	void performMatching(cv::Mat descriptors1,cv::Mat descriptors2,
-		std::vector<cv::DMatch>& matches);
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 public:
 	//Get the matches using the Brief Descriptors
 	void GetMatchesBrief(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<cv::DMatch>& matches);	
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);	
 	//Get the matches using Surf Descriptors
 	void GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<cv::DMatch>& matches);
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	//Get the matches using Sift Descriptors
 	void GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<cv::DMatch>& matches);
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 };
