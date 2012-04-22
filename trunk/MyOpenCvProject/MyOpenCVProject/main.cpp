@@ -56,17 +56,17 @@ int main(void)
 
 
 	Matching matching;
-	std::vector<cv::DMatch> matches;
-	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches);	
+	std::vector<cv::DMatch> matches1,matches2;
+	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
 
 
 	/* Get Top 14 matches */
-	std::nth_element(matches.begin(),matches.begin()+14,matches.end());
-	matches.erase(matches.begin()+14,matches.end());
+	std::nth_element(matches1.begin(),matches1.begin()+14,matches1.end());
+	matches1.erase(matches1.begin()+14,matches1.end());
 
 	cv::Mat imageMatches;
 	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,matches,imageMatches);
+		image2,keyPoints2,matches1,imageMatches);
 	cv::imshow("Matches",imageMatches);
 	cv::waitKey(0);
 }
