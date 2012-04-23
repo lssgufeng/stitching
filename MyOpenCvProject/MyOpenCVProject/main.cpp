@@ -58,17 +58,23 @@ int main(void)
 
 
 	Matching matching;
-	std::vector<cv::DMatch> matches1,matches2;
+	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+
+	matching.RatioTest(matches1,0.7);
+	matching.RatioTest(matches2,0.7);
+
+	std::vector<cv::DMatch> symmetryMatches;
+	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 
 
 	/* Get Top 14 matches */
-	std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
-	matches1.erase(matches1.begin()+24,matches1.end());
+	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
+	//matches1.erase(matches1.begin()+24,matches1.end());
 
 	cv::Mat imageMatches;
 	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,matches1,imageMatches);
+		image2,keyPoints2,symmetryMatches,imageMatches);
 	cv::imshow("Matches",imageMatches);
 	cv::waitKey(0);
 }
