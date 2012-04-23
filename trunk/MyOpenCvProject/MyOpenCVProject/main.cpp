@@ -40,14 +40,14 @@ int main(void)
 	//corner.GetGoodFeaturesToTrack(image2,keyPoints2);
 
 		
-	corner.GetFastFeatures(image1,keyPoints1);
-	corner.GetFastFeatures(image2,keyPoints2);
+	/*corner.GetFastFeatures(image1,keyPoints1);
+	corner.GetFastFeatures(image2,keyPoints2);*/
 
 	/*corner.GetSiftFeatures(image1,keyPoints1);
-	corner.GetSiftFeatures(image2,keyPoints2);
+	corner.GetSiftFeatures(image2,keyPoints2);*/
 
 	corner.GetSurfFeatures(image1,keyPoints1);
-	corner.GetSurfFeatures(image2,keyPoints2);*/
+	corner.GetSurfFeatures(image2,keyPoints2);
 
 	printf("KeyPoints1=%d",keyPoints1.size());
 	printf("KeyPoints2=%d",keyPoints2.size());
@@ -67,6 +67,8 @@ int main(void)
 	std::vector<cv::DMatch> symmetryMatches;
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 
+	std::vector<cv::DMatch> ransacMatches;
+	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,1.0,0.9,ransacMatches);
 
 	/* Get Top 14 matches */
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
@@ -74,7 +76,7 @@ int main(void)
 
 	cv::Mat imageMatches;
 	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,symmetryMatches,imageMatches);
+		image2,keyPoints2,ransacMatches,imageMatches);
 	cv::imshow("Matches",imageMatches);
 	cv::waitKey(0);
 }
