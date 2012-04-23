@@ -17,7 +17,9 @@ int main(void)
 {
 	HarrisDetector detector;
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);
+	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);
+	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
+	cv::Mat image2=image1.clone();*/
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();		
@@ -34,12 +36,12 @@ int main(void)
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;
 
-	corner.GetGoodFeaturesToTrack(image1,keyPoints1);
-	corner.GetGoodFeaturesToTrack(image2,keyPoints2);
+	//corner.GetGoodFeaturesToTrack(image1,keyPoints1);
+	//corner.GetGoodFeaturesToTrack(image2,keyPoints2);
 
 		
-	/*corner.GetFastFeatures(image1,keyPoints1);
-	corner.GetFastFeatures(image2,keyPoints2);*/
+	corner.GetFastFeatures(image1,keyPoints1);
+	corner.GetFastFeatures(image2,keyPoints2);
 
 	/*corner.GetSiftFeatures(image1,keyPoints1);
 	corner.GetSiftFeatures(image2,keyPoints2);
@@ -61,8 +63,8 @@ int main(void)
 
 
 	/* Get Top 14 matches */
-	std::nth_element(matches1.begin(),matches1.begin()+14,matches1.end());
-	matches1.erase(matches1.begin()+14,matches1.end());
+	std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
+	matches1.erase(matches1.begin()+24,matches1.end());
 
 	cv::Mat imageMatches;
 	cv::drawMatches(image1,keyPoints1,
