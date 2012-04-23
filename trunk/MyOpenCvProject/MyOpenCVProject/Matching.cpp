@@ -34,6 +34,33 @@ void Matching::performMatching(cv::Mat descriptors1, cv::Mat descriptors2,
 	matcher.match(descriptors2,descriptors1,matches2);
 }
 
+int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
+	int removed=0;
+	for(std::vector<std::vector<cv::DMatch>>::iterator matchIterator=matches.begin();
+		matchIterator!=matches.end();++matchIterator){
+			if(matchIterator->size()>1){
+				if((*matchIterator)[0].distance/(*matchIterator)[1].distance>threshold){
+					matchIterator->clear();					
+					removed++;
+				}
+			}else{
+				matchIterator->clear();
+				removed++;
+			}
+	}
+	return removed;
+}
+
+void Matching::SymmetryTest(const std::vector<cv::DMatch>& matches1,
+		const std::vector<cv::DMatch>& matches2,
+		std::vector<cv::DMatch>& symMatches){
+}
+
+cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
+		const std::vector<cv::KeyPoint>& keyPoints1,
+		const std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& resultMatches){
+}
 
 
 
