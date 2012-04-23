@@ -69,13 +69,14 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 								&&(*matchIterator1)[0].trainIdx==(*matchIterator2)[0].queryIdx;
 							if(condition){
 								symMatches.push_back(cv::DMatch((*matchIterator1)[0].queryIdx,
-									(*matchIterator1)[0].trainIdx,(*matchIterator1)[0].distance));
+									(*matchIterator1)[0].trainIdx,(*matchIterator1)[0].distance));								
 								break;
 							}
 					}
 
 
 			}
+			
 }
 
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
@@ -114,6 +115,11 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
 					resultMatches.push_back(*iteratorMatch);
 				}
 			}
+
+			//Refinement of Fundamental Matrix from the accepted matches
+
+
+			return fundamental;
 }
 
 
