@@ -68,7 +68,7 @@ int main(void)
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 
 	std::vector<cv::DMatch> ransacMatches;
-	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,1.0,0.9,ransacMatches);
+	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.9,ransacMatches);
 
 	/* Get Top 14 matches */
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
