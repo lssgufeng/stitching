@@ -71,15 +71,29 @@ int main(void)
 	printf("Symmetric Test Result=%d Selected.",symmetryMatches.size());
 
 	std::vector<cv::DMatch> ransacMatches;
-	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.6,ransacMatches);
+	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.9,ransacMatches);
 	printf("After RANSAC=%d points.",ransacMatches.size());
 	/* Get Top 14 matches */
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
 	//matches1.erase(matches1.begin()+24,matches1.end());
 
 	cv::Mat imageMatches;
+
+	cv::drawMatches(image1,keyPoints1,
+		image2,keyPoints2,matches1,imageMatches);
+	cv::imshow("Matches RatioTest",imageMatches);
+	cv::waitKey(0);
+
+
+	cv::drawMatches(image1,keyPoints1,
+		image2,keyPoints2,symmetryMatches,imageMatches);
+	cv::imshow("Matches Symmetry",imageMatches);
+	cv::waitKey(0);
+
+	
+	
 	cv::drawMatches(image1,keyPoints1,
 		image2,keyPoints2,ransacMatches,imageMatches);
-	cv::imshow("Matches",imageMatches);
+	cv::imshow("Matches RANSAC",imageMatches);
 	cv::waitKey(0);
 }

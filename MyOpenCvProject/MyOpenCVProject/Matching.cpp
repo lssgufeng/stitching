@@ -117,6 +117,19 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
 			}
 
 			//Refinement of Fundamental Matrix from the accepted matches
+			points1.clear();
+			points2.clear();
+
+			for(std::vector<cv::DMatch>::const_iterator iterator=resultMatches.begin();
+				iterator!=resultMatches.end(); ++iterator){
+					float x=keyPoints1[iterator->queryIdx].pt.x;
+					float y=keyPoints1[iterator->queryIdx].pt.y;
+					points1.push_back(cv::Point2f(x,y));
+
+					x=keyPoints2[iterator->queryIdx].pt.x;
+					y=keyPoints2[iterator->queryIdx].pt.y;
+					points2.push_back(cv::Point2f(x,y));
+			}
 
 
 			return fundamental;
