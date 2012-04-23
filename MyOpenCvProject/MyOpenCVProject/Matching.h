@@ -3,6 +3,8 @@
 * @ description matching process is carried out after we detect the key points. 
 * @ author Krishna (krishna444@gmail.com)
 **/
+#include "opencv\cv.h"
+#include "opencv2\contrib\contrib.hpp"
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
@@ -37,5 +39,6 @@ public:
 	cv::Mat RansacTest(const std::vector<cv::DMatch>& matches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
 		const std::vector<cv::KeyPoint>& keyPoints2,
+		double distance, double confidence,
 		std::vector<cv::DMatch>& resultMatches);
 };

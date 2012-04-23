@@ -81,16 +81,39 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
 		const std::vector<cv::KeyPoint>& keyPoints2,
+		double distance, double confidence,
 		std::vector<cv::DMatch>& resultMatches){
 			//Convert keypoints into Point2f
 			std::vector<cv::Point2f> points1,points2;
 			for(std::vector<cv::DMatch>::const_iterator iterator=matches.begin();
 				iterator!=matches.end();++iterator){
+					float x=keyPoints1[iterator->queryIdx].pt.x;
+					float y=keyPoints1[iterator->queryIdx].pt.y;
+					points1.push_back(cv::Point2f(x,y));
 
+					x=keyPoints2[iterator->queryIdx].pt.x;
+					y=keyPoints2[iterator->queryIdx].pt.y;
+					points2.push_back(cv::Point2f(x,y));
 			}
-
-
-
+			//Compute Fundamental Matrix
+			std::vector<uchar> inliers(points1.size(),0);
+			cv::Mat fundamental=cv::findFundamentalMat(cv::Mat(points1),
+				cv::Mat(points2),
+				inliers,
+				CV_FM_RANSAC, //RANSAC Method
+				distance, //distance to epipolar line
+				confidence); //confidence probability
+			
+			//Get the inlier points
+			std::vector<uchar>::const_iterator iteratorInlier=
+				inliers.begin();
+			std::vector<cv::DMatch>::const_iterator iteratorMatch=
+				matches.begin();
+			for(;iteratorInlier!=inliers.end();++iteratorInlier,++iteratorMatch){
+				if(*iteratorInlier){
+					resultMatches.push_back(*iteratorMatch);
+				}
+			}
 }
 
 
