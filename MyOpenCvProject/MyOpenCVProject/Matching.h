@@ -31,7 +31,7 @@ public:
 
 	//Performs the ratio test of the matches found
 	int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold);
-	//Perform the symmetry test 
+	//Perform the symmetry test. Returns the matches selected
 	void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 		const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches);

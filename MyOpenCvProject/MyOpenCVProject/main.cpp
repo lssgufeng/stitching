@@ -17,7 +17,7 @@ int main(void)
 {
 	HarrisDetector detector;
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
 	cv::Mat image2=image1.clone();*/
 	if(!image1.data ||!image2.data){
@@ -29,9 +29,9 @@ int main(void)
 	detector.getCorners(pts,0.00001);
 	cv::Mat tmpImage=image1.clone();
 
-	detector.drawOnImage(tmpImage,pts);
+	/*detector.drawOnImage(tmpImage,pts);
 	cv::imshow("harris Points",tmpImage);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;
@@ -61,15 +61,18 @@ int main(void)
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
 
-	matching.RatioTest(matches1,0.7);
-	matching.RatioTest(matches2,0.7);
+	int removed=matching.RatioTest(matches1,0.8);
+	printf("%d points removed",removed);
+	removed=matching.RatioTest(matches2,0.8);
+	printf("%d points removed",removed);
 
 	std::vector<cv::DMatch> symmetryMatches;
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
+	printf("Symmetric Test Result=%d Selected.",symmetryMatches.size());
 
 	std::vector<cv::DMatch> ransacMatches;
-	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.9,ransacMatches);
-
+	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.6,ransacMatches);
+	printf("After RANSAC=%d points.",ransacMatches.size());
 	/* Get Top 14 matches */
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
 	//matches1.erase(matches1.begin()+24,matches1.end());
