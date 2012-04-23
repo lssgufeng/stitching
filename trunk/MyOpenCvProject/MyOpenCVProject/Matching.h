@@ -26,4 +26,16 @@ public:
 	void GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+
+	//Performs the ratio test of the matches found
+	void RatioTest(std::vector<cv::DMatch>& matches);
+	//Perform the symmetry test 
+	void SymmetryTest(const std::vector<cv::DMatch>& matches1,
+		const std::vector<cv::DMatch>& matches2,
+		std::vector<cv::DMatch>& symMatches);
+	//Perform RANSAC Test to get the best matched points
+	cv::Mat RansacTest(const std::vector<cv::DMatch>& matches,
+		const std::vector<cv::KeyPoint>& keyPoints1,
+		const std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& resultMatches);
 };
