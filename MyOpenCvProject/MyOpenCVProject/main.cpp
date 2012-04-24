@@ -61,6 +61,7 @@ int main(void)
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
 
+	
 	int removed=matching.RatioTest(matches1,0.8);
 	printf("%d points removed",removed);
 	removed=matching.RatioTest(matches2,0.8);
@@ -70,15 +71,19 @@ int main(void)
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 	printf("Symmetric Test Result=%d Selected.",symmetryMatches.size());
 
+	/*
 	std::vector<cv::DMatch> ransacMatches;
 	matching.RansacTest(symmetryMatches,keyPoints1,keyPoints2,3.0,0.9,ransacMatches);
 	printf("After RANSAC=%d points.",ransacMatches.size());
+	*/
+
 	/* Get Top 14 matches */
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
 	//matches1.erase(matches1.begin()+24,matches1.end());
 
 	cv::Mat imageMatches;
 
+	/*
 	cv::drawMatches(image1,keyPoints1,
 		image2,keyPoints2,matches1,imageMatches);
 	cv::imshow("Matches RatioTest",imageMatches);
@@ -96,4 +101,10 @@ int main(void)
 		image2,keyPoints2,ransacMatches,imageMatches);
 	cv::imshow("Matches RANSAC",imageMatches);
 	cv::waitKey(0);
+	*/
+	std::vector<uchar> inliers;
+	matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
+	cv::drawMatches(image1,keyPoints1,
+		image2,keyPoints2,inliers,imageMatches);
+
 }
