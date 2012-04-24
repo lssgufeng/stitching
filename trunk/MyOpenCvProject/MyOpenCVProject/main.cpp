@@ -104,7 +104,17 @@ int main(void)
 	*/
 	std::vector<uchar> inliers;
 	matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
-	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,inliers,imageMatches);
+
+ 
+	cv::Mat outputImage; 
+	std::vector<cv::Point2f> points1,points2;
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+	matching.DrawInliers(points1,inliers,image1,outputImage);
+	cv::imshow("inlier1",outputImage);
+	cv::waitKey(0);
+
+	matching.DrawInliers(points2,inliers,image2,outputImage);
+	cv::imshow("inlier2",outputImage);
+	cv::waitKey(0);
 
 }
