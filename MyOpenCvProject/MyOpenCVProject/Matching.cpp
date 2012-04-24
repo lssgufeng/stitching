@@ -86,16 +86,17 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		std::vector<cv::DMatch>& resultMatches){
 			//Convert keypoints into Point2f
 			std::vector<cv::Point2f> points1,points2;
-			for(std::vector<cv::DMatch>::const_iterator iterator=goodMatches.begin();
+			this->GetFloatPoints(keyPoints1,keyPoints2,goodMatches,points1,points2);
+			/*for(std::vector<cv::DMatch>::const_iterator iterator=goodMatches.begin();
 				iterator!=goodMatches.end();++iterator){
 					float x=keyPoints1[iterator->queryIdx].pt.x;
 					float y=keyPoints1[iterator->queryIdx].pt.y;
 					points1.push_back(cv::Point2f(x,y));
 
-					x=keyPoints2[iterator->queryIdx].pt.x;
-					y=keyPoints2[iterator->queryIdx].pt.y;
+					x=keyPoints2[iterator->trainIdx].pt.x;
+					y=keyPoints2[iterator->trainIdx].pt.y;
 					points2.push_back(cv::Point2f(x,y));
-			}
+			}*/
 			//Compute Fundamental Matrix
 			std::vector<uchar> inliers(points1.size(),0);
 			cv::Mat fundamental=cv::findFundamentalMat(cv::Mat(points1),
@@ -119,17 +120,17 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
 			//Refinement of Fundamental Matrix from the accepted matches
 			points1.clear();
 			points2.clear();
-
-			for(std::vector<cv::DMatch>::const_iterator iterator=resultMatches.begin();
+			this->GetFloatPoints(keyPoints1,keyPoints2,resultMatches,points1,points2);
+			/*for(std::vector<cv::DMatch>::const_iterator iterator=resultMatches.begin();
 				iterator!=resultMatches.end(); ++iterator){
 					float x=keyPoints1[iterator->queryIdx].pt.x;
 					float y=keyPoints1[iterator->queryIdx].pt.y;
 					points1.push_back(cv::Point2f(x,y));
 
-					x=keyPoints2[iterator->queryIdx].pt.x;
-					y=keyPoints2[iterator->queryIdx].pt.y;
+					x=keyPoints2[iterator->trainIdx].pt.x;
+					y=keyPoints2[iterator->trainIdx].pt.y;
 					points2.push_back(cv::Point2f(x,y));
-			}
+			}*/
 
 
 			return fundamental;
@@ -140,29 +141,56 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 	std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<uchar>& inliers){
 		std::vector<cv::Point2f> points1,points2;
-		//convert to floating point for homography
-		std::vector<cv::DMatch>::const_iterator matchIterator=
+		//convert to floating point for homography		
+		this->GetFloatPoints(keyPoints1,keyPoints2,goodMatches,points1,points2);
+		/*std::vector<cv::DMatch>::const_iterator matchIterator=
 			goodMatches.begin();
 		for(;matchIterator!=goodMatches.end();++matchIterator){
 			float x=keyPoints1[matchIterator->queryIdx].pt.x;
 			float y=keyPoints1[matchIterator->queryIdx].pt.y;
 			points1.push_back(cv::Point2f(x,y));
-			x=keyPoints2[matchIterator->queryIdx].pt.x;
-			y=keyPoints2[matchIterator->queryIdx].pt.y;
+			x=keyPoints2[matchIterator->trainIdx].pt.x;
+			y=keyPoints2[matchIterator->trainIdx].pt.y;
 			points2.push_back(cv::Point2f(x,y));
 		}
-		
+		*/
 		cv::Mat homography= cv::findHomography(
 			cv::Mat(points1), //Corresponding 
 			cv::Mat(points2), //matching points
 			inliers,          //inliers
 			CV_RANSAC,        //using RANSAC method
-			1);         	  //maximum pixel distance
+			1);        		  //maximum pixel distance		
 		return homography;
 }
 
-void Matching::DrawInliers(std::vector<uchar> inliers, cv::Mat image,cv::Mat& outImage){
+void Matching::DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& inliers, cv::Mat image,cv::Mat& outImage){
+	outImage=image.clone();
+	std::vector<cv::Point2f>::const_iterator iteratorMatches=points.begin();
+	std::vector<uchar>::const_iterator iteratorInliers=inliers.begin();
+	while(iteratorInliers!=inliers.end()){
+		if(*iteratorInliers){
+			cv::circle(outImage,*iteratorMatches,2,cv::Scalar(255,255,255));
+		}
+		++iteratorInliers;++iteratorMatches;
 
+	}
+}
+
+
+void Matching::GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vector<cv::KeyPoint>& keyPoints2,
+	const std::vector<cv::DMatch>& matches, 
+	std::vector<cv::Point2f>& points1,
+	std::vector<cv::Point2f>& points2){
+		for(std::vector<cv::DMatch>::const_iterator iterator=matches.begin();
+			iterator!=matches.end();
+			++iterator){
+				float x=keyPoints1[iterator->queryIdx].pt.x;
+				float y=keyPoints1[iterator->queryIdx].pt.y;
+				points1.push_back(cv::Point2f(x,y));
+				x=keyPoints2[iterator->trainIdx].pt.x;
+				y=keyPoints2[iterator->trainIdx].pt.y;
+				points2.push_back(cv::Point2f(x,y));
+	}
 }
 
 
