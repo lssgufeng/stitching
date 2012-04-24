@@ -17,13 +17,13 @@ int main(void)
 {
 	HarrisDetector detector;
 	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
-
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
+*/
 	cv::Mat image1=cv::imread("1.jpg",0);
 	cv::Mat image2=cv::imread("2.jpg",0);
 
-	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=image1.clone();*/
+	/*cv::Mat image1=cv::imread("knee_1.jpg",0);
+	cv::Mat image2=cv::imread("knee_3_mr.jpg",0);*/
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();		
@@ -107,7 +107,8 @@ int main(void)
 	cv::waitKey(0);
 	*/
 	std::vector<uchar> inliers;
-	matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
+	cv::Mat homography;
+	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
 
  
 	cv::Mat outputImage; 
@@ -119,6 +120,17 @@ int main(void)
 
 	matching.DrawInliers(points2,inliers,image2,outputImage);
 	cv::imshow("inlier2",outputImage);
+	cv::waitKey(0);
+
+	cv::Mat result;
+	cv::warpPerspective(image1,result,homography,cv::Size(2*image1.cols,image1.rows));
+	//cv::imshow("warp ",result);
+	cv::Mat half(result,cv::Rect(0,0,image2.cols,image2.rows));
+	cv::imshow("half ",half);
+	cv::waitKey(0);
+
+	image2.copyTo(half);
+	cv::imshow("copy ",half);
 	cv::waitKey(0);
 
 }
