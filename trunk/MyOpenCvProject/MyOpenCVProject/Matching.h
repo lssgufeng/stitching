@@ -36,9 +36,16 @@ public:
 		const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches);
 	//Perform RANSAC Test to get the best matched points. It returns fundamental matrix
-	cv::Mat RansacTest(const std::vector<cv::DMatch>& matches,
+	cv::Mat RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
 		const std::vector<cv::KeyPoint>& keyPoints2,
 		double distance, double confidence,
 		std::vector<cv::DMatch>& resultMatches);
+	//Find the homography matrix 
+	cv::Mat GetHomography(const std::vector<cv::DMatch>& goodMatches, 
+		std::vector<cv::KeyPoint>& keyPoints1,
+		std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<uchar>& inliers);
+
+	void DrawInliers(std::vector<uchar> inliers, cv::Mat image,cv::Mat& outImage);
 };

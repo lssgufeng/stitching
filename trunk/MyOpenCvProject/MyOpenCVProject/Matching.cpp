@@ -79,15 +79,15 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 			
 }
 
-cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
+cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
 		const std::vector<cv::KeyPoint>& keyPoints2,
 		double distance, double confidence,
 		std::vector<cv::DMatch>& resultMatches){
 			//Convert keypoints into Point2f
 			std::vector<cv::Point2f> points1,points2;
-			for(std::vector<cv::DMatch>::const_iterator iterator=matches.begin();
-				iterator!=matches.end();++iterator){
+			for(std::vector<cv::DMatch>::const_iterator iterator=goodMatches.begin();
+				iterator!=goodMatches.end();++iterator){
 					float x=keyPoints1[iterator->queryIdx].pt.x;
 					float y=keyPoints1[iterator->queryIdx].pt.y;
 					points1.push_back(cv::Point2f(x,y));
@@ -109,7 +109,7 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
 			std::vector<uchar>::const_iterator iteratorInlier=
 				inliers.begin();
 			std::vector<cv::DMatch>::const_iterator iteratorMatch=
-				matches.begin();
+				goodMatches.begin();
 			for(;iteratorInlier!=inliers.end();++iteratorInlier,++iteratorMatch){
 				if(*iteratorInlier){
 					resultMatches.push_back(*iteratorMatch);
@@ -134,6 +134,39 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& matches,
 
 			return fundamental;
 }
+
+cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
+	std::vector<cv::KeyPoint>& keyPoints1,
+	std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<uchar>& inliers){
+		std::vector<cv::Point2f> points1,points2;
+		//convert to floating point for homography
+		std::vector<cv::DMatch>::const_iterator matchIterator=
+			goodMatches.begin();
+		for(;matchIterator!=goodMatches.end();++matchIterator){
+			float x=keyPoints1[matchIterator->queryIdx].pt.x;
+			float y=keyPoints1[matchIterator->queryIdx].pt.y;
+			points1.push_back(cv::Point2f(x,y));
+			x=keyPoints2[matchIterator->queryIdx].pt.x;
+			y=keyPoints2[matchIterator->queryIdx].pt.y;
+			points2.push_back(cv::Point2f(x,y));
+		}
+		
+		cv::Mat homography= cv::findHomography(
+			cv::Mat(points1), //Corresponding 
+			cv::Mat(points2), //matching points
+			inliers,          //inliers
+			CV_RANSAC,        //using RANSAC method
+			1);         	  //maximum pixel distance
+		return homography;
+}
+
+void Matching::DrawInliers(std::vector<uchar> inliers, cv::Mat image,cv::Mat& outImage){
+
+}
+
+
+
 
 
 
