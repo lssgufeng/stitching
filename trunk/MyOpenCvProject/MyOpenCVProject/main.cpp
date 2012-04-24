@@ -109,6 +109,13 @@ int main(void)
 	std::vector<uchar> inliers;
 	cv::Mat homography;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
+	printf("Homography\n");
+	for(int i=0;i<homography.rows;i++){
+		for(int j=0;j<homography.cols;j++){
+			printf("%f ~~~~",*homography.data+i+j);
+		}
+		printf("\n");
+	}
 
  
 	cv::Mat outputImage; 
