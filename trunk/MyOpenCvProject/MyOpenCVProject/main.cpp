@@ -46,14 +46,27 @@ int main(void)
 	printf("KeyPoints1=%d",keyPoints1.size());
 	printf("KeyPoints2=%d",keyPoints2.size());
 
+	//******* DISPLAY
+
 	cv::drawKeypoints(image1,keyPoints1,tmpImage);
 	cv::imshow("keypoints1",tmpImage);
 	cv::waitKey(0);
 
 
+	cv::drawKeypoints(image2,keyPoints2,tmpImage);
+	cv::imshow("keypoints2",tmpImage);
+	cv::waitKey(0);
+
+	//*********
+
+
+
+
 	Matching matching;
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+
+	
 
 	
 	int removed=matching.RatioTest(matches1,0.8);
@@ -85,6 +98,9 @@ int main(void)
 	cv::Mat outputImage; 
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+	
+
+	//**********DISPLAY
 	matching.DrawInliers(points1,inliers,image1,outputImage);
 	cv::imshow("inlier1",outputImage);
 	cv::waitKey(0);
@@ -92,6 +108,7 @@ int main(void)
 	matching.DrawInliers(points2,inliers,image2,outputImage);
 	cv::imshow("inlier2",outputImage);
 	cv::waitKey(0);
+	//*********
 
 	cv::Mat result;
 	cv::warpPerspective(image1,result,homography,cv::Size(2*image1.cols,image1.rows));
@@ -99,9 +116,4 @@ int main(void)
 	cv::Mat half(result,cv::Rect(0,0,image2.cols,image2.rows));
 	cv::imshow("half ",half);
 	cv::waitKey(0);
-
-	image2.copyTo(half);
-	cv::imshow("copy ",half);
-	cv::waitKey(0);
-
 }

@@ -71,10 +71,7 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 								break;
 							}
 					}
-
-
 			}
-			
 }
 
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
@@ -130,6 +127,12 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 		return homography;
 }
 
+void Matching::DrawMatches(cv::Mat image1,std::vector<cv::KeyPoint> keyPoints1,
+		cv::Mat image2,std::vector<cv::KeyPoint> keyPoints2,
+		std::vector<cv::DMatch> matches, cv::Mat& outputImage){
+			cv::drawMatches(image1,keyPoints1,image2,keyPoints2,matches,outputImage,cv::Scalar(255,255,255));
+}
+
 void Matching::DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& inliers, cv::Mat image,cv::Mat& outImage){
 	outImage=image.clone();
 	std::vector<cv::Point2f>::const_iterator iteratorMatches=points.begin();
@@ -139,7 +142,6 @@ void Matching::DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& i
 			cv::circle(outImage,*iteratorMatches,3,cv::Scalar(0,0,0));
 		}
 		++iteratorInliers;++iteratorMatches;
-
 	}
 }
 
