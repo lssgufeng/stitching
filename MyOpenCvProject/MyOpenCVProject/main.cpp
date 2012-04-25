@@ -23,11 +23,13 @@ int main(void)
 	
 	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
-	/*cv::Mat image1=cv::imread("1.jpg",0);
-	cv::Mat image2=cv::imread("2.jpg",0);*/
 
-	cv::Mat image1=cv::imread("knee_1.jpg",0);
-	cv::Mat image2=cv::imread("knee_3_mr.jpg",0);
+
+	cv::Mat image1=cv::imread("K1.bmp",0);
+	cv::Mat image2=cv::imread("K2.bmp",0);
+
+	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
+	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 
 
 	if(!image1.data ||!image2.data){
@@ -53,9 +55,6 @@ int main(void)
 	corner.GetSurfFeatures(image2,keyPoints2);
 
 	//>>>>>>>>>>>>> DISPLAY
-	sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
-	MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
-
 	cv::drawKeypoints(image1,keyPoints1,tmpImage);
 	cv::imshow("keypoints1",tmpImage);
 	cv::waitKey(0);
@@ -64,6 +63,8 @@ int main(void)
 	cv::imshow("keypoints2",tmpImage);
 	cv::waitKey(0);	
 	
+	sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
+	MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
 	//ENDISPLAY   <<<<<<<<<<<<<<<
 
 
@@ -91,13 +92,13 @@ int main(void)
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 
 	//>>>>>>>>>>>>>>>>DISPLAY
-	sprintf(szBuffer,"Selected Matches=%d",
-		symmetryMatches.size());
-	MessageBoxA(NULL,szBuffer,"Symmetry Test",MB_OK);
-
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
 	cv::imshow("Symmetry Matches",tmpImage);
 	cv::waitKey(0);
+
+	sprintf(szBuffer,"Selected Matches=%d",
+		symmetryMatches.size());
+	MessageBoxA(NULL,szBuffer,"Symmetry Test",MB_OK);
 	//ENDISPLAY  <<<<<<<<<<<<<<<
 
 
@@ -122,8 +123,16 @@ int main(void)
 	
 
 	//**********DISPLAY
+	int inliers_count=0;
+	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
+		iterator!=inliers.end();++iterator){
+			if(*iterator){
+				++inliers_count;
+			}
+	}
+
 	sprintf(szBuffer,"Inliers Count=%d",
-		inliers.size());
+		inliers_count);
 	MessageBoxA(NULL,szBuffer,"Homography Result",MB_OK);
 
 	std::vector<cv::Point2f> points1,points2;

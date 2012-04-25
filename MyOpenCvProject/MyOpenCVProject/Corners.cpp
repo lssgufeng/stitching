@@ -15,14 +15,14 @@ void Corners::GetGoodFeaturesToTrack(
 
 void Corners::GetFastFeatures(
 	const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints){
-		int threshold=5;
+		int threshold=0.1;
 		this->detector= new cv::FastFeatureDetector(threshold);	
 		this->detector->detect(image,keyPoints);		
 }
 
 void Corners::GetSurfFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
-		double threshold=5;
+		double threshold=1;
 		this->detector=new cv::SurfFeatureDetector(threshold);
 		this->detector->detect(image,keyPoints);
 }

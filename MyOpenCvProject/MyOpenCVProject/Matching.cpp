@@ -130,16 +130,17 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 void Matching::DrawMatches(cv::Mat image1,std::vector<cv::KeyPoint> keyPoints1,
 		cv::Mat image2,std::vector<cv::KeyPoint> keyPoints2,
 		std::vector<cv::DMatch> matches, cv::Mat& outputImage){
-			cv::drawMatches(image1,keyPoints1,image2,keyPoints2,matches,outputImage,cv::Scalar(255,255,255));
+			cv::drawMatches(image1,keyPoints1,image2,keyPoints2,matches,outputImage);
 }
 
 void Matching::DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& inliers, cv::Mat image,cv::Mat& outImage){
 	outImage=image.clone();
+	printf("Inliers=%d",inliers.size());
 	std::vector<cv::Point2f>::const_iterator iteratorMatches=points.begin();
 	std::vector<uchar>::const_iterator iteratorInliers=inliers.begin();
 	while(iteratorInliers!=inliers.end()){
 		if(*iteratorInliers){
-			cv::circle(outImage,*iteratorMatches,3,cv::Scalar(0,0,0));
+			cv::circle(outImage,*iteratorMatches,12,cv::Scalar(0,0,255));
 		}
 		++iteratorInliers;++iteratorMatches;
 	}
