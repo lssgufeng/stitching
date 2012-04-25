@@ -47,6 +47,10 @@ public:
 		std::vector<cv::KeyPoint>& keyPoints1,
 		std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<uchar>& inliers);
+	void DrawMatches(cv::Mat image1,std::vector<cv::KeyPoint> keyPoints1,
+		cv::Mat image2,std::vector<cv::KeyPoint> keyPoints2,
+		std::vector<cv::DMatch> matches,cv::Mat& outputImage);
+
 	//Draw the inliers in the image
 	void DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& inliers, cv::Mat image,cv::Mat& outImage);
 	//get the float point conversion of key point which is need for conversion
