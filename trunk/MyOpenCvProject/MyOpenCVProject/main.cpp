@@ -38,17 +38,7 @@ int main(void)
 	cv::waitKey(0);*/
 
 	Corners corner;
-	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;
-
-	//corner.GetGoodFeaturesToTrack(image1,keyPoints1);
-	//corner.GetGoodFeaturesToTrack(image2,keyPoints2);
-
-		
-	/*corner.GetFastFeatures(image1,keyPoints1);
-	corner.GetFastFeatures(image2,keyPoints2);*/
-
-	/*corner.GetSiftFeatures(image1,keyPoints1);
-	corner.GetSiftFeatures(image2,keyPoints2);*/
+	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 
 	corner.GetSurfFeatures(image1,keyPoints1);
 	corner.GetSurfFeatures(image2,keyPoints2);
@@ -85,37 +75,11 @@ int main(void)
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
 	//matches1.erase(matches1.begin()+24,matches1.end());
 
-	cv::Mat imageMatches;
-
-	/*
-	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,matches1,imageMatches);
-	cv::imshow("Matches RatioTest",imageMatches);
-	cv::waitKey(0);
-
-
-	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,symmetryMatches,imageMatches);
-	cv::imshow("Matches Symmetry",imageMatches);
-	cv::waitKey(0);
-
-	
-	
-	cv::drawMatches(image1,keyPoints1,
-		image2,keyPoints2,ransacMatches,imageMatches);
-	cv::imshow("Matches RANSAC",imageMatches);
-	cv::waitKey(0);
-	*/
+	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	cv::Mat homography;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
-	printf("Homography\n");
-	for(int i=0;i<homography.rows;i++){
-		for(int j=0;j<homography.cols;j++){
-			printf("%f ~~~~",*homography.data+i+j);
-		}
-		printf("\n");
-	}
+
 
  
 	cv::Mat outputImage; 
