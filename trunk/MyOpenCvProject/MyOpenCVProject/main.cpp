@@ -33,7 +33,6 @@ int main(void)
 		std::getchar();	
 	}
 
-
 	HarrisDetector detector;
 	detector.detect(image1);
 	std::vector<cv::Point> pts;
