@@ -12,6 +12,8 @@ private:
 	//if any private variables..include here
 	cv::Ptr<cv::FeatureDetector> detector;
 public:
+	//Adjuster for getting dynamic adapted features
+	enum Adjuster {FAST,SIFT,SURF};
 	Corners();
 	//Get the good features 
 	void GetGoodFeaturesToTrack(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
@@ -21,8 +23,10 @@ public:
 	void GetSurfFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
 	//SIFT features
 	void GetSiftFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoitns);
+	void GetDynamicAdaptedFeatures(int minFeatures, int maxFeatures,int iterations,Adjuster adjuster);
 	//Draw the detected keypoints
 	void DrawKeyPoints(const cv::Mat& originalImage,std::vector<cv::KeyPoint>& keyPoints,
 		cv::Mat& outputImage);
+	
 
 };
