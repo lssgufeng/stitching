@@ -30,6 +30,9 @@ public:
 	//To obtain the corner points within a defined range
 	void GetDynamicAdaptedFeatures_FAST(cv::Mat& image,int minFeatures, 
 		int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,int iterations);
+	//To obtain the corner points within a defined range
+	void GetDynamicAdaptedFeatures_STAR(cv::Mat& image,int minFeatures, 
+		int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,int iterations);
 	//Draw the detected keypoints	
 	void DrawKeyPoints(const cv::Mat& originalImage,std::vector<cv::KeyPoint>& keyPoints,
 		cv::Mat& outputImage);

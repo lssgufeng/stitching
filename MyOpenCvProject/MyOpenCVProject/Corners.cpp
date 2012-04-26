@@ -55,6 +55,16 @@ void Corners::GetDynamicAdaptedFeatures_FAST(cv::Mat& image,int minFeatures,
 }
 
 
+//To obtain the corner points within a defined range
+	void Corners::GetDynamicAdaptedFeatures_STAR(cv::Mat& image,int minFeatures, 
+		int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,int iterations){
+			double threshold=70;
+			double minThreshold=1.0;
+			double maxThreshold=1000;
+			cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::StarAdjuster(threshold,minThreshold,maxThreshold);
+			this->dymanicDetector=new cv::DynamicAdaptedFeatureDetector(adjuster,minFeatures,maxFeatures,iterations);
+			this->dymanicDetector->detect(image,keyPoints);
+	}
 
 
 void Corners::DrawKeyPoints(const cv::Mat& originalImage,

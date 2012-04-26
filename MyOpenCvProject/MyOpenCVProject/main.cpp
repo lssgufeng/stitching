@@ -48,8 +48,8 @@ int main(void)
 
 	//corner.GetSurfFeatures(image1,keyPoints1);
 	//corner.GetSurfFeatures(image2,keyPoints2);
-	corner.GetDynamicAdaptedFeatures_SURF(image1,5500,5700,keyPoints1,30);
-	corner.GetDynamicAdaptedFeatures_SURF(image2,5500,5700,keyPoints2,30);
+	corner.GetDynamicAdaptedFeatures_STAR(image1,5500,5700,keyPoints1,130);
+	corner.GetDynamicAdaptedFeatures_STAR(image2,5500,5700,keyPoints2,130);
 
 
 	//>>>>>>>>>>>>> DISPLAY
