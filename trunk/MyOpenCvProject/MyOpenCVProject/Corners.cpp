@@ -29,6 +29,8 @@ void Corners::GetSurfFeatures(const cv::Mat& image,
 void Corners::GetSiftFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
 		double threshold=0.01;
+		Adjuster ad=FAST;		
+
 		double linesThreshold=10;
 		this->detector=new cv::SiftFeatureDetector(threshold,linesThreshold);
 		this->detector->detect(image,keyPoints);
@@ -40,6 +42,8 @@ void Corners::DrawKeyPoints(const cv::Mat& originalImage,
 		cv::drawKeypoints(originalImage,keyPoints,outputImage,
 			cv::Scalar(-1));
 }
+
+
 
 
 
