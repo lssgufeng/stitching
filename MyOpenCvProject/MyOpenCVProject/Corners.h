@@ -11,6 +11,7 @@ class Corners{
 private: 
 	//if any private variables..include here
 	cv::Ptr<cv::FeatureDetector> detector;
+	cv::Ptr<cv::DynamicAdaptedFeatureDetector> dymanicDetector;
 public:
 	//Adjuster for getting dynamic adapted features
 	enum Adjuster {FAST,SIFT,SURF};
@@ -23,8 +24,13 @@ public:
 	void GetSurfFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
 	//SIFT features
 	void GetSiftFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoitns);
-	void GetDynamicAdaptedFeatures(int minFeatures, int maxFeatures,int iterations,Adjuster adjuster);
-	//Draw the detected keypoints
+	//To obtain the corner points within a defined range
+	void GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures, 
+		int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,int iterations);
+	//To obtain the corner points within a defined range
+	void GetDynamicAdaptedFeatures_FAST(cv::Mat& image,int minFeatures, 
+		int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,int iterations);
+	//Draw the detected keypoints	
 	void DrawKeyPoints(const cv::Mat& originalImage,std::vector<cv::KeyPoint>& keyPoints,
 		cv::Mat& outputImage);
 	

@@ -46,8 +46,10 @@ int main(void)
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 
-	corner.GetSurfFeatures(image1,keyPoints1);
-	corner.GetSurfFeatures(image2,keyPoints2);
+	//corner.GetSurfFeatures(image1,keyPoints1);
+	//corner.GetSurfFeatures(image2,keyPoints2);
+	corner.GetDynamicAdaptedFeatures_SURF(image1,5500,5700,keyPoints1,30);
+	corner.GetDynamicAdaptedFeatures_SURF(image2,5500,5700,keyPoints2,30);
 
 
 	//>>>>>>>>>>>>> DISPLAY
