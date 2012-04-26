@@ -123,7 +123,7 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 			cv::Mat(points2), //matching points
 			inliers,          //inliers
 			CV_RANSAC,        //using RANSAC method
-			1);        		  //maximum pixel distance		
+			3);        		  //maximum pixel distance		
 		return homography;
 }
 
