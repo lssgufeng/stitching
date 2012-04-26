@@ -140,7 +140,7 @@ void Matching::DrawInliers(std::vector<cv::Point2f> points,std::vector<uchar>& i
 	std::vector<uchar>::const_iterator iteratorInliers=inliers.begin();
 	while(iteratorInliers!=inliers.end()){
 		if(*iteratorInliers){
-			cv::circle(outImage,*iteratorMatches,12,cv::Scalar(0,0,255));
+			cv::circle(outImage,*iteratorMatches,3,cv::Scalar(-1));
 		}
 		++iteratorInliers;++iteratorMatches;
 	}

@@ -21,12 +21,10 @@ int main(void)
 	char szBuffer[100];	
 
 	
-	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
+	cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
 
-
-	cv::Mat image1=cv::imread("K1.bmp",0);
-	cv::Mat image2=cv::imread("K2.bmp",0);
+	
 
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
 	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
@@ -54,14 +52,18 @@ int main(void)
 	corner.GetSurfFeatures(image1,keyPoints1);
 	corner.GetSurfFeatures(image2,keyPoints2);
 
+
 	//>>>>>>>>>>>>> DISPLAY
 	cv::drawKeypoints(image1,keyPoints1,tmpImage);
 	cv::imshow("keypoints1",tmpImage);
 	cv::waitKey(0);
+	cv::imwrite("o_Image1(keyPoints).bmp",tmpImage);
 
 	cv::drawKeypoints(image2,keyPoints2,tmpImage);
 	cv::imshow("keypoints2",tmpImage);
-	cv::waitKey(0);	
+	cv::waitKey(0);
+	cv::imwrite("o_Image2(keyPoints).bmp",tmpImage);
+
 	
 	sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
 	MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
@@ -95,6 +97,7 @@ int main(void)
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
 	cv::imshow("Symmetry Matches",tmpImage);
 	cv::waitKey(0);
+	cv::imwrite("SymmetryMatches.bmp",tmpImage);
 
 	sprintf(szBuffer,"Selected Matches=%d",
 		symmetryMatches.size());
@@ -140,10 +143,12 @@ int main(void)
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imshow("inlier1",tmpImage);
 	cv::waitKey(0);
+	cv::imwrite("o_Image1(inliers).bmp",tmpImage);
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
 	cv::imshow("inlier2",tmpImage);
 	cv::waitKey(0);
+	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
 	//*********
 
 	cv::Mat result;
