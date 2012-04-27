@@ -25,9 +25,11 @@ int main(void)
 	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
 
-	cv::Mat image1=cv::imread("knee_1.bmp",0);
+	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
 	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);
-
+*/
+	cv::Mat image1=cv::imread("K1.bmp",0);
+	cv::Mat image2=cv::imread("K2.bmp",0);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
@@ -51,11 +53,11 @@ int main(void)
 	//corner.GetSurfFeatures(image2,keyPoints2);
 	MyTimer timer;
 	timer.start("Points detection for image1 started...");
-	corner.GetDynamicAdaptedFeatures_SURF(image1,500,4700,keyPoints1,130);
+	corner.GetDynamicAdaptedFeatures_SURF(image1,1500,4700,keyPoints1,130);
 	//corner.GetSurfFeatures(image1,keyPoints1);
 	timer.check();
 	timer.start("Points detection for image1 started...");
-	corner.GetDynamicAdaptedFeatures_SURF(image2,500,4700,keyPoints2,130);
+	corner.GetDynamicAdaptedFeatures_SURF(image2,1500,4700,keyPoints2,130);
 	//corner.GetSurfFeatures(image2,keyPoints2);
 	timer.check();
 
