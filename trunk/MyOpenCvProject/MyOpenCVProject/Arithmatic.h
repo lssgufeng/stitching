@@ -27,9 +27,6 @@ public:
 Arithmatic::Arithmatic(){
 }
 
-Arithmatic::~Arithmatic(){
-}
-
 double Arithmatic::CalculateAverage(cv::Mat& image){
 	double average=0.00;
 	int nl=image.rows;

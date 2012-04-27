@@ -50,5 +50,8 @@
     <ClInclude Include="Arithmatic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MyFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

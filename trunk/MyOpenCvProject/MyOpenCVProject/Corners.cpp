@@ -1,4 +1,7 @@
 #include "Corners.h"
+#include "Arithmatic.h"
+#include "MyFilter.h"
+
 
 Corners::Corners(){
 }
@@ -36,7 +39,8 @@ void Corners::GetSiftFeatures(const cv::Mat& image,
 void Corners::GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures,
 	int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,
 	int iterations){
-		double threshold=50.0;
+		double imageInformation=getImageInformation(image);
+		double threshold=imageInformation/50*20;
 		double minThreshold=1.0;
 		double maxThreshold=1000.0;
 		cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::SurfAdjuster(threshold,minThreshold,maxThreshold);
@@ -73,6 +77,15 @@ void Corners::DrawKeyPoints(const cv::Mat& originalImage,
 			cv::Scalar(-1));
 }
 
+
+double Corners::getImageInformation(cv::Mat& image ){
+	/**For thresholding***/
+	Arithmatic arithmatic;
+	MyFilter filter;
+	cv::Mat output;
+	filter.Filter_Sobel(image,output);
+	double sd1=arithmatic.CalculateSD(output);
+}
 
 
 
