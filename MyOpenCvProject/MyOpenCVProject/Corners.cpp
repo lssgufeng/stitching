@@ -41,7 +41,7 @@ void Corners::GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures,
 		double maxThreshold=1000.0;
 		cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::SurfAdjuster(threshold,minThreshold,maxThreshold);
 		this->dymanicDetector=new cv::DynamicAdaptedFeatureDetector(adjuster,minFeatures,maxFeatures,iterations);
-		this->dymanicDetector->detect(image,keyPoints);
+		this->dymanicDetector->detect(image,keyPoints);		
 }
 
 void Corners::GetDynamicAdaptedFeatures_FAST(cv::Mat& image,int minFeatures, 

@@ -47,5 +47,8 @@
     <ClInclude Include="MyTimer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Arithmatic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
