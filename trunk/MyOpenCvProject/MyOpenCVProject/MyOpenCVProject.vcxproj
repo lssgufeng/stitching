@@ -98,6 +98,7 @@
     <ClInclude Include="HarrisDetector.h" />
     <ClInclude Include="Homography.h" />
     <ClInclude Include="Matching.h" />
+    <ClInclude Include="MyTimer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
