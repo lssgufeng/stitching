@@ -16,6 +16,7 @@
 #include <string.h>
 #include "MyTimer.h"
 #include "Arithmatic.h"
+#include "MyFilter.h";
 
 int main(void)  
 {
@@ -31,10 +32,8 @@ int main(void)
 
 	/*cv::Mat image1=cv::imread("K1.bmp",0);
 	cv::Mat image2=cv::imread("K2.bmp",0);*/
-	Arithmatic arithmatic;
-	double sd1=arithmatic.CalculateSD(image1);
-	double sd2= arithmatic.CalculateSD(image2);
-	printf("sd1=%f\tsd2=%f\n",sd1,sd2);
+
+	
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
