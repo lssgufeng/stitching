@@ -14,6 +14,7 @@
 #include <iostream>
 #include <Windows.h>
 #include <string.h>
+#include "MyTimer.h";
 
 int main(void)  
 {
@@ -48,8 +49,15 @@ int main(void)
 
 	//corner.GetSurfFeatures(image1,keyPoints1);
 	//corner.GetSurfFeatures(image2,keyPoints2);
-	corner.GetDynamicAdaptedFeatures_STAR(image1,5500,5700,keyPoints1,130);
-	corner.GetDynamicAdaptedFeatures_STAR(image2,5500,5700,keyPoints2,130);
+	MyTimer timer;
+	timer.start("Points detection for image1 started...");
+	corner.GetDynamicAdaptedFeatures_SURF(image1,500,4700,keyPoints1,130);
+	//corner.GetSurfFeatures(image1,keyPoints1);
+	timer.check();
+	timer.start("Points detection for image1 started...");
+	corner.GetDynamicAdaptedFeatures_SURF(image2,500,4700,keyPoints2,130);
+	//corner.GetSurfFeatures(image2,keyPoints2);
+	timer.check();
 
 
 	//>>>>>>>>>>>>> DISPLAY
@@ -71,7 +79,9 @@ int main(void)
 
 	Matching matching;
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
+	timer.restart("Matching...");
 	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+	timer.check();
 	
 	// >>>>>>>>>>>>>>> DISPLAY
 	sprintf(szBuffer,"image1->image2 matches=%d\nimage2->image1 matches=%d",
@@ -79,10 +89,13 @@ int main(void)
 	MessageBoxA(NULL,szBuffer,"Matching Result",MB_OK);
 	// ENDISPLAY <<<<<<<<<<<<<<<<<
 
-
+	timer.restart("Ratio Test1...");
 	int removed1=matching.RatioTest(matches1,0.8);	
+	timer.check();
+	timer.restart("Ratio Test2...");
 	int removed2=matching.RatioTest(matches2,0.8);	
-
+	timer.check();
+	
 	//>>>>>>>>>>>>>>>>>>DISPLAY
 	sprintf(szBuffer,"Removed Points\n image1=%d\n image2=%d",
 		removed1,removed2);
@@ -90,7 +103,9 @@ int main(void)
 	//ENDISPLAY  <<<<<<<<<<<<<<<
 
 	std::vector<cv::DMatch> symmetryMatches;
+	timer.restart("Symmetry Matches....");
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
+	timer.check();
 
 	//>>>>>>>>>>>>>>>>DISPLAY
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
@@ -117,8 +132,9 @@ int main(void)
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	cv::Mat homography;
+	timer.restart("Homography...");
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
-
+	timer.check();
 
  
 	
