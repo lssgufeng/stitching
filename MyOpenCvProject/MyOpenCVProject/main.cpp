@@ -14,7 +14,8 @@
 #include <iostream>
 #include <Windows.h>
 #include <string.h>
-#include "MyTimer.h";
+#include "MyTimer.h"
+#include "Arithmatic.h"
 
 int main(void)  
 {
@@ -22,14 +23,18 @@ int main(void)
 	char szBuffer[100];	
 
 	
-	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
+	cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
 
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);
-*/
-	cv::Mat image1=cv::imread("K1.bmp",0);
-	cv::Mat image2=cv::imread("K2.bmp",0);
+	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
+
+	/*cv::Mat image1=cv::imread("K1.bmp",0);
+	cv::Mat image2=cv::imread("K2.bmp",0);*/
+	Arithmatic arithmatic;
+	double sd1=arithmatic.CalculateSD(image1);
+	double sd2= arithmatic.CalculateSD(image2);
+	printf("sd1=%f\tsd2=%f\n",sd1,sd2);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
