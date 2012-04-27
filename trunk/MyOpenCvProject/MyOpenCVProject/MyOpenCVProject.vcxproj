@@ -94,6 +94,7 @@
     <ClCompile Include="Matching.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Arithmatic.h" />
     <ClInclude Include="Corners.h" />
     <ClInclude Include="HarrisDetector.h" />
     <ClInclude Include="Homography.h" />
