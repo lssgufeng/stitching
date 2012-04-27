@@ -48,6 +48,7 @@ double Arithmatic::CalculateAverage(cv::Mat& image){
 double Arithmatic::CalculateSD(cv::Mat& image){
 	double sd=0.00;
 	double average=CalculateAverage(image);
+	printf("Average=%f",average);
     int nl=image.rows;	
 	int nc=image.cols;
 	for(int j=0;j<nl;j++){
