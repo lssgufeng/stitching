@@ -40,7 +40,9 @@ void Corners::GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures,
 	int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,
 	int iterations){
 		double imageInformation=getImageInformation(image);
-		double threshold=imageInformation/50*20;
+		printf("Image Information=%f",imageInformation);
+		double threshold=pow(1.71,imageInformation/50)*20;
+		printf("Threshold=%f",threshold);
 		double minThreshold=1.0;
 		double maxThreshold=1000.0;
 		cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::SurfAdjuster(threshold,minThreshold,maxThreshold);
@@ -85,6 +87,7 @@ double Corners::getImageInformation(cv::Mat& image ){
 	cv::Mat output;
 	filter.Filter_Sobel(image,output);
 	double sd1=arithmatic.CalculateSD(output);
+	return sd1;
 }
 
 
