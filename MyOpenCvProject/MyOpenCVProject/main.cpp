@@ -172,10 +172,10 @@ int main(void)
 	//*********
 
 	cv::Mat result;
-	cv::warpPerspective(image1,result,homography,cv::Size(2*image1.cols,image1.rows));
+	cv::warpPerspective(image1,result,homography,cv::Size());
 	cv::imshow("warp ",result);
 	cv::waitKey(0);
 	cv::Mat half(result,cv::Rect(0,0,image2.cols,image2.rows));
 	cv::imshow("half ",half);
-	cv::waitKey(0);
+	cv::waitKey(0);	
 }
