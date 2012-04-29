@@ -26,12 +26,11 @@ int main(void)
 	
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_2.png",0);
-
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
 	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 
-	/*cv::Mat image1=cv::imread("K1.bmp",0);
-	cv::Mat image2=cv::imread("K2.bmp",0);*/
+	/*cv::Mat image1=cv::imread("check1.png",0);
+	cv::Mat image2=cv::imread("check2.png",0);*/
 
 	
 
@@ -174,7 +173,8 @@ int main(void)
 
 	cv::Mat result;
 	cv::warpPerspective(image1,result,homography,cv::Size(2*image1.cols,image1.rows));
-	//cv::imshow("warp ",result);
+	cv::imshow("warp ",result);
+	cv::waitKey(0);
 	cv::Mat half(result,cv::Rect(0,0,image2.cols,image2.rows));
 	cv::imshow("half ",half);
 	cv::waitKey(0);

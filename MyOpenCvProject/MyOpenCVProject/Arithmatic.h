@@ -6,7 +6,7 @@
 * description This class is targetted for getting statistical 
   & arithmatic operated image. 
 * author Krishna Paudel(krishna444@gmail.com)
-* date 2012-04-27 11:50 am
+* date 2012-04-27 11:50am
 ***/
 class Arithmatic{	
 
@@ -24,10 +24,13 @@ public:
 };
 
 //Declarations
-Arithmatic::Arithmatic(){
+inline Arithmatic::Arithmatic(){
+}
+inline Arithmatic::~Arithmatic(){
 }
 
-double Arithmatic::CalculateAverage(cv::Mat& image){
+
+inline double Arithmatic::CalculateAverage(cv::Mat& image){
 	double average=0.00;
 	int nl=image.rows;
 	int nc=image.cols;
@@ -42,7 +45,7 @@ double Arithmatic::CalculateAverage(cv::Mat& image){
 	}
 }
 
-double Arithmatic::CalculateSD(cv::Mat& image){
+inline double Arithmatic::CalculateSD(cv::Mat& image){
 	double sd=0.00;
 	double average=CalculateAverage(image);
 	printf("Average=%f",average);
