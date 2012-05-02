@@ -25,10 +25,10 @@ int main(void)
 	char szBuffer[100];	
 
 	
-	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
-	cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);
+	cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
+	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
+	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
 	cv::Mat image2=cv::imread("check2.png",0);*/
@@ -40,10 +40,10 @@ int main(void)
 		std::getchar();	
 	}
 
-	HarrisDetector detector;
+	/*HarrisDetector detector;
 	detector.detect(image1);
 	std::vector<cv::Point> pts;
-	detector.getCorners(pts,0.00001);
+	detector.getCorners(pts,0.00001);*/
 	cv::Mat tmpImage;
 	/*detector.drawOnImage(tmpImage,pts);
 	cv::imshow("harris Points",tmpImage);
@@ -57,13 +57,20 @@ int main(void)
 	//corner.GetSurfFeatures(image2,keyPoints2);
 	MyTimer timer;
 	timer.start("Points detection for image1 started...");
-	corner.GetDynamicAdaptedFeatures_SURF(image1,1500,4700,keyPoints1,130);
-	//corner.GetSurfFeatures(image1,keyPoints1);
+	//corner.GetDynamicAdaptedFeatures_SURF(image1,1500,4700,keyPoints1,130);
+	corner.GetSurfFeatures(image1,keyPoints1);
 	timer.check();
 	timer.start("Points detection for image1 started...");
-	corner.GetDynamicAdaptedFeatures_SURF(image2,1500,4700,keyPoints2,130);
-	//corner.GetSurfFeatures(image2,keyPoints2);
+	//corner.GetDynamicAdaptedFeatures_SURF(image2,1500,4700,keyPoints2,130);
+	corner.GetSurfFeatures(image2,keyPoints2);
 	timer.check();
+
+
+	//SD
+	/*Arithmatic arithmatic;
+	arithmatic.CalculateSD(image1);*/
+	corner.getImageInformation(image1);
+	
 
 
 	//>>>>>>>>>>>>> DISPLAY
@@ -178,9 +185,9 @@ int main(void)
 	cv::warpPerspective(image1,image2,homography,cv::Size());
 	cv::imshow("warp ",image2);
 	cv::waitKey(0);
-	cv::Mat half(image2,cv::Rect(0,0,image2.cols,image2.rows));
+	/*cv::Mat half(image2,cv::Rect(0,0,image2.cols,image2.rows));
 	cv::imshow("half ",half);
-	cv::waitKey(0);	
+	cv::waitKey(0);	*/
 }
 
 

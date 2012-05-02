@@ -58,5 +58,8 @@ inline double Arithmatic::CalculateSD(cv::Mat& image){
 		}
 	}
 	sd=cv::sqrt(sd/(nl*nc));
+
+	printf("SD=%f",sd);
+
 	return sd;
 }
