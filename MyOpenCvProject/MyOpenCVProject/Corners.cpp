@@ -39,10 +39,11 @@ void Corners::GetSiftFeatures(const cv::Mat& image,
 void Corners::GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures,
 	int maxFeatures,std::vector<cv::KeyPoint>& keyPoints,
 	int iterations){
-		double imageInformation=getImageInformation(image);
-		printf("Image Information=%f",imageInformation);
-		double threshold=pow(1.71,imageInformation/50)*20;
-		printf("Threshold=%f",threshold);
+		//double imageInformation=getImageInformation(image);
+		//printf("Image Information=%f",imageInformation);
+		//double threshold=pow(1.71,imageInformation/50)*20;
+		//printf("Threshold=%f",threshold);
+		double threshold=2;
 		double minThreshold=1.0;
 		double maxThreshold=1000.0;
 		cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::SurfAdjuster(threshold,minThreshold,maxThreshold);

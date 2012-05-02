@@ -187,7 +187,7 @@ int main(void)
 
 void displayImage(char* title, cv:: Mat& image){
 	cv::Mat tmpImage;	
-	cv::resize(image,tmpImage,cv::Size(image.rows>768?768:image.rows,image.cols>1366?1366:image.cols));
+	cv::resize(image,tmpImage,image.size());
 	cv::imshow(title,tmpImage);
 	cv::waitKey(0);
 }
