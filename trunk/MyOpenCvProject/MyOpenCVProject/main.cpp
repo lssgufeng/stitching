@@ -16,7 +16,7 @@
 #include <string.h>
 #include "MyTimer.h"
 #include "Arithmatic.h"
-#include "MyFilter.h";
+#include "MyFilter.h"
 void displayImage(char* title,cv::Mat& image);
 
 int main(void)  
@@ -173,8 +173,7 @@ int main(void)
 	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
 
 	//*********
-
-	
+		
 	cv::Mat result;
 	cv::warpPerspective(image1,image2,homography,cv::Size());
 	cv::imshow("warp ",image2);
