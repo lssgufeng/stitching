@@ -17,6 +17,7 @@
 #include "MyTimer.h"
 #include "Arithmatic.h"
 #include "MyFilter.h";
+void displayImage(char* title,cv::Mat& image);
 
 int main(void)  
 {
@@ -24,10 +25,10 @@ int main(void)
 	char szBuffer[100];	
 
 	
-	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);
-	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
+	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);*/
+	cv::Mat image1=cv::imread("knee_1.bmp",0);
+	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
 	cv::Mat image2=cv::imread("check2.png",0);*/
@@ -67,13 +68,14 @@ int main(void)
 
 	//>>>>>>>>>>>>> DISPLAY
 	cv::drawKeypoints(image1,keyPoints1,tmpImage);
-	cv::imshow("keypoints1",tmpImage);
-	cv::waitKey(0);
+	//cv::imshow("keypoints1",tmpImage);
+	//cv::waitKey(0);
+	displayImage("KeyPoints1",tmpImage);
 	cv::imwrite("o_Image1(keyPoints).bmp",tmpImage);
 
 	cv::drawKeypoints(image2,keyPoints2,tmpImage);
-	cv::imshow("keypoints2",tmpImage);
-	cv::waitKey(0);
+	displayImage("keypoints2",tmpImage);
+	//cv::waitKey(0);
 	cv::imwrite("o_Image2(keyPoints).bmp",tmpImage);
 
 	
@@ -114,8 +116,8 @@ int main(void)
 
 	//>>>>>>>>>>>>>>>>DISPLAY
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
-	cv::imshow("Symmetry Matches",tmpImage);
-	cv::waitKey(0);
+	displayImage("Symmetry Matches",tmpImage);
+	//cv::waitKey(0);
 	cv::imwrite("SymmetryMatches.bmp",tmpImage);
 
 	sprintf(szBuffer,"Selected Matches=%d",
@@ -161,21 +163,31 @@ int main(void)
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
-	cv::imshow("inlier1",tmpImage);
-	cv::waitKey(0);
+	displayImage("inlier1",tmpImage);
+	//cv::waitKey(0);
 	cv::imwrite("o_Image1(inliers).bmp",tmpImage);
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
-	cv::imshow("inlier2",tmpImage);
-	cv::waitKey(0);
+	displayImage("inlier2",tmpImage);
+	//cv::waitKey(0);
 	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
+
 	//*********
 
+	
 	cv::Mat result;
-	cv::warpPerspective(image1,result,homography,cv::Size());
-	cv::imshow("warp ",result);
+	cv::warpPerspective(image1,image2,homography,cv::Size());
+	cv::imshow("warp ",image2);
 	cv::waitKey(0);
-	cv::Mat half(result,cv::Rect(0,0,image2.cols,image2.rows));
+	cv::Mat half(image2,cv::Rect(0,0,image2.cols,image2.rows));
 	cv::imshow("half ",half);
 	cv::waitKey(0);	
+}
+
+
+void displayImage(char* title, cv:: Mat& image){
+	cv::Mat tmpImage;	
+	cv::resize(image,tmpImage,cv::Size(image.rows>768?768:image.rows,image.cols>1366?1366:image.cols));
+	cv::imshow(title,tmpImage);
+	cv::waitKey(0);
 }
