@@ -12,9 +12,10 @@ private:
 	//if any private variables..include here
 	cv::Ptr<cv::FeatureDetector> detector;
 	cv::Ptr<cv::DynamicAdaptedFeatureDetector> dymanicDetector;
+	
+public:
 	//Measure the image variations
 	double Corners::getImageInformation(cv::Mat&);
-public:
 	//Adjuster for getting dynamic adapted features
 	enum Adjuster {FAST,SIFT,SURF};
 	Corners();
