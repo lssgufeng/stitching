@@ -12,6 +12,7 @@
 #include "Corners.h"
 #include "Matching.h"
 #include <iostream>
+#include <fstream>
 #include <Windows.h>
 #include <string.h>
 #include "MyTimer.h"
@@ -26,9 +27,11 @@ int main(void)
 
 	
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);
-	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
+	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);
+	
+	/*cv::Mat image2=cv::imread("222.jpg",0);
+	cv::Mat image1=cv::imread("222_R.jpg",0);*/
+	
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
 	cv::Mat image2=cv::imread("check2.png",0);*/
@@ -125,7 +128,7 @@ int main(void)
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
 	displayImage("Symmetry Matches",tmpImage);
 	//cv::waitKey(0);
-	cv::imwrite("SymmetryMatches.bmp",tmpImage);
+	cv::imwrite("o_SymmetryMatches.bmp",tmpImage);
 
 	sprintf(szBuffer,"Selected Matches=%d",
 		symmetryMatches.size());
@@ -147,7 +150,7 @@ int main(void)
 	std::vector<uchar> inliers;
 	cv::Mat homography;
 	timer.restart("Homography...");
-	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);
+	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	timer.check();
 
  
@@ -155,6 +158,8 @@ int main(void)
 	
 
 	//**********DISPLAY
+
+	
 	int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
 		iterator!=inliers.end();++iterator){
@@ -181,13 +186,15 @@ int main(void)
 
 	//*********
 		
-	cv::Mat result;
-	cv::warpPerspective(image1,image2,homography,cv::Size());
-	cv::imshow("warp ",image2);
-	cv::waitKey(0);
-	/*cv::Mat half(image2,cv::Rect(0,0,image2.cols,image2.rows));
-	cv::imshow("half ",half);
-	cv::waitKey(0);	*/
+	
+
+	//We have homography matrix, now the final task 
+	//is to transform image1 on image 2 and stitch together
+	cv::Mat destination;
+	cv::warpPerspective(image1,destination,homography,cv::Size(image1.cols*2,image1.rows*2),CV_WARP_FILL_OUTLIERS);
+	displayImage("warp",destination);
+	cv::imwrite("o_Warp.bmp",destination);
+
 }
 
 
