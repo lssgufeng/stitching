@@ -44,6 +44,7 @@ int main(void)
 		printf("Error: Image Not Found!");
 		std::getchar();	
 	}
+     
 	for(int i=0;i<361;i++){
 		testTransformation(image1,i,0,0);
 	}
@@ -228,8 +229,6 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 	
 	t.at<double>(2,2) = 1;
 	t.at<double>(2,0)=t.at<double>(2,1)=0;
-
-
 
 	cv::Mat destination;
 	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
