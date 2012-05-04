@@ -47,7 +47,7 @@ int main(void)
 	for(int i=0;i<361;i++){
 		testTransformation(image1,i,0,0);
 	}
-
+	//testTransformation(image1,10,0,0);
 	
 	/*HarrisDetector detector;
 	detector.detect(image1);
@@ -229,8 +229,17 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 	t.at<double>(2,2) = 1;
 	t.at<double>(2,0)=t.at<double>(2,1)=0;
 
+
+
 	cv::Mat destination;
-	cv::warpPerspective(image,destination,t,cv::Size(image.cols,image.rows),CV_WARP_FILL_OUTLIERS);
+	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
+	cv::Mat padded(image.rows+2*distance,image.cols+2*distance,CV_8U);
+	cv::Mat imageROI=padded(cv::Rect(distance,distance,image.cols,image.rows));
+	//image.copyTo(imageROI);
+	//displayImage("ROI",padded);
+	//cv::imwrite("ROI.bmp",padded);
+	cv::warpPerspective(image,image,t,padded.size(),CV_WARP_FILL_OUTLIERS);
+	image.copyTo(imageROI);
 	cv::imwrite("transformed.bmp",destination);
 	displayImage("transform",destination);
 }
