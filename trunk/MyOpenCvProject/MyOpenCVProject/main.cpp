@@ -19,15 +19,17 @@
 #include "Arithmatic.h"
 #include "MyFilter.h"
 void displayImage(char* title,cv::Mat& image);
+void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans);
 
 int main(void)  
 {
 	//For message display
-	char szBuffer[100];	
+	char szBuffer[100];
 
 	
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);
+
 	
 	/*cv::Mat image2=cv::imread("222.jpg",0);
 	cv::Mat image1=cv::imread("222_R.jpg",0);*/
@@ -42,7 +44,11 @@ int main(void)
 		printf("Error: Image Not Found!");
 		std::getchar();	
 	}
+	for(int i=0;i<361;i++){
+		testTransformation(image1,i,0,0);
+	}
 
+	
 	/*HarrisDetector detector;
 	detector.detect(image1);
 	std::vector<cv::Point> pts;
@@ -72,7 +78,7 @@ int main(void)
 	//SD
 	/*Arithmatic arithmatic;
 	arithmatic.CalculateSD(image1);*/
-	corner.getImageInformation(image1);
+	//corner.getImageInformation(image1);
 	
 
 
@@ -190,13 +196,44 @@ int main(void)
 
 	//We have homography matrix, now the final task 
 	//is to transform image1 on image 2 and stitch together
-	cv::Mat destination;
-	cv::warpPerspective(image1,destination,homography,cv::Size(image1.cols*2,image1.rows*2),CV_WARP_FILL_OUTLIERS);
+	//cv::Mat destination;
+	/*cv::warpPerspective(image1,destination,homography,cv::Size(image1.cols*2,image1.rows*2),CV_WARP_FILL_OUTLIERS);
 	displayImage("warp",destination);
-	cv::imwrite("o_Warp.bmp",destination);
+	cv::imwrite("o_Warp.bmp",destination);*/
+
 
 }
 
+/***
+* Tests the transformation of the image with the supplied parameters
+* @image the image to transform
+* @angle rotation angle(in degrees)
+* @xTrans x translation
+* @yTrans y translation
+***/
+void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans){
+	cv::Mat t(3,3,CV_64F);
+	t=0;
+	double PI=3.141592654;
+	angle=angle*PI/180;
+
+	t.at<double>(0,0)=cos(angle);
+	t.at<double>(1,1)=cos(angle);
+
+	t.at<double>(0,1) = -sin(angle);
+	t.at<double>(1,0) = sin(angle);
+	
+	t.at<double>(0,2) = xTrans;    
+	t.at<double>(1,2) = yTrans;
+	
+	t.at<double>(2,2) = 1;
+	t.at<double>(2,0)=t.at<double>(2,1)=0;
+
+	cv::Mat destination;
+	cv::warpPerspective(image,destination,t,cv::Size(image.cols,image.rows),CV_WARP_FILL_OUTLIERS);
+	cv::imwrite("transformed.bmp",destination);
+	displayImage("transform",destination);
+}
 
 void displayImage(char* title, cv:: Mat& image){
 	cv::Mat tmpImage;	
