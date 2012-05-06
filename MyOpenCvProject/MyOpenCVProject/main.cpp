@@ -28,11 +28,11 @@ int main(void)
 
 	
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);
+	cv::Mat image2=cv::imread("Splitted_2_rot.png",0);
 
 	
-	/*cv::Mat image2=cv::imread("222.jpg",0);
-	cv::Mat image1=cv::imread("222_R.jpg",0);*/
+	/*cv::Mat image2=cv::imread("knee_1.bmp",0);
+	cv::Mat image1=cv::imread("knee_1R.bmp",0);*/
 	
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
@@ -85,19 +85,19 @@ int main(void)
 
 	//>>>>>>>>>>>>> DISPLAY
 	cv::drawKeypoints(image1,keyPoints1,tmpImage);
-	//cv::imshow("keypoints1",tmpImage);
-	//cv::waitKey(0);
-	displayImage("KeyPoints1",tmpImage);
+	////cv::imshow("keypoints1",tmpImage);
+	////cv::waitKey(0);
+	//displayImage("KeyPoints1",tmpImage);
 	cv::imwrite("o_Image1(keyPoints).bmp",tmpImage);
 
 	cv::drawKeypoints(image2,keyPoints2,tmpImage);
-	displayImage("keypoints2",tmpImage);
-	//cv::waitKey(0);
+	//displayImage("keypoints2",tmpImage);
+	////cv::waitKey(0);
 	cv::imwrite("o_Image2(keyPoints).bmp",tmpImage);
 
-	
-	sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
-	MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
+	//
+	//sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
+	//MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
 	//ENDISPLAY   <<<<<<<<<<<<<<<
 
 
@@ -108,9 +108,9 @@ int main(void)
 	timer.check();
 	
 	// >>>>>>>>>>>>>>> DISPLAY
-	sprintf(szBuffer,"image1->image2 matches=%d\nimage2->image1 matches=%d",
+	/*sprintf(szBuffer,"image1->image2 matches=%d\nimage2->image1 matches=%d",
 		matches1.size(),matches2.size());
-	MessageBoxA(NULL,szBuffer,"Matching Result",MB_OK);
+	MessageBoxA(NULL,szBuffer,"Matching Result",MB_OK);*/
 	// ENDISPLAY <<<<<<<<<<<<<<<<<
 
 	timer.restart("Ratio Test1...");
@@ -121,9 +121,9 @@ int main(void)
 	timer.check();
 	
 	//>>>>>>>>>>>>>>>>>>DISPLAY
-	sprintf(szBuffer,"Removed Points\n image1=%d\n image2=%d",
+	/*sprintf(szBuffer,"Removed Points\n image1=%d\n image2=%d",
 		removed1,removed2);
-	MessageBoxA(NULL,szBuffer,"Ratio Test",MB_OK);
+	MessageBoxA(NULL,szBuffer,"Ratio Test",MB_OK);*/
 	//ENDISPLAY  <<<<<<<<<<<<<<<
 
 	std::vector<cv::DMatch> symmetryMatches;
@@ -133,13 +133,13 @@ int main(void)
 
 	//>>>>>>>>>>>>>>>>DISPLAY
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
-	displayImage("Symmetry Matches",tmpImage);
-	//cv::waitKey(0);
+	//displayImage("Symmetry Matches",tmpImage);
+	////cv::waitKey(0);
 	cv::imwrite("o_SymmetryMatches.bmp",tmpImage);
 
-	sprintf(szBuffer,"Selected Matches=%d",
-		symmetryMatches.size());
-	MessageBoxA(NULL,szBuffer,"Symmetry Test",MB_OK);
+	//sprintf(szBuffer,"Selected Matches=%d",
+	//	symmetryMatches.size());
+	//MessageBoxA(NULL,szBuffer,"Symmetry Test",MB_OK);
 	//ENDISPLAY  <<<<<<<<<<<<<<<
 
 
@@ -167,17 +167,17 @@ int main(void)
 	//**********DISPLAY
 
 	
-	int inliers_count=0;
+	/*int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
 		iterator!=inliers.end();++iterator){
 			if(*iterator){
 				++inliers_count;
 			}
-	}
+	}*/
 
-	sprintf(szBuffer,"Inliers Count=%d",
+	/*sprintf(szBuffer,"Inliers Count=%d",
 		inliers_count);
-	MessageBoxA(NULL,szBuffer,"Homography Result",MB_OK);
+	MessageBoxA(NULL,szBuffer,"Homography Result",MB_OK);*/
 
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
@@ -197,11 +197,42 @@ int main(void)
 
 	//We have homography matrix, now the final task 
 	//is to transform image1 on image 2 and stitch together
+
+	std::fstream file;
+	file.open("homography.txt",std::ios::app);
+	file<<"\nhomography=\n"<<homography;
+	printf("value=%f",homography.at<double>(0,2));
+
 	//cv::Mat destination;
 	/*cv::warpPerspective(image1,destination,homography,cv::Size(image1.cols*2,image1.rows*2),CV_WARP_FILL_OUTLIERS);
 	displayImage("warp",destination);
 	cv::imwrite("o_Warp.bmp",destination);*/
 
+	cv::Mat output;
+	cv::warpPerspective(image1,output,homography,image1.size());
+	displayImage("warp_without",output);
+
+	cv::Point sourceCenter,destCenter;
+	sourceCenter=cv::Point(image1.cols/2,image1.rows/2);
+	double x=sourceCenter.x,y=sourceCenter.y;
+	double Z=1./(homography.at<double>(2,0)*x+
+		homography.at<double>(2,1)*y+
+		homography.at<double>(2,2));
+	double X=(homography.at<double>(0,0)*x+
+		homography.at<double>(0,1)*y+
+		homography.at<double>(0,2))*Z;
+	double Y=(homography.at<double>(1,0)*x+
+		homography.at<double>(1,1)*y+
+		homography.at<double>(1,2))*Z;
+	destCenter=cv::Point(X,Y);
+	//Set Values
+	homography.at<double>(0,2)+=sourceCenter.x-destCenter.x;
+	homography.at<double>(1,2)+=sourceCenter.y-destCenter.y;
+
+	
+	cv::warpPerspective(image1,output,homography,image1.size());
+	displayImage("warp",output);
+	cv::imwrite("o_warped.bmp",output);
 
 }
 
