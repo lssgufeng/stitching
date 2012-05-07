@@ -30,6 +30,9 @@
     <ClCompile Include="Homography.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Warp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarrisDetector.h">
@@ -51,6 +54,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MyFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Warp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,6 @@
  * @brief main function as entry point. 
  * @author Krishna
  */
-
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/features2d/features2d.hpp"
@@ -18,36 +17,50 @@
 #include "MyTimer.h"
 #include "Arithmatic.h"
 #include "MyFilter.h"
+#include "Warp.h"
 void displayImage(char* title,cv::Mat& image);
 void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans);
+void rotateCenter(cv::Mat image, cv::Mat homography);
 
 int main(void)  
 {
 	//For message display
 	char szBuffer[100];
 
-	
-	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);
+#pragma region "Input Images"
 
+	cv::Mat image1=cv::imread("Splitted_1.png",0);
+	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);	
 	
 	/*cv::Mat image2=cv::imread("knee_1.bmp",0);
-	cv::Mat image1=cv::imread("knee_1R.bmp",0);*/
-	
+	cv::Mat image1=cv::imread("knee_2.bmp",0);
+	*/
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
 	cv::Mat image2=cv::imread("check2.png",0);*/
-
-	
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
 	}
+
+#pragma endregion 
+
+
+	
      
-	for(int i=0;i<361;i+=10){
+	////alpha beta blending
+	//cv::Mat blended;
+	//double alpha=0.5;
+
+	//cv::addWeighted(image1,alpha,image2,1.0-alpha,0.0,blended);
+	//displayImage("blended",blended);
+	//cv::imwrite("blended.bmp",blended);
+
+
+	/*for(int i=0;i<361;i+=10){
 		testTransformation(image1,i,image1.cols/2,image1.rows/2);
-	}
+	}*/
 	//testTransformation(image1,10,0,0);
 	
 	/*HarrisDetector detector;
@@ -80,7 +93,6 @@ int main(void)
 	/*Arithmatic arithmatic;
 	arithmatic.CalculateSD(image1);*/
 	//corner.getImageInformation(image1);
-	
 
 
 	//>>>>>>>>>>>>> DISPLAY
@@ -94,7 +106,6 @@ int main(void)
 	//displayImage("keypoints2",tmpImage);
 	////cv::waitKey(0);
 	cv::imwrite("o_Image2(keyPoints).bmp",tmpImage);
-
 	//
 	//sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
 	//MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
@@ -166,7 +177,8 @@ int main(void)
 
 	//**********DISPLAY
 
-	
+	rotateCenter(image1,homography);
+	return 1;
 	/*int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
 		iterator!=inliers.end();++iterator){
@@ -243,7 +255,10 @@ int main(void)
 * @xTrans x translation
 * @yTrans y translation
 ***/
-void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans){
+void testTransformation(cv::Mat& image,
+	double angle,
+	double xTrans, 
+	double yTrans){
 	cv::Mat t(3,3,CV_64F);
 	t=0;
 	double PI=3.141592654;
@@ -274,6 +289,7 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 		t.at<double>(1,1)*y+
 		t.at<double>(1,2))*Z;
 	destCenter=cv::Point(X,Y);
+
 	//Set Values
 	t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
 	t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
@@ -288,7 +304,49 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 	cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
 	image.copyTo(imageROI);
 	cv::imwrite("transformed.bmp",destination);
-	displayImage("transform",destination);
+	displayImage("transform",destination);		
+}
+
+void rotateCenter(cv::Mat image, cv::Mat homography){
+	//setting the translation to 
+	cv::Mat destination;
+	cv::Point srcCenter,dstCenter;
+	srcCenter=cv::Point(image.cols/2,image.rows/2);
+	//double x=(double)srcCenter.x,y=(double)srcCenter.y;
+	//double Z=1.0/(homography.at<double>(2,0)*x+homography.at<double>(2,1)*y+homography.at<double>(2,2));
+	//now get the warped points
+	//double X=(homography.at<double>(0,0)*x+homography.at<double>(0,1)*y+homography.at<double>(0,2))*Z;
+	//double Y=(homography.at<double>(1,0)*x+homography.at<double>(1,1)*y+homography.at<double>(1,2))*Z;
+	//dstCenter=cv::Point(X,Y);
+	Warp warp;
+	warp.GetWarpPoint(homography,srcCenter,dstCenter);
+	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+25;
+	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+25;
+
+	//Getting new image size
+	cv::Mat corners(3,4,CV_64F),dstCorners;
+	//top left
+	corners.at<double>(0,0)=0;corners.at<double>(1,0)=0;corners.at<double>(2,0)=1;
+	corners.at<double>(0,1)=image.cols;corners.at<double>(1,1)=0;corners.at<double>(2,1)=1;
+	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
+	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
+	
+	warp.GetWarpPoints(homography,corners,dstCorners);
+	
+	double minX,minY,maxX,maxY;
+	//Getting the size of the warped image
+	for(int i=0;i<dstCorners.rows-1;i++){
+		double* row=dstCorners.ptr<double>(i);
+		cv::Mat tmp(1,dstCorners.cols,CV_64F);
+		for(int j=0;j<dstCorners.cols;j++){
+			tmp.at<double>(0,j)=*row++;
+		}
+		cv::minMaxLoc(tmp,&minX,maxX);
+
+	}
+
+	cv::warpPerspective(image,destination,homography,cv::Size(image.cols+50,image.rows+50));
+	displayImage("warped",destination);
 }
 
 void displayImage(char* title, cv:: Mat& image){
