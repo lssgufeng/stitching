@@ -28,7 +28,7 @@ int main(void)
 
 	
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2_rot.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);
 
 	
 	/*cv::Mat image2=cv::imread("knee_1.bmp",0);
@@ -45,8 +45,8 @@ int main(void)
 		std::getchar();	
 	}
      
-	for(int i=0;i<361;i++){
-		testTransformation(image1,i,0,0);
+	for(int i=0;i<361;i+=10){
+		testTransformation(image1,i,image1.cols/2,image1.rows/2);
 	}
 	//testTransformation(image1,10,0,0);
 	
@@ -140,7 +140,7 @@ int main(void)
 	//sprintf(szBuffer,"Selected Matches=%d",
 	//	symmetryMatches.size());
 	//MessageBoxA(NULL,szBuffer,"Symmetry Test",MB_OK);
-	//ENDISPLAY  <<<<<<<<<<<<<<<
+	//ENDISPLAY  
 
 
 	/*
@@ -261,6 +261,23 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 	t.at<double>(2,2) = 1;
 	t.at<double>(2,0)=t.at<double>(2,1)=0;
 
+	cv::Point sourceCenter,destCenter;
+	sourceCenter=cv::Point(image.cols/2,image.rows/2);
+	double x=sourceCenter.x,y=sourceCenter.y;
+	double Z=1./(t.at<double>(2,0)*x+
+		t.at<double>(2,1)*y+
+		t.at<double>(2,2));
+	double X=(t.at<double>(0,0)*x+
+		t.at<double>(0,1)*y+
+		t.at<double>(0,2))*Z;
+	double Y=(t.at<double>(1,0)*x+
+		t.at<double>(1,1)*y+
+		t.at<double>(1,2))*Z;
+	destCenter=cv::Point(X,Y);
+	//Set Values
+	t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
+	t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
+
 	cv::Mat destination;
 	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
 	cv::Mat padded(image.rows+2*distance,image.cols+2*distance,CV_8U);
@@ -268,7 +285,7 @@ void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans
 	//image.copyTo(imageROI);
 	//displayImage("ROI",padded);
 	//cv::imwrite("ROI.bmp",padded);
-	cv::warpPerspective(image,image,t,padded.size(),CV_WARP_FILL_OUTLIERS);
+	cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
 	image.copyTo(imageROI);
 	cv::imwrite("transformed.bmp",destination);
 	displayImage("transform",destination);
