@@ -80,7 +80,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	double newWidth=maxX-minX;
 	double newHeight=maxY-minY;
 	int shiftX=(newWidth-image.cols)/2;
-	int shiftY=(newHeight-image.rows)/2;
+	int shiftY=(newHeight-image.rows)/2;  
 	homography.at<double>(0,2)+=shiftX;
 	homography.at<double>(1,2)+=shiftY;
 
