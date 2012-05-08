@@ -16,7 +16,11 @@ Stitching::~Stitching(){
 void Stitching::Stitch(){
 	//1.Get the corners
 	//2.Calculate the size of the combined image
-	//3. 
+	//3.Get LEFT ROI
+	//4.Get RIGHT ROI
+	//5.Get TOP ROI
+	//6.Get BOTTOM ROI
+	//join ROIS
 }
 
 
