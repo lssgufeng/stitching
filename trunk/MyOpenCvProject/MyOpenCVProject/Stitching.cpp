@@ -20,7 +20,9 @@ void Stitching::Stitch(){
 	//4.Get RIGHT ROI
 	//5.Get TOP ROI
 	//6.Get BOTTOM ROI
-	//join ROIS
+	//7.Join ROIS to the base image
+	//8.Get overlapped ROI and blend
+	//9.Copy the nonoverlaped base image content
 }
 
 
