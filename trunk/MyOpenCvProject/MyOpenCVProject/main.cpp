@@ -18,9 +18,8 @@
 #include "Arithmatic.h"
 #include "MyFilter.h"
 #include "Warp.h"
-void displayImage(char* title,cv::Mat& image);
+#include "Utility.h"
 void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans);
-void rotateCenter(cv::Mat image, cv::Mat homography);
 
 int main(void)  
 {
@@ -30,11 +29,11 @@ int main(void)
     #pragma region "Input Images"
 
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);	
+	cv::Mat image2=cv::imread("Splitted_Rotated_1.png",0);	
 	
 	/*cv::Mat image2=cv::imread("knee_1.bmp",0);
-	cv::Mat image1=cv::imread("knee_2.bmp",0);
-	*/
+	cv::Mat image1=cv::imread("knee_3_moved_rotated.bmp",0);*/
+	
 
 	/*cv::Mat image1=cv::imread("check1.png",0);
 	cv::Mat image2=cv::imread("check2.png",0);*/
@@ -55,9 +54,10 @@ int main(void)
 	//cv::imwrite("blended.bmp",blended);
 
 
+	/*Warp warp;
 	for(int i=0;i<361;i+=30){
-		testTransformation(image1,i,0,0);
-	}
+		warp.TestTransformation(image1,i,0,0);
+	}*/
 	//testTransformation(image1,10,0,0);
 	
 	/*HarrisDetector detector;
@@ -175,8 +175,6 @@ int main(void)
 	//**********DISPLAY
 
 	//rotateCenter(image1,homography);
-	std::getchar();
-	return 1;
 	/*int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
 		iterator!=inliers.end();++iterator){
@@ -192,12 +190,12 @@ int main(void)
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
-	displayImage("inlier1",tmpImage);
+	//Utility::DisplayImage("inlier1",tmpImage);
 	//cv::waitKey(0);
 	cv::imwrite("o_Image1(inliers).bmp",tmpImage);
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
-	displayImage("inlier2",tmpImage);
+	//Utility::DisplayImage("inlier2",tmpImage);
 	//cv::waitKey(0);
 	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
 
@@ -218,32 +216,9 @@ int main(void)
 	displayImage("warp",destination);
 	cv::imwrite("o_Warp.bmp",destination);*/
 
-	cv::Mat output;
-	cv::warpPerspective(image1,output,homography,image1.size());
-	displayImage("warp_without",output);
-
-	cv::Point sourceCenter,destCenter;
-	sourceCenter=cv::Point(image1.cols/2,image1.rows/2);
-	double x=sourceCenter.x,y=sourceCenter.y;
-	double Z=1./(homography.at<double>(2,0)*x+
-		homography.at<double>(2,1)*y+
-		homography.at<double>(2,2));
-	double X=(homography.at<double>(0,0)*x+
-		homography.at<double>(0,1)*y+
-		homography.at<double>(0,2))*Z;
-	double Y=(homography.at<double>(1,0)*x+
-		homography.at<double>(1,1)*y+
-		homography.at<double>(1,2))*Z;
-	destCenter=cv::Point(X,Y);
-	//Set Values
-	homography.at<double>(0,2)+=sourceCenter.x-destCenter.x;
-	homography.at<double>(1,2)+=sourceCenter.y-destCenter.y;
-
-	
-	cv::warpPerspective(image1,output,homography,image1.size());
-	displayImage("warp",output);
-	cv::imwrite("o_warped.bmp",output);
-
+	cv::Mat output;	
+	Warp warp;
+	warp.RotateImage(image1,homography);
 }
 
 /***
@@ -253,61 +228,3 @@ int main(void)
 * @xTrans x translation
 * @yTrans y translation
 ***/
-void testTransformation(cv::Mat& image,
-	double angle,
-	double xTrans, 
-	double yTrans){
-	cv::Mat t(3,3,CV_64F);
-	t=0;
-	double PI=3.141592654;
-	angle=angle*PI/180;
-
-	t.at<double>(0,0)=cos(angle);
-	t.at<double>(1,1)=cos(angle);
-
-	t.at<double>(0,1) = -sin(angle);
-	t.at<double>(1,0) = sin(angle);
-	
-	t.at<double>(0,2) = xTrans;    
-	t.at<double>(1,2) = yTrans;
-	
-	t.at<double>(2,2) = 1;
-	t.at<double>(2,0)=t.at<double>(2,1)=0;
-
-	//cv::Point sourceCenter,destCenter;
-	//sourceCenter=cv::Point(image.cols/2,image.rows/2);
-	//double x=sourceCenter.x,y=sourceCenter.y;
-	//double Z=1./(t.at<double>(2,0)*x+
-	//	t.at<double>(2,1)*y+
-	//	t.at<double>(2,2));
-	//double X=(t.at<double>(0,0)*x+
-	//	t.at<double>(0,1)*y+
-	//	t.at<double>(0,2))*Z;
-	//double Y=(t.at<double>(1,0)*x+
-	//	t.at<double>(1,1)*y+
-	//	t.at<double>(1,2))*Z;
-	//destCenter=cv::Point(X,Y);
-
-	////Set Values
-	//t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
-	//t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
-
-	/*cv::Mat destination;
-	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
-	cv::Mat padded(image.rows+2*distance,image.cols+2*distance,CV_8U);
-	cv::Mat imageROI=padded(cv::Rect(distance,distance,image.cols,image.rows));*/
-	//image.copyTo(imageROI);
-	//displayImage("ROI",padded);
-	//cv::imwrite("ROI.bmp",padded);
-	/*cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
-	image.copyTo(imageROI);
-	cv::imwrite("transformed.bmp",destination);
-	displayImage("transform",destination);		*/
-	rotateCenter(image,t);
-}
-void displayImage(char* title, cv:: Mat& image){
-	cv::Mat tmpImage;	
-	cv::resize(image,tmpImage,image.size());
-	cv::imshow(title,tmpImage);
-	cv::waitKey(0);
-}
