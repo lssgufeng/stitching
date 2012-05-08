@@ -1,15 +1,15 @@
 #include "Warp.h"
 #include "Utility.h"
-void Warp::GetWarpPoints(cv::Mat& homography,
-	cv::Mat& srcPoints,
-	cv::Mat& dstPoints){
+void Warp::GetWarpPoints(cv::Mat& srcPts,
+		cv::Mat& dstPts,
+		cv::Mat& homography){
 		//check feasibility
-		if(homography.cols==srcPoints.rows){
-			dstPoints=homography*srcPoints;
-			for(int i=0;i<dstPoints.rows;i++){
-				double* data=dstPoints.ptr<double>(i);
-				double* scale=dstPoints.ptr<double>(dstPoints.rows-1);
-				for(int j=0;j<dstPoints.cols;j++){
+		if(homography.cols==srcPts.rows){
+			dstPts=homography*srcPts;
+			for(int i=0;i<dstPts.rows;i++){
+				double* data=dstPts.ptr<double>(i);
+				double* scale=dstPts.ptr<double>(dstPts.rows-1);
+				for(int j=0;j<dstPts.cols;j++){
                      *data++=*data / *scale++;
 				}
 			}
@@ -45,10 +45,9 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 			printf("TransformPoint took %f seconds\n",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
-void Warp::RotateImage(cv::Mat image,cv::Mat homography){
+void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	double tic=cv::getTickCount();
 	//setting the translation to 
-	cv::Mat destination;
 	cv::Point srcCenter,dstCenter;
 	srcCenter=cv::Point(image.cols/2,image.rows/2);
 	//double x=(double)srcCenter.x,y=(double)srcCenter.y;
@@ -56,9 +55,8 @@ void Warp::RotateImage(cv::Mat image,cv::Mat homography){
 	//now get the warped points
 	//double X=(homography.at<double>(0,0)*x+homography.at<double>(0,1)*y+homography.at<double>(0,2))*Z;
 	//double Y=(homography.at<double>(1,0)*x+homography.at<double>(1,1)*y+homography.at<double>(1,2))*Z;
-	//dstCenter=cv::Point(X,Y);
-	Warp warp;
-	warp.GetWarpPoint(homography,srcCenter,dstCenter);
+	//dstCenter=cv::Point(X,Y);	
+	this->TransformPoint(srcCenter,dstCenter,&homography);
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y;
 	//Getting new image size
@@ -69,13 +67,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat homography){
 	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
 	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
 	
-	warp.GetWarpPoints(homography,corners,dstCorners);
-
-	cv::Point point;
-	warp.GetWarpPoint(homography,cv::Point(12,12),point);
-    printf("1st method:x=%d,y=%d",point.x,point.y);
-	warp.TransformPoint(cv::Point(12,12),point,&homography);
-	printf("2nd method:x=%d,y=%d",point.x,point.y);
+	this->GetWarpPoints(homography,corners,dstCorners);
 
 	double minX,minY,maxX,maxY;
 	//Getting the size of the warped image

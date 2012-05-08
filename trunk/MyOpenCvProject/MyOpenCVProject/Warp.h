@@ -16,9 +16,9 @@ public:
 	//homography supplied. This function can be used to transfrom 
 	//from single point to an array of points. e.g. we can get the newly
 	//transformed poi
-	void GetWarpPoints(cv::Mat& homography,
-		cv::Mat& srcPts,
-		cv::Mat& dstPts);
+	void GetWarpPoints(cv::Mat& srcPts,
+		cv::Mat& dstPts,
+		cv::Mat& homography);
 	//Gets the warped point for a single point using the homography
 	//Its slower because it calls GetWarpPoints function to work
 	void GetWarpPoint(cv::Mat& homography,
@@ -34,7 +34,7 @@ public:
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are
 	//copied to the resultant image.
-	void RotateImage(cv::Mat image,cv::Mat homography);
+	void RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography);
 
 	/***
 	* Tests the transformation of the image with the supplied parameters
