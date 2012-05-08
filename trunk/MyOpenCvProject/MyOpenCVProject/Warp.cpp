@@ -45,6 +45,10 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 			printf("TransformPoint took %f seconds\n",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
+void Warp::TransformCorners(const cv::Point corners[],
+	cv::Point* outputPoints,const cv::Mat* homography){
+}
+
 void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	double tic=cv::getTickCount();
 	//setting the translation to 
