@@ -49,13 +49,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	double tic=cv::getTickCount();
 	//setting the translation to 
 	cv::Point srcCenter,dstCenter;
-	srcCenter=cv::Point(image.cols/2,image.rows/2);
-	//double x=(double)srcCenter.x,y=(double)srcCenter.y;
-	//double Z=1.0/(homography.at<double>(2,0)*x+homography.at<double>(2,1)*y+homography.at<double>(2,2));
-	//now get the warped points
-	//double X=(homography.at<double>(0,0)*x+homography.at<double>(0,1)*y+homography.at<double>(0,2))*Z;
-	//double Y=(homography.at<double>(1,0)*x+homography.at<double>(1,1)*y+homography.at<double>(1,2))*Z;
-	//dstCenter=cv::Point(X,Y);	
+	srcCenter=cv::Point(image.cols/2,image.rows/2);	
 	this->TransformPoint(srcCenter,dstCenter,&homography);
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y;
