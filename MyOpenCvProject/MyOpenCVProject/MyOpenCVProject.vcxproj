@@ -89,7 +89,6 @@
   <ItemGroup>
     <ClCompile Include="Corners.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
-    <ClCompile Include="Homography.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
     <ClCompile Include="Utility.cpp" />
@@ -100,7 +99,6 @@
     <ClInclude Include="Arithmatic.h" />
     <ClInclude Include="Corners.h" />
     <ClInclude Include="HarrisDetector.h" />
-    <ClInclude Include="Homography.h" />
     <ClInclude Include="Matching.h" />
     <ClInclude Include="MyFilter.h" />
     <ClInclude Include="MyTimer.h" />
