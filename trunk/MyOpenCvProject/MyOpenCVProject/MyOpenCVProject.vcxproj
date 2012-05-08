@@ -91,6 +91,7 @@
     <ClCompile Include="HarrisDetector.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
+    <ClCompile Include="Stitching.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Utility.h" />
     <ClCompile Include="Warp.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="Matching.h" />
     <ClInclude Include="MyFilter.h" />
     <ClInclude Include="MyTimer.h" />
+    <ClInclude Include="Stitching.h" />
     <ClInclude Include="Warp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
