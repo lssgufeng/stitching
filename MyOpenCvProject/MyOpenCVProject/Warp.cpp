@@ -46,7 +46,10 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 }
 
 void Warp::TransformCorners(const cv::Point corners[],
-	cv::Point* outputPoints,const cv::Mat* homography){
+	cv::Point* outputCorners,const cv::Mat* homography){
+		for(int i=0;i<4;i++){
+			TransformCorners(corners+i,outputCorners+i,homography);
+		}
 }
 
 void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
