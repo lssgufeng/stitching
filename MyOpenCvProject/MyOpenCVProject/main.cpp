@@ -218,5 +218,5 @@ int main(void)
 
 	cv::Mat output;	
 	Warp warp;
-	warp.RotateImage(image1,homography);
+	warp.RotateImage(image1,output,homography);
 }

@@ -91,10 +91,10 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	homography.at<double>(1,2)+=shiftY;
 
 
-	cv::warpPerspective(image,destination,homography,cv::Size(newWidth,newHeight));
+	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
-	Utility::DisplayImage("warped",destination);
-	cv::imwrite("warped.bmp",destination);
+	Utility::DisplayImage("warped",outputImage);
+	cv::imwrite("warped.bmp",outputImage);
 }
 
 void Warp::TestTransformation(cv::Mat& image,
@@ -116,37 +116,9 @@ void Warp::TestTransformation(cv::Mat& image,
 	t.at<double>(1,2) = yTrans;
 	
 	t.at<double>(2,2) = 1;
-	t.at<double>(2,0)=t.at<double>(2,1)=0;
+	t.at<double>(2,0)=t.at<double>(2,1)=0;	
 
-	//cv::Point sourceCenter,destCenter;
-	//sourceCenter=cv::Point(image.cols/2,image.rows/2);
-	//double x=sourceCenter.x,y=sourceCenter.y;
-	//double Z=1./(t.at<double>(2,0)*x+
-	//	t.at<double>(2,1)*y+
-	//	t.at<double>(2,2));
-	//double X=(t.at<double>(0,0)*x+
-	//	t.at<double>(0,1)*y+
-	//	t.at<double>(0,2))*Z;
-	//double Y=(t.at<double>(1,0)*x+
-	//	t.at<double>(1,1)*y+
-	//	t.at<double>(1,2))*Z;
-	//destCenter=cv::Point(X,Y);
-
-	////Set Values
-	//t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
-	//t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
-
-	/*cv::Mat destination;
-	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
-	cv::Mat padded(image.rows+2*distance,image.cols+2*distance,CV_8U);
-	cv::Mat imageROI=padded(cv::Rect(distance,distance,image.cols,image.rows));*/
-	//image.copyTo(imageROI);
-	//displayImage("ROI",padded);
-	//cv::imwrite("ROI.bmp",padded);
-	/*cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
-	image.copyTo(imageROI);
-	cv::imwrite("transformed.bmp",destination);
-	displayImage("transform",destination);		*/
-	Warp warp;
-	warp.RotateImage(image,t);
+	
+	cv::Mat destination;	
+	cv::warpPerspective(image,destination,t,image.size());
 }
