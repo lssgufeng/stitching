@@ -30,6 +30,13 @@ public:
 	void TransformPoint(const cv::Point pointToTransform,
 		cv::Point& outputPoint,
 		const cv::Mat* homography);
+     
+	//It tranforms the corners of the image
+	//@corners[] arrays of corners
+	//@outputPoints the transformed corners
+	//@homography everyybody understands
+	void Warp::TransformCorners(const cv::Point corners[],
+	cv::Point* outputPoints,const cv::Mat* homography)
 
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are
