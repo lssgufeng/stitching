@@ -8,6 +8,7 @@
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
 
+
 class Warp{
 private:
 public:
@@ -35,5 +36,16 @@ public:
 	//copied to the resultant image.
 	void RotateImage(cv::Mat image,cv::Mat homography);
 
-	
+	/***
+	* Tests the transformation of the image with the supplied parameters
+	* For testing only. Actually we use homography matrix and will be faster.
+	* @image the image to transform
+	* @angle rotation angle(in degrees)
+	* @xTrans x translation
+	* @yTrans y translation
+	***/
+	void TestTransformation(cv::Mat& image,
+		double angle,
+		double xTrans, 
+		double yTrans);
 };

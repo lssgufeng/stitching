@@ -92,6 +92,8 @@
     <ClCompile Include="Homography.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
+    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="Utility.h" />
     <ClCompile Include="Warp.cpp" />
   </ItemGroup>
   <ItemGroup>
