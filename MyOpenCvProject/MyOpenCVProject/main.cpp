@@ -220,11 +220,3 @@ int main(void)
 	Warp warp;
 	warp.RotateImage(image1,homography);
 }
-
-/***
-* Tests the transformation of the image with the supplied parameters
-* @image the image to transform
-* @angle rotation angle(in degrees)
-* @xTrans x translation
-* @yTrans y translation
-***/
