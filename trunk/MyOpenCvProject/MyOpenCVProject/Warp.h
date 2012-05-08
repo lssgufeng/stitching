@@ -19,9 +19,21 @@ public:
 		cv::Mat& srcPts,
 		cv::Mat& dstPts);
 	//Gets the warped point for a single point using the homography
+	//Its slower because it calls GetWarpPoints function to work
 	void GetWarpPoint(cv::Mat& homography,
 		cv::Point& point,
 		cv::Point& dstPoint);
+	//It is another method to transform point. It is copied from
+    //http://stackoverflow.com/questions/4279008/specify-an-origin-to-warpperspective-function-in-opencv-2-x
+	//it is faster. 
+	void TransformPoint(const cv::Point pointToTransform,
+		cv::Point& outputPoint,
+		const cv::Mat* homography);
+
+	//It is the main method for image transformation. We use the result image
+	//to join to base image to get stitched image. The ROIs of this image are
+	//copied to the resultant image.
+	void RotateImage(cv::Mat image,cv::Mat homography);
 
 	
 };

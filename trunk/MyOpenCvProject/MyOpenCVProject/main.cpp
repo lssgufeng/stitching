@@ -27,7 +27,7 @@ int main(void)
 	//For message display
 	char szBuffer[100];
 
-#pragma region "Input Images"
+    #pragma region "Input Images"
 
 	cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_Rotated_2.png",0);	
@@ -44,11 +44,8 @@ int main(void)
 		std::getchar();	
 	}
 
-#pragma endregion 
+    #pragma endregion 
 
-
-	
-     
 	////alpha beta blending
 	//cv::Mat blended;
 	//double alpha=0.5;
@@ -58,9 +55,9 @@ int main(void)
 	//cv::imwrite("blended.bmp",blended);
 
 
-	/*for(int i=0;i<361;i+=10){
-		testTransformation(image1,i,image1.cols/2,image1.rows/2);
-	}*/
+	for(int i=0;i<361;i+=30){
+		testTransformation(image1,i,0,0);
+	}
 	//testTransformation(image1,10,0,0);
 	
 	/*HarrisDetector detector;
@@ -177,7 +174,8 @@ int main(void)
 
 	//**********DISPLAY
 
-	rotateCenter(image1,homography);
+	//rotateCenter(image1,homography);
+	std::getchar();
 	return 1;
 	/*int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
@@ -276,79 +274,37 @@ void testTransformation(cv::Mat& image,
 	t.at<double>(2,2) = 1;
 	t.at<double>(2,0)=t.at<double>(2,1)=0;
 
-	cv::Point sourceCenter,destCenter;
-	sourceCenter=cv::Point(image.cols/2,image.rows/2);
-	double x=sourceCenter.x,y=sourceCenter.y;
-	double Z=1./(t.at<double>(2,0)*x+
-		t.at<double>(2,1)*y+
-		t.at<double>(2,2));
-	double X=(t.at<double>(0,0)*x+
-		t.at<double>(0,1)*y+
-		t.at<double>(0,2))*Z;
-	double Y=(t.at<double>(1,0)*x+
-		t.at<double>(1,1)*y+
-		t.at<double>(1,2))*Z;
-	destCenter=cv::Point(X,Y);
+	//cv::Point sourceCenter,destCenter;
+	//sourceCenter=cv::Point(image.cols/2,image.rows/2);
+	//double x=sourceCenter.x,y=sourceCenter.y;
+	//double Z=1./(t.at<double>(2,0)*x+
+	//	t.at<double>(2,1)*y+
+	//	t.at<double>(2,2));
+	//double X=(t.at<double>(0,0)*x+
+	//	t.at<double>(0,1)*y+
+	//	t.at<double>(0,2))*Z;
+	//double Y=(t.at<double>(1,0)*x+
+	//	t.at<double>(1,1)*y+
+	//	t.at<double>(1,2))*Z;
+	//destCenter=cv::Point(X,Y);
 
-	//Set Values
-	t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
-	t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
+	////Set Values
+	//t.at<double>(0,2)+=sourceCenter.x-destCenter.x;
+	//t.at<double>(1,2)+=sourceCenter.y-destCenter.y;
 
-	cv::Mat destination;
+	/*cv::Mat destination;
 	double distance=sqrt((double)(image.rows*image.rows)+(image.cols*image.cols));
 	cv::Mat padded(image.rows+2*distance,image.cols+2*distance,CV_8U);
-	cv::Mat imageROI=padded(cv::Rect(distance,distance,image.cols,image.rows));
+	cv::Mat imageROI=padded(cv::Rect(distance,distance,image.cols,image.rows));*/
 	//image.copyTo(imageROI);
 	//displayImage("ROI",padded);
 	//cv::imwrite("ROI.bmp",padded);
-	cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
+	/*cv::warpPerspective(image,destination,t,padded.size(),CV_WARP_FILL_OUTLIERS);
 	image.copyTo(imageROI);
 	cv::imwrite("transformed.bmp",destination);
-	displayImage("transform",destination);		
+	displayImage("transform",destination);		*/
+	rotateCenter(image,t);
 }
-
-void rotateCenter(cv::Mat image, cv::Mat homography){
-	//setting the translation to 
-	cv::Mat destination;
-	cv::Point srcCenter,dstCenter;
-	srcCenter=cv::Point(image.cols/2,image.rows/2);
-	//double x=(double)srcCenter.x,y=(double)srcCenter.y;
-	//double Z=1.0/(homography.at<double>(2,0)*x+homography.at<double>(2,1)*y+homography.at<double>(2,2));
-	//now get the warped points
-	//double X=(homography.at<double>(0,0)*x+homography.at<double>(0,1)*y+homography.at<double>(0,2))*Z;
-	//double Y=(homography.at<double>(1,0)*x+homography.at<double>(1,1)*y+homography.at<double>(1,2))*Z;
-	//dstCenter=cv::Point(X,Y);
-	Warp warp;
-	warp.GetWarpPoint(homography,srcCenter,dstCenter);
-	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+25;
-	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+25;
-
-	//Getting new image size
-	cv::Mat corners(3,4,CV_64F),dstCorners;
-	//top left
-	corners.at<double>(0,0)=0;corners.at<double>(1,0)=0;corners.at<double>(2,0)=1;
-	corners.at<double>(0,1)=image.cols;corners.at<double>(1,1)=0;corners.at<double>(2,1)=1;
-	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
-	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
-	
-	warp.GetWarpPoints(homography,corners,dstCorners);
-	
-	double minX,minY,maxX,maxY;
-	//Getting the size of the warped image
-	for(int i=0;i<dstCorners.rows-1;i++){
-		double* row=dstCorners.ptr<double>(i);
-		cv::Mat tmp(1,dstCorners.cols,CV_64F);
-		for(int j=0;j<dstCorners.cols;j++){
-			tmp.at<double>(0,j)=*row++;
-		}
-		cv::minMaxLoc(tmp,&minX,maxX);
-
-	}
-
-	cv::warpPerspective(image,destination,homography,cv::Size(image.cols+50,image.rows+50));
-	displayImage("warped",destination);
-}
-
 void displayImage(char* title, cv:: Mat& image){
 	cv::Mat tmpImage;	
 	cv::resize(image,tmpImage,image.size());
