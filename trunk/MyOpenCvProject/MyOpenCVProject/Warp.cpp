@@ -67,7 +67,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
 	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
 	
-	this->GetWarpPoints(homography,corners,dstCorners);
+	this->GetWarpPoints(corners,dstCorners,homography);
 
 	double minX,minY,maxX,maxY;
 	//Getting the size of the warped image
