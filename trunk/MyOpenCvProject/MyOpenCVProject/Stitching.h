@@ -34,5 +34,13 @@ public:
 	//destructor
 	~Stitching();
 	//it performs the main task of stitching
-	void Stitch();
+	void Stitch();	
+};
+
+//Defines the boundry point
+//@Value is the co-ordinate value
+//@Index is image index
+struct Boundry{
+	int Value;
+	int Index;
 };
