@@ -46,7 +46,7 @@ public:
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are
 	//copied to the resultant image.
-	void RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography);
+	void RotateImage(cv::Mat image,cv::Mat* outputImage,cv::Mat homography);
 
 	/***
 	* Tests the transformation of the image with the supplied parameters

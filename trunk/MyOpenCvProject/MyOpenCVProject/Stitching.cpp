@@ -10,9 +10,6 @@ Stitching::Stitching(cv::Mat floatingImage,
 }
 
 Stitching::~Stitching(){
-	this->floatingImage.deallocate();
-	this->baseImage.deallocate();
-	this->homography.deallocate();
 }
 void Stitching::Stitch(){
 	//1.Get the new transformed corners and rotated image
@@ -29,7 +26,9 @@ void Stitching::Stitch(){
 	/*for(int i=0;i<4;i++){
 		printf("\n1st  point %d x=%d y=%d",i,floatingCorners[i].x,floatingCorners[i].y);
 	}*/
-	warp.RotateImage(floatingImage,this->rotatedImage,homography);
+	warp.RotateImage(floatingImage,&this->rotatedImage,homography);
+	cv::imshow("RotatedImage",this->rotatedImage);
+	cv::waitKey(0);
 
 	/*
 	tic=cv::getTickCount();
