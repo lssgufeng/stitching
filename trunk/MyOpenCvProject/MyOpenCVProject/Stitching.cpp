@@ -22,10 +22,10 @@ void Stitching::Stitch(){
 	baseCorners[2]=cv::Point(this->baseImage.cols,this->baseImage.rows);
 	baseCorners[3]=cv::Point(0,this->baseImage.rows);
 	Warp warp;
-	warp.TransformCorners(baseCorners,floatingCorners,&this->homography);
-
+	warp.GetCustomHomography(34,10,20,this->homography);
+	warp.TransformCorners(baseCorners,floatingCorners,homography);
 	for(int i=0;i<4;i++){
-		printf("%f",floatingCorners[i]);
+		printf("Point %d X=%f Y=%f",i,floatingCorners[i].x,floatingCorners[i].y);
 	}
 
 	//2.Calculate the size of the combined image

@@ -39,8 +39,9 @@ public:
 	//@corners[] arrays of corners
 	//@outputPoints the transformed corners
 	//@homography everyybody understands
-	void Warp::TransformCorners(const cv::Point corners[],
-	cv::Point outputPoints[],const cv::Mat* homography);
+	void Warp::TransformCorners(const cv::Point* corners,
+	cv::Point* outputCorners,
+	const cv::Mat homography);
 
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are
@@ -59,4 +60,11 @@ public:
 		double angle,
 		double xTrans, 
 		double yTrans);
+	//Gets the homography defined by specified angle 
+	//and translation(x-, and y-directions)
+	//Note: angle is always degrees, i cant understand radians :)
+	void GetCustomHomography(double angle, 
+		double xTrans, 
+		double yTrans,
+		cv::Mat homography);
 };
