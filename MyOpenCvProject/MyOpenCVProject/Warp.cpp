@@ -58,7 +58,6 @@ void Warp::TransformCorners(const cv::Point* corners,
 	const cv::Mat homography){
 		for(int i=0;i<4;i++){
 			TransformPoint(*(corners+i),outputCorners[i],&homography);
-			printf("\n1st method::x=%f y=%f",outputCorners[i].x,outputCorners[i].y);
 		}	
 }
 
