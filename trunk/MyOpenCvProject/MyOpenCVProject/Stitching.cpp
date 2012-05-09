@@ -40,7 +40,6 @@ void Stitching::Stitch(){
 
 	//2.Calculate the size of the combined image
 	//get minimum x, maximum x, minimum y, maximum y	
-	double tic=cv::getTickCount();
 	Boundry left,top,right,bottom;
 	//Initialisation
 	left.Index=0;right.Index=0;left.Value=right.Value=floatingCorners[0].x;
@@ -88,11 +87,10 @@ void Stitching::Stitch(){
 			}
 		}
 	}
+	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
+		left.Value,top.Value,bottom.Value,right.Value);
 
-	printf("\n1Boundary took %f ticks",(cv::getTickCount()-tic));
 
-	tic=cv::getTickCount();
-	printf("\ntick1=%f",tic);
 	//next method to calculate
 	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
 		image1Right=floatingCorners[0].x, image1Bottom=image1Top=floatingCorners[0].y;
@@ -111,8 +109,36 @@ void Stitching::Stitch(){
 			image1Bottom=floatingCorners[i].y;
 		}
 	}
-	printf("\ntick2=%f",cv::getTickCount());
-	printf("\n2Boundary took %f ticks",(cv::getTickCount()-tic));
+
+	if(image1Left<image2Left){
+		left.Index=0;
+		left.Value=image1Left;
+	}else{
+		left.Index=1;
+		left.Value=image2Left;
+	}
+	if(image1Top<image2Top){
+		top.Index=0;
+		top.Value=image1Top;
+	}else{
+		top.Index=1;
+		top.Value=image2Top;
+	}
+	if(image1Right>image2Right){
+		right.Index=0;
+		right.Value=image1Right;
+	}else{
+		right.Index=1;
+		right.Value=image2Right;
+	}
+	if(image1Bottom>image2Bottom){
+		bottom.Index=0;
+		bottom.Value=image1Bottom;
+	}else{
+		bottom.Index=1;
+		bottom.Value=image2Bottom;
+	}
+
 
 	
 	
