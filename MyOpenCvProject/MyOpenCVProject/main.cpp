@@ -200,9 +200,7 @@ int main(void)
 	//cv::waitKey(0);
 	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
 
-	//*********
-		
-	
+	//*********	
 
 	//We have homography matrix, now the final task 
 	//is to transform image1 on image 2 and stitch together
@@ -217,13 +215,13 @@ int main(void)
 	displayImage("warp",destination);
 	cv::imwrite("o_Warp.bmp",destination);*/
 
-	cv::Mat output;	
+	/*cv::Mat output;	
 	Warp warp;
 	
-	warp.RotateImage(image1,output,homography);
+	warp.RotateImage(image1,output,homography);*/
 
 	//Stitching Process starts
-	Stitching stitching(output,image2,homography);
+	Stitching stitching(image1,image2,homography);
 	stitching.Stitch();
 	std::getchar();	
 }
