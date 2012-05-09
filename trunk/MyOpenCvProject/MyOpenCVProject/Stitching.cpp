@@ -89,9 +89,10 @@ void Stitching::Stitch(){
 		}
 	}
 
-	printf("Boundary took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
+	printf("\n1Boundary took %f ticks",(cv::getTickCount()-tic));
 
 	tic=cv::getTickCount();
+	printf("\ntick1=%f",tic);
 	//next method to calculate
 	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
 		image1Right=floatingCorners[0].x, image1Bottom=image1Top=floatingCorners[0].y;
@@ -110,7 +111,8 @@ void Stitching::Stitch(){
 			image1Bottom=floatingCorners[i].y;
 		}
 	}
-	printf("Boundary took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
+	printf("\ntick2=%f",cv::getTickCount());
+	printf("\n2Boundary took %f ticks",(cv::getTickCount()-tic));
 
 	
 	
