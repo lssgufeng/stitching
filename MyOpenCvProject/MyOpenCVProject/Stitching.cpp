@@ -40,6 +40,7 @@ void Stitching::Stitch(){
 
 	//2.Calculate the size of the combined image
 	//get minimum x, maximum x, minimum y, maximum y	
+	double tic=cv::getTickCount();
 	Boundry left,top,right,bottom;
 	//Initialisation
 	left.Index=0;right.Index=0;left.Value=right.Value=floatingCorners[0].x;
@@ -88,7 +89,9 @@ void Stitching::Stitch(){
 		}
 	}
 
+	printf("Boundary took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 
+	tic=cv::getTickCount();
 	//next method to calculate
 	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
 		image1Right=floatingCorners[0].x, image1Bottom=image1Top=floatingCorners[0].y;
@@ -107,6 +110,9 @@ void Stitching::Stitch(){
 			image1Bottom=floatingCorners[i].y;
 		}
 	}
+	printf("Boundary took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
+
+	
 	
 
 	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
