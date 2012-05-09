@@ -26,7 +26,7 @@ void Stitching::Stitch(){
 	/*for(int i=0;i<4;i++){
 		printf("\n1st  point %d x=%d y=%d",i,floatingCorners[i].x,floatingCorners[i].y);
 	}*/
-	warp.RotateImage(floatingImage,&this->rotatedImage,homography);
+	warp.RotateImage(floatingImage,this->rotatedImage,homography);
 	cv::imshow("RotatedImage",this->rotatedImage);
 	cv::waitKey(0);
 
