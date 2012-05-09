@@ -88,6 +88,27 @@ void Stitching::Stitch(){
 		}
 	}
 
+
+	//next method to calculate
+	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
+		image1Right=floatingCorners[0].x, image1Bottom=image1Top=floatingCorners[0].y;
+	int image2Left=0,image2Top=0,image2Right=baseImage.cols,image2Bottom=baseImage.rows;
+	for(int i=0;i<4;i++){
+		if(floatingCorners[i].x<image1Left){
+			image1Left=floatingCorners[i].x;
+		}
+		if(floatingCorners[i].x>image1Right){
+			image1Right=floatingCorners[i].x;
+		}
+		if(floatingCorners[i].y<image1Top){
+			image1Top=floatingCorners[i].y;
+		}
+		if(floatingCorners[i].y>image1Bottom){
+			image1Bottom=floatingCorners[i].y;
+		}
+	}
+	
+
 	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
 		left.Value,top.Value,bottom.Value,right.Value);
 
