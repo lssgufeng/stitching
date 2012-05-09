@@ -20,8 +20,11 @@ private:
 	cv::Mat floatingImage;
 	//Base Image
 	cv::Mat baseImage;
+	//Rotated Image
+	cv::Mat rotatedImage;
 	//Homography
 	cv::Mat homography;	
+
 public: 
 	//Constructor
 	//@floatingImage Floating Image
