@@ -21,6 +21,7 @@ void Warp::GetWarpPoints(cv::Mat& srcPts,
 					}			
 				}
 			}
+			printf("\nGetWarpPoints took %f seconds\n",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
 
@@ -57,7 +58,7 @@ void Warp::TransformCorners(const cv::Point* corners,
 	cv::Point* outputCorners,
 	const cv::Mat homography){
 		for(int i=0;i<4;i++){
-			TransformPoint(*(corners+i),outputCorners[i],&homography);
+			TransformPoint(*(corners+i),*(outputCorners+i),&homography);
 		}	
 }
 
@@ -77,7 +78,9 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
 	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
 	
+	tic=cv::getTickCount();
 	this->GetWarpPoints(corners,dstCorners,homography);
+	printf("GetWarpPoints took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 
 	double minX,minY,maxX,maxY;
 	//Getting the size of the warped image
@@ -103,7 +106,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
 
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
-	Utility::DisplayImage("warped",outputImage);
+	//Utility::DisplayImage("warped",outputImage);
 	cv::imwrite("warped.bmp",outputImage);
 }
 

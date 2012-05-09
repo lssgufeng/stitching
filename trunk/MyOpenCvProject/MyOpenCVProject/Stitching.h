@@ -17,7 +17,7 @@
 class Stitching{
 private:
 	//Floating image
-	cv::Mat floatImage;
+	cv::Mat floatingImage;
 	//Base Image
 	cv::Mat baseImage;
 	//Homography
