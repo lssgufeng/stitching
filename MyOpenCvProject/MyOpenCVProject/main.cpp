@@ -225,6 +225,5 @@ int main(void)
 	//Stitching Process starts
 	Stitching stitching(output,image2,homography);
 	stitching.Stitch();
-	std::getchar();
-	
+	std::getchar();	
 }

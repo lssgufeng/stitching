@@ -1,5 +1,6 @@
 #include "Warp.h"
 #include "Utility.h"
+#define PI 3.141592653589793238462643383279502884197
 
 Warp::Warp(){
 }
@@ -8,18 +9,20 @@ Warp::~Warp(){
 void Warp::GetWarpPoints(cv::Mat& srcPts,
 		cv::Mat& dstPts,
 		cv::Mat& homography){
-		//check feasibility
-		if(homography.cols==srcPts.rows){
-			dstPts=homography*srcPts;
-			for(int i=0;i<dstPts.rows;i++){
-				double* data=dstPts.ptr<double>(i);
-				double* scale=dstPts.ptr<double>(dstPts.rows-1);
-				for(int j=0;j<dstPts.cols;j++){
-                     *data++=*data / *scale++;
+			double tic=cv::getTickCount();
+			//check feasibility
+			if(homography.cols==srcPts.rows){
+				dstPts=homography*srcPts;
+				for(int i=0;i<dstPts.rows;i++){
+					double* data=dstPts.ptr<double>(i);
+					double* scale=dstPts.ptr<double>(dstPts.rows-1);
+					for(int j=0;j<dstPts.cols;j++){
+						*data++=*data / *scale++;
+					}			
 				}
 			}
-		}
 }
+
 
 void Warp::GetWarpPoint(cv::Mat& homography,
 		cv::Point& point,
@@ -51,10 +54,12 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 }
 
 void Warp::TransformCorners(const cv::Point* corners,
-	cv::Point* outputCorners,const cv::Mat* homography){
+	cv::Point* outputCorners,
+	const cv::Mat homography){
 		for(int i=0;i<4;i++){
-			TransformCorners(corners+i,outputCorners+i,homography);
-		}
+			TransformPoint(*(corners+i),outputCorners[i],&homography);
+			printf("\n1st method::x=%f y=%f",outputCorners[i].x,outputCorners[i].y);
+		}	
 }
 
 void Warp::RotateImage(cv::Mat image,cv::Mat outputImage,cv::Mat homography){
@@ -109,7 +114,6 @@ void Warp::TestTransformation(cv::Mat& image,
 	double yTrans){
 	cv::Mat t(3,3,CV_64F);
 	t=0;
-	double PI=3.141592654;
 	angle=angle*PI/180;
 
 	t.at<double>(0,0)=cos(angle);
@@ -127,6 +131,20 @@ void Warp::TestTransformation(cv::Mat& image,
 	
 	cv::Mat destination;	
 	cv::warpPerspective(image,destination,t,image.size());
+}
+
+void Warp::GetCustomHomography(double angle, 
+		double xTrans, 
+		double yTrans,
+		cv::Mat homography){
+			angle*=PI/180;
+			homography.at<double>(0,0)=homography.at<double>(1,1)=cos(angle);
+			homography.at<double>(0,1)=-sin(angle);
+			homography.at<double>(1,0)=sin(angle);
+			homography.at<double>(0,2) = xTrans;    
+			homography.at<double>(1,2) = yTrans;
+			homography.at<double>(2,2) = 1;
+			homography.at<double>(2,0)=homography.at<double>(2,1)=0;	
 }
 
 
