@@ -21,7 +21,7 @@ private:
 	//Base Image
 	cv::Mat baseImage;
 	//Homography
-	cv::Mat homography;
+	cv::Mat homography;	
 public: 
 	//Constructor
 	//@floatingImage Floating Image
@@ -30,6 +30,6 @@ public:
 	Stitching(cv::Mat floatingImage, cv::Mat baseImage, cv::Mat homography);
 	//destructor
 	~Stitching();
-
+	//it performs the main task of stitching
 	void Stitch();
 };

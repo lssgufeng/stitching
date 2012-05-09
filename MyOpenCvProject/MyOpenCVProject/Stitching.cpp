@@ -1,11 +1,12 @@
 #include "Stitching.h"
+#include "Warp.h"
 
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage,
 	cv::Mat homography){
 		this->floatImage=floatImage;
 		this->baseImage=baseImage;
-		this->homography=homography;
+		this->homography=homography;		
 }
 
 Stitching::~Stitching(){
@@ -20,8 +21,12 @@ void Stitching::Stitch(){
 	baseCorners[1]=cv::Point(this->baseImage.cols,0);
 	baseCorners[2]=cv::Point(this->baseImage.cols,this->baseImage.rows);
 	baseCorners[3]=cv::Point(0,this->baseImage.rows);
+	Warp warp;
+	warp.TransformCorners(baseCorners,floatingCorners,&this->homography);
 
-
+	for(int i=0;i<4;i++){
+		printf("%f",floatingCorners[i]);
+	}
 
 	//2.Calculate the size of the combined image
 	//3.Get LEFT ROI

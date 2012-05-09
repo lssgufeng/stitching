@@ -19,6 +19,7 @@
 #include "MyFilter.h"
 #include "Warp.h"
 #include "Utility.h"
+#include "Stitching.h"
 void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans);
 
 int main(void)  
@@ -218,5 +219,12 @@ int main(void)
 
 	cv::Mat output;	
 	Warp warp;
+	
 	warp.RotateImage(image1,output,homography);
+
+	//Stitching Process starts
+	Stitching stitching(output,image2,homography);
+	stitching.Stitch();
+	std::getchar();
+	
 }

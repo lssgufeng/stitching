@@ -12,6 +12,10 @@
 class Warp{
 private:
 public:
+	//Constructor
+	Warp();
+	//Destructor
+	~Warp();
 	//Get the warped points of the given points using the 
 	//homography supplied. This function can be used to transfrom 
 	//from single point to an array of points. e.g. we can get the newly
@@ -36,7 +40,7 @@ public:
 	//@outputPoints the transformed corners
 	//@homography everyybody understands
 	void Warp::TransformCorners(const cv::Point corners[],
-	cv::Point* outputPoints,const cv::Mat* homography);
+	cv::Point outputPoints[],const cv::Mat* homography);
 
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are

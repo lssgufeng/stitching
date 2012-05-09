@@ -1,5 +1,10 @@
 #include "Warp.h"
 #include "Utility.h"
+
+Warp::Warp(){
+}
+Warp::~Warp(){
+}
 void Warp::GetWarpPoints(cv::Mat& srcPts,
 		cv::Mat& dstPts,
 		cv::Mat& homography){
@@ -45,7 +50,7 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 			printf("TransformPoint took %f seconds\n",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
-void Warp::TransformCorners(const cv::Point corners[],
+void Warp::TransformCorners(const cv::Point* corners,
 	cv::Point* outputCorners,const cv::Mat* homography){
 		for(int i=0;i<4;i++){
 			TransformCorners(corners+i,outputCorners+i,homography);
