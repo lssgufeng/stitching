@@ -15,9 +15,9 @@ void Stitching::Stitch(){
 	//1.Get the new transformed corners and rotated image
 	cv::Point baseCorners[4],floatingCorners[4];
 	baseCorners[0]=cv::Point(0,0);
-	baseCorners[1]=cv::Point(this->floatingImage.cols,0);
-	baseCorners[2]=cv::Point(this->floatingImage.cols,this->floatingImage.rows);
-	baseCorners[3]=cv::Point(0,this->floatingImage.rows);
+	baseCorners[1]=cv::Point(this->baseImage.cols,0);
+	baseCorners[2]=cv::Point(this->baseImage.cols,this->baseImage.rows);
+	baseCorners[3]=cv::Point(0,this->baseImage.rows);
 	Warp warp;	
 	//double tic=cv::getTickCount();
 	warp.TransformCorners(baseCorners,floatingCorners,homography);
@@ -42,58 +42,61 @@ void Stitching::Stitch(){
 	//get minimum x, maximum x, minimum y, maximum y	
 	Boundry left,top,right,bottom;
 	//Initialisation
-	left.Index=0;right.Index=0;left.Value=right.Value=floatingCorners[0].x;
-	top.Index=0; bottom.Index=0; top.Value=bottom.Value=floatingCorners[0].y;
-	for(int i=0;i<4;i++){
-		//Get maximum and minimum x values
-		if(floatingCorners[i].x<baseCorners[i].x){
-			if(floatingCorners[i].x<left.Value){
-				left.Index=0;
-				left.Value=floatingCorners[i].x;
-			}
-			if(baseCorners[i].x>right.Value){
-				right.Index=1;
-				right.Value=baseCorners[i].x;
-			}
-		}else{
-			if(baseCorners[i].x<left.Value){
-				left.Index=1;
-				left.Value=baseCorners[i].x;
-			}
-			if(floatingCorners[i].x>right.Value){
-				right.Index=0;
-				right.Value=floatingCorners[i].x;
-			}
-		}
+	//left.Index=0;right.Index=0;left.Value=right.Value=floatingCorners[0].x;
+	//top.Index=0; bottom.Index=0; top.Value=bottom.Value=floatingCorners[0].y;
+	//for(int i=0;i<4;i++){
+	//	//Get maximum and minimum x values
+	//	if(floatingCorners[i].x<baseCorners[i].x){
+	//		if(floatingCorners[i].x<left.Value){
+	//			left.Index=0;
+	//			left.Value=floatingCorners[i].x;
+	//		}
+	//		if(baseCorners[i].x>right.Value){
+	//			right.Index=1;
+	//			right.Value=baseCorners[i].x;
+	//		}
+	//	}else{
+	//		if(baseCorners[i].x<left.Value){
+	//			left.Index=1;
+	//			left.Value=baseCorners[i].x;
+	//		}
+	//		if(floatingCorners[i].x>right.Value){
+	//			right.Index=0;
+	//			right.Value=floatingCorners[i].x;
+	//		}
+	//	}
 
-		//Get maximum and minimum y values
-		if(floatingCorners[i].y<baseCorners[i].y){
-			if(floatingCorners[i].y<top.Value){
-				top.Index=0;
-				top.Value=floatingCorners[i].y;
-			}
-			if(baseCorners[i].y>bottom.Value){
-				bottom.Index=1;
-				bottom.Value=baseCorners[i].y;
-			}
-		}else{
-			if(baseCorners[i].y<top.Value){
-				top.Index=1;
-				top.Value=baseCorners[i].y;
-			}
-			if(floatingCorners[i].y>bottom.Value){
-				bottom.Index=0;
-				bottom.Value=floatingCorners[i].y;
-			}
-		}
-	}
-	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
-		left.Value,top.Value,bottom.Value,right.Value);
+	//	//Get maximum and minimum y values
+	//	if(floatingCorners[i].y<baseCorners[i].y){
+	//		if(floatingCorners[i].y<top.Value){
+	//			top.Index=0;
+	//			top.Value=floatingCorners[i].y;
+	//		}
+	//		if(baseCorners[i].y>bottom.Value){
+	//			bottom.Index=1;
+	//			bottom.Value=baseCorners[i].y;
+	//		}
+	//	}else{
+	//		if(baseCorners[i].y<top.Value){
+	//			top.Index=1;
+	//			top.Value=baseCorners[i].y;
+	//		}
+	//		if(floatingCorners[i].y>bottom.Value){
+	//			bottom.Index=0;
+	//			bottom.Value=floatingCorners[i].y;
+	//		}
+	//	}
+	//}
+	//printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
+	//	left.Value,top.Value,bottom.Value,right.Value);
 
 
 	//next method to calculate
 	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
-		image1Right=floatingCorners[0].x, image1Bottom=image1Top=floatingCorners[0].y;
+		image1Right=floatingCorners[0].x, image1Bottom=floatingCorners[0].y;
+
+	//printf("\nImage 1:Left=%d, Top=%d, Right=%d, Bottom=%d",image1Left,image1Top,image1Right,image1Bottom);
+	
 	int image2Left=0,image2Top=0,image2Right=baseImage.cols,image2Bottom=baseImage.rows;
 	for(int i=0;i<4;i++){
 		if(floatingCorners[i].x<image1Left){
@@ -109,6 +112,9 @@ void Stitching::Stitch(){
 			image1Bottom=floatingCorners[i].y;
 		}
 	}
+
+	//printf("\nImage 1:Left=%d, Top=%d, Right=%d, Bottom=%d",image1Left,image1Top,image1Right,image1Bottom);
+	//printf("\nImage 2:Left=%d, Top=%d, Right=%d, Bottom=%d",image2Left,image2Top,image2Right,image2Bottom);
 
 	if(image1Left<image2Left){
 		left.Index=0;
@@ -138,10 +144,20 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=image2Bottom;
 	}
-	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
-		left.Value,top.Value,bottom.Value,right.Value);
+	/*printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
+		left.Value,top.Value,bottom.Value,right.Value);*/
+
+	//preprocessing for stitching
+	cv::Rect leftFloatRect, leftBaseRect;
+	cv::Rect topFloatRect,topBaseRect;
+	cv::Rect rightFloatRect,rightBaseRect;
+	cv::Rect bottomFloatRect,bottomBaseRect;
+
+	cv::Mat stitchedImage(std::abs(right.Value-left.Value),std::abs(bottom.Value-top.Value),CV_16U);
 
 	//3.Get LEFT ROI
+	
+	
 	//4.Get RIGHT ROI
 	//5.Get TOP ROI
 	//6.Get BOTTOM ROI
