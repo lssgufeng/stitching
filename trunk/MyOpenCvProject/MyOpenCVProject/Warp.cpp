@@ -1,5 +1,6 @@
 #include "Warp.h"
 #include "Utility.h"
+#include <iostream>
 #define PI 3.141592653589793238462643383279502884197
 
 Warp::Warp(){
@@ -81,7 +82,8 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	tic=cv::getTickCount();
 	this->GetWarpPoints(corners,dstCorners,homography);
 	printf("GetWarpPoints took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
-
+	std::cout<<"corners="<<std::endl<<" "<<corners<<std::endl<<std::endl;
+	std::cout<<"corners="<<std::endl<<" "<<dstCorners<<std::endl<<std::endl;
 	double minX,minY,maxX,maxY;
 	//Getting the size of the warped image
 	for(int i=0;i<dstCorners.rows-1;i++){

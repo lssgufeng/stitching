@@ -18,15 +18,30 @@ void Stitching::Stitch(){
 	baseCorners[1]=cv::Point(this->baseImage.cols,0);
 	baseCorners[2]=cv::Point(this->baseImage.cols,this->baseImage.rows);
 	baseCorners[3]=cv::Point(0,this->baseImage.rows);
+
+	floatingCorners[0]=cv::Point(0,0);
+	floatingCorners[1]=cv::Point(this->floatingImage.cols,0);
+	floatingCorners[2]=cv::Point(this->floatingImage.cols,this->floatingImage.rows);
+	floatingCorners[3]=cv::Point(0,this->floatingImage.rows);
+
 	Warp warp;	
 	//double tic=cv::getTickCount();
-	warp.TransformCorners(baseCorners,floatingCorners,homography);
+	warp.TransformCorners(floatingCorners,floatingCorners,homography);
+	
+	printf("Floating Corners Transformation:\n");
+	for(int i=0;i<4;i++){
+		printf("%i point base: x=%d,y=%d floating:x=%d y=%d\n",
+			i,baseCorners[i].x,baseCorners[i].y,
+			floatingCorners[i].x,floatingCorners[i].y);
+	}
+
+	
 	//#### Testing for performance
 	//printf("Time Taken=%f Seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	/*for(int i=0;i<4;i++){
 		printf("\n1st  point %d x=%d y=%d",i,floatingCorners[i].x,floatingCorners[i].y);
 	}*/
-	warp.RotateImage(floatingImage,this->rotatedImage,homography);
+	warp.RotateImage(this->floatingImage,this->rotatedImage,homography);
 	/*
 	tic=cv::getTickCount();
 	for(int i=0;i<4;i++){
@@ -144,20 +159,43 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=image2Bottom;
 	}
-	/*printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
-		left.Value,top.Value,bottom.Value,right.Value);*/
+	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
+		left.Value,top.Value,bottom.Value,right.Value);
+	printf("\nRotated Image width=%d, height=%d",this->rotatedImage.cols,this->rotatedImage.rows);
 
 	//preprocessing for stitching
-	cv::Rect leftFloatRect, leftBaseRect;
-	cv::Rect topFloatRect,topBaseRect;
-	cv::Rect rightFloatRect,rightBaseRect;
-	cv::Rect bottomFloatRect,bottomBaseRect;
+	cv::Rect leftFloatRect, leftStitchRect;
+	cv::Rect topFloatRect,topStitchRect;
+	cv::Rect rightFloatRect,rightStitchRect;
+	cv::Rect bottomFloatRect,bottomStitchRect;
+	cv::Rect baseRect,baseStitchRect;
 
-	cv::Mat stitchedImage(std::abs(right.Value-left.Value),std::abs(bottom.Value-top.Value),CV_16U);
+	cv::Mat stitchedImage(std::abs(bottom.Value-top.Value)+1,std::abs(right.Value-left.Value)+1,CV_8U);
 
 	//3.Get LEFT ROI
-	
-	
+	//Logic: left image area, if it lies in the non-overlapping portion,
+	//is copied and pasted in the stitched image. if left is of image1, then 
+	//we select column range from 0 to absolute left.value. y is always 0 to 
+	//image1Bottom
+	leftFloatRect.x=0;leftFloatRect.y=0;
+	leftFloatRect.width=left.Index==0?std::abs(left.Value):0;	
+	leftFloatRect.height=this->rotatedImage.rows;
+
+	leftStitchRect.x=0;	leftStitchRect.y=0;
+	leftStitchRect.width=left.Index==0?std::abs(left.Value):0;
+	leftStitchRect.height=this->rotatedImage.rows;
+    
+	cv::Mat leftROI=this->rotatedImage(leftFloatRect);
+	cv::Mat stitchedROI=stitchedImage(leftStitchRect);
+	leftROI.copyTo(stitchedImage);
+	cv::imshow("Stitched Image",stitchedROI);
+	cv::waitKey(0);
+	cv::imshow("Rotated Image",this->rotatedImage);
+	cv::waitKey(0);
+
+
+
+
 	//4.Get RIGHT ROI
 	//5.Get TOP ROI
 	//6.Get BOTTOM ROI
