@@ -165,23 +165,62 @@ void Stitching::Stitch(){
 
 	//preprocessing for stitching
 	cv::Rect leftFloatRect, leftStitchRect;
-	cv::Rect topFloatRect,topStitchRect;
+	cv::Rect topFloatRect(0,0,0,0),topStitchRect;
 	cv::Rect rightFloatRect,rightStitchRect;
 	cv::Rect bottomFloatRect,bottomStitchRect;
 	cv::Rect baseRect,baseStitchRect;
 
 	cv::Mat stitchedImage(std::abs(bottom.Value-top.Value)+1,std::abs(right.Value-left.Value)+1,CV_8U);
 
+	//Test of simple method
+	cv::Rect floatRegion,baseRegion;
+	floatRegion.width=this->rotatedImage.cols;
+	floatRegion.height=this->rotatedImage.rows;
+	baseRegion.width=this->baseImage.cols;
+	baseRegion.height=this->baseImage.rows;
+
+	if(left.Index==0){
+		if(top.Index==0){
+			printf("case 1");
+			floatRegion.x=0;floatRegion.y=0;
+			baseRegion.x=std::abs(left.Value);
+			baseRegion.y=std::abs(top.Value);
+		}else{
+			printf("case 2");
+			floatRegion.x=0;floatRegion.y=image1Top;
+			baseRegion.x=std::abs(left.Value);
+			baseRegion.y=0;
+		}
+	}else{
+		if(top.Index==0){
+			printf("case 3");
+			floatRegion.x=image1Left;floatRegion.y=0;
+			baseRegion.x=0;
+			baseRegion.y=std::abs(image1Top);
+		}else{
+			printf("case 4");
+			floatRegion.x=image1Left;floatRegion.y=image1Top;
+			baseRegion.x=0;
+			baseRegion.y=0;			
+		}
+	}
+	this->rotatedImage.copyTo(stitchedImage(floatRegion));
+	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::imwrite("stitched.bmp",stitchedImage);
+	cv::imshow("stitchedImage",stitchedImage);
+	cv::waitKey(0);
+
+
 	//3.Get LEFT ROI
 	//Logic: left image area, if it lies in the non-overlapping portion,
 	//is copied and pasted in the stitched image. if left is of image1, then 
 	//we select column range from 0 to absolute left.value. y is always 0 to 
 	//image1Bottom
-	leftFloatRect.x=0;leftFloatRect.y=0;
+	/*leftFloatRect.x=0;leftFloatRect.y=0;
 	leftFloatRect.width=left.Index==0?std::abs(left.Value):0;	
 	leftFloatRect.height=this->rotatedImage.rows;
 
-	leftStitchRect.x=0;	leftStitchRect.y=0;
+	leftStitchRect.x=0;	leftStitchRect.y=top.Index==0?0:image1Top;
 	leftStitchRect.width=left.Index==0?std::abs(left.Value):0;
 	leftStitchRect.height=this->rotatedImage.rows;
     
@@ -189,16 +228,21 @@ void Stitching::Stitch(){
 	leftROI.copyTo(stitchedImage(leftStitchRect));	
 
 	cv::imshow("stitchedImage",stitchedImage);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 	/*cv::imshow("rotatedImage",this->rotatedImage);
 	cv::waitKey(0);*/
 
 	//4.Get RIGHT ROI
 	//5.Get TOP ROI
-
-
-
+	//The top ROI only exists if top.index=0, 
+	/*if(top.Index==0){
+		topFloatRect.x=std::abs(image1Left);
+		topFloatRect.y=0;
+		topFloatRect.width=this->rotatedImage.cols-std::abs(image1Left)>baseImage.cols?
+			baseImage.cols:this->rotatedImage.cols-std::abs(image1Left);
+		topFloatRect.height=std::abs(top.Value);
+	}*/
 	//6.Get BOTTOM ROI
 	//7.Join ROIS to the base image
 	//8.Get overlapped ROI and blend
