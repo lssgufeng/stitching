@@ -205,7 +205,9 @@ void Stitching::Stitch(){
 		}
 	}
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
-	this->baseImage.copyTo(stitchedImage(baseRegion));
+	//this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::addWeighted(this->baseImage,0.5,stitchedImage(baseRegion),0.5,0,stitchedImage(baseRegion));
+	
 	cv::imwrite("stitched.bmp",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
 	cv::waitKey(0);
