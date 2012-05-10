@@ -186,18 +186,19 @@ void Stitching::Stitch(){
 	leftStitchRect.height=this->rotatedImage.rows;
     
 	cv::Mat leftROI=this->rotatedImage(leftFloatRect);
-	cv::Mat stitchedROI=stitchedImage(leftStitchRect);
-	leftROI.copyTo(stitchedImage);
-	cv::imshow("Stitched Image",stitchedROI);
-	cv::waitKey(0);
-	cv::imshow("Rotated Image",this->rotatedImage);
+	leftROI.copyTo(stitchedImage(leftStitchRect));	
+
+	cv::imshow("stitchedImage",stitchedImage);
 	cv::waitKey(0);
 
-
-
+	/*cv::imshow("rotatedImage",this->rotatedImage);
+	cv::waitKey(0);*/
 
 	//4.Get RIGHT ROI
 	//5.Get TOP ROI
+
+
+
 	//6.Get BOTTOM ROI
 	//7.Join ROIS to the base image
 	//8.Get overlapped ROI and blend
