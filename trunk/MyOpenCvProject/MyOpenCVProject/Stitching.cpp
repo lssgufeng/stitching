@@ -138,11 +138,6 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=image2Bottom;
 	}
-
-
-	
-	
-
 	printf("Combined boundary: left=%d,top=%d,bottom=%d, right=%d",
 		left.Value,top.Value,bottom.Value,right.Value);
 
