@@ -29,11 +29,11 @@ int main(void)
 
     #pragma region "Input Images"
 
-	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);	*/
+	cv::Mat image1=cv::imread("original.png",0);
+	cv::Mat image2=cv::imread("Splitted_2.png",0);	
 	
-	cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_2.bmp",0);
+	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
+	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 	
 
 	/*cv::Mat image1=cv::imread("1.jpg",0);
@@ -55,10 +55,17 @@ int main(void)
 	//cv::imwrite("blended.bmp",blended);
 
 
-	/*Warp warp;
-	for(int i=0;i<361;i+=30){
-		warp.TestTransformation(image1,i,0,0);
-	}*/
+	//Warp warp;
+	//
+	//cv::Mat rotatedImage;
+	//for(int i=0;i<361;i+=10){
+	//	//TestTransformation(image1,i,0,0);
+	//	cv::Mat homography(3,3,CV_64F);
+	//	warp.GetCustomHomography(i,240,234,homography);
+	//	warp.RotateImage(image1,rotatedImage,homography);
+	//	cv::imshow("Rotated image",rotatedImage);
+	//	cv::waitKey(0);
+	//}
 	//testTransformation(image1,10,0,0);
 	
 	/*HarrisDetector detector;

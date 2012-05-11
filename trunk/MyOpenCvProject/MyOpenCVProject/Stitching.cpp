@@ -173,37 +173,64 @@ void Stitching::Stitch(){
 	cv::Mat stitchedImage(std::abs(bottom.Value-top.Value)+1,std::abs(right.Value-left.Value)+1,CV_8U);
 
 	//Test of simple method
-	cv::Rect floatRegion,baseRegion,commonRegion;
+	cv::Rect floatRegion,baseRegion;
+	//common region is the combined region for 
+	//both floating and base images
+	cv::Rect commonFloatRegion,commonBaseRegion,commonStitchRegion;
 	floatRegion.width=this->rotatedImage.cols;
 	floatRegion.height=this->rotatedImage.rows;
 	baseRegion.width=this->baseImage.cols;
 	baseRegion.height=this->baseImage.rows;
+	int commonWidth, commonHeight;
 
 	if(left.Index==0){  
 		if(top.Index==0){
 			printf("case 1");
 			floatRegion.x=0;floatRegion.y=0;
 			baseRegion.x=std::abs(left.Value);
-			baseRegion.y=std::abs(top.Value);
+			baseRegion.y=std::abs(top.Value);	
 
-			commonRegion.x=std::abs(left.Value);
-			commonRegion.y=std::abs(top.Value);
-			commonRegion.width=(rotatedImage.cols-std::abs(left.Value))>baseImage.cols?
-				baseImage.cols:(rotatedImage.cols-std::abs(left.Value));
-			commonRegion.height=(rotatedImage.rows-std::abs(top.Value))>baseImage.rows?
-				baseImage.rows:(rotatedImage.rows-std::abs(top.Value));
+			
+			commonWidth=cv::min(this->rotatedImage.cols-std::abs(left.Value),this->baseImage.cols);		
+ 			commonHeight=cv::min(this->rotatedImage.rows-std::abs(top.Value),this->baseImage.rows);
+
+			commonFloatRegion.x=std::abs(left.Value);
+			commonFloatRegion.y=std::abs(top.Value);
+			commonFloatRegion.height=commonHeight;
+			commonFloatRegion.width=commonWidth;
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+			commonBaseRegion.height=commonHeight;
+			commonBaseRegion.width=commonWidth;
+
+			commonStitchRegion.x=std::abs(left.Value);
+			commonStitchRegion.y=std::abs(top.Value);
+			commonStitchRegion.height=commonHeight;
+			commonStitchRegion.width=commonWidth;
 		}else{
 			printf("case 2");
 			floatRegion.x=0;floatRegion.y=image1Top;
 			baseRegion.x=std::abs(left.Value);
 			baseRegion.y=0;
 
-			commonRegion.x=std::abs(left.Value);
-			commonRegion.y=image1Top;
-			commonRegion.width=(rotatedImage.cols-std::abs(left.Value))>baseImage.cols?
-				baseImage.cols:(rotatedImage.cols-std::abs(left.Value));
-			commonRegion.height=(rotatedImage.rows-image1Top)>baseImage.rows?
-				baseImage.rows:(rotatedImage.rows-image1Top);
+			commonWidth=cv::min(this->rotatedImage.cols-std::abs(left.Value),this->baseImage.cols);
+			commonHeight=cv::min(this->rotatedImage.rows-image1Top,this->baseImage.rows-image1Top);
+
+			commonFloatRegion.x=std::abs(left.Value);
+			commonFloatRegion.y=image1Top;
+			commonFloatRegion.width=commonWidth;
+			commonFloatRegion.height=commonHeight;
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=image1Top;
+			commonBaseRegion.width=commonWidth;
+			commonBaseRegion.height=commonHeight;
+
+			commonStitchRegion.x=std::abs(left.Value);
+			commonStitchRegion.y=image1Top;
+			commonStitchRegion.width=commonWidth;
+			commonStitchRegion.height=commonHeight;
 		}
 	}else{
 		if(top.Index==0){
@@ -212,29 +239,37 @@ void Stitching::Stitch(){
 			baseRegion.x=0;
 			baseRegion.y=std::abs(image1Top);
 
-			commonRegion.x=std::abs(left.Value);
-			commonRegion.y=image1Top;
-			commonRegion.width=(rotatedImage.cols-std::abs(left.Value))>baseImage.cols?
-				baseImage.cols:(rotatedImage.cols-std::abs(left.Value));
-			commonRegion.height=(rotatedImage.rows-image1Top)>baseImage.rows?
-				baseImage.rows:(rotatedImage.rows-image1Top);
+			commonWidth=cv::min(this->baseImage.cols-image1Left,this->rotatedImage.cols);
+			commonHeight=cv::min(this->rotatedImage.rows-std::abs(top.Value),this->baseImage.rows);
 
+			commonFloatRegion.x=0;
+			commonFloatRegion.y=std::abs(top.Value);
+			commonFloatRegion.width=commonWidth;
+			commonFloatRegion.height=commonHeight;
+
+			commonBaseRegion.x=image1Left;
+			commonBaseRegion.y=0;
+			commonBaseRegion.width=commonWidth;
+			commonBaseRegion.height=commonHeight;
+
+
+			commonStitchRegion.x=image1Left;
+			commonStitchRegion.y=std::abs(top.Value);
+			commonStitchRegion.width=commonWidth;
+			commonStitchRegion.height=commonHeight;
 		}else{
 			printf("case 4");
 			floatRegion.x=image1Left;floatRegion.y=image1Top;
 			baseRegion.x=0;
 			baseRegion.y=0;			
 
-			commonRegion.x=std::abs(left.Value);
-			commonRegion.y=image1Top;
-			commonRegion.width=(rotatedImage.cols-std::abs(left.Value))>baseImage.cols?
-				baseImage.cols:(rotatedImage.cols-std::abs(left.Value));
-			commonRegion.height=(rotatedImage.rows-image1Top)>baseImage.rows?
-				baseImage.rows:(rotatedImage.rows-image1Top);
+			commonStitchRegion.x=std::abs(left.Value);
+			commonStitchRegion.y=image1Top;
 		}
 	}
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::addWeighted(this->floatingImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
 	
 	cv::imwrite("stitched.bmp",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
