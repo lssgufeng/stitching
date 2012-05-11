@@ -64,6 +64,7 @@ void Warp::TransformCorners(const cv::Point* corners,
 }
 
 void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
+	std::cout<<std::endl<<"homography="<<std::endl<<homography<<std::endl;
 	double tic=cv::getTickCount();
 	//setting the translation to 
 	cv::Point srcCenter,dstCenter;
@@ -104,11 +105,14 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	int shiftY=(newHeight-image.rows)/2;  
 	homography.at<double>(0,2)+=shiftX;
 	homography.at<double>(1,2)+=shiftY;
+	homography.at<double>(2,0)=0;
+	homography.at<double>(2,1)=0;
 
 
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	//Utility::DisplayImage("warped",outputImage);
+	cv::imwrite("original.bmp",image);
 	cv::imwrite("warped.bmp",outputImage);
 }
 
@@ -135,6 +139,8 @@ void Warp::TestTransformation(cv::Mat& image,
 	
 	cv::Mat destination;	
 	cv::warpPerspective(image,destination,t,image.size());
+	cv::imshow("Transform Result",destination);
+	cv::waitKey(0);
 }
 
 void Warp::GetCustomHomography(double angle, 
