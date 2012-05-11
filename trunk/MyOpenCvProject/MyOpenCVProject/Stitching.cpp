@@ -263,7 +263,17 @@ void Stitching::Stitch(){
 			baseRegion.x=0;
 			baseRegion.y=0;			
 
-			commonStitchRegion.x=std::abs(left.Value);
+			commonWidth=cv::min(this->baseImage.cols-image1Left,this->rotatedImage.cols);
+			commonHeight=cv::min(this->baseImage.rows-image1Top,this->rotatedImage.rows);
+
+			commonFloatRegion.x=image1Left;
+			commonFloatRegion.y=image1Top;
+			
+			
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchRegion.x=image1Left;
 			commonStitchRegion.y=image1Top;
 		}
 	}
