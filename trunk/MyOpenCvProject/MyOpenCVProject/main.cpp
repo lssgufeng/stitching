@@ -29,8 +29,8 @@ int main(void)
 
     #pragma region "Input Images"
 
-	cv::Mat image1=cv::imread("original.png",0);
-	cv::Mat image2=cv::imread("Splitted_2.png",0);	
+	cv::Mat image2=cv::imread("original_light.png",0);
+	cv::Mat image1=cv::imread("splitted_rotated_2.png",0);	
 	
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
 	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/

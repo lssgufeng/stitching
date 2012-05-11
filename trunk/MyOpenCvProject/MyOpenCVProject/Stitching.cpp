@@ -1,5 +1,6 @@
 #include "Stitching.h"
 #include "Warp.h"
+#include "Utility.h"
 
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage,
@@ -256,7 +257,7 @@ void Stitching::Stitch(){
 			commonStitchRegion.x=image1Left;
 			commonStitchRegion.y=std::abs(top.Value);
 			commonStitchRegion.width=commonWidth;
-			commonStitchRegion.height=commonHeight;
+			commonStitchRegion.height=commonHeight;			
 		}else{
 			printf("case 4");
 			floatRegion.x=image1Left;floatRegion.y=image1Top;
@@ -268,15 +269,29 @@ void Stitching::Stitch(){
 
 			commonFloatRegion.x=image1Left;
 			commonFloatRegion.y=image1Top;
+			commonFloatRegion.width=commonWidth;
+			commonFloatRegion.height=commonHeight;
 			
 			
 			commonBaseRegion.x=0;
 			commonBaseRegion.y=0;
+			commonBaseRegion.width=commonWidth;
+			commonBaseRegion.height=commonHeight;
 
 			commonStitchRegion.x=image1Left;
 			commonStitchRegion.y=image1Top;
+			commonStitchRegion.width=commonWidth;
+			commonStitchRegion.height=commonHeight;
 		}
 	}
+	cv::Mat tempImage;
+	Utility utility;
+	utility.DrawRectangle(commonStitchRegion,stitchedImage,tempImage);
+	cv::imshow("combined Region",tempImage);
+	cv::waitKey(0);
+
+	
+
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
 	cv::addWeighted(this->floatingImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));

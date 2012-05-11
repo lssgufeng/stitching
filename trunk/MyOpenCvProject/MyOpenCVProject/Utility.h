@@ -8,9 +8,9 @@
 * @author Krishna(krishna444@gmail.com	
 * @date 2012-05-08 11:08:45
 ***/
-static class Utility{
-private:
+class Utility{
 public:
-	static void DisplayImage(char* title, cv:: Mat& image);
+	void DisplayImage(char* title, cv:: Mat& image);
+	void DrawRectangle(cv::Rect rect, cv::Mat& image,cv::Mat& outputImage);
 };
 
