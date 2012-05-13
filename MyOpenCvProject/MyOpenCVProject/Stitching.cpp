@@ -43,6 +43,7 @@ void Stitching::Stitch(){
 		printf("\n1st  point %d x=%d y=%d",i,floatingCorners[i].x,floatingCorners[i].y);
 	}*/
 	warp.RotateImage(this->floatingImage,this->rotatedImage,homography);
+	printf("\nrotated Image size: width=%d, height=%d",this->rotatedImage.cols,this->rotatedImage.rows);
 	/*
 	tic=cv::getTickCount();
 	for(int i=0;i<4;i++){
@@ -128,7 +129,8 @@ void Stitching::Stitch(){
 			image1Bottom=floatingCorners[i].y;
 		}
 	}
-
+	image1Right=image1Left+this->rotatedImage.cols;
+	image1Bottom=image1Top+this->rotatedImage.rows;
 	//printf("\nImage 1:Left=%d, Top=%d, Right=%d, Bottom=%d",image1Left,image1Top,image1Right,image1Bottom);
 	//printf("\nImage 2:Left=%d, Top=%d, Right=%d, Bottom=%d",image2Left,image2Top,image2Right,image2Bottom);
 
@@ -267,14 +269,14 @@ void Stitching::Stitch(){
 			commonWidth=cv::min(this->baseImage.cols-image1Left,this->rotatedImage.cols);
 			commonHeight=cv::min(this->baseImage.rows-image1Top,this->rotatedImage.rows);
 
-			commonFloatRegion.x=image1Left;
-			commonFloatRegion.y=image1Top;
+			commonFloatRegion.x=0;
+			commonFloatRegion.y=0;
 			commonFloatRegion.width=commonWidth;
 			commonFloatRegion.height=commonHeight;
 			
 			
-			commonBaseRegion.x=0;
-			commonBaseRegion.y=0;
+			commonBaseRegion.x=image1Left;
+			commonBaseRegion.y=image1Top;
 			commonBaseRegion.width=commonWidth;
 			commonBaseRegion.height=commonHeight;
 
@@ -287,16 +289,20 @@ void Stitching::Stitch(){
 	cv::Mat tempImage;
 	Utility utility;
 	utility.DrawRectangle(commonStitchRegion,stitchedImage,tempImage);
+	utility.DrawRectangle(commonFloatRegion,stitchedImage,tempImage);
+	utility.DrawRectangle(commonBaseRegion,stitchedImage,tempImage);
+	cv::imwrite("o_combined_regions.bmp",tempImage);
 	cv::imshow("combined Region",tempImage);
+
 	cv::waitKey(0);
 
 	
 
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
-	cv::addWeighted(this->floatingImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
+	cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
 	
-	cv::imwrite("stitched.bmp",stitchedImage);
+	cv::imwrite("o_stitched.bmp",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
 	cv::waitKey(0);
 
