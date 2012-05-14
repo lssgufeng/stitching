@@ -10,7 +10,11 @@
 ***/
 class Utility{
 public:
+	//Displays Image 
 	void DisplayImage(char* title, cv:: Mat& image);
-	void DrawRectangle(cv::Rect rect, cv::Mat& image,cv::Mat& outputImage);
+	//Draws Rectangle, the default color is white
+	void DrawRectangle(cv::Rect rect,cv::Mat& outputImage,cv::Scalar color=cv::Scalar(255,255,255));
+	//Fills the rectangle with color
+	void FillRectangle(cv::Rect rect,cv::Mat& outputImage, cv::Scalar color=cv::Scalar(128,128,128));
 };
 

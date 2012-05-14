@@ -113,7 +113,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	//Utility::DisplayImage("warped",outputImage);
 	cv::imwrite("original.bmp",image);
-	cv::imwrite("warped.bmp",outputImage);
+	cv::imwrite("output/o_warped.bmp",outputImage);
 }
 
 void Warp::TestTransformation(cv::Mat& image,

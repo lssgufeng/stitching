@@ -32,15 +32,17 @@ int main(void)
 	/*cv::Mat image2=cv::imread("test6.jpg",0);
 	cv::Mat image1=cv::imread("test7.jpg",0);*/
 
-	cv::Mat image1=cv::imread("splitted_1_bottom.png",0);
-	cv::Mat image2=cv::imread("splitted_1_top.png",0);	
+	/*cv::Mat image1=cv::imread("full.png",0);
+	cv::Mat image2=cv::imread("center.png",0);	*/
 	
 	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
+	cv::Mat image2=cv::imread("knee_2.bmp",0);*/
 	
 
-	/*cv::Mat image1=cv::imread("check1.png",0);
-	cv::Mat image2=cv::imread("check2.png",0);*/
+	/*cv::Mat image2=cv::imread("Splitted_1.png",0);
+	cv::Mat image1=cv::imread("Splitted_rotated_2.png",0);*/
+	cv::Mat image2=cv::imread("Original_light.png",0);
+	cv::Mat image1=cv::imread("Splitted_2.png",0);
 
 	/*cv::Mat image1=cv::imread("mountain.jpg",0);
 	cv::Mat image2=cv::imread("mountain1.jpg",0);*/
@@ -62,13 +64,16 @@ int main(void)
 
 
 	//Warp warp;
-	//
+	////
 	//cv::Mat rotatedImage;
 	//for(int i=0;i<361;i+=10){
-	//	//TestTransformation(image1,i,0,0);
+	////TestTransformation(image1,i,0,0);
 	//	cv::Mat homography(3,3,CV_64F);
-	//	warp.GetCustomHomography(i,240,234,homography);
-	//	warp.RotateImage(image1,rotatedImage,homography);
+	// 	warp.GetCustomHomography(i,240,234,homography);
+	//    warp.RotateImage(image1,rotatedImage,homography);
+	//	sprintf(szBuffer,"output/rotated_%d.png",i);
+	//	
+	//	cv::imwrite(szBuffer,rotatedImage);
 	//	cv::imshow("Rotated image",rotatedImage);
 	//	cv::waitKey(0);
 	//}
@@ -111,12 +116,12 @@ int main(void)
 	////cv::imshow("keypoints1",tmpImage);
 	////cv::waitKey(0);
 	//displayImage("KeyPoints1",tmpImage);
-	cv::imwrite("o_Image1(keyPoints).bmp",tmpImage);
+	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
 
 	cv::drawKeypoints(image2,keyPoints2,tmpImage);
 	//displayImage("keypoints2",tmpImage);
 	////cv::waitKey(0);
-	cv::imwrite("o_Image2(keyPoints).bmp",tmpImage);
+	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
 	//
 	//sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
 	//MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
@@ -157,7 +162,7 @@ int main(void)
 	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
 	//displayImage("Symmetry Matches",tmpImage);
 	////cv::waitKey(0);
-	cv::imwrite("o_SymmetryMatches.bmp",tmpImage);
+	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
 
 	//sprintf(szBuffer,"Selected Matches=%d",
 	//	symmetryMatches.size());
@@ -206,12 +211,12 @@ int main(void)
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	//Utility::DisplayImage("inlier1",tmpImage);
 	//cv::waitKey(0);
-	cv::imwrite("o_Image1(inliers).bmp",tmpImage);
+	cv::imwrite("output/o_Image1(inliers).bmp",tmpImage);
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
 	//Utility::DisplayImage("inlier2",tmpImage);
 	//cv::waitKey(0);
-	cv::imwrite("o_Image2(inliers).bmp",tmpImage);
+	cv::imwrite("output/o_Image2(inliers).bmp",tmpImage);
 
 	//*********	
 

@@ -286,12 +286,17 @@ void Stitching::Stitch(){
 			commonStitchRegion.height=commonHeight;
 		}
 	}
-	cv::Mat tempImage;
+	cv::Mat tempImage=stitchedImage.clone();
 	Utility utility;
-	utility.DrawRectangle(commonStitchRegion,stitchedImage,tempImage);
-	utility.DrawRectangle(commonFloatRegion,stitchedImage,tempImage);
-	utility.DrawRectangle(commonBaseRegion,stitchedImage,tempImage);
-	cv::imwrite("o_combined_regions.bmp",tempImage);
+	//utility.DrawRectangle(commonStitchRegion,tempImage);
+	//utility.DrawRectangle(commonFloatRegion,tempImage);
+	//utility.DrawRectangle(commonBaseRegion,tempImage);
+	utility.FillRectangle(commonStitchRegion,tempImage,cv::Scalar(0.5,0.1,0.1));
+	cv::imwrite("output/o_combined_regions1.bmp",tempImage);
+	utility.FillRectangle(commonBaseRegion,tempImage,cv::Scalar(0,255,0));
+	cv::imwrite("output/o_combined_regions2.bmp",tempImage);
+	utility.FillRectangle(commonFloatRegion,tempImage,cv::Scalar(0,0,255));
+	cv::imwrite("output/o_combined_regions3.bmp",tempImage);
 	cv::imshow("combined Region",tempImage);
 
 	cv::waitKey(0);
@@ -302,7 +307,7 @@ void Stitching::Stitch(){
 	this->baseImage.copyTo(stitchedImage(baseRegion));
 	cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
 	
-	cv::imwrite("o_stitched.bmp",stitchedImage);
+	cv::imwrite("output/o_stitched.png",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
 	cv::waitKey(0);
 
