@@ -39,7 +39,8 @@ private:
 	//@image2 Second image(Base image)
 	//@top top image	
 	//@left left image
-	void blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top);
+	void blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
+		Boundry& left,Boundry& top,Boundry& right,Boundry& bottom);
 	//blend two images starting alpha=1 to aplha=0
 	//Note: order is important here.
 	void performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage);

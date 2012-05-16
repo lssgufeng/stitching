@@ -306,7 +306,7 @@ void Stitching::Stitch(){
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
 	//cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
-	this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),stitchedImage(commonStitchRegion),left,top);
+	this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),stitchedImage(commonStitchRegion),left,top,right,bottom);
 	
 	cv::imwrite("output/o_stitched.png",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
@@ -351,7 +351,8 @@ void Stitching::Stitch(){
 	//9.Copy the nonoverlaped base image content
 }
 
-void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top){
+void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
+	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 	cv::imshow("Image1",image1);
 	cv::waitKey(0);
     
@@ -359,21 +360,28 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry&
 	cv::waitKey(0);
 
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_16U),tmpImageY(image1.rows,image1.cols,CV_16U);
 	//X-direction blending
 	if(left.Index==0){
-		performBlendX(image1,image2,tmpImageX);
+		if(right.Index=0)
+			performBlendX(image1,image1,tmpImageX);
+		else
+			performBlendX(image1,image2,tmpImageX);
 	}else{
-		performBlendX(image2,image1,tmpImageX);
+		if(right.Index==0)
+			performBlendX(image2,image1,tmpImageX);
+		else
+			performBlendX(image2,image2,tmpImageX);
 	}	
 
-	if(top.Index==0){
+	/*if(top.Index==0){
 		performBlendY(image1,image2,tmpImageY);
 	}else{
 		performBlendY(image2,image1,tmpImageY);
-	}
-	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
-	//outputImage=tmpImageX.clone();
+	}*/
+
+	//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+	outputImage=tmpImageX.clone();
 }
 
 
