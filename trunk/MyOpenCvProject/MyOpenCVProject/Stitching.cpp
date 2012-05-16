@@ -360,18 +360,24 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
 	cv::waitKey(0);
 
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_16U),tmpImageY(image1.rows,image1.cols,CV_16U);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
 	//X-direction blending
 	if(left.Index==0){
-		if(right.Index=0)
+		if(right.Index=0){
+			printf("Blend case 1");
 			performBlendX(image1,image1,tmpImageX);
-		else
+		}else{
+			printf("Blend case 2");
 			performBlendX(image1,image2,tmpImageX);
+		}
 	}else{
-		if(right.Index==0)
+		if(right.Index==0){
+			printf("Blend case 3");
 			performBlendX(image2,image1,tmpImageX);
-		else
+		}else{
+			printf("Blend case 4");
 			performBlendX(image2,image2,tmpImageX);
+		}
 	}	
 
 	/*if(top.Index==0){
@@ -386,25 +392,32 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
 
 
 void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
-	double alpha=1;
+	double alpha=1,beta=0;
 	for(int i=0;i<image1.cols;i++){
-		alpha=1-(double)i/(image1.cols-1);
-		printf("\tX::alpha=%e",alpha);
-		cv::addWeighted(image1.col(i),alpha,image2.col(i),1-alpha,0,outputImage.col(i));
+		beta=(double)i/(image1.cols-1);
+		alpha=1-beta;
+		//printf("\tX::alpha=%.2f beta=%.2f",alpha,beta);
+		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
+		if(i+10>image1.cols){
+			sprintf(this->szBuffer,"output/blend/%d.png",i);
+			cv::imwrite(this->szBuffer,outputImage.col(i));
+		}
 	}
 	cv::imshow("blendX",outputImage);
+	cv::imwrite("output/blend/blendX.png",outputImage);
 	cv::waitKey(0);
 }
 
 
 void Stitching::performBlendY(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
-	double alpha=-1;
+	double alpha=1;
 	for(int i=0;i<image1.rows;i++){
 		alpha=1-(double)i/(image1.rows-1);
-		printf("\tY::alpha=%e",alpha);
+		//printf("\tY::alpha=%e",alpha);
 		cv::addWeighted(image1.row(i),alpha,image2.row(i),1-alpha,0,outputImage.row(i));
 	}
 	cv::imshow("blendY",outputImage);
+	cv::imwrite("output/blend/blendY.png",outputImage);
 	cv::waitKey(0);
 }
 

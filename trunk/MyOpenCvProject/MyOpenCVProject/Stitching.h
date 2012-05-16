@@ -23,6 +23,7 @@ struct Boundry{
 
 class Stitching{
 private:
+	char szBuffer[100];
 	//Floating image
 	cv::Mat floatingImage;
 	//Base Image
