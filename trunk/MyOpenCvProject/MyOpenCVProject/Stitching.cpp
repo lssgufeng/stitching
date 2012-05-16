@@ -305,7 +305,8 @@ void Stitching::Stitch(){
 
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
-	cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
+	//cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
+	this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),stitchedImage(commonStitchRegion),left,top);
 	
 	cv::imwrite("output/o_stitched.png",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
@@ -350,5 +351,34 @@ void Stitching::Stitch(){
 	//9.Copy the nonoverlaped base image content
 }
 
+void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top){
+	float startAlpha,increment;
+	cv::Mat tmpImage1(image1.rows,image1.cols,CV_16U),tmpImage2(image1.rows,image1.cols,CV_16U);
+	//X-direction blending
+	if(left.Index==0){
+		performBlendX(image1,image2,tmpImage1);
+	}else{
+		performBlendX(image2,image1,tmpImage2);
+	}	
+	cv::addWeighted(tmpImage1,0.5,tmpImage2,0.5,0,outputImage);
+}
+
+
+void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
+	double alpha=0;
+	for(int i=0;i<image1.cols;i++){
+		alpha=i/image1.cols;
+		cv::addWeighted(image1.row(i),alpha,image2.row(i),1-alpha,0,outputImage.row(i));
+	}
+}
+
+
+void Stitching::performBlendY(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
+	double alpha=0;
+	for(int i=0;i<image1.rows;i++){
+		alpha=i/image1.rows;
+		cv::addWeighted(image1.col(i),alpha,image2.col(i),1-alpha,0,outputImage.col(i));
+	}
+}
 
 
