@@ -360,7 +360,7 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
 	cv::waitKey(0);
 
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_16U),tmpImageY(image1.rows,image1.cols,CV_16U);
 	//X-direction blending
 	if(left.Index==0){
 		if(right.Index=0){
