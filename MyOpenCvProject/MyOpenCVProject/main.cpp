@@ -41,8 +41,8 @@ int main(void)
 
 	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
 	cv::Mat image2=cv::imread("Splitted_rotated_2.png",0);*/
-	cv::Mat image1=cv::imread("Original_light.png",0);
-	cv::Mat image2=cv::imread("Splitted_rotated_2.png",0);
+	cv::Mat image2=cv::imread("Original_light.png",0);
+	cv::Mat image1=cv::imread("Splitted_rotated_2.png",0);
 
 	/*cv::Mat image1=cv::imread("tl.jpg",0);
 	cv::Mat image2=cv::imread("br.jpg",0);*/
