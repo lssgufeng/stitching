@@ -286,12 +286,12 @@ void Stitching::Stitch(){
 			commonStitchRegion.height=commonHeight;
 		}
 	}
-	cv::Mat tempImage=stitchedImage.clone();
-	Utility utility;
-	//utility.DrawRectangle(commonStitchRegion,tempImage);
+	//cv::Mat tempImage=stitchedImage.clone();
+	//Utility utility;
+	////utility.DrawRectangle(commonStitchRegion,tempImage);
 	//utility.DrawRectangle(commonFloatRegion,tempImage);
 	//utility.DrawRectangle(commonBaseRegion,tempImage);
-	utility.FillRectangle(commonStitchRegion,tempImage,cv::Scalar(0.5,0.1,0.1));
+	/*utility.FillRectangle(commonStitchRegion,tempImage,cv::Scalar(0.5,0.1,0.1));
 	cv::imwrite("output/o_combined_regions1.bmp",tempImage);
 	utility.FillRectangle(commonBaseRegion,tempImage,cv::Scalar(0,255,0));
 	cv::imwrite("output/o_combined_regions2.bmp",tempImage);
@@ -299,7 +299,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_combined_regions3.bmp",tempImage);
 	cv::imshow("combined Region",tempImage);
 
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 	
 
@@ -359,7 +359,7 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry&
 	cv::waitKey(0);
 
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_64F),tmpImageY(image1.rows,image1.cols,CV_64F);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
 	//X-direction blending
 	if(left.Index==0){
 		performBlendX(image1,image2,tmpImageX);
@@ -373,11 +373,12 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry&
 		performBlendY(image2,image1,tmpImageY);
 	}
 	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+	//outputImage=tmpImageX.clone();
 }
 
 
 void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
-	double alpha=-1;
+	double alpha=1;
 	for(int i=0;i<image1.cols;i++){
 		alpha=1-(double)i/(image1.cols-1);
 		printf("\tX::alpha=%e",alpha);
