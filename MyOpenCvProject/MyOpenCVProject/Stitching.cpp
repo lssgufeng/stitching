@@ -352,6 +352,12 @@ void Stitching::Stitch(){
 }
 
 void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top){
+	cv::imshow("Image1",image1);
+	cv::waitKey(0);
+    
+	cv::imshow("Image2",image2);
+	cv::waitKey(0);
+
 	float startAlpha,increment;
 	cv::Mat tmpImageX(image1.rows,image1.cols,CV_64F),tmpImageY(image1.rows,image1.cols,CV_64F);
 	//X-direction blending
@@ -371,9 +377,9 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry&
 
 
 void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
-	double alpha=0;
+	double alpha=-1;
 	for(int i=0;i<image1.cols;i++){
-		alpha=(double)i/(image1.cols-1);
+		alpha=1-(double)i/(image1.cols-1);
 		printf("\tX::alpha=%e",alpha);
 		cv::addWeighted(image1.col(i),alpha,image2.col(i),1-alpha,0,outputImage.col(i));
 	}
@@ -383,9 +389,9 @@ void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage
 
 
 void Stitching::performBlendY(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
-	double alpha=0;
+	double alpha=-1;
 	for(int i=0;i<image1.rows;i++){
-		alpha=(double)i/(image1.rows-1);
+		alpha=1-(double)i/(image1.rows-1);
 		printf("\tY::alpha=%e",alpha);
 		cv::addWeighted(image1.row(i),alpha,image2.row(i),1-alpha,0,outputImage.row(i));
 	}
