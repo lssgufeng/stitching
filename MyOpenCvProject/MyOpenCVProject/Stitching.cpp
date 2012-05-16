@@ -353,7 +353,7 @@ void Stitching::Stitch(){
 
 void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top){
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_16U),tmpImageY(image1.rows,image1.cols,CV_16U);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_64F),tmpImageY(image1.rows,image1.cols,CV_64F);
 	//X-direction blending
 	if(left.Index==0){
 		performBlendX(image1,image2,tmpImageX);
