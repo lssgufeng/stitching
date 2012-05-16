@@ -13,6 +13,13 @@
 ***/
 
 #include "opencv2\core\core.hpp"
+//Defines the boundry point
+//@Value is the co-ordinate value
+//@Index is image index
+struct Boundry{
+	int Value;
+	int Index;
+};
 
 class Stitching{
 private:
@@ -25,7 +32,24 @@ private:
 	//Homography
 	cv::Mat homography;	
 
+
+private:
+	//It blends the two images. Note: the size of the images should be same
+	//@image1 First image(Floating image)
+	//@image2 Second image(Base image)
+	//@top top image	
+	//@left left image
+	void blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,Boundry& left,Boundry& top);
+	//blend two images starting alpha=1 to aplha=0
+	//Note: order is important here.
+	void performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage);
+	void performBlendY(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage);
+
+	
+
 public: 
+	
+
 	//Constructor
 	//@floatingImage Floating Image
 	//@baseImage Base Image, which is fixed.
@@ -34,13 +58,7 @@ public:
 	//destructor
 	~Stitching();
 	//it performs the main task of stitching
-	void Stitch();	
+	void Stitch();
+
 };
 
-//Defines the boundry point
-//@Value is the co-ordinate value
-//@Index is image index
-struct Boundry{
-	int Value;
-	int Index;
-};
