@@ -221,7 +221,7 @@ void Stitching::Stitch(){
 			commonHeight=cv::min(this->rotatedImage.rows-image1Top,this->baseImage.rows-image1Top);
 
 			commonFloatRegion.x=std::abs(left.Value);
-			commonFloatRegion.y=image1Top;
+			commonFloatRegion.y=0;
 			commonFloatRegion.width=commonWidth;
 			commonFloatRegion.height=commonHeight;
 
@@ -308,6 +308,10 @@ void Stitching::Stitch(){
 	cv::imshow("Raw Joined Image", stitchedImage);
 	cv::waitKey(0);
 	//cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
+	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+
+
 	cv::Mat result=this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),left,top,right,bottom);
 	result.copyTo(stitchedImage(commonStitchRegion));
 
@@ -387,13 +391,21 @@ cv::Mat Stitching::blend(const cv::Mat& image1,const cv::Mat& image2,
 		}
 	}	
 
-	/*if(top.Index==0){
-		performBlendY(image1,image2,tmpImageY);
+	if(top.Index==0){
+		if(bottom.Index==0){
+			performBlendY(image1,image2,tmpImageY);
+		}else{
+		}
 	}else{
-		performBlendY(image2,image1,tmpImageY);
-	}*/
+		if(bottom.Index==0){
+			performBlendY(image2,image1,tmpImageY);
+		}else{
+
+		}
+	}
 
 	cv::addWeighted(tmpImageX,0.5,tmpImageX,0.5,0,outputImage);
+	cv::imwrite("output/o_output_blend.png",outputImage);
 	cv::imshow("output Image", outputImage);
 	return outputImage;
 }
