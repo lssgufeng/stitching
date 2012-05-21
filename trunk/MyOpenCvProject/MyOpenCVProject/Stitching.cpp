@@ -305,9 +305,12 @@ void Stitching::Stitch(){
 
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::imshow("Raw Joined Image", stitchedImage);
+	cv::waitKey(0);
 	//cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
-	this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),stitchedImage(commonStitchRegion),left,top,right,bottom);
-	
+	cv::Mat result=this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),left,top,right,bottom);
+	result.copyTo(stitchedImage(commonStitchRegion));
+
 	cv::imwrite("output/o_stitched.png",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
 	cv::waitKey(0);
@@ -351,7 +354,7 @@ void Stitching::Stitch(){
 	//9.Copy the nonoverlaped base image content
 }
 
-void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
+cv::Mat Stitching::blend(const cv::Mat& image1,const cv::Mat& image2,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 	cv::imshow("Image1",image1);
 	cv::waitKey(0);
@@ -359,8 +362,12 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
 	cv::imshow("Image2",image2);
 	cv::waitKey(0);
 
+	cv::Mat outputImage;
+	//outputImage=cv::Mat(image1.rows,image1.cols,CV_8U);
+	
+	cv::waitKey(0);
 	float startAlpha,increment;
-	cv::Mat tmpImageX(image1.rows,image1.cols,CV_16U),tmpImageY(image1.rows,image1.cols,CV_16U);
+	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
 	//X-direction blending
 	if(left.Index==0){
 		if(right.Index=0){
@@ -386,19 +393,28 @@ void Stitching::blend(cv::Mat image1,cv::Mat image2,cv::Mat outputImage,
 		performBlendY(image2,image1,tmpImageY);
 	}*/
 
-	//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
-	outputImage=tmpImageX.clone();
+	cv::addWeighted(tmpImageX,0.5,tmpImageX,0.5,0,outputImage);
+	cv::imshow("output Image", outputImage);
+	return outputImage;
 }
 
 
-void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
+void Stitching::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
+	cv::imshow("BlendX:image1",image1);
+	cv::waitKey(0);
+
+	cv::imshow("BlendX:image2",image2);
+	cv::waitKey(0);
+
+	//cv::addWeighted(image1,0.5,image2,0.5,0,outputImage);
+
 	double alpha=1,beta=0;
 	for(int i=0;i<image1.cols;i++){
 		beta=(double)i/(image1.cols-1);
 		alpha=1-beta;
 		//printf("\tX::alpha=%.2f beta=%.2f",alpha,beta);
 		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
-		if(i+10>image1.cols){
+		if(i+100>image1.cols){
 			sprintf(this->szBuffer,"output/blend/%d.png",i);
 			cv::imwrite(this->szBuffer,outputImage.col(i));
 		}
@@ -409,7 +425,7 @@ void Stitching::performBlendX(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage
 }
 
 
-void Stitching::performBlendY(cv::Mat image1,cv::Mat image2,cv::Mat& outputImage){
+void Stitching::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
 	double alpha=1;
 	for(int i=0;i<image1.rows;i++){
 		alpha=1-(double)i/(image1.rows-1);
