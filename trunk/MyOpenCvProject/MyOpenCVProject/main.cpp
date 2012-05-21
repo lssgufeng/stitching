@@ -39,8 +39,8 @@ int main(void)
 	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 	
 
-	cv::Mat image2=cv::imread("Splitted_1_90.png",0);
-	cv::Mat image1=cv::imread("Splitted_2.png",0);
+	/*cv::Mat image2=cv::imread("Splitted_1_90.png",0);
+	cv::Mat image1=cv::imread("Splitted_2.png",0);*/
 	/*cv::Mat image2=cv::imread("light_left.png",0);
 	cv::Mat image1=cv::imread("Splitted_2.png",0);*/
 
@@ -49,8 +49,8 @@ int main(void)
 
 	/*cv::Mat image1=cv::imread("mountain.jpg",0);
 	cv::Mat image2=cv::imread("mountain1.jpg",0);*/
-	/*cv::Mat image1=cv::imread("1.jpg",0);
-	cv::Mat image2=cv::imread("2.jpg",0);*/
+	cv::Mat image1=cv::imread("images/vc_b_t.png",0);
+	cv::Mat image2=cv::imread("images/rot.png",0);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");

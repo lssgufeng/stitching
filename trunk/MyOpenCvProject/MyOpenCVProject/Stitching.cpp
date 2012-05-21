@@ -428,11 +428,13 @@ void Stitching::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Ma
 		alpha=1-beta;
 		//printf("\tX::alpha=%.2f beta=%.2f",alpha,beta);
 		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
+		//cv::max(image1.col(i),image2.col(i),outputImage.col(i));
 	/*	if(i+100>image1.cols){
 			sprintf(this->szBuffer,"output/blend/%d.png",i);
 			cv::imwrite(this->szBuffer,outputImage.col(i));
 		}*/
 	}
+	outputImage=cv::max(image1,image2);
 	cv::imshow("blendX",outputImage);
 	cv::imwrite("output/blend/blendX.png",outputImage);
 	cv::waitKey(0);
