@@ -1,6 +1,7 @@
 #include "Stitching.h"
 #include "Warp.h"
-#include "Utility.h"
+#include "LaplacianBlending.cpp"
+
 
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage,
@@ -358,7 +359,7 @@ void Stitching::Stitch(){
 	//9.Copy the nonoverlaped base image content
 }
 
-cv::Mat Stitching::blend(const cv::Mat& image1,const cv::Mat& image2,
+cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 	cv::imshow("Image1",image1);
 	cv::waitKey(0);
@@ -372,6 +373,15 @@ cv::Mat Stitching::blend(const cv::Mat& image1,const cv::Mat& image2,
 	cv::waitKey(0);
 	float startAlpha,increment;
 	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
+	this->levelPixels(image1,image2);
+	
+
+	cv::imshow("Level:Image1",image1);
+	cv::waitKey(0);
+
+	cv::imshow("Level:Image2",image2);
+	cv::waitKey(0);
+
 	//X-direction blending
 	if(left.Index==0){
 		if(right.Index=0){
@@ -429,7 +439,7 @@ void Stitching::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Ma
 		//printf("\tX::alpha=%.2f beta=%.2f",alpha,beta);
 		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
 		//cv::max(image1.col(i),image2.col(i),outputImage.col(i));
-	/*	if(i+100>image1.cols){
+	    /* if(i+100>image1.cols){
 			sprintf(this->szBuffer,"output/blend/%d.png",i);
 			cv::imwrite(this->szBuffer,outputImage.col(i));
 		}*/
@@ -447,7 +457,7 @@ void Stitching::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Ma
 
 	cv::imshow("BlendY:image2",image2);
 	cv::waitKey(0);
-
+	cv::addWeighted(image1,0,image2,9,0,outputImage);
 
 	double alpha=1,beta=0;
 	for(int i=0;i<image1.rows;i++){
@@ -460,5 +470,55 @@ void Stitching::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Ma
 	cv::imwrite("output/blend/blendY.png",outputImage);
 	cv::waitKey(0);
 }
+
+void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<uchar>(i,j)==0){
+				image1.at<uchar>(i,j)=image2.at<uchar>(i,j);
+			}
+			if(image2.at<uchar>(i,j)==0){
+				image2.at<uchar>(i,j)=image1.at<uchar>(i,j);
+			}
+		}
+	}
+
+	//sample test 
+	cv::Mat l8u = image1.clone();
+	cv::Mat r8u = image2.clone();
+    cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
+    cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
+ 
+    cv::Mat_<float> m(l.rows,l.cols,0.0);
+    m(cv::Range::all(),cv::Range(0,m.cols/2)) = 1.0;
+ 
+   cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
+   cv::imshow("blended",blend);
+   cv::waitKey(0);
+
+
+	/*for(int i=0;i<image1.rows;i++){
+		uchar* data1=image1.ptr<uchar>(i);
+		uchar* data2=image2.ptr<uchar>(i);
+		for(int j=0;j<image2.cols;j++){
+			if(data1[j]==0){				
+				data1[j]==data2[j];
+				printf("row[%d][%d] data1 Value=%d set!\t",i,j,data2[j]);
+			}
+			if(data2[j]==0){
+				printf("row[%d][%d] data2 Value=%d set!\t",i,j,data1[j]);
+				data2[j]=data1[j];
+			}
+		}
+	}*/
+
+	
+
+}
+
+
+
+
+
 
 

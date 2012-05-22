@@ -28,7 +28,7 @@ int main(void)
 	char szBuffer[100];
 
     #pragma region "Input Images"
-
+	
 	/*cv::Mat image2=cv::imread("test6.jpg",0);
 	cv::Mat image1=cv::imread("test7.jpg",0);*/
 
