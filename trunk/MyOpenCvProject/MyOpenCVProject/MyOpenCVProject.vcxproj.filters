@@ -39,6 +39,9 @@
     <ClCompile Include="Stitching.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LaplacianBlending.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HarrisDetector.h">

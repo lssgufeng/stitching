@@ -89,6 +89,7 @@
   <ItemGroup>
     <ClCompile Include="Corners.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
+    <ClCompile Include="LaplacianBlending.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
     <ClCompile Include="Stitching.cpp" />
