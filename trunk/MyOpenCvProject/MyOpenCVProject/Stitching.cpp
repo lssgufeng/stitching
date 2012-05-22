@@ -1,6 +1,5 @@
 #include "Stitching.h"
 #include "Warp.h"
-#include "LaplacianBlending.cpp"
 
 
 Stitching::Stitching(cv::Mat floatingImage,
@@ -402,7 +401,7 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	}	
 
 	//Y-direction blending
-	/*if(top.Index==0){
+	if(top.Index==0){
 		if(bottom.Index==0){
 			performBlendY(image1,image1,tmpImageY);
 		}else{
@@ -414,9 +413,9 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 		}else{
 			performBlendY(image2,image2,tmpImageY);
 		}
-	}*/
+	}
 
-	cv::addWeighted(tmpImageX,0.5,tmpImageX,0.5,0,outputImage);
+	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 	cv::imwrite("output/o_output_blend.png",outputImage);
 	cv::imshow("output Image", outputImage);
 	return outputImage;
@@ -444,7 +443,7 @@ void Stitching::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Ma
 			cv::imwrite(this->szBuffer,outputImage.col(i));
 		}*/
 	}
-	outputImage=cv::max(image1,image2);
+	//outputImage=cv::max(image1,image2);
 	cv::imshow("blendX",outputImage);
 	cv::imwrite("output/blend/blendX.png",outputImage);
 	cv::waitKey(0);
@@ -484,7 +483,7 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 	}
 
 	//sample test 
-	cv::Mat l8u = image1.clone();
+	/*cv::Mat l8u = image1.clone();
 	cv::Mat r8u = image2.clone();
     cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
     cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
@@ -495,7 +494,7 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
    cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
    cv::imshow("blended",blend);
    cv::waitKey(0);
-
+*/
 
 	/*for(int i=0;i<image1.rows;i++){
 		uchar* data1=image1.ptr<uchar>(i);
@@ -516,6 +515,11 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 
 }
 
+
+//cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
+//    LaplacianBlending lb(l,r,m,4);
+//    return lb.blend();
+//}
 
 
 
