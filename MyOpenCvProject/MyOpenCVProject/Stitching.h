@@ -11,7 +11,6 @@
 * @author Krishna Paudel(krishna444@gmail.com)
 * @date 2012-05-08 13:58:34
 ***/
-#pragma once
 #include "opencv2\core\core.hpp"
 
 //Defines the boundry point
@@ -49,6 +48,8 @@ private:
 	void performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage);
 	//Levels the corresponding pixels of two images
 	void levelPixels(cv::Mat& image1, cv::Mat& image2);
+
+	cv::Mat_<cv::Vec3f> LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m);
 	
 
 public: 
