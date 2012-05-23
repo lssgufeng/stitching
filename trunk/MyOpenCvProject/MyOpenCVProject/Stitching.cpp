@@ -396,7 +396,7 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	}	
 
 	//Y-direction blending
-	/*if(top.Index==0){
+	if(top.Index==0){
 		if(bottom.Index==0){
 			performBlendY(image1,image1,tmpImageY);
 		}else{
@@ -408,9 +408,9 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 		}else{
 			performBlendY(image2,image2,tmpImageY);
 		}
-	}*/
+	}
 
-	cv::addWeighted(tmpImageX,0.5,tmpImageX,0.5,0,outputImage);
+	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 	cv::imwrite("output/o_output_blend.png",outputImage);
 	cv::imshow("output Image", outputImage);
 	return outputImage;
@@ -475,12 +475,7 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 				image2.at<uchar>(i,j)=image1.at<uchar>(i,j);
 			}
 		}
-
-		cv::imshow("After Leveling::Image1",image1);
-		cv::waitKey(0);
-
 	}
-
 	//sample test 
 	/*cv::Mat l8u = image1.clone();
 	cv::Mat r8u = image2.clone();
