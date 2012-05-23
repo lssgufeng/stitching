@@ -29,9 +29,9 @@ int main(void)
 
     #pragma region "Input Images"
 	
-	/*cv::Mat image2=cv::imread("test6.jpg",0);
-	cv::Mat image1=cv::imread("test7.jpg",0);*/
-
+	/*cv::Mat image2=cv::imread("images/test3.jpg",0);
+	cv::Mat image1=cv::imread("images/test4.jpg",0);
+*/
 	/*cv::Mat image1=cv::imread("full.png",0);
 	cv::Mat image2=cv::imread("center.png",0);	*/
 	
@@ -56,8 +56,8 @@ int main(void)
 
 	/*cv::Mat image1=cv::imread("mountain.jpg",0);
 	cv::Mat image2=cv::imread("mountain1.jpg",0);*/
-	cv::Mat image2=cv::imread("images/hc.png",0);
-	cv::Mat image1=cv::imread("images/vc_b_t.png",0);
+	cv::Mat image2=cv::imread("images/vc_b_t.png",0);
+	cv::Mat image1=cv::imread("images/rot.png",0);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
