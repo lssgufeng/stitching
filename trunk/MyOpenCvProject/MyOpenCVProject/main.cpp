@@ -29,8 +29,8 @@ int main(void)
 
     #pragma region "Input Images"
 	
-	char* path1="C:/Users/krishna/Google Drive/images/vc_t.png";
-	char* path2="C:/Users/krishna/Google Drive/images/vc.png";
+	char* path1="C:/Users/swadmin/Google Drive/images/vc_t.png";
+	char* path2="C:/Users/swadmin/Google Drive/images/vc.png";
 	
 	
 	printf("path1=%s",path1);printf("path2=%s",path2);
