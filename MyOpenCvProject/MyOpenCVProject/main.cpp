@@ -56,8 +56,8 @@ int main(void)
 
 	/*cv::Mat image1=cv::imread("mountain.jpg",0);
 	cv::Mat image2=cv::imread("mountain1.jpg",0);*/
-	cv::Mat image2=cv::imread("images/br.png",0);
-	cv::Mat image1=cv::imread("images/bl.png",0);
+	/*cv::Mat image2=cv::imread("images/br.png",0);
+	cv::Mat image1=cv::imread("images/bl.png",0);*/
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
