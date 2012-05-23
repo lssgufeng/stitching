@@ -372,10 +372,7 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	cv::waitKey(0);
 	float startAlpha,increment;
 	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
-	//this->levelPixels(image1,image2);
-	cv::max(image1,image2,image1);
-    cv::imshow("OutputImage",image1);
-	cv::waitKey(0);
+	this->levelPixels(image1,image2);
 	
 
 
@@ -399,7 +396,7 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	}	
 
 	//Y-direction blending
-	if(top.Index==0){
+	/*if(top.Index==0){
 		if(bottom.Index==0){
 			performBlendY(image1,image1,tmpImageY);
 		}else{
@@ -411,7 +408,7 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 		}else{
 			performBlendY(image2,image2,tmpImageY);
 		}
-	}
+	}*/
 
 	cv::addWeighted(tmpImageX,0.5,tmpImageX,0.5,0,outputImage);
 	cv::imwrite("output/o_output_blend.png",outputImage);
@@ -482,8 +479,6 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 		cv::imshow("After Leveling::Image1",image1);
 		cv::waitKey(0);
 
-		cv::imshow("After Leveling::Image2", image2);
-		cv::waitKey(0);
 	}
 
 	//sample test 
