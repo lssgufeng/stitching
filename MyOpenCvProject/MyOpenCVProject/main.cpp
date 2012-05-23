@@ -29,35 +29,14 @@ int main(void)
 
     #pragma region "Input Images"
 	
-	/*cv::Mat image2=cv::imread("images/test3.jpg",0);
-	cv::Mat image1=cv::imread("images/test4.jpg",0);
-*/
-	/*cv::Mat image1=cv::imread("full.png",0);
-	cv::Mat image2=cv::imread("center.png",0);	*/
+	char* path1="C:/Users/krishna/Google Drive/images/vc_t.png";
+	char* path2="C:/Users/krishna/Google Drive/images/vc.png";
 	
-	/*cv::Mat image1=cv::imread("knee_1.bmp",0);
-	cv::Mat image2=cv::imread("knee_3_moved_rotated.bmp",0);*/
 	
+	printf("path1=%s",path1);printf("path2=%s",path2);
 
-
-	/*cv::Mat image1=cv::imread("Splitted_1.png",0);
-	cv::Mat image2=cv::imread("Splitted_rotated_2.png",0);*/
-	/*cv::Mat image1=cv::imread("Original_light.png",0);
-	cv::Mat image2=cv::imread("Splitted_1.png",0);*/
-
-	/*cv::Mat image2=cv::imread("Splitted_1_90.png",0);
-	cv::Mat image1=cv::imread("Splitted_2.png",0);*/
-	/*cv::Mat image2=cv::imread("light_left.png",0);
-	cv::Mat image1=cv::imread("Splitted_2.png",0);*/
-
-
-	/*cv::Mat image1=cv::imread("tl.jpg",0);
-	cv::Mat image2=cv::imread("br.jpg",0);*/
-
-	/*cv::Mat image1=cv::imread("mountain.jpg",0);
-	cv::Mat image2=cv::imread("mountain1.jpg",0);*/
-	cv::Mat image2=cv::imread("images/vc_b_t.png",0);
-	cv::Mat image1=cv::imread("images/vc.png",0);
+	cv::Mat image2=cv::imread(path1,0);
+	cv::Mat image1=cv::imread(path2,0);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
