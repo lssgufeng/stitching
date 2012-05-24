@@ -97,3 +97,4 @@ void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 			}
 		}
 	}
+}
