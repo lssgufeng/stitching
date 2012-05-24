@@ -103,6 +103,6 @@ public:
     };
  
     Mat_<Vec3f> blend() {
-        return reconstructImgFromLapPyramid();
+        return reconstructImgFromLapPyramid(); 
     }
 };
