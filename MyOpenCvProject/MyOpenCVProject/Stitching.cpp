@@ -312,7 +312,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
 
 
-	cv::Mat result=this->blend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),left,top,right,bottom);
+	cv::Mat result=this->alphaBlend(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion),left,top,right,bottom);
 	result.copyTo(stitchedImage(commonStitchRegion));
 
 	cv::imwrite("output/o_stitched.png",stitchedImage);
@@ -358,7 +358,54 @@ void Stitching::Stitch(){
 	//9.Copy the nonoverlaped base image content
 }
 
-cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
+void Stitching::GetOverlapOrder(cv::Mat& image1,cv::Mat& image2,
+	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+	cv::Mat& leftImage, cv::Mat& rightImage, cv::Mat& topImage, cv::Mat& bottomImage){
+		
+	//Horizontal ordering
+	if(left.Index==0){
+		if(right.Index=0){
+			leftImage=image1.clone();
+			rightImage=image1.clone();
+		}else{
+			leftImage=image1.clone();
+			rightImage=image2.clone();
+		}
+	}else{
+		if(right.Index==0){
+			leftImage=image2.clone();
+			rightImage=image1.clone();
+		}else{
+			leftImage=image2.clone();
+			rightImage=image2.clone();
+		}
+	}
+
+	
+
+
+	//Vertical order
+	if(top.Index==0){
+		if(bottom.Index==0){
+			topImage=image1.clone();
+			bottomImage=image1.clone();
+		}else{
+			topImage=image1.clone();
+			bottomImage=image2.clone();
+		}
+	}else{
+		if(bottom.Index==0){
+			topImage=image2.clone();
+			bottomImage=image1.clone();
+
+		}else{
+			topImage=image2.clone();
+			bottomImage=image2.clone();
+		}
+	}
+}
+
+cv::Mat Stitching::alphaBlend(cv::Mat& image1,cv::Mat& image2,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 	cv::imshow("Image1",image1);
 	cv::waitKey(0);
@@ -370,60 +417,69 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	cv::imwrite("output/blend/right.png",image2);
 
 	/*image1=cv::imread("output/blend/left.png",0);
-	image2=cv::imread("output/blend/right.png",0);*/
+	image2=cv::imread("output/blend/right.png",0);
+*/
+
+	/*Mat l8u = imread("output/blend/left.png");
+   Mat r8u = imread("output/blend/right.png");
+   if(!l8u.data || !r8u.data){
+	   printf("Image not found");
+	   getchar();
+	   exit(0);
+   }
+   Mat_<Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
+   Mat_<Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
+ 
+   Mat_<float> m(l.rows,l.cols,0.0);
+   m(Range::all(),Range(0,m.cols/2)) = 1.0;
+ 
+   Mat_<Vec3f> blend = LaplacianBlend(l, r, m);
+   imshow("blended",blend);
+   waitKey(0);
+*/
+
+
+
+
+
+
 
 
 	cv::Mat outputImage;
-	//outputImage=cv::Mat(image1.rows,image1.cols,CV_8U);
+	outputImage=cv::Mat(image1.rows,image1.cols,CV_8U);
 	
-	cv::waitKey(0);
 	float startAlpha,increment;
 	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
-
-
-	//this->levelPixels(image1,image2);
-		 
-     
-
-	cv::Mat left_img(image1.rows,image1.cols,CV_8U);
-	cv::Mat right_img(image1.rows,image1.cols,CV_8U);
+	
+	this->levelPixels(image1,image2);
+	
+	//cv::Mat left_img;
+	//cv::Mat right_img;
 	//X-direction blending
 	if(left.Index==0){
 		if(right.Index=0){
 			printf("Blend case 1");
-			//performBlendX(image1,image1,tmpImageX);
-			left_img=image1.clone();right_img=image1.clone();
+			performBlendX(image1,image1,tmpImageX);
 			
 		}else{
 			printf("Blend case 2");
-			//performBlendX(image1,image2,tmpImageX);
-			left_img=image1.clone();right_img=image2.clone();
+			performBlendX(image1,image2,tmpImageX);
 		}
 	}else{
 		if(right.Index==0){
 			printf("Blend case 3");
-			//performBlendX(image2,image1,tmpImageX);
-			left_img=image2.clone();right_img=image1.clone();
+			performBlendX(image2,image1,tmpImageX);
 		}else{
 			printf("Blend case 4");
-			//performBlendX(image2,image2,tmpImageX);
-			left_img=image2.clone();right_img=image2.clone();
+			performBlendX(image2,image2,tmpImageX);
 		}
 	}
 
-
-	 Mat_<Vec3f> l; image1.convertTo(l,CV_32F,1.0/255.0);
-     Mat_<Vec3f> r; image2.convertTo(r,CV_32F,1.0/255.0); 
-     Mat_<float> m(l.rows,l.cols,0.0);
-	 m(Range::all(),Range(0,m.cols/2)) = 1.0;
-	 Mat_<Vec3f> blend = LaplacianBlend(l, r, m);
-	 cv::imwrite("output/o_output_blend.png",blend);
-	 cv::imshow("output Image", outputImage);
-	 cv::waitKey(0);
+	
 
 
 	//Y-direction blending
-	/*if(top.Index==0){
+	if(top.Index==0){
 		if(bottom.Index==0){
 			performBlendY(image1,image1,tmpImageY);
 		}else{
@@ -435,12 +491,12 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 		}else{
 			performBlendY(image2,image2,tmpImageY);
 		}
-	}*/
+	}
 
-	/*cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 	cv::imwrite("output/o_output_blend.png",outputImage);
-	cv::imshow("output Image", outputImage);*/
-	return blend;
+	cv::imshow("output Image", outputImage);
+	return outputImage;
 }
 
 
@@ -537,10 +593,12 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 }
 
 
-//cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
-//    LaplacianBlending lb(l,r,m,4);
-//    return lb.blend();
-//}
+cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
+    
+	
+	LaplacianBlending lb(l,r,m,4);
+    return lb.blend();
+}
 
 // Perform the laplacian blending of two images. 
 //The order matters(?) 

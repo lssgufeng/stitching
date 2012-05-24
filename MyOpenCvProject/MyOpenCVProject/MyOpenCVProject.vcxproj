@@ -87,6 +87,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AlphaBlender.cpp" />
     <ClCompile Include="Corners.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
     <ClCompile Include="main.cpp" />
@@ -98,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arithmatic.h" />
+    <ClInclude Include="AlphaBlender.h" />
     <ClInclude Include="Corners.h" />
     <ClInclude Include="HarrisDetector.h" />
     <ClInclude Include="LaplacianBlending.h" />
