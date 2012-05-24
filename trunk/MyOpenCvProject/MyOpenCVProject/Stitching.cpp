@@ -369,6 +369,10 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	cv::imwrite("output/blend/left.png",image1);
 	cv::imwrite("output/blend/right.png",image2);
 
+	/*image1=cv::imread("output/blend/left.png",0);
+	image2=cv::imread("output/blend/right.png",0);*/
+
+
 	cv::Mat outputImage;
 	//outputImage=cv::Mat(image1.rows,image1.cols,CV_8U);
 	

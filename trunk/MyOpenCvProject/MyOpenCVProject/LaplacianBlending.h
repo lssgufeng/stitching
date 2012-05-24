@@ -56,7 +56,7 @@ private:
  
     void buildLaplacianPyramid(const Mat& img, vector<Mat_<Vec3f> >& lapPyr, Mat& smallestLevel) {
         lapPyr.clear();
-        Mat currentImg = img;
+		Mat currentImg = img.clone();
         for (int l=0; l<levels; l++) {
             Mat down,up;
             pyrDown(currentImg, down);
