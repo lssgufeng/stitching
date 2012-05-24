@@ -40,7 +40,7 @@ private:
 	//@image2 Second image(Base image)
 	//@top top image	
 	//@left left image
-	cv::Mat blend(cv::Mat& image1,cv::Mat& image2,
+	cv::Mat alphaBlend(cv::Mat& image1,cv::Mat& image2,
 		Boundry& left,Boundry& top,Boundry& right,Boundry& bottom);
 	//blend two images starting alpha=1 to aplha=0
 	//Note: order is important here.
@@ -49,7 +49,11 @@ private:
 	//Levels the corresponding pixels of two images
 	void levelPixels(cv::Mat& image1, cv::Mat& image2);
 
+	//Laplacian Blender
 	cv::Mat_<cv::Vec3f> LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m);
+	//Gets the order of overlapping images
+	void Stitching::GetOverlapOrder(cv::Mat& image1,cv::Mat& image2, Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+		cv::Mat& leftImage, cv::Mat& rightImage, cv::Mat& topImage, cv::Mat& bottomImage);
 	
 
 public: 
