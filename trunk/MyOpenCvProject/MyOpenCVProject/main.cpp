@@ -29,11 +29,12 @@ int main(void)
 
     #pragma region "Input Images"
 	
-	char* path1="C:/Users/swadmin/Google Drive/images/vc_t.png";
-	char* path2="C:/Users/swadmin/Google Drive/images/vc.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/test1.jpg";
+	char* path2="C:/Users/krpaudel/Google Drive/images/test2.jpg";
 	
 	
-	printf("path1=%s",path1);printf("path2=%s",path2);
+	
+	//printf("path1=%s",path1);printf("path2=%s",path2);
 
 	cv::Mat image2=cv::imread(path1,0);
 	cv::Mat image1=cv::imread(path2,0);

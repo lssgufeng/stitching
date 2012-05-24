@@ -1,6 +1,6 @@
 #include "Stitching.h"
 #include "Warp.h"
-
+#include "LaplacianBlending.h"
 
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage,
@@ -366,37 +366,60 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 	cv::imshow("Image2",image2);
 	cv::waitKey(0);
 
+	cv::imwrite("output/blend/left.png",image1);
+	cv::imwrite("output/blend/right.png",image2);
+
 	cv::Mat outputImage;
 	//outputImage=cv::Mat(image1.rows,image1.cols,CV_8U);
 	
 	cv::waitKey(0);
 	float startAlpha,increment;
 	cv::Mat tmpImageX(image1.rows,image1.cols,CV_8U),tmpImageY(image1.rows,image1.cols,CV_8U);
-	this->levelPixels(image1,image2);
-	
 
 
+	//this->levelPixels(image1,image2);
+		 
+     
+
+	cv::Mat left_img(image1.rows,image1.cols,CV_8U);
+	cv::Mat right_img(image1.rows,image1.cols,CV_8U);
 	//X-direction blending
 	if(left.Index==0){
 		if(right.Index=0){
 			printf("Blend case 1");
-			performBlendX(image1,image1,tmpImageX);
+			//performBlendX(image1,image1,tmpImageX);
+			left_img=image1.clone();right_img=image1.clone();
+			
 		}else{
 			printf("Blend case 2");
-			performBlendX(image1,image2,tmpImageX);
+			//performBlendX(image1,image2,tmpImageX);
+			left_img=image1.clone();right_img=image2.clone();
 		}
 	}else{
 		if(right.Index==0){
 			printf("Blend case 3");
-			performBlendX(image2,image1,tmpImageX);
+			//performBlendX(image2,image1,tmpImageX);
+			left_img=image2.clone();right_img=image1.clone();
 		}else{
 			printf("Blend case 4");
-			performBlendX(image2,image2,tmpImageX);
+			//performBlendX(image2,image2,tmpImageX);
+			left_img=image2.clone();right_img=image2.clone();
 		}
-	}	
+	}
+
+
+	 Mat_<Vec3f> l; image1.convertTo(l,CV_32F,1.0/255.0);
+     Mat_<Vec3f> r; image2.convertTo(r,CV_32F,1.0/255.0); 
+     Mat_<float> m(l.rows,l.cols,0.0);
+	 m(Range::all(),Range(0,m.cols/2)) = 1.0;
+	 Mat_<Vec3f> blend = LaplacianBlend(l, r, m);
+	 cv::imwrite("output/o_output_blend.png",blend);
+	 cv::imshow("output Image", outputImage);
+	 cv::waitKey(0);
+
 
 	//Y-direction blending
-	if(top.Index==0){
+	/*if(top.Index==0){
 		if(bottom.Index==0){
 			performBlendY(image1,image1,tmpImageY);
 		}else{
@@ -408,12 +431,12 @@ cv::Mat Stitching::blend(cv::Mat& image1,cv::Mat& image2,
 		}else{
 			performBlendY(image2,image2,tmpImageY);
 		}
-	}
+	}*/
 
-	cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+	/*cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 	cv::imwrite("output/o_output_blend.png",outputImage);
-	cv::imshow("output Image", outputImage);
-	return outputImage;
+	cv::imshow("output Image", outputImage);*/
+	return blend;
 }
 
 
@@ -514,6 +537,13 @@ void Stitching::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 //    LaplacianBlending lb(l,r,m,4);
 //    return lb.blend();
 //}
+
+// Perform the laplacian blending of two images. 
+//The order matters(?) 
+cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
+    LaplacianBlending lb(l,r,m,4);
+    return lb.blend();
+}
 
 
 
