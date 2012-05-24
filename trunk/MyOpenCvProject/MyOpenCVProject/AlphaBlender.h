@@ -5,6 +5,7 @@
    @TODO: More study regarding alpha blending to get more accurate results.
    */
 #include "opencv2\core\core.hpp"
+#include "opencv2\highgui\highgui.hpp"
 #include "Stitching.h"
 
 class AlphaBlender{
@@ -19,5 +20,6 @@ private:
 public:
 	//Blends two images along horizontal and vertical
 	cv::Mat blend(cv::Mat& image1,cv::Mat& image2,
-	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom);
+	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+	cv::Mat outputImage);
 };
