@@ -29,7 +29,7 @@ int main(void)
 
     #pragma region "Input Images"
 	
-	char* path1="C:/Users/krpaudel/Google Drive/images/br.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/tl.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/rot.png";
 	
 	
