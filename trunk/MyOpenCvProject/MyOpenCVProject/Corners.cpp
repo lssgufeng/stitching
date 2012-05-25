@@ -25,7 +25,7 @@ void Corners::GetFastFeatures(
 
 void Corners::GetSurfFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
-		double threshold=222;
+		double threshold=142;
 		this->detector=new cv::SurfFeatureDetector(threshold);
 		this->detector->detect(image,keyPoints);
 }
