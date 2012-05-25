@@ -38,10 +38,28 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 				performBlendY(image2,image2,tmpImageY);
 			}
 		}
-		
-		cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 
-		cv::medianBlur(outputImage,outputImage,5);
+		//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+        for(int i=0;i<image1.rows;i++){
+			for(int j=0;j<image1.cols;j++){
+				double weightX=-1;
+				if(i==0 && j==0)
+					weightX=1;
+				else if(j<=image1.cols/2 && i<=image1.rows/2)
+					weightX=1.0-(double)j/(i+j);
+				else if(j<=image1.cols/2 && i>image1.rows/2)
+					weightX=1.0-(double)j/(j+(image1.rows-i));
+				else if(j>image1.cols/2 && i<=image1.rows/2)
+					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+i);
+				else 
+					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
+
+				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
+				outputImage.at<uchar>(i,j)=tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
+			}
+		}
+
+		//cv::medianBlur(outputImage,outputImage,5);
 		cv::imwrite("output/o_output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
 		return outputImage;
