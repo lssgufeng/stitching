@@ -55,11 +55,11 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<uchar>(i,j)=tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<uchar>(i,j)=/*255*weightX;*/tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
 			}
 		}
 
-		//cv::medianBlur(outputImage,outputImage,5);
+		cv::medianBlur(outputImage,outputImage,3);
 		cv::imwrite("output/o_output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
 		return outputImage;
@@ -99,7 +99,7 @@ void AlphaBlender::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv:
 	for(int i=0;i<image1.rows;i++){
 		beta=(double)i/(image1.rows-1);
 		alpha=1-beta;
-		cv::addWeighted(image1.row(i),alpha,image2.row(i),1-alpha,0,outputImage.row(i));
+		cv::addWeighted(image1.row(i),alpha,image2.row(i),beta,0,outputImage.row(i));
 	}
 	cv::imshow("blendY",outputImage);
 	cv::imwrite("output/blend/blendY.png",outputImage);
@@ -117,4 +117,6 @@ void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 			}
 		}
 	}
+	cv::medianBlur(image1,image1,5);
+	cv::imshow("Levelling",image1);
 }
