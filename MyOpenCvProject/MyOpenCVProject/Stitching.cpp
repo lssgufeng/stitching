@@ -299,7 +299,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
 
 	AlphaBlender blender;
-	Mat result;
+	Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
 	blender.blend(this->rotatedImage(commonFloatRegion),
 		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
 	result.copyTo(stitchedImage(commonStitchRegion));
