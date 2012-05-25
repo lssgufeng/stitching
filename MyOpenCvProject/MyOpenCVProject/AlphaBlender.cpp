@@ -118,5 +118,6 @@ void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 		}
 	}
 	cv::medianBlur(image1,image1,5);
+	cv::medianBlur(image2,image2,5);
 	cv::imshow("Levelling",image1);
 }
