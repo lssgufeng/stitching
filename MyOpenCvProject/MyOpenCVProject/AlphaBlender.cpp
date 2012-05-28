@@ -3,7 +3,7 @@
 cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 	cv::Mat outputImage){
-		/*this->levelPixels(image1,image2);*/
+		this->levelPixels(image1,image2);
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);
         //X-direction
 		if(left.Index==0){
