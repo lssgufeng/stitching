@@ -25,7 +25,7 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 		}
 
 		//Y-direction
-		/*if(top.Index==0){
+		if(top.Index==0){
 			if(bottom.Index==0){
 				performBlendY(image1,image1,tmpImageY);
 			}else{
@@ -37,7 +37,7 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 			}else{
 				performBlendY(image2,image2,tmpImageY);
 			}
-		}*/
+		}
 
 		//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
         for(int i=0;i<image1.rows;i++){
@@ -55,7 +55,7 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<uchar>(i,j)=/*255*weightX;*/tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<uchar>(i,j)=255*weightX;//tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
 			}
 		}
 
