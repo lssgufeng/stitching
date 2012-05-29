@@ -72,7 +72,7 @@ private:
         Mat currentImg = resultSmallestLevel;
         for (int l=levels-1; l>=0; l--) {
             Mat up;
- 
+
             pyrUp(currentImg, up, resultLapPyr[l].size());
             currentImg = up + resultLapPyr[l];
         }
@@ -90,12 +90,11 @@ private:
  
             resultLapPyr.push_back(blendedLevel);
         }
-    }
+	}
  
 public:
     LaplacianBlending(const Mat_<Vec3f>& _left, const Mat_<Vec3f>& _right, const Mat_<float>& _blendMask, int _levels):
-    left(_left),right(_right),blendMask(_blendMask),levels(_levels)
-    {
+    left(_left),right(_right),blendMask(_blendMask),levels(_levels){
         assert(_left.size() == _right.size());
         assert(_left.size() == _blendMask.size());
         buildPyramids();
