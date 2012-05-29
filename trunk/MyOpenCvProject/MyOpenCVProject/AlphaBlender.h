@@ -4,7 +4,6 @@
    @description: This is Aplha blender.This blends the images in two directions. 
    @TODO: More study regarding alpha blending to get more accurate results.
    */
-#pragma  once
 #include "opencv2\core\core.hpp"
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
