@@ -58,7 +58,6 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 				outputImage.at<uchar>(i,j)=/*255*weightX;*/tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
 			}
 		}
-
 		cv::medianBlur(outputImage,outputImage,3);
 		cv::imwrite("output/o_output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
