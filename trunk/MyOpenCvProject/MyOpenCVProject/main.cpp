@@ -30,8 +30,8 @@ int main(void)
     #pragma region "Input Images"
 	
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/t.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/rot.png";
+	char* path1="C:/Users/Krishna/Google Drive/images/t.png";
+	char* path2="C:/Users/Krishna/Google Drive/images/rot.png";
 
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/l.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/r_br.png";*/
