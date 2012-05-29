@@ -25,7 +25,7 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 		}
 
 		//Y-direction
-		if(top.Index==0){
+		/*if(top.Index==0){
 			if(bottom.Index==0){
 				performBlendY(image1,image1,tmpImageY);
 			}else{
@@ -37,7 +37,7 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 			}else{
 				performBlendY(image2,image2,tmpImageY);
 			}
-		}
+		}*/
 
 		//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
         for(int i=0;i<image1.rows;i++){
