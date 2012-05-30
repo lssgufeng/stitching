@@ -4,6 +4,8 @@ cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 	cv::Mat outputImage){
 		this->levelPixels(image1,image2);
+		cv::imwrite("output/left.png",image1);
+		cv::imwrite("output/right.png",image2);
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);
         //X-direction
 		if(left.Index==0){
@@ -118,8 +120,8 @@ void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 			}
 		}
 	}
-	/*cv::medianBlur(image1,image1,5);
-	cv::medianBlur(image2,image2,5);*/
+	cv::medianBlur(image1,image1,5);
+	cv::medianBlur(image2,image2,5);
 	cv::imwrite("output/blend/o_Levelling1.png",image1);
 	cv::imwrite("output/blend/o_Levelling2.png",image2);
 }
