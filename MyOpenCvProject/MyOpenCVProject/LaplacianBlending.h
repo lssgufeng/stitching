@@ -1,5 +1,4 @@
 #include "opencv2/opencv.hpp"
-
  
 using namespace cv;
  
@@ -24,7 +23,7 @@ private:
  
     int levels;
  
-    void buildPyramids() {
+    void buildPyramids(){
         buildLaplacianPyramid(left,leftLapPyr,leftSmallestLevel);
         buildLaplacianPyramid(right,rightLapPyr,rightSmallestLevel);
         buildGaussianPyramid();
