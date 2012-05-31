@@ -309,6 +309,36 @@ void Stitching::Stitch(){
 	cv::waitKey(0);
 
 
+	//sample test 
+	cv::Mat l8u = cv::imread("left.png");	
+	cv::Mat r8u = cv::imread("right.png");
+	
+    cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
+    cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
+ 
+    cv::Mat_<float> m(l.rows,l.cols,0.0);
+    m(cv::Range::all(),cv::Range(0,m.cols/2)) = 1.0;
+
+	//blendMask.create(left.rows,left.cols);
+	for(int i=0;i<l.cols;i++){
+		float alpha=1.0-(float)i/(l.cols-1);
+		printf("\taplha=%f",alpha);
+		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
+		for(int j=0;j<l.rows;j++){
+			m.at<float>(j,i)=alpha;
+		}
+	}
+ 
+   cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
+   cv::imshow("blended",blend);
+   cv::waitKey(0);
+
+   blend.copyTo(stitchedImage(commonStitchRegion));
+   cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+   cv::imshow("StitchedImage",stitchedImage);
+   cv::waitKey(0);
+
+
 	//3.Get LEFT ROI
 	//Logic: left image area, if it lies in the non-overlapping portion,
 	//is copied and pasted in the stitched image. if left is of image1, then 
@@ -353,19 +383,8 @@ void Stitching::Stitch(){
 
 
 
-	//sample test 
-	/*cv::Mat l8u = image1.clone();
-	cv::Mat r8u = image2.clone();
-    cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
-    cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
- 
-    cv::Mat_<float> m(l.rows,l.cols,0.0);
-    m(cv::Range::all(),cv::Range(0,m.cols/2)) = 1.0;
- 
-   cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
-   cv::imshow("blended",blend);
-   cv::waitKey(0);
-*/
+	
+
 
 	/*for(int i=0;i<image1.rows;i++){
 		uchar* data1=image1.ptr<uchar>(i);
