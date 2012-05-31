@@ -8,9 +8,12 @@
 @date 2012-05-31 11:11:12
 **/
 #include "opencv2\highgui\highgui.hpp"
+#include "Stitching.h"
 class LaplacianBlender{
 /*Private Variables*/
 private:
+	//Two images to blend
+	cv::Mat image1, image2;
 	//Laplacian Pyramids
 	cv::Vector<cv::Mat_<cv::Vec3f>> image1LapPyr, image2LapPyr, resultLapPyrX,resultLapPyrY;
 	
@@ -44,10 +47,10 @@ private:
 
 
 public:
-	LaplacianBlender();
+	//Constructor
+	LaplacianBlender(const cv::Mat& image1,const cv::Mat& image2);
 	//Blends two images along horizontal and vertical direction
-	void blend(const cv::Mat& image1,const cv::Mat& image2,
-		Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+	void blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 		cv::Mat& outputImage);
 
 
