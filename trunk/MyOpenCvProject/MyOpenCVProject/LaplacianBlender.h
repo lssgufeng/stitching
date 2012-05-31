@@ -8,17 +8,18 @@
 @date 2012-05-31 11:11:12
 **/
 #include "opencv2\highgui\highgui.hpp"
+#include "opencv2\imgproc\imgproc.hpp"
 #include "Stitching.h"
 class LaplacianBlender{
 /*Private Variables*/
 private:
 	//Two images to blend
-	cv::Mat image1, image2;
+	cv::Mat_<cv::Vec3f> floatImage, baseImage;
 	//Laplacian Pyramids
-	cv::Vector<cv::Mat_<cv::Vec3f>> image1LapPyr, image2LapPyr, resultLapPyrX,resultLapPyrY;
+	cv::Vector<cv::Mat_<cv::Vec3f>> floatLapPyr, baseLapPyr, resultLapPyrX,resultLapPyrY;
 	
 	//Smallest Images
-	cv::Mat smallestLevel1, smallestLevel2, resultSmallestLevelX,resultSmallestLevelY;
+	cv::Mat floatSmallestLevel, baseSmallestLevel, resultSmallestLevelX,resultSmallestLevelY;
 	//Mask Gaussian Pyramid
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramidX,maskGaussianPyramidY;
 	//Blend Mask
@@ -36,22 +37,27 @@ private:
 	//Generate the Gaussian Pyramids
 	//one for x-direction and one for y-direction
 	void generateGaussianPyramids();
+	//This creates the gaussian pyramid
+	void LaplacianBlender::generateGaussianPyramid(cv::Mat& blendMask,
+		cv::Vector<cv::Mat_<cv::Vec3f>>& maskGaussianPyramid);	
 	//Blend Pyramids in X-direction
-	void blendLapPyrsX();
+	//First pyramid is left and second pyramid is for right
+	void blendLapPyrsX(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
+		cv::Mat& smallestLevel1,cv::Mat& smallestLevel2);
 	//Blend Pyramids in Y-direction
-	void blendLapPyrsY();
+	//First pyramid is effective for top part and Second pyramid is effective for bottom part
+	void blendLapPyrsY(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
+		cv::Mat& smallestLevel1,cv::Mat& smallestLevel2);
 	//Generate Blended Image in X-direction
-	void reconstructImageX();
+	cv::Mat reconstructImageX();
 	//Generate Blended Image in Y-direction
-	void reconstructImageY();
+	cv::Mat reconstructImageY();
 
 
 public:
 	//Constructor
-	LaplacianBlender(const cv::Mat& image1,const cv::Mat& image2);
+	LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& baseImage);
 	//Blends two images along horizontal and vertical direction
 	void blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 		cv::Mat& outputImage);
-
-
-}
+};
