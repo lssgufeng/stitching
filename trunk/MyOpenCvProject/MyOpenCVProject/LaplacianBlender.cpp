@@ -8,7 +8,7 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 
 void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 		cv::Mat& outputImage){
-			cv::Mat leftImage, rightImage, topImage, bottomImage;
+			/*cv::Mat leftImage, rightImage, topImage, bottomImage;
 			if(left.Index==0){
 				if(top.Index==0){
 					leftImage=topImage=this->floatImage.clone();
@@ -25,9 +25,15 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 					rightImage=bottomImage=this->floatImage.clone();
 					leftImage=topImage=this->baseImage.clone();
 				}
-			}
+			}*/
 
-			this->generateLaplacianPyramid(leftImage,this->,this->sma
+			this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
+			this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
+
+			//Create Gaussian Pyramids Here
+
+			//
+			
 }
 
 
