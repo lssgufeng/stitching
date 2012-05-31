@@ -44,6 +44,7 @@ private:
 
 
 public:
+	LaplacianBlender();
 	//Blends two images along horizontal and vertical direction
 	void blend(const cv::Mat& image1,const cv::Mat& image2,
 		Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
