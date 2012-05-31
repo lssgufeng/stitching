@@ -219,7 +219,7 @@ void Stitching::Stitch(){
 			baseRegion.y=0;
 
 			commonWidth=cv::min(this->rotatedImage.cols-std::abs(left.Value),this->baseImage.cols);
-			commonHeight=cv::min(this->rotatedImage.rows-image1Top,this->baseImage.rows-image1Top);
+			commonHeight=cv::min(this->rotatedImage.rows,this->baseImage.rows-image1Top);
 
 			commonFloatRegion.x=std::abs(left.Value);
 			commonFloatRegion.y=0;
@@ -302,16 +302,16 @@ void Stitching::Stitch(){
 	Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
 	blender.blend(this->rotatedImage(commonFloatRegion),
 		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
-	result.copyTo(stitchedImage(commonStitchRegion));
+	/*result.copyTo(stitchedImage(commonStitchRegion));
 
 	cv::imwrite("output/o_stitched.png",stitchedImage);
 	cv::imshow("stitchedImage",stitchedImage);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
 
 	//sample test 
-	cv::Mat l8u = cv::imread("left.png");	
-	cv::Mat r8u = cv::imread("right.png");
+	cv::Mat l8u = cv::imread("output/left.png");	
+	cv::Mat r8u = cv::imread("output/right.png");
 	
     cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
     cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
@@ -322,7 +322,7 @@ void Stitching::Stitch(){
 	//blendMask.create(left.rows,left.cols);
 	for(int i=0;i<l.cols;i++){
 		float alpha=1.0-(float)i/(l.cols-1);
-		printf("\taplha=%f",alpha);
+		//printf("\taplha=%f",alpha);
 		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
 		for(int j=0;j<l.rows;j++){
 			m.at<float>(j,i)=alpha;
@@ -333,7 +333,10 @@ void Stitching::Stitch(){
    cv::imshow("blended",blend);
    cv::waitKey(0);
 
+   blend.convertTo(blend,CV_8U);
+
    blend.copyTo(stitchedImage(commonStitchRegion));
+   stitchedImage(commonStitchRegion)=blend;
    cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
    cv::imshow("StitchedImage",stitchedImage);
    cv::waitKey(0);
