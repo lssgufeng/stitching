@@ -103,6 +103,7 @@
     <ClInclude Include="Arithmatic.h" />
     <ClInclude Include="AlphaBlender.h" />
     <ClInclude Include="Corners.h" />
+    <ClInclude Include="Globals.h" />
     <ClInclude Include="HarrisDetector.h" />
     <ClInclude Include="LaplacianBlender.h" />
     <ClInclude Include="LaplacianBlending.h" />

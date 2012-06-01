@@ -8,33 +8,66 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 
 void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 		cv::Mat& outputImage){
-			/*cv::Mat leftImage, rightImage, topImage, bottomImage;
-			if(left.Index==0){
-				if(top.Index==0){
-					leftImage=topImage=this->floatImage.clone();
-					rightImage=bottomImage= this->baseImage.clone();					
-				}else{
-					leftImage=bottomImage=this->floatImage.clone();
-					rightImage=topImage= this->baseImage.clone();
-				}
-			}else{
-				if(top.Index==0){
-					rightImage=topImage=this->floatImage.clone();
-					leftImage=bottomImage=this->baseImage.clone();
-				}else{
-					rightImage=bottomImage=this->floatImage.clone();
-					leftImage=topImage=this->baseImage.clone();
-				}
-			}*/
-
 			this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
 			this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
 
 			//Create Gaussian Pyramids Here
+			this->loadBlendMasks();
+			this->generateGaussianPyramid(this->blendMaskX,this->maskGaussianPyramidX);
+			this->generateGaussianPyramid(this->blendMaskY,this->maskGaussianPyramidY);
 
-			//
+
+			//left implies float image, right implies base image
+			if(left.Index==0){
+				this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+				if(top.Index==0){					
+					this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+				}else{
+					this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+				}
+			}else{
+				this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+				if(top.Index==0){
+					this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+				}else{
+					this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+				}
+			}
 			
+			//Now we reconstruct the image using result pyramids
+			cv::Mat_<cv::Vec3f> blendX,blendY;
+			blendX=this->reconstructImageX();
+			blendY=this->reconstructImageY();
+			
+			cv::imshow("ImageX",blendX);
+			cv::waitKey(0);
+			cv::imshow("imageY",blendY);
+			cv::waitKey(0);			
+			outputImage=blendX.clone();
 }
+void LaplacianBlender::loadBlendMasks(){
+	//BlendMaskX
+	this->blendMaskX.create(this->baseImage.rows,this->baseImage.cols);
+	for(int i=0;i<this->baseImage.cols;i++){
+		float alpha=1.0-(float)i/(this->baseImage.cols-1);
+		printf("\taplha=%f",alpha);
+		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
+		for(int j=0;j<this->baseImage.rows;j++){
+			this->blendMaskX.at<float>(j,i)=alpha;
+		}
+	}
+	//BlendMaskY
+	this->blendMaskY.create(this->baseImage.rows,this->baseImage.cols);
+	for(int i=0;i<this->baseImage.rows;i++){
+		float alpha=1.0-(float)i/(this->baseImage.rows-1);
+		printf("\taplha=%f",alpha);
+		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
+		for(int j=0;j<this->baseImage.cols;j++){
+			this->blendMaskY.at<float>(i,j)=alpha;
+		}
+	}
+}
+
 
 
 void LaplacianBlender::generateLaplacianPyramid(const cv::Mat& image,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,

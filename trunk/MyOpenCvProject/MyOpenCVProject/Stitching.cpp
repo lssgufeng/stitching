@@ -1,7 +1,7 @@
 //#include "Stitching.h"
 #include "Warp.h"
 #include "AlphaBlender.h"
-#include "LaplacianBlending.h"
+
 
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage,
@@ -298,10 +298,10 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
 
-	AlphaBlender blender;
+	/*AlphaBlender blender;
 	Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
 	blender.blend(this->rotatedImage(commonFloatRegion),
-		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
+		this->baseImage(commonBaseRegion),left,top,right,bottom,result);*/
 	/*result.copyTo(stitchedImage(commonStitchRegion));
 
 	cv::imwrite("output/o_stitched.png",stitchedImage);
@@ -310,36 +310,36 @@ void Stitching::Stitch(){
 
 
 	//sample test 
-	cv::Mat l8u = cv::imread("output/left.png");	
-	cv::Mat r8u = cv::imread("output/right.png");
+	/*cv::Mat l8u = cv::imread("output/left.png");	
+	cv::Mat r8u = cv::imread("output/right.png");*/
 	
-    cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
+   /* cv::Mat_<cv::Vec3f> l; l8u.convertTo(l,CV_32F,1.0/255.0);
     cv::Mat_<cv::Vec3f> r; r8u.convertTo(r,CV_32F,1.0/255.0);
  
     cv::Mat_<float> m(l.rows,l.cols,0.0);
-    m(cv::Range::all(),cv::Range(0,m.cols/2)) = 1.0;
+    m(cv::Range::all(),cv::Range(0,m.cols/2)) = 1.0;*/
 
-	//blendMask.create(left.rows,left.cols);
-	for(int i=0;i<l.cols;i++){
-		float alpha=1.0-(float)i/(l.cols-1);
-		//printf("\taplha=%f",alpha);
-		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
-		for(int j=0;j<l.rows;j++){
-			m.at<float>(j,i)=alpha;
-		}
-	}
+	////blendMask.create(left.rows,left.cols);
+	//for(int i=0;i<l.cols;i++){
+	//	float alpha=1.0-(float)i/(l.cols-1);
+	//	//printf("\taplha=%f",alpha);
+	//	//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
+	//	for(int j=0;j<l.rows;j++){
+	//		m.at<float>(j,i)=alpha;
+	//	}
+	//}
  
-   cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
+   /*cv::Mat_<cv::Vec3f> blend = LaplacianBlend(l, r, m);
    cv::imshow("blended",blend);
-   cv::waitKey(0);
-
-   blend.convertTo(blend,CV_8U);
-
-   blend.copyTo(stitchedImage(commonStitchRegion));
+   cv::waitKey(0);*/
+	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
+	cv::Mat outputImage;
+	blender.blend(left,top,right,bottom,outputImage);
+   /*blend.copyTo(stitchedImage(commonStitchRegion));
    stitchedImage(commonStitchRegion)=blend;
    cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
    cv::imshow("StitchedImage",stitchedImage);
-   cv::waitKey(0);
+   cv::waitKey(0);*/
 
 
 	//3.Get LEFT ROI
@@ -407,10 +407,10 @@ void Stitching::Stitch(){
 
 // Perform the laplacian blending of two images. 
 //The order matters(?) 
-cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
-    LaplacianBlending lb(l,r,m,4);
-    return lb.blend();
-}
+//cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
+//    LaplacianBlending lb(l,r,m,4);
+//    return lb.blend();
+//}
 
 
 

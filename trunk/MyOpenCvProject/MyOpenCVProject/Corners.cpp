@@ -43,7 +43,7 @@ void Corners::GetDynamicAdaptedFeatures_SURF(cv::Mat& image,int minFeatures,
 		printf("Image Information=%f",imageInformation);
 		double threshold=pow(1.71,imageInformation/50)*20;
 		printf("Threshold=%f",threshold);
-		threshold=2;
+		threshold=122;
 		double minThreshold=1.0;
 		double maxThreshold=1000.0;
 		cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::SurfAdjuster(threshold,minThreshold,maxThreshold);
