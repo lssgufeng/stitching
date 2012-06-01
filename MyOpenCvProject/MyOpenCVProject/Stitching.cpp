@@ -333,8 +333,13 @@ void Stitching::Stitch(){
    cv::imshow("blended",blend);
    cv::waitKey(0);*/
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
-	cv::Mat outputImage;
+	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.height,CV_32F);
 	blender.blend(left,top,right,bottom,outputImage);
+	cv::imwrite("output/common_blended.png",outputImage);
+	outputImage.copyTo(stitchedImage(commonStitchRegion));
+	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+    cv::imshow("StitchedImage",stitchedImage);
+    cv::waitKey(0);
    /*blend.copyTo(stitchedImage(commonStitchRegion));
    stitchedImage(commonStitchRegion)=blend;
    cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
