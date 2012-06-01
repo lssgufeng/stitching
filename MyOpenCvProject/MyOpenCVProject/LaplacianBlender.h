@@ -53,6 +53,8 @@ private:
 	//Generate Blended Image in Y-direction
 	cv::Mat reconstructImageY();
 
+	void levelPixels(cv::Mat& image1, cv::Mat& image2);
+
 
 public:
 	//Constructor
