@@ -70,7 +70,7 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 						weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<float>(i,j)=/*255*weightX;*/blendX.at<float>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<float>(i,j)=/*255*weightX;*/blendX.at<float>(i,j)*weightX+blendY.at<float>(i,j)*(1-weightX);
 			}
 		}
 			cv::imshow("OutputImage",outputImage);
