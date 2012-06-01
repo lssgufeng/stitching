@@ -1,8 +1,10 @@
 #include "AlphaBlender.h"
 
-cv::Mat AlphaBlender::blend(cv::Mat& image1,cv::Mat& image2,
+cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage,
 	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
 	cv::Mat outputImage){
+		cv::Mat image1=firstImage.clone();
+		cv::Mat image2=secondImage.clone();
 		this->levelPixels(image1,image2);
 		cv::imwrite("output/left.png",image1);
 		cv::imwrite("output/right.png",image2);

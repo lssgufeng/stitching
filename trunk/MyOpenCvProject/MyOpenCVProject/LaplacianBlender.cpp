@@ -9,8 +9,9 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 }
 
 cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
-			this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
-			this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
+	this->levelPixels(this->floatImage,this->baseImage);
+	this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
+	this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
 			cv::imshow("Float Image", this->floatImage);
 			cv::waitKey(0);
 
@@ -42,10 +43,11 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			}
 			
 			//Now we reconstruct the image using result pyramids
-			cv::Mat_<cv::Vec3f> blendX,blendY,result;
+			cv::Mat_<cv::Vec3f> blendX,blendY;
+			cv::Mat_<cv::Vec3f> result(this->floatImage.rows,this->floatImage.cols);
 			blendX=this->reconstructImageX();
 			blendY=this->reconstructImageY();
-			result=blendX.clone();
+			//result=blendX.clone();
 
 			cv::imshow("ImageX",blendX);
 			cv::waitKey(0);
@@ -73,6 +75,8 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 					result.at<cv::Vec3f>(i,j)=/*255*weightX;*/blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
 				}
 			}
+			cv::cvtColor(result,result,CV_BGR2GRAY);
+			result.convertTo(result,CV_8U,255);
 			cv::imshow("OutputImage",result);
 			cv::waitKey(0);
 			return result;
@@ -205,6 +209,23 @@ cv::Mat LaplacianBlender::reconstructImageY(){
 	 }
 	//cv::cvtColor(currentImage,currentImage,CV_BGR2GRAY);
 	return currentImage;
+}
+
+void LaplacianBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<uchar>(i,j)==0){
+				image1.at<uchar>(i,j)=image2.at<uchar>(i,j);
+			}
+			if(image2.at<uchar>(i,j)==0){
+				image2.at<uchar>(i,j)=image1.at<uchar>(i,j);
+			}
+		}
+	}
+	cv::medianBlur(image1,image1,5);
+	cv::medianBlur(image2,image2,5);
+	cv::imwrite("output/blend/o_Levelling1.png",image1);
+	cv::imwrite("output/blend/o_Levelling2.png",image2);
 }
 
 
