@@ -47,11 +47,11 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 			blendX=this->reconstructImageX();
 			blendY=this->reconstructImageY();
 			
-			/*cv::imshow("ImageX",blendX);
+			cv::imshow("ImageX",blendX);
 			cv::waitKey(0);
 			cv::imshow("imageY",blendY);
 			cv::waitKey(0);			
-			outputImage=blendX.clone();*/
+			outputImage=blendX.clone();
 
 			//Now get the resultant blended image
 
@@ -70,9 +70,11 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 						weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<uchar>(i,j)=/*255*weightX;*/blendX.at<uchar>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<float>(i,j)=/*255*weightX;*/blendX.at<float>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
 			}
 		}
+			cv::imshow("OutputImage",outputImage);
+			cv::waitKey(0);
 
 
 }
