@@ -7,9 +7,10 @@
 @author Krishna Paudel(krishna444@gmail.com)
 @date 2012-05-31 11:11:12
 **/
+#pragma once
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
-#include "Stitching.h"
+#include "Globals.h"
 class LaplacianBlender{
 /*Private Variables*/
 private:
@@ -34,11 +35,10 @@ private:
 	//@smallestLevel the smallest image at the top of the pyramid
 	void generateLaplacianPyramid(const cv::Mat& image,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
 		cv::Mat& smallestLevel);
-	//Generate the Gaussian Pyramids
-	//one for x-direction and one for y-direction
-	void generateGaussianPyramids();
+	//Loads the blend masks
+	void loadBlendMasks();
 	//This creates the gaussian pyramid
-	void LaplacianBlender::generateGaussianPyramid(cv::Mat& blendMask,
+	void generateGaussianPyramid(cv::Mat& blendMask,
 		cv::Vector<cv::Mat_<cv::Vec3f>>& maskGaussianPyramid);	
 	//Blend Pyramids in X-direction
 	//First pyramid is left and second pyramid is for right

@@ -11,15 +11,10 @@
 * @author Krishna Paudel(krishna444@gmail.com)
 * @date 2012-05-08 13:58:34
 ***/
-#include "opencv2\core\core.hpp"
 
-//Defines the boundry point
-//@Value is the co-ordinate value
-//@Index is image index
-struct Boundry{
-	int Value;
-	int Index;
-};
+#pragma once
+#include "opencv2\core\core.hpp"
+#include "LaplacianBlender.h"
 
 class Stitching{
 private:
