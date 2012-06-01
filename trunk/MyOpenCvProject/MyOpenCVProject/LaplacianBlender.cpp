@@ -8,8 +8,7 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 	this->levels=4;
 }
 
-void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
-		cv::Mat& outputImage){
+cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 			this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
 			this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
 			cv::imshow("Float Image", this->floatImage);
@@ -43,15 +42,16 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 			}
 			
 			//Now we reconstruct the image using result pyramids
-			cv::Mat_<cv::Vec3f> blendX,blendY;
+			cv::Mat_<cv::Vec3f> blendX,blendY,result;
 			blendX=this->reconstructImageX();
 			blendY=this->reconstructImageY();
-			
+			result=blendX.clone();
+
 			cv::imshow("ImageX",blendX);
 			cv::waitKey(0);
 			cv::imshow("imageY",blendY);
 			cv::waitKey(0);			
-			outputImage=blendX.clone();
+			//outputImage=blendX.clone();
 
 			//Now get the resultant blended image
 
@@ -70,14 +70,14 @@ void LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& 
 						weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<float>(i,j)=/*255*weightX;*/blendX.at<float>(i,j)*weightX+blendY.at<float>(i,j)*(1-weightX);
+					result.at<cv::Vec3f>(i,j)=/*255*weightX;*/blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
+				}
 			}
-		}
-			cv::imshow("OutputImage",outputImage);
+			cv::imshow("OutputImage",result);
 			cv::waitKey(0);
-
-
+			return result;
 }
+
 void LaplacianBlender::loadBlendMasks(){
 	//BlendMaskX
 	this->blendMaskX.create(this->baseImage.rows,this->baseImage.cols);

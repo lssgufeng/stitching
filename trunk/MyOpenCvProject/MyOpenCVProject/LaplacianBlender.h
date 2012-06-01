@@ -58,6 +58,5 @@ public:
 	//Constructor
 	LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& baseImage);
 	//Blends two images along horizontal and vertical direction
-	void blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
-		cv::Mat& outputImage);
+	cv::Mat blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom);
 };

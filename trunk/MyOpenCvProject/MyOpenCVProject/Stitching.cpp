@@ -298,15 +298,15 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
 
-	/*AlphaBlender blender;
-	Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
-	blender.blend(this->rotatedImage(commonFloatRegion),
-		this->baseImage(commonBaseRegion),left,top,right,bottom,result);*/
-	/*result.copyTo(stitchedImage(commonStitchRegion));
+	AlphaBlender alphaBlender;
+	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
+	alphaBlender.blend(this->rotatedImage(commonFloatRegion),
+		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
+	result.copyTo(stitchedImage(commonStitchRegion));
 
-	cv::imwrite("output/o_stitched.png",stitchedImage);
-	cv::imshow("stitchedImage",stitchedImage);
-	cv::waitKey(0);*/
+	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
+	cv::imshow("stitchedImage_alpha",stitchedImage);
+	cv::waitKey(0);
 
 
 	//sample test 
@@ -333,12 +333,13 @@ void Stitching::Stitch(){
    cv::imshow("blended",blend);
    cv::waitKey(0);*/
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
-	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.height,CV_32F);
-	blender.blend(left,top,right,bottom,outputImage);
-	cv::imwrite("output/common_blended.png",outputImage);
+	cv::Mat_<cv::Vec3f> outputImage(commonFloatRegion.height,commonFloatRegion.width);
+	outputImage= blender.blend(left,top,right,bottom);
+	outputImage.convertTo(outputImage,CV_8U,255);
+	cv::imwrite("output/common_blended_pyr.png",outputImage);
 	outputImage.copyTo(stitchedImage(commonStitchRegion));
 	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
-    cv::imshow("StitchedImage",stitchedImage);
+    cv::imshow("StitchedImage_pyr",stitchedImage);
     cv::waitKey(0);
    /*blend.copyTo(stitchedImage(commonStitchRegion));
    stitchedImage(commonStitchRegion)=blend;
