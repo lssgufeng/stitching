@@ -1,15 +1,18 @@
 #include"LaplacianBlender.h"
 
 LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& baseImage){
-	cv::cvtColor(floatImage,this->floatImage,CV_GRAY2BGR);
-	cv::cvtColor(baseImage,this->baseImage,CV_GRAY2BGR);
+	cv::Mat image1=floatImage.clone();
+	cv::Mat image2=baseImage.clone();
+	this->levelPixels(image1,image2);
+	cv::cvtColor(image1,this->floatImage,CV_GRAY2BGR);
+	cv::cvtColor(image2,this->baseImage,CV_GRAY2BGR);
 	this->floatImage.convertTo(this->floatImage,CV_32F,1.0/255.0);
 	this->baseImage.convertTo(this->baseImage,CV_32F,1.0/255.0);
 	this->levels=4;
 }
 
 cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
-	this->levelPixels(this->floatImage,this->baseImage);
+	
 	this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
 	this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
 			cv::imshow("Float Image", this->floatImage);
