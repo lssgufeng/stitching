@@ -1,7 +1,7 @@
 #include "Warp.h"
 #include "Utility.h"
 #include <iostream>
-#define PI 3.141592653589793238462643383279502884197
+#define PI 3.141592653589793238462643383279502884197 //:)
 
 Warp::Warp(){
 }
@@ -109,8 +109,8 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	homography.at<double>(2,1)=0;*/
 
 
-	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
-	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
+	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
+	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	//Utility::DisplayImage("warped",outputImage);

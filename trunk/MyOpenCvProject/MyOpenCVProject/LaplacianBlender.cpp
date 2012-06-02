@@ -225,8 +225,8 @@ void LaplacianBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 			}
 		}
 	}
-	cv::medianBlur(image1,image1,5);
-	cv::medianBlur(image2,image2,5);
+	/*cv::medianBlur(image1,image1,5);
+	cv::medianBlur(image2,image2,5);*/
 	cv::imwrite("output/blend/o_Levelling1.png",image1);
 	cv::imwrite("output/blend/o_Levelling2.png",image2);
 }
