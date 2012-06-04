@@ -109,7 +109,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	homography.at<double>(2,1)=0;*/
 
 
-	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
+	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,-1);
 	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
