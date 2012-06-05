@@ -48,6 +48,7 @@ int main(void)
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
+		exit(0);
 	}
 
     #pragma endregion 
