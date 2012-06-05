@@ -17,14 +17,14 @@ void Stitching::Stitch(){
 	//1.Get the new transformed corners and rotated image
 	cv::Point baseCorners[4],floatingCorners[4];
 	baseCorners[0]=cv::Point(0,0);
-	baseCorners[1]=cv::Point(this->baseImage.cols,0);
-	baseCorners[2]=cv::Point(this->baseImage.cols,this->baseImage.rows);
-	baseCorners[3]=cv::Point(0,this->baseImage.rows);
+	baseCorners[1]=cv::Point(this->baseImage.cols-1,0);
+	baseCorners[2]=cv::Point(this->baseImage.cols-1,this->baseImage.rows-1);
+	baseCorners[3]=cv::Point(0,this->baseImage.rows-1);
 
 	floatingCorners[0]=cv::Point(0,0);
-	floatingCorners[1]=cv::Point(this->floatingImage.cols,0);
-	floatingCorners[2]=cv::Point(this->floatingImage.cols,this->floatingImage.rows);
-	floatingCorners[3]=cv::Point(0,this->floatingImage.rows);
+	floatingCorners[1]=cv::Point(this->floatingImage.cols-1,0);
+	floatingCorners[2]=cv::Point(this->floatingImage.cols-1,this->floatingImage.rows-1);
+	floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);
 
 	Warp warp;	
 	//double tic=cv::getTickCount();
