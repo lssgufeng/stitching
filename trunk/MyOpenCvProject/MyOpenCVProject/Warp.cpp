@@ -109,7 +109,7 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	homography.at<double>(2,1)=0;*/
 
 
-	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,-1);
+	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
 	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
@@ -160,7 +160,7 @@ void Warp::GetCustomHomography(double angle,
 }
 
 
-void warpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::Size dsize,
+void Warp::WarpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::Size dsize,
         int flags, int borderType, const cv::Scalar& borderValue, CvPoint origin )
 {
 	dst.create( dsize, src.type() );
@@ -190,8 +190,8 @@ void warpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::S
 	{
 		for( x = -origin.x, xDest = 0; x < width; x += bw0, xDest += bw0 )
 		{
-			int bw = std::min( bw0, width - x);
-			int bh = std::min( bh0, height - y);
+			int bw = std::min( bw0, width - xDest);//*/std::min( bw0, width - x);
+			int bh = std::min( bh0, height - yDest);//*/std::min( bh0, height - y);
 			// to avoid dimensions errors
 			if (bw <= 0 || bh <= 0)
 				break;
