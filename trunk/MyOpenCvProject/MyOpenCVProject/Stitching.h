@@ -30,31 +30,17 @@ private:
 
 
 private:
-	//It blends the two images. Note: the size of the images should be same
-	//@image1 First image(Floating image)
-	//@image2 Second image(Base image)
-	//@top top image	
-	//@left left image
-	cv::Mat alphaBlend(cv::Mat& image1,cv::Mat& image2,
-		Boundry& left,Boundry& top,Boundry& right,Boundry& bottom);
-	//blend two images starting alpha=1 to aplha=0
-	//Note: order is important here.
-	void performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage);
-	void performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage);
-	//Levels the corresponding pixels of two images
-	void levelPixels(cv::Mat& image1, cv::Mat& image2);
-
-	//Laplacian Blender
-	cv::Mat_<cv::Vec3f> LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m);
-	//Gets the order of overlapping images
-	void Stitching::GetOverlapOrder(cv::Mat& image1,cv::Mat& image2, Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
-		cv::Mat& leftImage, cv::Mat& rightImage, cv::Mat& topImage, cv::Mat& bottomImage);
-	
+	//Calculates the homography of image1 to the image2
+	cv::Mat calcuateHomography(cv::Mat image1,cv::Mat image2);
+    //Calculates the common(overlap) area
+	void calculateOverlapImages(cv::Mat homography, 
+		cv::Mat floatImage, cv::Mat baseImage,
+		cv::Mat outputFloatImage,cv::Mat outputBaseImage);
 
 public: 
 	
 
-	//Constructor
+	//Constructor. The size of the images should be same.
 	//@floatingImage Floating Image
 	//@baseImage Base Image, which is fixed.
 	//@homography Transformation matrix 
