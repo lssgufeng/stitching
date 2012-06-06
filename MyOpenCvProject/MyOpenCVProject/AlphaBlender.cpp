@@ -5,7 +5,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 	cv::Mat outputImage){
 		cv::Mat image1=firstImage.clone();
 		cv::Mat image2=secondImage.clone();
-		this->levelPixels(image1,image2);
+		//this->levelPixels(image1,image2);
 		cv::imwrite("output/left.png",image1);
 		cv::imwrite("output/right.png",image2);
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);
@@ -59,7 +59,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<uchar>(i,j)=/*255*weightX;*/tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<uchar>(i,j)=255*weightX;tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
 			}
 		}
 		cv::medianBlur(outputImage,outputImage,3);

@@ -3,7 +3,7 @@
 LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& baseImage){
 	cv::Mat image1=floatImage.clone();
 	cv::Mat image2=baseImage.clone();
-	this->levelPixels(image1,image2);
+	//this->levelPixels(image1,image2);
 	cv::cvtColor(image1,this->floatImage,CV_GRAY2BGR);
 	cv::cvtColor(image2,this->baseImage,CV_GRAY2BGR);
 	this->floatImage.convertTo(this->floatImage,CV_32F,1.0/255.0);
@@ -12,77 +12,68 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 }
 
 cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
-	
 	this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
 	this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
-			cv::imshow("Float Image", this->floatImage);
-			cv::waitKey(0);
+	cv::imshow("Float Image", this->floatImage);
+	cv::waitKey(0);
+	cv::imshow("Base Image", this->baseImage);
+	cv::waitKey(0);
+	
+	//Create Gaussian Pyramids Here
+	this->loadBlendMasks();
+	this->generateGaussianPyramid(this->blendMaskX,this->maskGaussianPyramidX);
+	this->generateGaussianPyramid(this->blendMaskY,this->maskGaussianPyramidY);
+	//left implies float image, right implies base image
+	if(left.Index==0){
+		this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+		if(top.Index==0){					
+			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+		}else{
+			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}
+	}else{
+		this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		if(top.Index==0){
+			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+		}else{
+			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}
+	}
+	//Now we reconstruct the image using result pyramids
+	cv::Mat_<cv::Vec3f> blendX,blendY;
+	cv::Mat_<cv::Vec3f> result(this->floatImage.rows,this->floatImage.cols);
+	blendX=this->reconstructImageX();
+	blendY=this->reconstructImageY();
+	//result=blendX.clone();			
+	cv::imshow("ImageX",blendX);
+	cv::waitKey(0);
+	cv::imshow("imageY",blendY);
+	cv::waitKey(0);			
+	//outputImage=blendX.clone();
 
-			cv::imshow("Base Image", this->baseImage);
-			cv::waitKey(0);
-
-
-			//Create Gaussian Pyramids Here
-			this->loadBlendMasks();
-			this->generateGaussianPyramid(this->blendMaskX,this->maskGaussianPyramidX);
-			this->generateGaussianPyramid(this->blendMaskY,this->maskGaussianPyramidY);
-
-
-			//left implies float image, right implies base image
-			if(left.Index==0){
-				this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
-				if(top.Index==0){					
-					this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
-				}else{
-					this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
-				}
-			}else{
-				this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
-				if(top.Index==0){
-					this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
-				}else{
-					this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
-				}
-			}
-			
-			//Now we reconstruct the image using result pyramids
-			cv::Mat_<cv::Vec3f> blendX,blendY;
-			cv::Mat_<cv::Vec3f> result(this->floatImage.rows,this->floatImage.cols);
-			blendX=this->reconstructImageX();
-			blendY=this->reconstructImageY();
-			//result=blendX.clone();
-
-			cv::imshow("ImageX",blendX);
-			cv::waitKey(0);
-			cv::imshow("imageY",blendY);
-			cv::waitKey(0);			
-			//outputImage=blendX.clone();
-
-			//Now get the resultant blended image
-
-			for(int i=0;i<this->floatImage.rows;i++){
-				for(int j=0;j<this->floatImage.cols;j++){
-					double weightX=-1;
-					if(i==0 && j==0)
-						weightX=1;
-					else if(j<=this->floatImage.cols/2 && i<=this->floatImage.rows/2)
-						weightX=1.0-(double)j/(i+j);
-					else if(j<=this->floatImage.cols/2 && i>this->floatImage.rows/2)
-						weightX=1.0-(double)j/(j+(this->floatImage.rows-i));
-					else if(j>this->floatImage.cols/2 && i<=this->floatImage.rows/2)
-						weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+i);
-					else 
-						weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
-
-				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-					result.at<cv::Vec3f>(i,j)=/*255*weightX;*/blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
-				}
-			}
-			cv::cvtColor(result,result,CV_BGR2GRAY);
-			result.convertTo(result,CV_8U,255);
-			cv::imshow("OutputImage",result);
-			cv::waitKey(0);
-			return result;
+	//Now get the resultant blended image
+	for(int i=0;i<this->floatImage.rows;i++){				
+		for(int j=0;j<this->floatImage.cols;j++){
+			double weightX=-1;
+			if(i==0 && j==0)
+				weightX=1;
+			else if(j<=this->floatImage.cols/2 && i<=this->floatImage.rows/2)
+				weightX=1.0-(double)j/(i+j);
+			else if(j<=this->floatImage.cols/2 && i>this->floatImage.rows/2)
+				weightX=1.0-(double)j/(j+(this->floatImage.rows-i));
+			else if(j>this->floatImage.cols/2 && i<=this->floatImage.rows/2)
+				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+i);
+			else 
+				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
+			//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
+			result.at<cv::Vec3f>(i,j)=/*255*weightX;*/blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
+		}
+	}
+	cv::cvtColor(result,result,CV_BGR2GRAY);
+	result.convertTo(result,CV_8U,255);
+	cv::imshow("OutputImage",result);
+	cv::waitKey(0);
+	return result;
 }
 
 void LaplacianBlender::loadBlendMasks(){
