@@ -160,5 +160,83 @@ void Warp::GetCustomHomography(double angle,
 }
 
 
+void warpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::Size dsize,
+        int flags, int borderType, const cv::Scalar& borderValue, CvPoint origin )
+{
+	dst.create( dsize, src.type() );
+	
+	const int BLOCK_SZ = 32;
+	
+	short XY[BLOCK_SZ*BLOCK_SZ*2], A[BLOCK_SZ*BLOCK_SZ];
+	double M[9];
+	cv::Mat _M(3, 3, CV_64F, M);
+	int interpolation = flags & cv::INTER_MAX;
+	if( interpolation == cv::INTER_AREA )
+		interpolation = cv::INTER_LINEAR;
+
+	CV_Assert( (M0.type() == CV_32F || M0.type() == CV_64F) && M0.rows == 3 && M0.cols == 3 );
+	M0.convertTo(_M, _M.type());
+
+	if( !(flags & cv::WARP_INVERSE_MAP) )
+		invert(_M, _M);
+
+	int x, xDest, y, yDest, x1, y1, width = dst.cols, height = dst.rows;
+	
+	int bh0 = std::min(BLOCK_SZ/2, height);
+	int bw0 = std::min(BLOCK_SZ*BLOCK_SZ/bh0, width);
+	bh0 = std::min(BLOCK_SZ*BLOCK_SZ/bw0, height);
+	
+	for( y = -origin.y, yDest = 0; y < height; y += bh0, yDest += bh0 )
+	{
+		for( x = -origin.x, xDest = 0; x < width; x += bw0, xDest += bw0 )
+		{
+			int bw = std::min( bw0, width - x);
+			int bh = std::min( bh0, height - y);
+			// to avoid dimensions errors
+			if (bw <= 0 || bh <= 0)
+				break;
+
+			cv::Mat _XY(bh, bw, CV_16SC2, XY), _A;
+			cv::Mat dpart(dst, cv::Rect(xDest, yDest, bw, bh));
+			for( y1 = 0; y1 < bh; y1++ )
+			{
+				short* xy = XY + y1*bw*2;
+				double X0 = M[0]*x + M[1]*(y + y1) + M[2];
+				double Y0 = M[3]*x + M[4]*(y + y1) + M[5];            
+				double W0 = M[6]*x + M[7]*(y + y1) + M[8];
+				
+				if( interpolation == cv::INTER_NEAREST )
+					for( x1 = 0; x1 < bw; x1++ ){
+						double W = W0 + M[6]*x1;
+						W = W ? 1./W : 0;
+						int X = cv::saturate_cast<int>((X0 + M[0]*x1)*W);
+						int Y = cv::saturate_cast<int>((Y0 + M[3]*x1)*W);
+						xy[x1*2] = (short)X;
+						xy[x1*2+1] = (short)Y;
+					}else{
+						short* alpha = A + y1*bw;
+						for( x1 = 0; x1 < bw; x1++ ){
+							double W = W0 + M[6]*x1;
+							W = W ? cv::INTER_TAB_SIZE/W : 0;
+							int X = cv::saturate_cast<int>((X0 + M[0]*x1)*W);
+							int Y = cv::saturate_cast<int>((Y0 + M[3]*x1)*W);
+							xy[x1*2] = (short)(X >> cv::INTER_BITS) + origin.x;
+							xy[x1*2+1] = (short)(Y >> cv::INTER_BITS) + origin.y;
+							alpha[x1] = (short)((Y & (cv::INTER_TAB_SIZE-1))*cv::INTER_TAB_SIZE +
+								(X & (cv::INTER_TAB_SIZE-1)));
+						}
+					}
+			}
+			if( interpolation == cv::INTER_NEAREST )
+				remap( src, dpart, _XY,cv::Mat(), interpolation, borderType, borderValue );
+			else
+			{
+				cv::Mat _A(bh, bw, CV_16U, A);
+				remap( src, dpart, _XY, _A, interpolation, borderType, borderValue );
+			}
+		}
+	}
+}
+
 
 

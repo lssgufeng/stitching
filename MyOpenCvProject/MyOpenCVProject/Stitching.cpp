@@ -455,7 +455,9 @@ void Stitching::calculateOverlapImages(cv::Mat homography,
 
 			cv::Mat warpedImage;
 			Warp warp;
-			warp.TestTransformation(floatImage,24,0,0);
+			//warp.TestTransformation(floatImage,24,0,0);
+			//cv::Mat homography1(3,3,CV_64F);
+			//warp.GetCustomHomography(23,0,0,homography);
 			cv::warpPerspective(floatImage,warpedImage,homography,cv::Size());
 			cv::imwrite("output/Warped.png",warpedImage);
 			cv::imshow("Warped",warpedImage);
