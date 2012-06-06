@@ -44,7 +44,7 @@ public:
 	//@floatingImage Floating Image
 	//@baseImage Base Image, which is fixed.
 	//@homography Transformation matrix 
-	Stitching(cv::Mat floatingImage, cv::Mat baseImage, cv::Mat homography);
+	Stitching(cv::Mat floatingImage, cv::Mat baseImage);
 	//destructor
 	~Stitching();
 	//it performs the main task of stitching
