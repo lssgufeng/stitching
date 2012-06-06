@@ -1,6 +1,8 @@
 //#include "Stitching.h"
 #include "Warp.h"
 #include "AlphaBlender.h"
+#include "Corners.h"
+#include "Matching.h"
 
 
 Stitching::Stitching(cv::Mat floatingImage,
@@ -8,12 +10,16 @@ Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat homography){
 		this->floatingImage=floatingImage;
 		this->baseImage=baseImage;
-		this->homography=homography;		
+		this->homography=calcuateHomography(this->floatingImage,this->baseImage);		
 }
 
 Stitching::~Stitching(){
 }
 void Stitching::Stitch(){
+
+	cv::Mat homography=calcuateHomography(this->floatingImage,this->baseImage);
+	return;
+
 	//1.Get the new transformed corners and rotated image
 	cv::Point baseCorners[4],floatingCorners[4];
 	baseCorners[0]=cv::Point(0,0);
@@ -410,15 +416,47 @@ void Stitching::Stitch(){
 		}
 	}*/
 
+cv::Mat Stitching::calcuateHomography(cv::Mat image1,cv::Mat image2){
+	Corners corner;
+	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
+	corner.GetSurfFeatures(image1,keyPoints1);
+	corner.GetSurfFeatures(image2,keyPoints2);
+	Matching matching;
+	std::vector<std::vector<cv::DMatch>> matches1,matches2;
+	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+	int removed1=matching.RatioTest(matches1,0.8);	
+	int removed2=matching.RatioTest(matches2,0.8);	
+	std::vector<cv::DMatch> symmetryMatches;
+	matching.SymmetryTest(matches1,matches2,symmetryMatches);
+	cv::Mat imageMatches;	
+	std::vector<uchar> inliers;
+	cv::Mat homography;
+	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
+	return homography;
+}
 
-// Perform the laplacian blending of two images. 
-//The order matters(?) 
-//cv::Mat_<cv::Vec3f> Stitching::LaplacianBlend(const cv::Mat_<cv::Vec3f>& l, const cv::Mat_<cv::Vec3f>& r, const cv::Mat_<float>& m) {
-//    LaplacianBlending lb(l,r,m,4);
-//    return lb.blend();
-//}
 
+//Calculates the common(overlap) area
+void Stitching::calculateOverlapImages(cv::Mat homography, 
+		cv::Mat floatImage, cv::Mat baseImage,
+		cv::Mat outputFloatImage,cv::Mat outputBaseImage){
+			//1.Get the new transformed corners and rotated image
+			/*cv::Point baseCorners[4],floatingCorners[4];
+			baseCorners[0]=cv::Point(0,0);
+			baseCorners[1]=cv::Point(baseImage.cols-1,0);
+			baseCorners[2]=cv::Point(baseImage.cols-1,this->baseImage.rows-1);
+			baseCorners[3]=cv::Point(0,baseImage.rows-1);
+			
+			floatingCorners[0]=cv::Point(0,0);
+			floatingCorners[1]=cv::Point(floatingImage.cols-1,0);
+			floatingCorners[2]=cv::Point(this->floatingImage.cols-1,this->floatingImage.rows-1);
+			floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);*/
 
+			cv::Mat warpedImage;
+			cv::warpPerspective(floatImage,warpedImage,homography);
+			cv::imshow("Warped",warpedImage);
+			cv::waitKey(0);
+}
 
 
 
