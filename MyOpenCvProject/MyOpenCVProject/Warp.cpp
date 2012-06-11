@@ -238,5 +238,29 @@ void Warp::WarpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0,
 	}
 }
 
+void Warp::GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft,cv::Point& bottomRight){
+
+	int minX=INT_MAX,minY=INT_MAX,maxX=INT_MIN, maxY=INT_MIN;
+	for(int i=0;i<4;i++){
+		//Get max and min X
+		if(corners[i].x<minX){
+			minX=corners[i].x;
+		}else if(corners[i].x>maxX){
+			maxX=corners[i].x;
+		}
+		
+		//Get max and min Y
+		if(corners[i].y<minY){
+			minY=corners[i].y;
+		}else if(corners[i].y>maxY){
+			maxY=corners[i].y;
+		}
+	}
+	topLeft.x=minX;
+	topLeft.y=minY;
+	bottomRight.x=maxX;
+	bottomRight.y=maxY;
+}
+
 
 

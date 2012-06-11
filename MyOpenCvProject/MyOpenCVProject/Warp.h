@@ -11,6 +11,7 @@
 
 class Warp{
 private:
+	
 public:
 	//Constructor
 	Warp();
@@ -71,4 +72,6 @@ public:
 	void WarpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::Size dsize,
         int flags, int borderType, const cv::Scalar& borderValue, CvPoint origin );
 
+	//It gets the extrement corners i.e. top left and bottom right 
+	void GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
 };
