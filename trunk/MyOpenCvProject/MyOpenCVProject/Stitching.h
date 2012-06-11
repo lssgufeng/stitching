@@ -31,11 +31,11 @@ private:
 
 private:
 	//Calculates the homography of image1 to the image2
-	cv::Mat calcuateHomography(cv::Mat image1,cv::Mat image2);
+	cv::Mat calculateHomography(cv::Mat image1,cv::Mat image2);
     //Calculates the common(overlap) area
-	void calculateOverlapImages(cv::Mat homography, 
-		cv::Mat floatImage, cv::Mat baseImage,
-		cv::Mat outputFloatImage,cv::Mat outputBaseImage);
+	void calculateOverlapImages(const cv::Mat homography, 
+		const cv::Mat floatImage,const cv::Mat baseImage,
+		cv::Mat& outputFloatImage,cv::Mat& outputBaseImage);
 
 public: 
 	

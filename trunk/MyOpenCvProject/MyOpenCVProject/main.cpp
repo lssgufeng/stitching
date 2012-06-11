@@ -32,7 +32,7 @@ int main(void)
 
 
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/rot.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/l.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/r.png";
 
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_middle_66_8_crop.png";
@@ -43,8 +43,8 @@ int main(void)
 	printf("path1=%s",path1);printf("path2=%s",path2);
 	//printf("path1=%s",path1);printf("path2=%s",path2);
 
-	cv::Mat image2=cv::imread(path1,0);
-	cv::Mat image1=cv::imread(path2,0);
+	cv::Mat image1=cv::imread(path1,0);
+	cv::Mat image2=cv::imread(path2,0);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");

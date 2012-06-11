@@ -15,10 +15,17 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 void Stitching::Stitch(){
-	cv::Mat homography=calcuateHomography(this->floatingImage,this->baseImage);
+	cv::Mat homography1=calculateHomography(this->floatingImage,this->baseImage);
 	cv::Mat commonBaseImage,commonFloatImage;
-	this->calculateOverlapImages(homography,this->floatingImage,this->baseImage,commonBaseImage,commonFloatImage);
-	return;
+	this->calculateOverlapImages(homography1,this->floatingImage,this->baseImage,commonBaseImage,commonFloatImage);
+	cv::imwrite("output/commonbase.png",commonBaseImage);
+	cv::imwrite("output/commonfloat.png",commonFloatImage);
+
+	cv::Mat homography2=calculateHomography(commonBaseImage,commonFloatImage);
+	cv::Mat homography=cv::Mat(3,3,CV_64F);
+	cv::multiply(homography1,homography2,homography);
+
+	
 
 	//1.Get the new transformed corners and rotated image
 	cv::Point baseCorners[4],floatingCorners[4];
@@ -416,7 +423,7 @@ void Stitching::Stitch(){
 		}
 	}*/
 
-cv::Mat Stitching::calcuateHomography(cv::Mat image1,cv::Mat image2){
+cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 	corner.GetSurfFeatures(image1,keyPoints1);
@@ -436,34 +443,42 @@ cv::Mat Stitching::calcuateHomography(cv::Mat image1,cv::Mat image2){
 }
 
 
-//Calculates the common(overlap) area
-void Stitching::calculateOverlapImages(cv::Mat homography, 
-		cv::Mat floatImage, cv::Mat baseImage,
-		cv::Mat outputFloatImage,cv::Mat outputBaseImage){
-			//1.Get the new transformed corners and rotated image
-			/*cv::Point baseCorners[4],floatingCorners[4];
-			baseCorners[0]=cv::Point(0,0);
-			baseCorners[1]=cv::Point(baseImage.cols-1,0);
-			baseCorners[2]=cv::Point(baseImage.cols-1,this->baseImage.rows-1);
-			baseCorners[3]=cv::Point(0,baseImage.rows-1);
-			
+//Calculates the common(overlap) areas which can be used to calculate 
+//more correct homography
+void Stitching::calculateOverlapImages(const cv::Mat homography, 
+		const cv::Mat floatImage, const cv::Mat baseImage,
+		cv::Mat& outputFloatImage,cv::Mat& outputBaseImage){
+			//For transformation related operations
+			Warp warp;
+
+			//1.Get the new transformed corners for the transformed image			
+			cv::Point floatingCorners[4];					
 			floatingCorners[0]=cv::Point(0,0);
 			floatingCorners[1]=cv::Point(floatingImage.cols-1,0);
 			floatingCorners[2]=cv::Point(this->floatingImage.cols-1,this->floatingImage.rows-1);
-			floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);*/
+			floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);
+			warp.TransformCorners(floatingCorners,floatingCorners,homography);
 
+			cv::Point topLeft, bottomRight;
+			warp.GetExtremeCorners(floatingCorners,topLeft,bottomRight);			
+			
+			//Get the size of the warped image
+			if(topLeft.x<0)
+				topLeft.x=0;
+			if(topLeft.y<0)
+				topLeft.y=0;
+			if(bottomRight.x>this->baseImage.cols)
+				bottomRight.x=this->baseImage.cols;
+			if(bottomRight.y>this->baseImage.rows)
+				bottomRight.y=this->baseImage.rows;
+			
+			cv::Size warpSize;
+			warpSize.width= bottomRight.x-topLeft.x;
+			warpSize.height=bottomRight.y-topLeft.y;
 			cv::Mat warpedImage;
-			Warp warp;
-			//warp.TestTransformation(floatImage,24,0,0);
-			//cv::Mat homography1(3,3,CV_64F);
-			//warp.GetCustomHomography(23,0,0,homography);
-			//warp.WarpPerspective(floatImage,warpedImage,homography,floatImage.size(),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0,cv::Point(0,0)),
-			cv::warpPerspective(floatImage,warpedImage,homography,cv::Size());
-
-			//cv::warpPerspective(floatImage,warpedImage,homography,cv::Size());
-			cv::imwrite("output/Warped.png",warpedImage);
-			cv::imshow("Warped",warpedImage);
-			cv::waitKey(0);
+			cv::warpPerspective(floatImage,outputFloatImage,homography,cv::Size());
+			outputBaseImage=this->baseImage(cv::Rect(topLeft.x,topLeft.y,
+				warpSize.width,warpSize.height));			
 }
 
 
