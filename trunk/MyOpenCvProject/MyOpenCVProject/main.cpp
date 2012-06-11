@@ -32,11 +32,11 @@ int main(void)
 
 
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/l.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/r.png";
+	/*char* path1="C:/Users/krpaudel/Google Drive/images/rot.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/r.png";*/
 
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_middle_66_8_crop.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_oben10°_72_8_crop.png";*/
+	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_middle_66_8.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_unten10°_72_8.png";
 
 	
 	
@@ -223,10 +223,7 @@ int main(void)
 	//We have homography matrix, now the final task 
 	//is to transform image1 on image 2 and stitch together
 
-	std::fstream file;
-	file.open("homography.txt",std::ios::app);
-	file<<"\nhomography=\n"<<homography;
-	printf("value=%f",homography.at<double>(0,2));
+	
 
 	//cv::Mat destination;
 	/*cv::warpPerspective(image1,destination,homography,cv::Size(image1.cols*2,image1.rows*2),CV_WARP_FILL_OUTLIERS);

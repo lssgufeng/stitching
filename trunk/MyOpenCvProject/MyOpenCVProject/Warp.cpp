@@ -1,6 +1,7 @@
 #include "Warp.h"
 #include "Utility.h"
 #include <iostream>
+#include <fstream>
 #define PI 3.141592653589793238462643383279502884197 //:)
 
 Warp::Warp(){
@@ -260,6 +261,12 @@ void Warp::GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft,cv::Po
 	topLeft.y=minY;
 	bottomRight.x=maxX;
 	bottomRight.y=maxY;
+}
+
+void Warp::WriteHomography(cv::Mat homography,std::string title){
+	std::fstream file;
+	file.open("homography.txt",std::ios::app);
+	file<<"\n"<<title<<"=\n"<<homography;
 }
 
 

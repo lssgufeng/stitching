@@ -8,14 +8,15 @@
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage){
 		this->floatingImage=floatingImage;
-		this->baseImage=baseImage;
-		//this->homography=calcuateHomography(this->floatingImage,this->baseImage);		
+		this->baseImage=baseImage;		
 }
 
 Stitching::~Stitching(){
 }
 void Stitching::Stitch(){
+	/*Warp warp;
 	cv::Mat homography1=calculateHomography(this->floatingImage,this->baseImage);
+	warp.RotateImage(this->floatingImage,this->floatingImage,homography1);
 	cv::Mat commonBaseImage,commonFloatImage;
 	this->calculateOverlapImages(homography1,this->floatingImage,this->baseImage,commonBaseImage,commonFloatImage);
 	cv::imwrite("output/commonbase.png",commonBaseImage);
@@ -23,10 +24,11 @@ void Stitching::Stitch(){
 
 	cv::Mat homography2=calculateHomography(commonBaseImage,commonFloatImage);
 	cv::Mat homography=cv::Mat(3,3,CV_64F);
-	cv::multiply(homography1,homography2,homography);
+	cv::multiply(homography1,homography2,homography);	
+	*/
 
-	
-
+	cv::Mat homography=calculateHomography(this->floatingImage,this->baseImage);
+	Warp warp;
 	//1.Get the new transformed corners and rotated image
 	cv::Point baseCorners[4],floatingCorners[4];
 	baseCorners[0]=cv::Point(0,0);
@@ -39,7 +41,7 @@ void Stitching::Stitch(){
 	floatingCorners[2]=cv::Point(this->floatingImage.cols-1,this->floatingImage.rows-1);
 	floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);
 
-	Warp warp;	
+	
 	//double tic=cv::getTickCount();
 	warp.TransformCorners(floatingCorners,floatingCorners,homography);
 	
@@ -450,14 +452,18 @@ void Stitching::calculateOverlapImages(const cv::Mat homography,
 		cv::Mat& outputFloatImage,cv::Mat& outputBaseImage){
 			//For transformation related operations
 			Warp warp;
+			cv::Mat tmpHomography=homography.clone();
 
 			//1.Get the new transformed corners for the transformed image			
-			cv::Point floatingCorners[4];					
+			cv::Point floatingCorners[4],dstCenter;					
+			cv::Point srcCenter(floatImage.cols/2,floatImage.rows/2);
+			warp.TransformPoint(srcCenter,dstCenter,&homography);
 			floatingCorners[0]=cv::Point(0,0);
 			floatingCorners[1]=cv::Point(floatingImage.cols-1,0);
 			floatingCorners[2]=cv::Point(this->floatingImage.cols-1,this->floatingImage.rows-1);
 			floatingCorners[3]=cv::Point(0,this->floatingImage.rows-1);
 			warp.TransformCorners(floatingCorners,floatingCorners,homography);
+			
 
 			cv::Point topLeft, bottomRight;
 			warp.GetExtremeCorners(floatingCorners,topLeft,bottomRight);			
@@ -475,8 +481,20 @@ void Stitching::calculateOverlapImages(const cv::Mat homography,
 			cv::Size warpSize;
 			warpSize.width= bottomRight.x-topLeft.x;
 			warpSize.height=bottomRight.y-topLeft.y;
+			//cv::Point origin(warpSize.width/2,warpSize.height/2);
+			tmpHomography.at<uchar>(0,2)+=(srcCenter.x-dstCenter.x)+(warpSize.width-this->floatingImage.cols)/2;
+			tmpHomography.at<uchar>(1,2)+=(srcCenter.y-dstCenter.y)+(warpSize.height-this->floatingImage.rows)/2;
+
 			cv::Mat warpedImage;
-			cv::warpPerspective(floatImage,outputFloatImage,homography,cv::Size());
+			cv::warpPerspective(floatImage,outputFloatImage,tmpHomography,warpSize);
+			cv::imshow("output Float image",outputFloatImage);
+			cv::waitKey(0);
+			cv::imwrite("output/oh1.png",outputFloatImage);
+			warp.RotateImage(this->floatingImage,outputFloatImage,homography);
+			cv::imwrite("output/oh2.png",outputFloatImage);
+			warp.WarpPerspective(this->floatingImage,outputFloatImage,tmpHomography,warpSize,1,0,cv::Scalar(0),dstCenter);
+			cv::imshow("output Float image",outputFloatImage);
+			cv::waitKey(0);
 			outputBaseImage=this->baseImage(cv::Rect(topLeft.x,topLeft.y,
 				warpSize.width,warpSize.height));			
 }
