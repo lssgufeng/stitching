@@ -74,4 +74,5 @@ public:
 
 	//It gets the extrement corners i.e. top left and bottom right 
 	void GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
+	void WriteHomography(cv::Mat homography,std::string title);
 };
