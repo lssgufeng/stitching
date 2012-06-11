@@ -15,7 +15,6 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 void Stitching::Stitch(){
-
 	cv::Mat homography=calcuateHomography(this->floatingImage,this->baseImage);
 	cv::Mat commonBaseImage,commonFloatImage;
 	this->calculateOverlapImages(homography,this->floatingImage,this->baseImage,commonBaseImage,commonFloatImage);
@@ -458,7 +457,9 @@ void Stitching::calculateOverlapImages(cv::Mat homography,
 			//warp.TestTransformation(floatImage,24,0,0);
 			//cv::Mat homography1(3,3,CV_64F);
 			//warp.GetCustomHomography(23,0,0,homography);
-			warp.WarpPerspective(floatImage,warpedImage,homography,floatImage.size(),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0,cv::Point(0,0)),
+			//warp.WarpPerspective(floatImage,warpedImage,homography,floatImage.size(),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0,cv::Point(0,0)),
+			cv::warpPerspective(floatImage,warpedImage,homography,cv::Size());
+
 			//cv::warpPerspective(floatImage,warpedImage,homography,cv::Size());
 			cv::imwrite("output/Warped.png",warpedImage);
 			cv::imshow("Warped",warpedImage);
