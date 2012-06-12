@@ -52,6 +52,8 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	//outputImage=blendX.clone();
 	cv::cvtColor(result,result,CV_BGR2GRAY);
 	result.convertTo(result,CV_8U,255);
+	cv::cvtColor(blendX,blendX,CV_BGR2GRAY);
+	cv::cvtColor(blendY,blendY,CV_BGR2GRAY);
 	blendX.convertTo(blendX,CV_8U,255);
 	blendY.convertTo(blendY,CV_8U,255);
 	//Now get the resultant blended image
