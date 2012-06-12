@@ -50,7 +50,10 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	cv::imshow("imageY",blendY);
 	cv::waitKey(0);			
 	//outputImage=blendX.clone();
-
+	cv::cvtColor(result,result,CV_BGR2GRAY);
+	result.convertTo(result,CV_8U,255);
+	blendX.convertTo(blendX,CV_8U,255);
+	blendY.convertTo(blendY,CV_8U,255);
 	//Now get the resultant blended image
 	for(int i=0;i<this->floatImage.rows;i++){				
 		for(int j=0;j<this->floatImage.cols;j++){
@@ -62,15 +65,15 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			else if(j<=this->floatImage.cols/2 && i>this->floatImage.rows/2)
 				weightX=1.0-(double)j/(j+(this->floatImage.rows-i));
 			else if(j>this->floatImage.cols/2 && i<=this->floatImage.rows/2)
-				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+i);
+				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+(double)i);
 			else 
-				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
+				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+(this->floatImage.rows-(double)i));
 			//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-			result.at<cv::Vec3f>(i,j)=weightX;blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
+			result.at<uchar>(i,j)=/*255*weightX;*/blendX.at<uchar>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
 		}
 	}
-	cv::cvtColor(result,result,CV_BGR2GRAY);
-	result.convertTo(result,CV_8U,255);
+	/*cv::cvtColor(result,result,CV_BGR2GRAY);
+	result.convertTo(result,CV_8U,255);*/
 	cv::imshow("OutputImage",result);
 	cv::waitKey(0);
 	return result;
@@ -81,7 +84,7 @@ void LaplacianBlender::loadBlendMasks(){
 	this->blendMaskX.create(this->baseImage.rows,this->baseImage.cols);
 	for(int i=0;i<this->baseImage.cols;i++){
 		float alpha=1.0-(float)i/(this->baseImage.cols-1);
-		printf("\taplha=%f",alpha);
+		//printf("\taplha=%f",alpha);
 		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
 		for(int j=0;j<this->baseImage.rows;j++){
 			this->blendMaskX.at<float>(j,i)=alpha;
@@ -91,7 +94,7 @@ void LaplacianBlender::loadBlendMasks(){
 	this->blendMaskY.create(this->baseImage.rows,this->baseImage.cols);
 	for(int i=0;i<this->baseImage.rows;i++){
 		float alpha=1.0-(float)i/(this->baseImage.rows-1);
-		printf("\taplha=%f",alpha);
+		//printf("\taplha=%f",alpha);
 		//blendMask(cv::Range::all(),cv::Range(i,i))=alpha;
 		for(int j=0;j<this->baseImage.cols;j++){
 			this->blendMaskY.at<float>(i,j)=alpha;

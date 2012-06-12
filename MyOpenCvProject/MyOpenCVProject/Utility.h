@@ -19,5 +19,6 @@ public:
 	void FillRectangle(cv::Rect rect,cv::Mat& outputImage, cv::Scalar color=cv::Scalar(128,128,128));
 	//Records objects in the file
 	void WriteHomography(std::string title,cv::Mat homography);
+	void WriteContent(std::string content);
 };
 
