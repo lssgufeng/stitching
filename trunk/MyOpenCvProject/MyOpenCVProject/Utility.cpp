@@ -24,3 +24,9 @@ void Utility::WriteHomography(std::string title,cv::Mat homography){
 	file.open("homography.txt",std::ios::app);
 	file<<"\n"<<title<<"=\n"<<homography;
 }
+
+void Utility::WriteContent(std::string content){
+	std::fstream file;
+	file.open("contents.txt",std::ios::app);
+	file<<content;
+}
