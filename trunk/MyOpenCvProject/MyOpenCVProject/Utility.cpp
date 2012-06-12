@@ -19,3 +19,8 @@ void Utility::FillRectangle(cv::Rect rect,cv::Mat& outputImage, cv::Scalar color
 	cv::Point points[]={cv::Point(rect.x,rect.y),cv::Point(rect.x+rect.width,rect.y),cv::Point(rect.x+rect.width,rect.y+rect.height),cv::Point(rect.x,rect.y+rect.height)};
 	cv::fillConvexPoly(outputImage,points,4,color);
 }
+void Utility::WriteHomography(std::string title,cv::Mat homography){
+	std::fstream file;
+	file.open("homography.txt",std::ios::app);
+	file<<"\n"<<title<<"=\n"<<homography;
+}

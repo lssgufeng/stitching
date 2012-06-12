@@ -3,6 +3,7 @@
 #include "AlphaBlender.h"
 #include "Corners.h"
 #include "Matching.h"
+#include "Utility.h"
 
 
 Stitching::Stitching(cv::Mat floatingImage,
@@ -441,6 +442,9 @@ cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	std::vector<uchar> inliers;
 	cv::Mat homography;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
+	//homography.at<double>(2,0)=homography.at<double>(2,1)=0;
+	Utility utility;
+	utility.WriteHomography("Homography",homography);
 	return homography;
 }
 

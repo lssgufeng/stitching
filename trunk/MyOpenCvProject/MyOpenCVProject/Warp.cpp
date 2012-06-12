@@ -263,11 +263,5 @@ void Warp::GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft,cv::Po
 	bottomRight.y=maxY;
 }
 
-void Warp::WriteHomography(cv::Mat homography,std::string title){
-	std::fstream file;
-	file.open("homography.txt",std::ios::app);
-	file<<"\n"<<title<<"=\n"<<homography;
-}
-
 
 

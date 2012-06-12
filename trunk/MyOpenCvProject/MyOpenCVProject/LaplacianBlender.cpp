@@ -66,7 +66,7 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			else 
 				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-j)+(this->floatImage.rows-i));
 			//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-			result.at<cv::Vec3f>(i,j)=/*255*weightX;*/blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
+			result.at<cv::Vec3f>(i,j)=weightX;blendX.at<cv::Vec3f>(i,j)*weightX+blendY.at<cv::Vec3f>(i,j)*(1-weightX);
 		}
 	}
 	cv::cvtColor(result,result,CV_BGR2GRAY);

@@ -1,5 +1,6 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
+#include<fstream>
 
 /***
 * @class Utilitz
@@ -16,5 +17,7 @@ public:
 	void DrawRectangle(cv::Rect rect,cv::Mat& outputImage,cv::Scalar color=cv::Scalar(255,255,255));
 	//Fills the rectangle with color
 	void FillRectangle(cv::Rect rect,cv::Mat& outputImage, cv::Scalar color=cv::Scalar(128,128,128));
+	//Records objects in the file
+	void WriteHomography(std::string title,cv::Mat homography);
 };
 
