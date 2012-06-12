@@ -308,6 +308,7 @@ void Stitching::Stitch(){
 
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
 	cv::imshow("Raw Joined Image", stitchedImage);
 	cv::waitKey(0);
 	//cv::addWeighted(this->rotatedImage(commonFloatRegion),0.5,this->baseImage(commonBaseRegion),0.5,0,stitchedImage(commonStitchRegion));
