@@ -32,11 +32,11 @@ int main(void)
 
 
 
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/mountain1.JPG";
-	char* path2="C:/Users/krpaudel/Google Drive/images/mountain2.JPG";*/
+	char* path1="C:/Users/krpaudel/Google Drive/images/rot_br.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/tr.PNG";
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_72_8.png";
+	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_72_8.png";*/
 
 	
 	
