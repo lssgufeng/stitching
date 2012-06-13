@@ -20,7 +20,6 @@
 #include "Warp.h"
 #include "Utility.h"
 #include "Stitching.h"
-void testTransformation(cv::Mat& image,double angle,double xTrans, double yTrans);
 
 int main(void)  
 {

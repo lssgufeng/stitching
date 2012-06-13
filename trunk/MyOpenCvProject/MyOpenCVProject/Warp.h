@@ -73,5 +73,8 @@ public:
         int flags, int borderType, const cv::Scalar& borderValue, CvPoint origin );
 
 	//It gets the extrement corners i.e. top left and bottom right 
+	//The resulting area is the maximum possible area
 	void GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
+	//it gets the minimal corners from which we can form minimum possible area. 
+	void GetMinimalCorners(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
 };
