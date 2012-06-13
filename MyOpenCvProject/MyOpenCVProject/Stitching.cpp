@@ -45,6 +45,12 @@ void Stitching::Stitch(){
 	
 	//double tic=cv::getTickCount();
 	warp.TransformCorners(floatingCorners,floatingCorners,homography);
+	cv::Point topLeft, bottomRight;
+	warp.GetMinimalCorners(floatingCorners,topLeft, bottomRight);
+	floatingCorners[0].x=topLeft.x;floatingCorners[0].y=topLeft.y;
+	floatingCorners[1].x=bottomRight.x;floatingCorners[1].y=topLeft.y;
+	floatingCorners[2].x=bottomRight.x;floatingCorners[2].y=bottomRight.y;
+	floatingCorners[3].x=topLeft.x;floatingCorners[3].y=bottomRight.y;
 	
 	printf("Floating Corners Transformation:\n");
 	for(int i=0;i<4;i++){
@@ -126,8 +132,8 @@ void Stitching::Stitch(){
 
 
 	//next method to calculate
-	int image1Left=floatingCorners[0].x, image1Top=floatingCorners[0].y,
-		image1Right=floatingCorners[0].x, image1Bottom=floatingCorners[0].y;
+	int image1Left=INT_MAX, image1Top=INT_MAX,
+		image1Right=INT_MIN, image1Bottom=INT_MIN;
 
 	//printf("\nImage 1:Left=%d, Top=%d, Right=%d, Bottom=%d",image1Left,image1Top,image1Right,image1Bottom);
 	
@@ -184,11 +190,11 @@ void Stitching::Stitch(){
 	printf("\nRotated Image width=%d, height=%d",this->rotatedImage.cols,this->rotatedImage.rows);
 
 	//preprocessing for stitching
-	cv::Rect leftFloatRect, leftStitchRect;
+	/*cv::Rect leftFloatRect, leftStitchRect;
 	cv::Rect topFloatRect(0,0,0,0),topStitchRect;
 	cv::Rect rightFloatRect,rightStitchRect;
 	cv::Rect bottomFloatRect,bottomStitchRect;
-	cv::Rect baseRect,baseStitchRect;
+	cv::Rect baseRect,baseStitchRect;*/
 
 	cv::Mat stitchedImage(std::abs(bottom.Value-top.Value)+1,std::abs(right.Value-left.Value)+1,CV_8U);
 
