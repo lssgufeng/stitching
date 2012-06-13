@@ -119,8 +119,8 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	cv::Point maxTopLeft, maxBottomRight,minTopLeft, minBottomRight;
 	this->GetExtremeCorners(dstCorners,maxTopLeft,maxBottomRight);
 	this->GetMinimalCorners(dstCorners,minTopLeft, minBottomRight);
-	printf("Transformed Corners: Top Left=%d,%d and Bottom Right=%d,%d",maxTopLeft.x,maxTopLeft.y,
-		maxBottomRight.x,maxBottomRight.y);
+	printf("Transformed Corners: Top Left=%d,%d and Bottom Right=%d,%d",minTopLeft.x,minTopLeft.y,
+		minBottomRight.x,minBottomRight.y);
 	
 	double newWidth=maxBottomRight.x-maxTopLeft.x;
 	double newHeight=maxBottomRight.y-maxTopLeft.y;
@@ -134,11 +134,16 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
 	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));	
+    
+	//Added Later
+	cv::Rect rect(abs(minTopLeft.x),abs(minTopLeft.y),minBottomRight.x-minTopLeft.x,minBottomRight.y-minTopLeft.y);
+	cv::Mat cropImage=outputImage(rect);
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	//Utility::DisplayImage("warped",outputImage);
-	cv::imwrite("original.bmp",image);
+	cv::imwrite("output/o_original.png",image);
 	cv::imwrite("output/o_warped.png",outputImage);
+	cv::imwrite("output/o_croppeded.png",cropImage);
 }
 
 void Warp::TestTransformation(cv::Mat& image,
