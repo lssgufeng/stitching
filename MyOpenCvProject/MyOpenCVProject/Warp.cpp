@@ -74,15 +74,21 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y;
 	//Getting new image size
-	cv::Mat corners(3,4,CV_64F),dstCorners;
+	/**cv::Mat corners(3,4,CV_64F),dstCorners; **/
 	//top left
+	/**
 	corners.at<double>(0,0)=0;corners.at<double>(1,0)=0;corners.at<double>(2,0)=1;
 	corners.at<double>(0,1)=image.cols;corners.at<double>(1,1)=0;corners.at<double>(2,1)=1;
 	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
 	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
+	**/
 	
+	/**
 	tic=cv::getTickCount();
 	this->GetWarpPoints(corners,dstCorners,homography);
+	**/
+	//this->
+	/**
 	printf("GetWarpPoints took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	std::cout<<"\n source corners="<<std::endl<<" "<<corners<<std::endl<<std::endl;
 	std::cout<<"\n dest corners="<<std::endl<<" "<<dstCorners<<std::endl<<std::endl;
@@ -100,10 +106,24 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 			cv::minMaxLoc(tmp,&minY,&maxY);
 		else break;
 	}
-	double newWidth=maxX-minX;
-	double newHeight=maxY-minY;
+	**/
+	cv::Point corners[4],dstCorners[4];
+	corners[0].x=corners[0].y=0;
+	corners[1].x=image.cols;corners[1].y=0;
+	corners[2].x=image.cols;corners[2].y=image.rows;
+	corners[3].x=0;corners[3].y=image.rows;
+
+	this->TransformCorners(corners,dstCorners,homography);
+	cv::Point maxTopLeft, maxBottomRight,minTopLeft, minBottomRight;
+	this->GetExtremeCorners(corners,maxTopLeft,maxBottomRight);
+	this->GetMinimalCorners(dstCorners,minTopLeft, minBottomRight);
+	printf("Transformed Corners: Top Left=%d,%d and Bottom Right=%d,%d",minTopLeft.x,minTopLeft.y,
+		minBottomRight.x,minBottomRight.y);
+	
+	double newWidth=maxBottomRight.x-maxTopLeft.x;
+	double newHeight=maxBottomRight.y-maxTopLeft.y;
 	int shiftX=(newWidth-image.cols)/2;
-	int shiftY=(newHeight-image.rows)/2;  
+	int shiftY=(newHeight-image.rows)/2;
 	homography.at<double>(0,2)+=shiftX;
 	homography.at<double>(1,2)+=shiftY;
 	/*homography.at<double>(2,0)=0;
@@ -112,6 +132,8 @@ void Warp::RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography){
 
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
 	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));
+	outputImage=outputImage(cv::Rect(abs(minTopLeft.x),abs(minTopLeft.y),
+		minBottomRight.x-minTopLeft.x,minBottomRight.y-minTopLeft.y));
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 	//Utility::DisplayImage("warped",outputImage);
@@ -263,5 +285,31 @@ void Warp::GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft,cv::Po
 	bottomRight.y=maxY;
 }
 
+void Warp::GetMinimalCorners(const cv:: Point corners[], 
+	cv::Point& topLeft, cv::Point& bottomRight){
+		cv::Point tmpCorners[4]={corners[0],corners[1],corners[2],corners[3]};
+		//Bubble Sort: Easy to think 
+		for(int i=0;i<4-1;i++){
+			for(int j=i+1;j<4;j++){
+				if(tmpCorners[j].x<tmpCorners[i].x){
+					int tmp;
+					tmp=tmpCorners[i].x;
+					tmpCorners[i].x=tmpCorners[j].x;
+					tmpCorners[j].x=tmp;
+				}
+				if(tmpCorners[j].y<tmpCorners[i].y){
+					int tmp;
+					tmp=tmpCorners[i].y;
+					tmpCorners[i].y=tmpCorners[j].y;
+					tmpCorners[j].y=tmp;
+				}
+			}
+		}
+		topLeft.x=tmpCorners[1].x;
+		topLeft.y=tmpCorners[1].y;
+		bottomRight.x=tmpCorners[2].x;
+		bottomRight.y=tmpCorners[2].y;
+
+}
 
 
