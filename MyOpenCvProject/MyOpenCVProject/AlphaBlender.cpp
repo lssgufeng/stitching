@@ -5,7 +5,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 	cv::Mat outputImage){
 		cv::Mat image1=firstImage.clone();
 		cv::Mat image2=secondImage.clone();
-		//this->levelPixels(image1,image2);
+		this->levelPixels(image1,image2);
 		cv::imwrite("output/left.png",image1);
 		cv::imwrite("output/right.png",image2);
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);

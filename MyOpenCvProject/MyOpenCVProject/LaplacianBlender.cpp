@@ -3,7 +3,7 @@
 LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& baseImage){
 	cv::Mat image1=floatImage.clone();
 	cv::Mat image2=baseImage.clone();
-	//this->levelPixels(image1,image2);
+	this->levelPixels(image1,image2);
 	cv::cvtColor(image1,this->floatImage,CV_GRAY2BGR);
 	cv::cvtColor(image2,this->baseImage,CV_GRAY2BGR);
 	this->floatImage.convertTo(this->floatImage,CV_32F,1.0/255.0);
