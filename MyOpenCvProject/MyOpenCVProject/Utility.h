@@ -19,6 +19,7 @@ public:
 	void FillRectangle(cv::Rect rect,cv::Mat& outputImage, cv::Scalar color=cv::Scalar(128,128,128));
 	//Records objects in the file
 	void WriteHomography(std::string title,cv::Mat homography);
-	void WriteContent(std::string content);
+	void WriteCorners(std::string message, cv::Point corners[]);
+	void WriteExtremePoints(std::string messgae,cv::Point topLeft, cv::Point bottomRight);
 };
 

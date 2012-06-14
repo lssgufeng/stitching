@@ -14,12 +14,14 @@ Stitching::Stitching(cv::Mat floatingImage,
 
 Stitching::~Stitching(){
 }
+
 void Stitching::Stitch(){	
 	cv::Mat homography=calculateHomography(this->floatingImage,this->baseImage);
 	Warp warp;
+	Utility utility;
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);	
+	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	cv::imwrite("output/rotatedImage.png",this->rotatedImage);
 }
 
