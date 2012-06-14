@@ -163,10 +163,10 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	utility.WriteExtremePoints("Extreme Points",topLeft,bottomRight);
 	double newWidth=bottomRight.x-topLeft.x;
 	double newHeight=bottomRight.y-topLeft.y;
-	/*int shiftX=(newWidth-image.cols)/2;
-	int shiftY=(newHeight-image.rows)/2;*/
-	/*homography.at<double>(0,2)+=shiftX;
-	homography.at<double>(1,2)+=shiftY;*/
+	int shiftX=(newWidth-image.cols)/2;
+	int shiftY=(newHeight-image.rows)/2;
+	homography.at<double>(0,2)+=shiftX;
+	homography.at<double>(1,2)+=shiftY;
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
 }
 
@@ -343,11 +343,11 @@ void Warp::GetMinimalCorners(const cv:: Point corners[],
 }
 */
 
-void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int yValues[]={corners[0].y,corners[1].y,corners[2].y, corners[3].y};
 	int minX=INT_MAX,maxX=INT_MIN;
 	for(int i=0;i<3;i++){
-		for(int j=i+1;j<4;i++){
+		for(int j=i+1;j<4;j++){
 			if(yValues[j]<yValues[i]){
 				int temp=yValues[i];
 				yValues[i]=yValues[j];
@@ -370,7 +370,7 @@ void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 	bottomRight.y=yValues[2];	
 }
 
-void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int xValues[]={corners[0].x,corners[1].x,corners[2].x, corners[3].x};
 	int minY=INT_MAX,maxY=INT_MIN;
 	for(int i=0;i<3;i++){

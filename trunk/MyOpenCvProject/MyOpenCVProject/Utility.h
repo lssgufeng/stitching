@@ -21,5 +21,6 @@ public:
 	void WriteHomography(std::string title,cv::Mat homography);
 	void WriteCorners(std::string message, cv::Point corners[]);
 	void WriteExtremePoints(std::string messgae,cv::Point topLeft, cv::Point bottomRight);
+	void WriteContent(char* content);
 };
 

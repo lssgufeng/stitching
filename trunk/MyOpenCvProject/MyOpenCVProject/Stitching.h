@@ -15,10 +15,12 @@
 #pragma once
 #include "opencv2\core\core.hpp"
 #include "LaplacianBlender.h"
+#include "MyLog.h"
 
 class Stitching{
 private:
 	char szBuffer[100];
+	MyLog* log;
 	//Floating image
 	cv::Mat floatingImage;
 	//Base Image

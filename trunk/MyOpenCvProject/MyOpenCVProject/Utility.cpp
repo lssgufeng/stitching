@@ -43,3 +43,9 @@ void Utility::WriteExtremePoints(std::string message,cv::Point topLeft, cv::Poin
 	file<<"\n";
 	file<<"Top Left=>"<<topLeft.x<<","<<topLeft.y<<"\t"<<"Bottom Right=>"<<bottomRight.x<<","<<bottomRight.y;
 }
+
+void Utility::WriteContent(char* content){
+	std::fstream file;
+	file.open("corners.txt", std::ios::app);
+	file<<"\n\n"<<content<<"\n";	
+}
