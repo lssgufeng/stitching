@@ -69,7 +69,8 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}	
-	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_8U);
+	cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
 	//we have to define basically 3 regions in the stitched image and 
@@ -103,6 +104,9 @@ void Stitching::Stitch(){
 			baseRegion.y=0;
 		}
 	}
+	this->rotatedImage.copyTo(stitchedImage(floatRegion));
+	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
 }
 
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
