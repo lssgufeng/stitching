@@ -69,6 +69,7 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}
+	log->Write("This is test");
 	log->Write("Left:Index=%d,value=%d\nTop:Index=%d,value=%d\nRight:Index=%d,value=%d,Bottom:Index=%d,value=%d\n",
 		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
