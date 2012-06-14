@@ -95,6 +95,7 @@
     <ClCompile Include="LaplacianBlender.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matching.cpp" />
+    <ClCompile Include="MyLog.cpp" />
     <ClCompile Include="Stitching.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="Utility.h" />
@@ -110,6 +111,7 @@
     <ClInclude Include="LaplacianBlending.h" />
     <ClInclude Include="Matching.h" />
     <ClInclude Include="MyFilter.h" />
+    <ClInclude Include="MyLog.h" />
     <ClInclude Include="MyTimer.h" />
     <ClInclude Include="Stitching.h" />
     <ClInclude Include="Warp.h" />
