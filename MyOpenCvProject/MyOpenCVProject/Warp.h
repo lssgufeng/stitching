@@ -47,7 +47,11 @@ public:
 	//It is the main method for image transformation. We use the result image
 	//to join to base image to get stitched image. The ROIs of this image are
 	//copied to the resultant image.
-	void RotateImage(cv::Mat image,cv::Mat& outputImage,cv::Mat homography);
+	void RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,cv::Point& topLeft,cv::Point& bottomRight);
+	//This rotates the image and crops vertically
+	void RotateImage_Xcrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
+	//This rotates the image and crops horizontally
+	void RotateImage_Ycrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
 
 	/***
 	* Tests the transformation of the image with the supplied parameters
@@ -74,7 +78,9 @@ public:
 
 	//It gets the extrement corners i.e. top left and bottom right 
 	//The resulting area is the maximum possible area
-	void GetExtremeCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
-	//it gets the minimal corners from which we can form minimum possible area. 
-	void GetMinimalCorners(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
+	void GetCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
+	//We get the corners of x croped image
+	void GetCorners_Xcrop(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
+	//Get the corners of y croped image
+	void GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
 };
