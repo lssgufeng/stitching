@@ -21,7 +21,6 @@ void Stitching::Stitch(){
 	cv::Point topLeft, bottomRight;
 	warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);	
 	cv::imwrite("output/rotatedImage.png",this->rotatedImage);
-
 }
 
 
