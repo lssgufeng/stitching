@@ -68,30 +68,42 @@ void Stitching::Stitch(){
 	}else{
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
-	}
-	log->Write("This is test");
-	log->Write("Left:Index=%d,value=%d\nTop:Index=%d,value=%d\nRight:Index=%d,value=%d,Bottom:Index=%d,value=%d\n",
-		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
+	}	
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
-	cv::imwrite("output/stitched.png",stitchedImage);
+	
 	//paste the rotated and base images in the stitched image
+	//we have to define basically 3 regions in the stitched image and 
+	//common base region for float image and base image
 
+	cv::Rect floatRegion, baseRegion, commonStitchedRegion, commonBaseRegion, commonFloatRegion;
+    
+	floatRegion.width=this->rotatedImage.cols;
+	floatRegion.height=this->rotatedImage.rows;
+	baseRegion.width=this->baseImage.cols;
+	baseRegion.height=this->baseImage.rows;
 
-	
-
-
+	if(left.Index==0){
+		floatRegion.x=0;
+		baseRegion.x=abs(left.Value);
+		if(top.Index==0){
+			floatRegion.y=0;
+			baseRegion.y=abs(top.Value);
+		}else{
+			floatRegion.y=topLeft.y;
+			baseRegion.y=0;
+		}
+	}else{
+		floatRegion.x=topLeft.x;
+		baseRegion.x=0;
+		if(top.Index==0){
+			floatRegion.y=0;
+			baseRegion.y=abs(top.Value);
+		}else{
+			floatRegion.y=abs(top.Value);
+			baseRegion.y=0;
+		}
+	}
 }
-
-
-
-
-
-
-
-	
-
-
-
 
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	Corners corner;
