@@ -364,7 +364,7 @@ void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 			minY=corners[i].y;
 		}
 		if(corners[i].y>maxY){
-			maxY=corners[i].Y;
+			maxY=corners[i].y;
 		}
 	}
 
