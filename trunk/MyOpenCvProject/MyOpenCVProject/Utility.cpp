@@ -25,8 +25,21 @@ void Utility::WriteHomography(std::string title,cv::Mat homography){
 	file<<"\n"<<title<<"=\n"<<homography;
 }
 
-void Utility::WriteContent(std::string content){
+void Utility::WriteCorners(std::string message, cv::Point corners[]){
 	std::fstream file;
-	file.open("contents.txt",std::ios::app);
-	file<<content;
+	file.open("corners.txt",std::ios::app);
+	file<<"\n\n"<<message;
+	file<<"\n";
+	for(int i=0;i<4;i++){
+		file<<"x="<<corners[i].x<<","<<corners[i].y<<"\t";
+	}
+	file.close();
+}
+
+void Utility::WriteExtremePoints(std::string message,cv::Point topLeft, cv::Point bottomRight){
+	std::fstream file;
+	file.open("corners.txt",std::ios::app);
+	file<<"\n\n"<<message;
+	file<<"\n";
+	file<<"Top Left=>"<<topLeft.x<<","<<topLeft.y<<"\t"<<"Bottom Right=>"<<bottomRight.x<<","<<bottomRight.y;
 }

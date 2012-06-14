@@ -139,12 +139,35 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 
 void Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
-
+	
 }
 
 void Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
+	cv::Point srcCenter,dstCenter;
+	srcCenter=cv::Point(image.cols/2,image.rows/2);	
+	this->TransformPoint(srcCenter,dstCenter,&homography);
+	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x;
+	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y;
+	cv::Point corners[4],dstCorners[4];
+	corners[0].x=corners[0].y=0;
+	corners[1].x=image.cols;corners[1].y=0;
+	corners[2].x=image.cols;corners[2].y=image.rows;
+	corners[3].x=0;corners[3].y=image.rows;
 
+	this->TransformCorners(corners,dstCorners,homography);
+	Utility utility;
+	utility.WriteCorners("source corners",corners);
+	utility.WriteCorners("dest corners",dstCorners);
+	this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight);
+	utility.WriteExtremePoints("Extreme Points",topLeft,bottomRight);
+	double newWidth=bottomRight.x-topLeft.x;
+	double newHeight=bottomRight.y-topLeft.y;
+	/*int shiftX=(newWidth-image.cols)/2;
+	int shiftY=(newHeight-image.rows)/2;*/
+	/*homography.at<double>(0,2)+=shiftX;
+	homography.at<double>(1,2)+=shiftY;*/
+	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
 }
 
 void Warp::TestTransformation(cv::Mat& image,
@@ -348,10 +371,10 @@ void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 }
 
 void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
-	int xValues[]={corners[0].y,corners[1].y,corners[2].y, corners[3].y};
+	int xValues[]={corners[0].x,corners[1].x,corners[2].x, corners[3].x};
 	int minY=INT_MAX,maxY=INT_MIN;
 	for(int i=0;i<3;i++){
-		for(int j=i+1;j<4;i++){
+		for(int j=i+1;j<4;j++){
 			if(xValues[j]<xValues[i]){
 				int temp=xValues[i];
 				xValues[i]=xValues[j];
