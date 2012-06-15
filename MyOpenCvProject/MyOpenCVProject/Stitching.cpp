@@ -11,6 +11,8 @@ Stitching::Stitching(cv::Mat floatingImage,
 		this->floatingImage=floatingImage;
 		this->baseImage=baseImage;		
 		MyLog* log=new MyLog("Stitching.log");
+		int i=2;
+		log->Write("test%d",i);
 }
 
 Stitching::~Stitching(){

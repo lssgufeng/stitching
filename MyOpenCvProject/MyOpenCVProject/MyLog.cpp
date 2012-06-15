@@ -1,7 +1,7 @@
 #include "MyLog.h"
 
 MyLog::MyLog(char* filename) {
-  m_stream.open(filename);
+	m_stream.open(filename,std::ios::app);
 }
 
 void MyLog::Write(char* logline){
