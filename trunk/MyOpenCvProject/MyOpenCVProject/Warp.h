@@ -79,8 +79,11 @@ public:
 	//It gets the extrement corners i.e. top left and bottom right 
 	//The resulting area is the maximum possible area
 	void GetCorners(const cv::Point corners[],cv::Point& topLeft, cv::Point& bottomRight);
-	//We get the corners of x croped image
+	//We get the corners of x croped image.
+	//Returns the shifted X
 	int GetCorners_Xcrop(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
+	
 	//Get the corners of y croped image
+	//Returns the shifted Y used for stitching
 	int GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
 };
