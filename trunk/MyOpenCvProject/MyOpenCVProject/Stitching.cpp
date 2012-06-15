@@ -22,7 +22,7 @@ void Stitching::Stitch(){
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	int cropped=warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
 	cv::imwrite("output/rotatedImage_YCrop.png",this->rotatedImage);
@@ -101,7 +101,7 @@ void Stitching::Stitch(){
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
 		}else{
-			floatRegion.y=abs(top.Value);
+			floatRegion.y=abs(top.Value)+1.5*cropped;
 			baseRegion.y=0;
 		}
 	}
