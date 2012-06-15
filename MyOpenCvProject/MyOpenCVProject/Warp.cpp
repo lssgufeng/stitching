@@ -141,12 +141,12 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
-void Warp::RotateImage_Xcrop(cv::Mat image,
+int Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
 	
 }
 
-void Warp::RotateImage_Ycrop(cv::Mat image,
+int Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
     cv::Point corners[4],dstCorners[4];
 	corners[0].x=corners[0].y=0;
@@ -154,7 +154,7 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	corners[2].x=image.cols;corners[2].y=image.rows;
 	corners[3].x=0;corners[3].y=image.rows;
 	this->TransformCorners(corners,dstCorners,homography);
-	this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight); 
+	int cropped=this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight); 
 
 
 	cv::Point srcCenter,dstCenter;
@@ -177,6 +177,7 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	homography.at<double>(0,2)+=shiftX;
 	homography.at<double>(1,2)+=shiftY;
 	cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
+	return cropped;
 }
 
 void Warp::TestTransformation(cv::Mat& image,
@@ -352,7 +353,7 @@ void Warp::GetMinimalCorners(const cv:: Point corners[],
 }
 */
 
-void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+int Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int yValues[]={corners[0].y,corners[1].y,corners[2].y, corners[3].y};
 	int minX=INT_MAX,maxX=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -376,10 +377,11 @@ void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 	topLeft.x=minX;
 	topLeft.y=yValues[1];
 	bottomRight.x=maxX;
-	bottomRight.y=yValues[2];	
+	bottomRight.y=yValues[2];
+	return yValues[1]-yValues[0];
 }
 
-void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+int Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int xValues[]={corners[0].x,corners[1].x,corners[2].x, corners[3].x};
 	int minY=INT_MAX,maxY=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -404,4 +406,5 @@ void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
 	bottomRight.y=maxY;
+	return xValues[1]-xValues[0];
 }
