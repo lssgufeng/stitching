@@ -10,9 +10,8 @@ Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage){
 		this->floatingImage=floatingImage;
 		this->baseImage=baseImage;		
-		MyLog* log=new MyLog("Stitching.log");
-		int i=2;
-		log->Write("test%d",i);
+		MyLog* log=new MyLog();
+		int i=2;		
 }
 
 Stitching::~Stitching(){
@@ -27,10 +26,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/rotatedImage.png",this->rotatedImage);
 	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	cv::imwrite("output/rotatedImage_YCrop.png",this->rotatedImage);
-
 	
-
-
 	//We have got top left and bottom right points of the rotated image
 	//Steps:
 	//1. Find the combined area
@@ -71,6 +67,11 @@ void Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}	
+	int i=12;
+	this->log->Write("this is test of writing in a file");
+	//this->log->Write("left:I=,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\nbottom:I=%d,V=%d");
+		//left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
+
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_8U);
 	cv::imwrite("output/stitched.png",stitchedImage);
 	

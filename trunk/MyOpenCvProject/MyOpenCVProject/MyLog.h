@@ -6,7 +6,7 @@ using namespace std;
 
 /** 
 @File: MyLog.h
-@Author: Baran Ornarli
+@Author: Baran Ornarli 
 @Description: Class for logging. 
 @Use:Log *pLog = new Log("errors.log");
      pLog->Write("Looped: %d times!", i);
@@ -14,11 +14,11 @@ using namespace std;
 @url: http://www.infernodevelopment.com/c-log-file-class-forget-debuggers
 **/
 class MyLog {
-  public:
-    MyLog(char* filename);
-    ~MyLog();
-    void Write(char* logline);
-	void Write(const char* logline, ...);
-  private:
-    ofstream m_stream;
+private:
+	ofstream m_stream;
+public:
+	MyLog();
+	~MyLog();
+	void Write(char* logline);
+	void Write(const char* logline, ...);	
 };
