@@ -88,9 +88,11 @@ void Stitching::Stitch(){
 		floatRegion.x=0;
 		baseRegion.x=abs(left.Value);
 		if(top.Index==0){
+			log->Write("Case 1");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
 		}else{
+			log->Write("Case 2");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 		}
@@ -98,10 +100,12 @@ void Stitching::Stitch(){
 		floatRegion.x=topLeft.x;
 		baseRegion.x=0;
 		if(top.Index==0){
+			log->Write("Case 3");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
 		}else{
-			floatRegion.y=abs(top.Value)+1.5*cropped;
+			log->Write("Case 4");
+			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 		}
 	}

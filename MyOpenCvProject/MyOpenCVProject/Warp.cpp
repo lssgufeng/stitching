@@ -378,7 +378,7 @@ int Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Po
 	topLeft.y=yValues[1];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
-	return yValues[1]-yValues[0];
+	return yValues[1];
 }
 
 int Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
