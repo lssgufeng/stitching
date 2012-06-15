@@ -66,6 +66,15 @@ void Warp::TransformCorners(const cv::Point* corners,
 
 void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,
 	cv::Point& topLeft,cv::Point& bottomRight){
+    //Get the transformed point
+    cv::Point corners[4],dstCorners[4];
+	corners[0].x=corners[0].y=0;
+	corners[1].x=image.cols;corners[1].y=0;
+	corners[2].x=image.cols;corners[2].y=image.rows;
+	corners[3].x=0;corners[3].y=image.rows;
+	this->TransformCorners(corners,dstCorners,homography);
+	this->GetCorners(dstCorners,topLeft,bottomRight); 
+
 	std::cout<<std::endl<<"homography="<<std::endl<<homography<<std::endl;
 	double tic=cv::getTickCount();
 	//setting the translation to 
@@ -107,22 +116,17 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 			cv::minMaxLoc(tmp,&minY,&maxY);
 		else break;
 	}
-	**/
+	**/	
 	
-	cv::Point corners[4],dstCorners[4];
-	corners[0].x=corners[0].y=0;
-	corners[1].x=image.cols;corners[1].y=0;
-	corners[2].x=image.cols;corners[2].y=image.rows;
-	corners[3].x=0;corners[3].y=image.rows;
-
+	cv::Point newTopLeft, newBottomRight; //This is translation suppressed point
 	this->TransformCorners(corners,dstCorners,homography);
-	std::cout<<"dstCorners="<<dstCorners;	
-	this->GetCorners(dstCorners,topLeft,bottomRight);	
+	std::cout<<"dstCorners="<<dstCorners[0].x<<","<<dstCorners[0].y<<"\t"<<dstCorners[1].x<<","<<dstCorners[1].y<<"\n"<<dstCorners[2].x<<","<<dstCorners[2].y<<"\t"<<dstCorners[3].x<<","<<dstCorners[3].y;	
+	this->GetCorners(dstCorners,newTopLeft,newBottomRight);	
 	//printf("Transformed Corners: Top Left=%d,%d and Bottom Right=%d,%d",minTopLeft.x,minTopLeft.y,
 	//	minBottomRight.x,minBottomRight.y);
 	
-	double newWidth=bottomRight.x-topLeft.x;
-	double newHeight=bottomRight.y-topLeft.y;
+	double newWidth=newBottomRight.x-newTopLeft.x;
+	double newHeight=newBottomRight.y-newTopLeft.y;
 	int shiftX=(newWidth-image.cols)/2;
 	int shiftY=(newHeight-image.rows)/2;
 	homography.at<double>(0,2)+=shiftX;
@@ -144,25 +148,30 @@ void Warp::RotateImage_Xcrop(cv::Mat image,
 
 void Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
+    cv::Point corners[4],dstCorners[4];
+	corners[0].x=corners[0].y=0;
+	corners[1].x=image.cols;corners[1].y=0;
+	corners[2].x=image.cols;corners[2].y=image.rows;
+	corners[3].x=0;corners[3].y=image.rows;
+	this->TransformCorners(corners,dstCorners,homography);
+	this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight); 
+
+
 	cv::Point srcCenter,dstCenter;
 	srcCenter=cv::Point(image.cols/2,image.rows/2);	
 	this->TransformPoint(srcCenter,dstCenter,&homography);
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y;
-	cv::Point corners[4],dstCorners[4];
-	corners[0].x=corners[0].y=0;
-	corners[1].x=image.cols;corners[1].y=0;
-	corners[2].x=image.cols;corners[2].y=image.rows;
-	corners[3].x=0;corners[3].y=image.rows;
-
+	
+	cv::Point newTopLeft, newBottomRight; //This is translation suppressed point
 	this->TransformCorners(corners,dstCorners,homography);
 	Utility utility;
 	utility.WriteCorners("source corners",corners);
 	utility.WriteCorners("dest corners",dstCorners);
-	this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight);
-	utility.WriteExtremePoints("Extreme Points",topLeft,bottomRight);
-	double newWidth=bottomRight.x-topLeft.x;
-	double newHeight=bottomRight.y-topLeft.y;
+	this->GetCorners_Ycrop(dstCorners,newTopLeft,newBottomRight);
+	utility.WriteExtremePoints("Extreme Points",newTopLeft,newBottomRight);
+	double newWidth=newBottomRight.x-newTopLeft.x;
+	double newHeight=newBottomRight.y-newTopLeft.y;
 	int shiftX=(newWidth-image.cols)/2;
 	int shiftY=(newHeight-image.rows)/2;
 	homography.at<double>(0,2)+=shiftX;

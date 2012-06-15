@@ -22,11 +22,11 @@ void Stitching::Stitch(){
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
-	cv::imwrite("output/rotatedImage.png",this->rotatedImage);
 	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
+		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
 	cv::imwrite("output/rotatedImage_YCrop.png",this->rotatedImage);
-	
+		
 	//We have got top left and bottom right points of the rotated image
 	//Steps:
 	//1. Find the combined area
