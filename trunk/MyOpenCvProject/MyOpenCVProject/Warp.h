@@ -71,7 +71,7 @@ public:
 	void GetCustomHomography(double angle, 
 		double xTrans, 
 		double yTrans,
-		cv::Mat homography);
+		cv::Mat& homography);
     //Custom Warp Perspective which does rotation along the origin
 	void WarpPerspective( const cv::Mat& src, cv::Mat& dst, const cv::Mat& M0, cv::Size dsize,
         int flags, int borderType, const cv::Scalar& borderValue, CvPoint origin );
