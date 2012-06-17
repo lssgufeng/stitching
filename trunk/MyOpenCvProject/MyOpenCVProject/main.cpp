@@ -31,11 +31,11 @@ int main(void)
 
 
 
-	/*char* path1="C:/Users/krishna/Google Drive/images/c.png";
-	char* path2="C:/Users/krishna/Google Drive/images/hc.png";*/
+	char* path2="C:/Users/krishna/Google Drive/images/rot_br.png";
+	char* path1="C:/Users/krishna/Google Drive/images/tl.png";
 
-	char* path2="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
-	char* path1="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_66_8.png";
+	//char* path2="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
+	//char* path1="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_66_8.png";
 
 	
 	
