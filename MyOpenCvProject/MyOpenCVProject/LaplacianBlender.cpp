@@ -14,10 +14,10 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundry& bottom){
 	this->generateLaplacianPyramid(this->floatImage,this->floatLapPyr,this->floatSmallestLevel);
 	this->generateLaplacianPyramid(this->baseImage,this->baseLapPyr, this->baseSmallestLevel);
-	cv::imshow("Float Image", this->floatImage);
-	cv::waitKey(0);
-	cv::imshow("Base Image", this->baseImage);
-	cv::waitKey(0);
+	//cv::imshow("Float Image", this->floatImage);
+	//cv::waitKey(0);
+	//cv::imshow("Base Image", this->baseImage);
+	//cv::waitKey(0);
 	
 	//Create Gaussian Pyramids Here
 	this->loadBlendMasks();
@@ -45,10 +45,10 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	blendX=this->reconstructImageX();
 	blendY=this->reconstructImageY();
 	//result=blendX.clone();			
-	cv::imshow("ImageX",blendX);
+	/*cv::imshow("ImageX",blendX);
 	cv::waitKey(0);
 	cv::imshow("imageY",blendY);
-	cv::waitKey(0);			
+	cv::waitKey(0);			*/
 	//outputImage=blendX.clone();
 	cv::cvtColor(result,result,CV_BGR2GRAY);
 	result.convertTo(result,CV_8U,255);
@@ -74,11 +74,10 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			result.at<uchar>(i,j)=/*255*weightX;*/blendX.at<uchar>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
 		}
 	}
-	result=blendY.clone();
 	/*cv::cvtColor(result,result,CV_BGR2GRAY);
 	result.convertTo(result,CV_8U,255);*/
-	cv::imshow("OutputImage",result);
-	cv::waitKey(0);
+	//cv::imshow("OutputImage",result);
+	//cv::waitKey(0);
 	return result;
 }
 
@@ -120,7 +119,7 @@ void LaplacianBlender::generateLaplacianPyramid(const cv::Mat& image,cv::Vector<
 				currentImage=down;
 			}
 			currentImage.copyTo(smallestLevel);
-			cv::imshow("Smallest Level",smallestLevel);
+			//cv::imshow("Smallest Level",smallestLevel);
 			cv::waitKey(0);
 }
 
@@ -143,8 +142,8 @@ void LaplacianBlender::generateGaussianPyramid(cv::Mat& blendMask,
 		}
 		char message[100];
 		sprintf(message,"Gaussian Mask: Level %d",i);
-		cv::imshow(message,_down);
-		cv::waitKey(0);
+		/*cv::imshow(message,_down);*/
+		/*cv::waitKey(0);*/
 		cv::Mat down;
 		cv::cvtColor(_down,down,CV_GRAY2BGR);
 		maskGaussianPyramid.push_back(down);
