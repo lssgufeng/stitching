@@ -5,7 +5,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 	cv::Mat& outputImage){
 		cv::Mat image1=firstImage.clone();
 		cv::Mat image2=secondImage.clone();
-		this->levelPixels(image1,image2);
+		//this->levelPixels(image1,image2);
 		cv::imwrite("output/left.png",image1);
 		cv::imwrite("output/right.png",image2);
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);
@@ -29,7 +29,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		}
 
 		//Y-direction
-		if(top.Index==0){
+		/*if(top.Index==0){
 			if(bottom.Index==0){
 				performBlendY(image1,image1,tmpImageY);
 			}else{
@@ -41,7 +41,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}else{
 				performBlendY(image2,image2,tmpImageY);
 			}
-		}
+		}*/
 
 		cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 		for(int i=0;i<image1.rows;i++){
@@ -63,6 +63,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}
 		}
 		/*cv::medianBlur(outputImage,outputImage,3);*/
+		outputImage=tmpImageX.clone();
 		cv::imwrite("output/o_output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
 		return outputImage;
