@@ -195,7 +195,15 @@ void Stitching::Stitch(){
 	cv::imshow("stitchedImage_alpha",stitchedImage);
 	cv::waitKey(0);
 
-
+	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
+	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
+	outputImage= blender.blend(left,top,right,bottom);
+	//outputImage.convertTo(outputImage,CV_8U,255);
+	cv::imwrite("output/common_blended_pyr.png",outputImage);
+	outputImage.copyTo(stitchedImage(commonStitchedRegion));
+	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+    cv::imshow("StitchedImage_pyr",stitchedImage);
+    cv::waitKey(0);
 }
 
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
