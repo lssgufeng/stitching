@@ -20,6 +20,13 @@ Stitching::~Stitching(){
 void Stitching::Stitch(){	
 	cv::Mat homography=calculateHomography(this->floatingImage,this->baseImage);
 	Warp warp;
+	
+	cv::Mat toutputImage,thomography;
+	cv::Point ttopLeft,tbottomRight;
+	thomography=homography.clone();
+	warp.RotateImage(this->floatingImage,thomography,toutputImage,ttopLeft,tbottomRight);
+	cv::imwrite("output/o_warped.png",toutputImage);
+
 
 	cv::Point topLeft, bottomRight;
 	int cropped=warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
@@ -185,7 +192,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 
 
-	/*AlphaBlender alphaBlender;
+	AlphaBlender alphaBlender;
 	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
 	alphaBlender.blend(this->rotatedImage(commonFloatRegion),
 		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
@@ -193,7 +200,7 @@ void Stitching::Stitch(){
 
 	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
 	cv::imshow("stitchedImage_alpha",stitchedImage);
-	cv::waitKey(0);*/
+	cv::waitKey(0);
 
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
 	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
