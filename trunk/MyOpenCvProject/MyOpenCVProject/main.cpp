@@ -52,7 +52,20 @@ int main(void)
 	}
 
     #pragma endregion 
-
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<uchar>(i,j)==0){
+				image1.at<uchar>(i,j)=1;
+			}			
+		}
+	}
+	for(int i=0;i<image2.rows;i++){
+		for(int j=0;j<image2.cols;j++){
+			if(image2.at<uchar>(i,j)==0){
+				image2.at<uchar>(i,j)=1;
+			}			
+		}
+	}
 	
 
 	////alpha beta blending
