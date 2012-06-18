@@ -31,8 +31,8 @@ int main(void)
 
 
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/rot_br.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/vc_b.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/knee_1.jpg";
+	char* path2="C:/Users/krpaudel/Google Drive/images/knee_3_moved_rotated.jpg";
 
 	//char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_middle_66_16.png";
 	//char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/Test_Stitching_Thorax_oben10°_66_8.png";
