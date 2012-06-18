@@ -51,8 +51,11 @@ void Warp::TransformPoint(const cv::Point pointToTransform,
 			cv::Mat transformedVector = cv::Mat(3, 1, CV_64F, coordinates);
 			//cv::MatMul(matrix, &originVector, &transformedVector);
 			transformedVector=*homography*originVector;
-			outputPoint = cv::Point((int)transformedVector.at<double>(0,0)/ transformedVector.at<double>(2, 0),
+			std::cout<<"Transformed Vector"<<std::endl;
+			std::cout<<transformedVector;
+			outputPoint = cv::Point((int)(transformedVector.at<double>(0,0)/ transformedVector.at<double>(2, 0)),
 				(int)(transformedVector.at<double>(1,0)/ transformedVector.at<double>(2, 0)));
+			std::cout<<"output x"<<outputPoint.x<<"output y="<<outputPoint.y<<std::endl;
 			printf("TransformPoint took %f seconds\n",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
