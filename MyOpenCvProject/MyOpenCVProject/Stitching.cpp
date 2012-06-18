@@ -179,6 +179,10 @@ void Stitching::Stitch(){
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
 	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
+
+
+	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 }
 
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
