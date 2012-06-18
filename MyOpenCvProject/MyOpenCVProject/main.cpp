@@ -31,11 +31,11 @@ int main(void)
 
 
 
-	char* path2="C:/Users/krishna/Google Drive/images/rot_br.png";
-	char* path1="C:/Users/krishna/Google Drive/images/tl.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/rot_br.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/tl.png";
 
-	//char* path2="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
-	//char* path1="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_66_8.png";
+	//char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_oben150_72_8.png";
+	//char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten150_66_8.png";
 
 	
 	
@@ -64,22 +64,22 @@ int main(void)
 	//cv::imwrite("blended.bmp",blended);
 
 
-	Warp warp;
-	////
-	cv::Mat rotatedImage;
-	for(int i=0;i<361;i+=10){
-	   //warp.TestTransformation(image1,i,0,0);
-		cv::Point topLeft, bottomRight;
-		cv::Mat homography(3,3,CV_64F);
-		warp.GetCustomHomography(i,0,0,homography);
-		warp.RotateImage(image1,homography,rotatedImage,topLeft,bottomRight);
-		char buffer[100];
-		sprintf(buffer,"output/Rotation/Rotation_%d.png",i);
-		cv::imwrite(buffer,rotatedImage);
-		cv::imshow("rotation",rotatedImage);
-		cv::waitKey(0);
+	//Warp warp;
+	//////
+	//cv::Mat rotatedImage;
+	//for(int i=0;i<361;i+=10){
+	//   //warp.TestTransformation(image1,i,0,0);
+	//	cv::Point topLeft, bottomRight;
+	//	cv::Mat homography(3,3,CV_64F);
+	//	warp.GetCustomHomography(i,0,0,homography);
+	//	warp.RotateImage(image1,homography,rotatedImage,topLeft,bottomRight);
+	//	char buffer[100];
+	//	sprintf(buffer,"output/Rotation/Rotation_%d.png",i);
+	//	cv::imwrite(buffer,rotatedImage);
+	//	cv::imshow("rotation",rotatedImage);
+	//	cv::waitKey(0);
 
-	}
+	//}
 	//	cv::Mat homography(3,3,CV_64F);
 	// 	warp.GetCustomHomography(i,240,234,homography);
 	//    warp.RotateImage(image1,rotatedImage,homography);

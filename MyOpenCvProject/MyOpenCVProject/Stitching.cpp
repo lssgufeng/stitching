@@ -82,7 +82,7 @@ void Stitching::Stitch(){
 	floatRegion.width=this->rotatedImage.cols;
 	floatRegion.height=this->rotatedImage.rows;
 	baseRegion.width=this->baseImage.cols;
-	baseRegion.height=this->baseImage.rows;
+	baseRegion.height=this->baseImage.rows;	
 
 	if(left.Index==0){
 		floatRegion.x=0;
@@ -90,11 +90,44 @@ void Stitching::Stitch(){
 		if(top.Index==0){
 			log->Write("Case 1");
 			floatRegion.y=0;
-			baseRegion.y=abs(top.Value);
+			baseRegion.y=abs(top.Value);			
+
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=abs(topLeft.y);
 		}else{
 			log->Write("Case 2");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=abs(topLeft.y);
 		}
 	}else{
 		floatRegion.x=topLeft.x;
@@ -103,10 +136,44 @@ void Stitching::Stitch(){
 			log->Write("Case 3");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=abs(topLeft.y);
+
 		}else{
 			log->Write("Case 4");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=abs(topLeft.y);
+
 		}
 	}
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
