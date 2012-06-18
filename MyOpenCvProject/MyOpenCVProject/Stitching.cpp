@@ -183,6 +183,19 @@ void Stitching::Stitch(){
 
 	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
 	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+
+
+	AlphaBlender alphaBlender;
+	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
+	alphaBlender.blend(this->rotatedImage(commonFloatRegion),
+		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
+	result.copyTo(stitchedImage(commonStitchedRegion));
+
+	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
+	cv::imshow("stitchedImage_alpha",stitchedImage);
+	cv::waitKey(0);
+
+
 }
 
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
