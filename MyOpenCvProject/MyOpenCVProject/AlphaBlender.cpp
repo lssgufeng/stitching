@@ -85,7 +85,7 @@ void AlphaBlender::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv:
 		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
 	}
 	//outputImage=cv::max(image1,image2);
-	cv::medianBlur(outputImage,outputImage,3);
+	cv::medianBlur(outputImage,outputImage,5);
 	cv::imshow("blendX",outputImage);
 	cv::imwrite("output/blend/blendX.png",outputImage);
 	cv::waitKey(0);
@@ -105,7 +105,7 @@ void AlphaBlender::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv:
 		alpha=1-beta;
 		cv::addWeighted(image1.row(i),alpha,image2.row(i),beta,0,outputImage.row(i));
 	}
-	cv::medianBlur(outputImage,outputImage,3);
+	cv::medianBlur(outputImage,outputImage,5);
 	cv::imshow("blendY",outputImage);
 	cv::imwrite("output/blend/blendY.png",outputImage);
 	cv::waitKey(0);

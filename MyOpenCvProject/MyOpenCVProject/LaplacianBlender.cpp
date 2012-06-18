@@ -74,6 +74,7 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			result.at<uchar>(i,j)=/*255*weightX;*/blendX.at<uchar>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
 		}
 	}
+	result=blendY.clone();
 	/*cv::cvtColor(result,result,CV_BGR2GRAY);
 	result.convertTo(result,CV_8U,255);*/
 	cv::imshow("OutputImage",result);
