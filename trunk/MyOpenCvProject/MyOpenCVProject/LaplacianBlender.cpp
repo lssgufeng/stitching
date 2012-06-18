@@ -25,20 +25,43 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	this->generateGaussianPyramid(this->blendMaskY,this->maskGaussianPyramidY);
 	//left implies float image, right implies base image
 	if(left.Index==0){
-		this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
-		if(top.Index==0){					
+		if(right.Index==0){
+			this->blendLapPyrsX(this->floatLapPyr,this->floatLapPyr,this->floatSmallestLevel,this->floatSmallestLevel);
+		}else{
+			this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+		}
+		/*if(top.Index==0){					
 			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
 		}else{
 			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}*/
+	}else{
+		if(right.Index==0){
+			this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}else{
+			this->blendLapPyrsX(this->baseLapPyr,this->baseLapPyr,this->baseSmallestLevel,this->baseSmallestLevel);
+		}
+		/*if(top.Index==0){
+			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+		}else{
+			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}*/
+	}
+
+	if(top.Index==0){
+		if(bottom.Index==0){
+			this->blendLapPyrsY(this->floatLapPyr,this->floatLapPyr,this->floatSmallestLevel,this->floatSmallestLevel);
+		}else{
+			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
 		}
 	}else{
-		this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
-		if(top.Index==0){
-			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
-		}else{
+		if(bottom.Index==0){
 			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+		}else{
+			this->blendLapPyrsY(this->baseLapPyr,this->baseLapPyr,this->baseSmallestLevel,this->baseSmallestLevel);
 		}
 	}
+
 	//Now we reconstruct the image using result pyramids
 	cv::Mat_<cv::Vec3f> blendX,blendY;
 	cv::Mat_<cv::Vec3f> result(this->floatImage.rows,this->floatImage.cols);
