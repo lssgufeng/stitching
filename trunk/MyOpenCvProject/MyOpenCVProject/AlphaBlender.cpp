@@ -29,7 +29,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		}
 
 		//Y-direction
-		/*if(top.Index==0){
+		if(top.Index==0){
 			if(bottom.Index==0){
 				performBlendY(image1,image1,tmpImageY);
 			}else{
@@ -41,7 +41,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}else{
 				performBlendY(image2,image2,tmpImageY);
 			}
-		}*/
+		}
 
 		cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 		for(int i=0;i<image1.rows;i++){
@@ -63,7 +63,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}
 		}
 		/*cv::medianBlur(outputImage,outputImage,3);*/
-		outputImage=tmpImageX.clone();
+		/*outputImage=tmpImageX.clone();*/
 		cv::imwrite("output/o_output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
 		return outputImage;
