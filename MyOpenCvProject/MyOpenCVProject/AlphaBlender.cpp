@@ -8,7 +8,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		this->levelPixels(image1,image2);
 		cv::imwrite("output/left.png",image1);
 		cv::imwrite("output/right.png",image2);
-		cv::Mat tmpImageX(image1.rows,image2.cols,CV_8U), tmpImageY(image1.rows,image1.cols,CV_8U);
+		cv::Mat tmpImageX(image1.rows,image2.cols,CV_16U), tmpImageY(image1.rows,image1.cols,CV_16U);
         //X-direction
 		if(left.Index==0){
 			if(right.Index=0){
@@ -43,7 +43,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}
 		}
 
-		cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+		//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 		for(int i=0;i<image1.rows;i++){
 			for(int j=0;j<image1.cols;j++){
 				double weightX=-1;
@@ -59,7 +59,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
 
 				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-				outputImage.at<uchar>(i,j)=/*255*weightX;*/tmpImageX.at<uchar>(i,j)*weightX+tmpImageY.at<uchar>(i,j)*(1-weightX);
+				outputImage.at<ushort>(i,j)=/*255*weightX;*/tmpImageX.at<ushort>(i,j)*weightX+tmpImageY.at<ushort>(i,j)*(1-weightX);
 			}
 		}
 		/*cv::medianBlur(outputImage,outputImage,3);*/
@@ -115,11 +115,11 @@ void AlphaBlender::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv:
 void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
-			if(image1.at<uchar>(i,j)==0){
-				image1.at<uchar>(i,j)=image2.at<uchar>(i,j);
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=image2.at<ushort>(i,j);
 			}
-			if(image2.at<uchar>(i,j)==0){
-				image2.at<uchar>(i,j)=image1.at<uchar>(i,j);
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=image1.at<ushort>(i,j);
 			}
 		}
 	}

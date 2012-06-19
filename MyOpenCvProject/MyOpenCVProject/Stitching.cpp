@@ -77,7 +77,7 @@ void Stitching::Stitch(){
 	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
 		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
 
-	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_8U);
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
 	cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
@@ -193,7 +193,7 @@ void Stitching::Stitch(){
 
 
 	AlphaBlender alphaBlender;
-	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
+	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
 	alphaBlender.blend(this->rotatedImage(commonFloatRegion),
 		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
 	result.copyTo(stitchedImage(commonStitchedRegion));
@@ -203,7 +203,7 @@ void Stitching::Stitch(){
 	cv::waitKey(0);
 
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
-	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
+	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
 	outputImage= blender.blend(left,top,right,bottom);
 	//outputImage.convertTo(outputImage,CV_8U,255);
 	cv::imwrite("output/common_blended_pyr.png",outputImage);
@@ -216,11 +216,26 @@ void Stitching::Stitch(){
 cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
-	corner.GetSurfFeatures(image1,keyPoints1);
-	corner.GetSurfFeatures(image2,keyPoints2);
+	cv::Mat image1_8bit,image2_8bit;
+	image1.convertTo(image1_8bit,CV_8U,1./256);
+	image2.convertTo(image2_8bit,CV_8U,1./256);
+
+	cv::imwrite("output/image1_8bit.png",image1_8bit);
+    cv::imwrite("output/image2_8bit.png",image2_8bit);
+
+
+	corner.GetSurfFeatures(image1_8bit,keyPoints1);
+	corner.GetSurfFeatures(image2_8bit,keyPoints2);
+
+	cv::Mat tmpImage;
+	cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
+	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
+	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
+	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+
 	Matching matching;
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
-	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+	matching.GetMatchesSurf(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);	
 	int removed1=matching.RatioTest(matches1,0.8);	
 	int removed2=matching.RatioTest(matches2,0.8);	
 	std::vector<cv::DMatch> symmetryMatches;
