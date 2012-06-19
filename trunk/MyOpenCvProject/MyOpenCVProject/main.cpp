@@ -31,8 +31,8 @@ int main(void)
 
 
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/br.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/rot_br.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/I1.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/I2.png";
 
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten_70_8.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/2.png";*/
@@ -48,6 +48,12 @@ int main(void)
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
+		exit(0);
+	}
+
+	if(image1.depth()!=2 || image2.depth()!=2){
+		printf("\nThis application need 16 bits images to work!");
+		std::getchar();
 		exit(0);
 	}
 
