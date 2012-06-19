@@ -45,19 +45,27 @@ int main(void)
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 
-
-	cv::imshow("Image1",image1);
-	cv::waitKey(0);
-
-	cv::imwrite("image1.png",image1);
-
-	//std::cout<<image1;
-
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
 		exit(0);
 	}
+
+	/*cv::Mat image1_8bit,image2_8bit;
+	image1.convertTo(image1_8bit,CV_8U,1./256);
+	image2.convertTo(image2_8bit,CV_8U,1./256);*/
+
+
+	/*cv::imshow("Image1",image1_8bit);
+	cv::waitKey(0);
+	cv::imshow("Image1",image2_8bit);
+	cv::waitKey(0);
+
+	cv::imwrite("image1.png",image1);*/
+
+	//std::cout<<image1;
+
+	
 
 	std::cout<<"Channels="<<image1.channels()<<"\tType="<<image1.type()<<"\tDepth="<<image1.depth();;
 
@@ -118,26 +126,26 @@ int main(void)
 	detector.detect(image1);
 	std::vector<cv::Point> pts;
 	detector.getCorners(pts,0.00001);*/
-	cv::Mat tmpImage;
+	//%cv::Mat tmpImage;
 	/*detector.drawOnImage(tmpImage,pts);
 	cv::imshow("harris Points",tmpImage);
 	cv::waitKey(0);*/	
 	
 
-	Corners corner;
-	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
+	//%Corners corner;
+	//%std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 
 	//corner.GetSurfFeatures(image1,keyPoints1);
 	//corner.GetSurfFeatures(image2,keyPoints2);
-	MyTimer timer;
-	timer.start("Points detection for image1 started...");
+	//%MyTimer timer;
+	//%timer.start("Points detection for image1 started...");
 	//corner.GetDynamicAdaptedFeatures_SURF(image1,1500,4700,keyPoints1,130);
-	corner.GetSurfFeatures(image1,keyPoints1);
-	timer.check();
-	timer.start("Points detection for image1 started...");
+	//%corner.GetSurfFeatures(image1,keyPoints1);
+	//%timer.check();
+	//%timer.start("Points detection for image1 started...");
 	//corner.GetDynamicAdaptedFeatures_SURF(image2,1500,4700,keyPoints2,130);
-	corner.GetSurfFeatures(image2,keyPoints2);
-	timer.check();
+	//%corner.GetSurfFeatures(image2,keyPoints2);
+	//%timer.check();
 
 
 	//SD
@@ -147,27 +155,27 @@ int main(void)
 
 
 	//>>>>>>>>>>>>> DISPLAY
-	cv::drawKeypoints(image1,keyPoints1,tmpImage);
+	//%cv::drawKeypoints(image1,keyPoints1,tmpImage);
 	////cv::imshow("keypoints1",tmpImage);
 	////cv::waitKey(0);
 	//displayImage("KeyPoints1",tmpImage);
-	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
+	//%cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
 
-	cv::drawKeypoints(image2,keyPoints2,tmpImage);
+	//%cv::drawKeypoints(image2,keyPoints2,tmpImage);
 	//displayImage("keypoints2",tmpImage);
 	////cv::waitKey(0);
-	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+	//%cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
 	//
 	//sprintf(szBuffer, "Key Points1=%i\nKey Point2=%d", keyPoints1.size(),keyPoints2.size());
 	//MessageBoxA(NULL,szBuffer,"Key Points Result",MB_OK);	
 	//ENDISPLAY   <<<<<<<<<<<<<<<
 
 
-	Matching matching;
-	std::vector<std::vector<cv::DMatch>> matches1,matches2;
-	timer.restart("Matching...");
-	matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
-	timer.check();
+	//%Matching matching;
+	//%std::vector<std::vector<cv::DMatch>> matches1,matches2;
+	//%timer.restart("Matching...");
+	//%matching.GetMatchesSurf(image1,image2,keyPoints1,keyPoints2,matches1,matches2);	
+	//%timer.check();
 	
 	// >>>>>>>>>>>>>>> DISPLAY
 	/*sprintf(szBuffer,"image1->image2 matches=%d\nimage2->image1 matches=%d",
@@ -175,12 +183,12 @@ int main(void)
 	MessageBoxA(NULL,szBuffer,"Matching Result",MB_OK);*/
 	// ENDISPLAY <<<<<<<<<<<<<<<<<
 
-	timer.restart("Ratio Test1...");
-	int removed1=matching.RatioTest(matches1,0.8);	
-	timer.check();
-	timer.restart("Ratio Test2...");
-	int removed2=matching.RatioTest(matches2,0.8);	
-	timer.check();
+	//%timer.restart("Ratio Test1...");
+	//%int removed1=matching.RatioTest(matches1,0.8);	
+	//%timer.check();
+	//%timer.restart("Ratio Test2...");
+	//%int removed2=matching.RatioTest(matches2,0.8);	
+	//%timer.check();
 	
 	//>>>>>>>>>>>>>>>>>>DISPLAY
 	/*sprintf(szBuffer,"Removed Points\n image1=%d\n image2=%d",
@@ -188,16 +196,16 @@ int main(void)
 	MessageBoxA(NULL,szBuffer,"Ratio Test",MB_OK);*/
 	//ENDISPLAY  <<<<<<<<<<<<<<<
 
-	std::vector<cv::DMatch> symmetryMatches;
-	timer.restart("Symmetry Matches....");
-	matching.SymmetryTest(matches1,matches2,symmetryMatches);
-	timer.check();
+	//%std::vector<cv::DMatch> symmetryMatches;
+	//%timer.restart("Symmetry Matches....");
+	//%matching.SymmetryTest(matches1,matches2,symmetryMatches);
+	//%timer.check();
 
 	//>>>>>>>>>>>>>>>>DISPLAY
-	matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
+	//%matching.DrawMatches(image1,keyPoints1,image2,keyPoints2,symmetryMatches,tmpImage);
 	//displayImage("Symmetry Matches",tmpImage);
 	////cv::waitKey(0);
-	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+	//%cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
 
 	//sprintf(szBuffer,"Selected Matches=%d",
 	//	symmetryMatches.size());
@@ -215,12 +223,12 @@ int main(void)
 	//std::nth_element(matches1.begin(),matches1.begin()+24,matches1.end());
 	//matches1.erase(matches1.begin()+24,matches1.end());
 
-	cv::Mat imageMatches;	
-	std::vector<uchar> inliers;
-	cv::Mat homography;
-	timer.restart("Homography...");
-	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
-	timer.check();
+	//%cv::Mat imageMatches;	
+	//%std::vector<uchar> inliers;
+	//%cv::Mat homography;
+	//%timer.restart("Homography...");
+	//%homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
+	//%timer.check();
 
  
 	
@@ -241,17 +249,17 @@ int main(void)
 		inliers_count);
 	MessageBoxA(NULL,szBuffer,"Homography Result",MB_OK);*/
 
-	std::vector<cv::Point2f> points1,points2;
-	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
-	matching.DrawInliers(points1,inliers,image1,tmpImage);
+	//%std::vector<cv::Point2f> points1,points2;
+	//%matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+	//%matching.DrawInliers(points1,inliers,image1,tmpImage);
 	//Utility::DisplayImage("inlier1",tmpImage);
 	//cv::waitKey(0);
-	cv::imwrite("output/o_Image1(inliers).bmp",tmpImage);
+	//%cv::imwrite("output/o_Image1(inliers).bmp",tmpImage);
 
-	matching.DrawInliers(points2,inliers,image2,tmpImage);
+	//%matching.DrawInliers(points2,inliers,image2,tmpImage);
 	//Utility::DisplayImage("inlier2",tmpImage);
 	//cv::waitKey(0);
-	cv::imwrite("output/o_Image2(inliers).bmp",tmpImage);
+	//%cv::imwrite("output/o_Image2(inliers).bmp",tmpImage);
 
 	//*********	
 

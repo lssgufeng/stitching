@@ -6,8 +6,8 @@ LaplacianBlender::LaplacianBlender(const cv::Mat& floatImage,const cv::Mat& base
 	this->levelPixels(image1,image2);
 	cv::cvtColor(image1,this->floatImage,CV_GRAY2BGR);
 	cv::cvtColor(image2,this->baseImage,CV_GRAY2BGR);
-	this->floatImage.convertTo(this->floatImage,CV_32F,1.0/255.0);
-	this->baseImage.convertTo(this->baseImage,CV_32F,1.0/255.0);
+	this->floatImage.convertTo(this->floatImage,CV_32F,1.0/65535.0);
+	this->baseImage.convertTo(this->baseImage,CV_32F,1.0/65535.0);
 	this->levels=4;
 }
 
@@ -74,11 +74,11 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	cv::waitKey(0);			*/
 	//outputImage=blendX.clone();
 	cv::cvtColor(result,result,CV_BGR2GRAY);
-	result.convertTo(result,CV_8U,255);
+	result.convertTo(result,CV_16U,65535);
 	cv::cvtColor(blendX,blendX,CV_BGR2GRAY);
 	cv::cvtColor(blendY,blendY,CV_BGR2GRAY);
-	blendX.convertTo(blendX,CV_8U,255);
-	blendY.convertTo(blendY,CV_8U,255);
+	blendX.convertTo(blendX,CV_16U,65535);
+	blendY.convertTo(blendY,CV_16U,65535);
 	//Now get the resultant blended image
 	for(int i=0;i<this->floatImage.rows;i++){				
 		for(int j=0;j<this->floatImage.cols;j++){
@@ -94,7 +94,7 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			else 
 				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+(this->floatImage.rows-(double)i));
 			//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
-			result.at<uchar>(i,j)=/*255*weightX;*/blendX.at<uchar>(i,j)*weightX+blendY.at<uchar>(i,j)*(1-weightX);
+			result.at<ushort>(i,j)=/*255*weightX;*/blendX.at<ushort>(i,j)*weightX+blendY.at<ushort>(i,j)*(1-weightX);
 		}
 	}
 	/*cv::cvtColor(result,result,CV_BGR2GRAY);
@@ -236,11 +236,11 @@ cv::Mat LaplacianBlender::reconstructImageY(){
 void LaplacianBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
-			if(image1.at<uchar>(i,j)==0){
-				image1.at<uchar>(i,j)=image2.at<uchar>(i,j);
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=image2.at<ushort>(i,j);
 			}
-			if(image2.at<uchar>(i,j)==0){
-				image2.at<uchar>(i,j)=image1.at<uchar>(i,j);
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=image1.at<ushort>(i,j);
 			}
 		}
 	}
