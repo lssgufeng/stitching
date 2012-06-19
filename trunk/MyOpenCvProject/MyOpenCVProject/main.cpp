@@ -42,8 +42,8 @@ int main(void)
 	printf("path1=%s",path1);printf("path2=%s",path2);
 	//printf("path1=%s",path1);printf("path2=%s",path2);
 
-	cv::Mat image1=cv::imread(path1,-1);
-	cv::Mat image2=cv::imread(path2,-1);
+	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 
 
 	cv::imshow("Image1",image1);
@@ -51,7 +51,7 @@ int main(void)
 
 	cv::imwrite("image1.png",image1);
 
-	std::cout<<image1;
+	//std::cout<<image1;
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
@@ -64,15 +64,15 @@ int main(void)
     #pragma endregion 
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
-			if(image1.at<int>(i,j)==0){
-				image1.at<int>(i,j)=1;
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=1;
 			}			
 		}
 	}
 	for(int i=0;i<image2.rows;i++){
 		for(int j=0;j<image2.cols;j++){
-			if(image2.at<int>(i,j)==0){
-				image2.at<int>(i,j)=1;
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=1;
 			}			
 		}
 	}
