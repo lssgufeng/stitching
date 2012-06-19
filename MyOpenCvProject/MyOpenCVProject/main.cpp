@@ -45,6 +45,14 @@ int main(void)
 	cv::Mat image1=cv::imread(path1,-1);
 	cv::Mat image2=cv::imread(path2,-1);
 
+
+	cv::imshow("Image1",image1);
+	cv::waitKey(0);
+
+	cv::imwrite("image1.png",image1);
+
+	std::cout<<image1;
+
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
