@@ -43,7 +43,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 			}
 		}
 
-		//cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
+		cv::addWeighted(tmpImageX,0.5,tmpImageY,0.5,0,outputImage);
 		for(int i=0;i<image1.rows;i++){
 			for(int j=0;j<image1.cols;j++){
 				double weightX=-1;
