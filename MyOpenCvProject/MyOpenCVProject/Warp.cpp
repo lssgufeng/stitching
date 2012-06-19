@@ -65,10 +65,6 @@ void Warp::TransformCorners(const cv::Point* corners,
 		for(int i=0;i<4;i++){
 			TransformPoint(*(corners+i),*(outputCorners+i),homography);
 		}
-     Utility utility;
-	 char content[1000];
-	 sprintf(content,"before rotation:\n%s",std::cout<<corners);
-	 utility.WriteContent(content);
 }
 
 void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,

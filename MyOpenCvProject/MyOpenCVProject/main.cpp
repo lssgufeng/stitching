@@ -31,19 +31,19 @@ int main(void)
 
 
 
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/mountain1.bmp";
-	char* path1="C:/Users/krpaudel/Google Drive/images/mountain2.bmp";*/
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/I1.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/I2.png";
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten_70_8.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/2.png";
+	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten_70_8.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/2.png";*/
 
 	
 	
 	printf("path1=%s",path1);printf("path2=%s",path2);
 	//printf("path1=%s",path1);printf("path2=%s",path2);
 
-	cv::Mat image1=cv::imread(path1,0);
-	cv::Mat image2=cv::imread(path2,0);
+	cv::Mat image1=cv::imread(path1,-1);
+	cv::Mat image2=cv::imread(path2,-1);
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
@@ -51,18 +51,20 @@ int main(void)
 		exit(0);
 	}
 
+	std::cout<<"Channels="<<image1.channels()<<"\tType="<<image1.type()<<"\tDepth="<<image1.depth();;
+
     #pragma endregion 
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
-			if(image1.at<uchar>(i,j)==0){
-				image1.at<uchar>(i,j)=1;
+			if(image1.at<int>(i,j)==0){
+				image1.at<int>(i,j)=1;
 			}			
 		}
 	}
 	for(int i=0;i<image2.rows;i++){
 		for(int j=0;j<image2.cols;j++){
-			if(image2.at<uchar>(i,j)==0){
-				image2.at<uchar>(i,j)=1;
+			if(image2.at<int>(i,j)==0){
+				image2.at<int>(i,j)=1;
 			}			
 		}
 	}
