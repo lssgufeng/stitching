@@ -3,7 +3,7 @@
    @date: 2012-05-24 15:29:30
    @description: This is Aplha blender.This blends the images in two directions. 
    @TODO: More study regarding alpha blending to get more accurate results.
-   */
+*/
 #include "opencv2\core\core.hpp"
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
