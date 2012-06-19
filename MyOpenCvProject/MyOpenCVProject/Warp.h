@@ -34,7 +34,7 @@ public:
 	//it is faster. 
 	void TransformPoint(const cv::Point pointToTransform,
 		cv::Point& outputPoint,
-		const cv::Mat* homography);
+		const cv::Mat& homography);
      
 	//It tranforms the corners of the image
 	//@corners[] arrays of corners
