@@ -44,13 +44,13 @@ void Warp::GetWarpPoint(cv::Mat& homography,
 
 void Warp::TransformPoint(const cv::Point pointToTransform,
 		cv::Point& outputPoint,
-		const cv::Mat* homography) {
+		const cv::Mat& homography) {
 			double tic=cv::getTickCount();
 			double coordinates[3] = {pointToTransform.x, pointToTransform.y, 1};
 			cv::Mat originVector = cv::Mat(3, 1, CV_64F, coordinates);
 			cv::Mat transformedVector = cv::Mat(3, 1, CV_64F, coordinates);
 			//cv::MatMul(matrix, &originVector, &transformedVector);
-			transformedVector=*homography*originVector;
+			transformedVector=homography*originVector;
 			std::cout<<"Transformed Vector"<<std::endl;
 			std::cout<<transformedVector;
 			outputPoint = cv::Point((int)(transformedVector.at<double>(0,0)/ transformedVector.at<double>(2, 0)),
@@ -63,8 +63,12 @@ void Warp::TransformCorners(const cv::Point* corners,
 	cv::Point* outputCorners,
 	const cv::Mat homography){
 		for(int i=0;i<4;i++){
-			TransformPoint(*(corners+i),*(outputCorners+i),&homography);
-		}	
+			TransformPoint(*(corners+i),*(outputCorners+i),homography);
+		}
+     Utility utility;
+	 char content[1000];
+	 sprintf(content,"before rotation:\n%s",std::cout<<corners);
+	 utility.WriteContent(content);
 }
 
 void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,
@@ -83,7 +87,7 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 	//setting the translation to 
 	cv::Point srcCenter,dstCenter;
 	srcCenter=cv::Point(image.cols/2,image.rows/2);	
-	this->TransformPoint(srcCenter,dstCenter,&homography);
+	this->TransformPoint(srcCenter,dstCenter,homography);
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
 	//Getting new image size
@@ -162,7 +166,7 @@ int Warp::RotateImage_Ycrop(cv::Mat image,
 
 	cv::Point srcCenter,dstCenter;
 	srcCenter=cv::Point(image.cols/2,image.rows/2);	
-	this->TransformPoint(srcCenter,dstCenter,&homography);
+	this->TransformPoint(srcCenter,dstCenter,homography);
 	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
 	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
 	
