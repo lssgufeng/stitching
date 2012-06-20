@@ -240,6 +240,10 @@ cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	int removed2=matching.RatioTest(matches2,0.8);	
 	std::vector<cv::DMatch> symmetryMatches;
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
+	
+	matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
+	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	cv::Mat homography;
