@@ -122,9 +122,9 @@ void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
 			if(image2.at<ushort>(i,j)==0){
 				image2.at<ushort>(i,j)=image1.at<ushort>(i,j)-diff;
 			}
-			if(image1.at<ushort>(i,j)!=0 && image2.at<ushort>(i,j)==0){
+			/*if(image1.at<ushort>(i,j)!=0 && image2.at<ushort>(i,j)==0){
 				diff=image1.at<ushort>(i,j)-image2.at<ushort>(i,j);
-			}
+			}*/
 		}
 	}
 	cv::medianBlur(image1,image1,3);
