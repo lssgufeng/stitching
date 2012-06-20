@@ -113,13 +113,17 @@ void AlphaBlender::performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv:
 }
 
 void AlphaBlender::levelPixels(cv::Mat& image1, cv::Mat& image2) {
-	for(int i=0;i<image1.rows;i++){
+	int diff=image1.at<ushort>(image1.rows/2,image1.cols/2)-image2.at<ushort>(image2.rows/2,image2.cols/2);
+	for(int i=0;i<image1.rows;i++){				
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
-				image1.at<ushort>(i,j)=image2.at<ushort>(i,j);
+				image1.at<ushort>(i,j)=image2.at<ushort>(i,j)+diff;
 			}
 			if(image2.at<ushort>(i,j)==0){
-				image2.at<ushort>(i,j)=image1.at<ushort>(i,j);
+				image2.at<ushort>(i,j)=image1.at<ushort>(i,j)-diff;
+			}
+			if(image1.at<ushort>(i,j)!=0 && image2.at<ushort>(i,j)==0){
+				diff=image1.at<ushort>(i,j)-image2.at<ushort>(i,j);
 			}
 		}
 	}
