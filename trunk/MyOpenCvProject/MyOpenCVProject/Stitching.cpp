@@ -77,7 +77,7 @@ void Stitching::Stitch(){
 	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
 		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
 
-	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U,32767);
 	cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
