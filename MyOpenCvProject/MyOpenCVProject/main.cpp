@@ -62,7 +62,7 @@ int main(void)
 		exit(0);
 	}
 
-	if(image1.depth()!=2 || image2.depth()!=2){
+	if(image1.depth()!=CV_16U || image2.depth()!=CV_16U){
 		printf("\nThis application need 16 bits images to work!");
 		std::getchar();
 		exit(0);
