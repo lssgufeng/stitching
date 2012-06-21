@@ -35,8 +35,8 @@ int main(void)
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/t_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/rot_br_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/test1_16.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/test2_16.png";
 
 
 
