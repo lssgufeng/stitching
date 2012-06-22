@@ -220,8 +220,8 @@ cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	cv::imwrite("output/image1_8bit.png",image1_8bit);
-    cv::imwrite("output/image2_8bit.png",image2_8bit);
+	//cv::imwrite("output/image1_8bit.png",image1_8bit);
+    //cv::imwrite("output/image2_8bit.png",image2_8bit);
 
 
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
