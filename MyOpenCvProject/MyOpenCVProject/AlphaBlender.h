@@ -21,6 +21,6 @@ private:
 public:
 	//Blends two images along horizontal and vertical
 	cv::Mat blend(const cv::Mat& image1,const cv::Mat& image2,
-	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+	const Boundry& left,const Boundry& top,const Boundry& right,const Boundry& bottom,
 	cv::Mat& outputImage);
 };

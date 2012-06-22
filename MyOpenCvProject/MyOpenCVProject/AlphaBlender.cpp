@@ -1,7 +1,7 @@
 #include "AlphaBlender.h"
 
 cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage,
-	Boundry& left,Boundry& top,Boundry& right,Boundry& bottom,
+	const Boundry& left,const Boundry& top,const Boundry& right,const Boundry& bottom,
 	cv::Mat& outputImage){
 		cv::Mat image1=firstImage.clone();
 		cv::Mat image2=secondImage.clone();
@@ -11,7 +11,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		cv::Mat tmpImageX(image1.rows,image2.cols,CV_16U), tmpImageY(image1.rows,image1.cols,CV_16U);
         //X-direction
 		if(left.Index==0){
-			if(right.Index=0){
+			if(right.Index==0){
 				printf("Blend case 1");
 				performBlendX(image1,image1,tmpImageX);
 			}else{
