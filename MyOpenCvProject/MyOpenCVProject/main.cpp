@@ -35,8 +35,8 @@ int main(void)
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
-	char* path2="C:/Users/krishna/Google Drive/images/16bit/knee_1_16.png";
-	char* path1="C:/Users/krishna/Google Drive/images/16bit/knee_3_moved_rotated_16.png";
+	char* path1="C:/Users/krishna/Google Drive/images/16bit/test3_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/16bit/test4_16.png";
 
 
 
@@ -55,10 +55,7 @@ int main(void)
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 
-	Corners corners;
-	double info1=corners.getImageInformation(image1);
-	double info2=corners.getImageInformation(image2);
-	printf("Image 1 information=%f image2 Info=%f",info1,info2);
+	
 
 	/*cv::Mat image1Tmp; image1Tmp.create(image1.rows,image1.cols,image1.type());
 	cv::Mat image2Tmp;image2Tmp.create(image2.rows,image2.cols,image2.type());
@@ -77,6 +74,11 @@ int main(void)
 		std::getchar();
 		exit(0);
 	}
+
+	Corners corners;
+	double info1=corners.getImageInformation(image1);
+	double info2=corners.getImageInformation(image2);
+	printf("Image 1 information=%f image2 Info=%f",info1,info2);
 
 	/*cv::Mat image1_8bit,image2_8bit;
 	image1.convertTo(image1_8bit,CV_8U,1./256);
