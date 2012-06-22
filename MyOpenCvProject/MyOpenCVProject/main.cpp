@@ -36,14 +36,9 @@ int main(void)
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
-<<<<<<< .mine
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/l_16.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/r_br_16.png";
-=======
-	char* path1="C:/Users/krishna/Google Drive/images/16bit/l_16.png";
-	char* path2="C:/Users/krishna/Google Drive/images/16bit/r_br_16.png";
 	
->>>>>>> .r298
 
 
 	//char* path2="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten_66_16.png";
@@ -60,6 +55,7 @@ int main(void)
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
 		std::getchar();	
