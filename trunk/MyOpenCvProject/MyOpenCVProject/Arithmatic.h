@@ -36,13 +36,13 @@ inline double Arithmatic::CalculateAverage(cv::Mat& image){
 	int nc=image.cols;
 
 	for(int j=0;j<nl;j++){
-		uchar* data=image.ptr<uchar>(j);
+		ushort* data=image.ptr<ushort>(j);
 		for(int i=0;i<nc;i++){
-			average+=*data+i;
+			average+=(*data+i)/((double)nl*nc);
 		}
-		average/=nl*nc;
-		return average;
+		//average/=nl*nc;
 	}
+	return average;
 }
 
 inline double Arithmatic::CalculateSD(cv::Mat& image){
@@ -52,14 +52,14 @@ inline double Arithmatic::CalculateSD(cv::Mat& image){
     int nl=image.rows;	
 	int nc=image.cols;
 	for(int j=0;j<nl;j++){
-		uchar* data=image.ptr<uchar>(j);
+		ushort* data=image.ptr<ushort>(j);
 		for(int i=0;i<nc;i++){
-			sd+=(*(data+i)-average)*((*data+i)-average);
+			sd+=(*(data+i)-average)*((*data+i)-average)/(nl*nc);
 		}
 	}
-	sd=cv::sqrt(sd/(nl*nc));
+	sd=cv::sqrt(sd);
 
-	printf("SD=%f",sd);
+	//printf("SD=%f",sd);
 
 	return sd;
 }
