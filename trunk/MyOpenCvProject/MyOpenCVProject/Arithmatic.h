@@ -54,7 +54,7 @@ inline double Arithmatic::CalculateSD(cv::Mat& image){
 	for(int j=0;j<nl;j++){
 		ushort* data=image.ptr<ushort>(j);
 		for(int i=0;i<nc;i++){
-			sd+=(*(data+i)-average)*((*data+i)-average)/(nl*nc);
+			sd+=((*(data+i)-average)*(*(data+i)-average))/(nl*nc);
 		}
 	}
 	sd=cv::sqrt(sd);
