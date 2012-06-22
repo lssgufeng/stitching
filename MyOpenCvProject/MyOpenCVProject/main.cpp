@@ -35,9 +35,9 @@ int main(void)
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
-	char* path1="C:/Users/krishna/Google Drive/images/16bit/rot_16.png";
-	char* path2="C:/Users/krishna/Google Drive/images/16bit/knee_3_moved_rotated_16.png";
-
+	char* path1="C:/Users/krishna/Google Drive/images/16bit/knee_1_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/16bit/br_16.png";
+	
 
 
 	//char* path2="C:/Users/krishna/Google Drive/images/real/Parallel/Test_Stitching_Thorax_unten_66_16.png";
@@ -75,10 +75,15 @@ int main(void)
 		exit(0);
 	}
 
-	Corners corners;
+	/*Corners corners;
+
+	cv::Mat cornerFeature=image1.clone();
+	cv::preCornerDetect(image1,cornerFeature,3);
+	cv::imshow("CornerFeature.png",cornerFeature);
+	cv::waitKey(0);
 	double info1=corners.getImageInformation(image1);
 	double info2=corners.getImageInformation(image2);
-	printf("Image 1 information=%f image2 Info=%f",info1,info2);
+	printf("Image 1 information=%f image2 Info=%f",info1,info2);*/
 
 	/*cv::Mat image1_8bit,image2_8bit;
 	image1.convertTo(image1_8bit,CV_8U,1./256);
