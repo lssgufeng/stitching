@@ -23,5 +23,7 @@ inline void MyFilter::Filter_Sobel(cv::Mat& image,cv::Mat& outputImage){
 	cv::Mat sobelX,sobelY;
 	cv::Sobel(image,sobelX,CV_16S,1,0);
 	cv::Sobel(image,sobelY,CV_16S,0,1);
+	cv::imwrite("SobelX.png", sobelX);
+	cv::imwrite("SobelY.png", sobelY);
 	outputImage=cv::abs(sobelX)+cv::abs(sobelY);
 }
