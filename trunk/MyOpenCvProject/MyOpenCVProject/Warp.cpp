@@ -2,7 +2,7 @@
 #include "Utility.h"
 #include <iostream>
 #include <fstream>
-#define PI 3.141592653589793238462643383279502884197 //:)
+#define PI 3.141592653589793238462643383279502884197 //copied from wolfram:)
 
 Warp::Warp(){
 }
