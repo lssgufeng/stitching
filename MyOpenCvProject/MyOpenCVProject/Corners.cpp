@@ -89,10 +89,10 @@ double Corners::getImageInformation(cv::Mat& image ){
 	MyFilter filter;
 	cv::Mat output;
 	filter.Filter_Sobel(image,output);
-	cv::imshow("sobel",output);
+	cv::imwrite("output/sobel.png",output);
 	cv::waitKey(0);
 	double sd1=arithmatic.CalculateSD(output);
-	printf("standard deviation=%f",sd1);
+	//printf("standard deviation=%f",sd1);
 	return sd1;
 }
 

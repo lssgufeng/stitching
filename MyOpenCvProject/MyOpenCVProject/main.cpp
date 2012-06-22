@@ -35,8 +35,8 @@ int main(void)
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_br_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/r_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/16bit/r_br_16.png";
+	char* path1="C:/Users/krishna/Google Drive/images/16bit/r_16.png";
 
 
 
@@ -49,7 +49,7 @@ int main(void)
 
 	
 	
-	printf("path1=%s",path1);printf("path2=%s",path2);
+	//printf("path1=%s",path1);printf("path2=%s",path2);
 	//printf("path1=%s",path1);printf("path2=%s",path2);
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -60,11 +60,11 @@ int main(void)
 	double info2=corners.getImageInformation(image2);
 	printf("Image 1 information=%f image2 Info=%f",info1,info2);
 
-	cv::Mat image1Tmp; image1Tmp.create(image1.rows,image1.cols,image1.type());
+	/*cv::Mat image1Tmp; image1Tmp.create(image1.rows,image1.cols,image1.type());
 	cv::Mat image2Tmp;image2Tmp.create(image2.rows,image2.cols,image2.type());
 
 	cv::equalizeHist(image1, image1Tmp);
-	cv::equalizeHist(image2, image2Tmp);
+	cv::equalizeHist(image2, image2Tmp);*/
 
 	if(!image1.data ||!image2.data){
 		printf("Error: Image Not Found!");
