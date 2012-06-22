@@ -138,7 +138,7 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 	homography.at<double>(2,1)=0;*/
 
 
-	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
+	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
 	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));	    
 
 	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
@@ -179,7 +179,7 @@ int Warp::RotateImage_Ycrop(cv::Mat image,
 	//int shiftY=(newHeight-image.rows)/2;
 	//homography.at<double>(0,2)+=shiftX;
 	//homography.at<double>(1,2)+=shiftY;
-	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,0);
+	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
 	return cropped;
 }
 
