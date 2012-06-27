@@ -33,8 +33,8 @@ int main(void)
 
 
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/Krishna_Test_Cat_01.dcm.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/Krishna_Test_Cat_1_08.dcm.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/Krishna_Test_Cat_01.dcm_16.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/Krishna_Test_Cat_1_08.dcm_16.png";
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/l_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_16.png";*/
