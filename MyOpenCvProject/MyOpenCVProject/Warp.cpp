@@ -146,7 +146,22 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 
 int Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
+	cv::Point corners[4],dstCorners[4];
+	corners[0].x=corners[0].y=0;
+	corners[1].x=image.cols;corners[1].y=0;
+	corners[2].x=image.cols;corners[2].y=image.rows;
+	corners[3].x=0;corners[3].y=image.rows;
+	this->TransformCorners(corners,dstCorners,homography);
+	int cropped=this->GetCorners_Xcrop(dstCorners,topLeft,bottomRight); 
 	
+	cv::Point srcCenter,dstCenter;
+	srcCenter=cv::Point(image.cols/2,image.rows/2);	
+	this->TransformPoint(srcCenter,dstCenter,homography);
+	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
+	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
+	
+	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
+	return cropped;
 }
 
 int Warp::RotateImage_Ycrop(cv::Mat image,
