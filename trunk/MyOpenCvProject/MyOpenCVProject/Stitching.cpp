@@ -32,7 +32,7 @@ void Stitching::Stitch(){
 
 
 	cv::Point topLeft, bottomRight;
-	int cropped=warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
