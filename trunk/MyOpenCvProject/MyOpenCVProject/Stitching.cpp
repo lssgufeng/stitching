@@ -27,9 +27,12 @@ void Stitching::Stitch(){
 	warp.RotateImage(this->floatingImage,thomography,toutputImage,ttopLeft,tbottomRight);
 	cv::imwrite("output/o_warped.png",toutputImage);
 
+	cv::warpPerspective(this->floatingImage,toutputImage,homography,cv::Size());
+	cv::imwrite("output/original_warped.png",toutputImage);
+
 
 	cv::Point topLeft, bottomRight;
-	int cropped=warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	int cropped=warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
