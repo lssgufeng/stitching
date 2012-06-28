@@ -18,9 +18,12 @@ Stitching::~Stitching(){
 }
 
 void Stitching::Stitch(){	
-	cv::Mat homography=calculateHomography(this->floatingImage,this->baseImage);
+	cv::Mat homography;
+	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
+	if(!success){
+		return;
+	}
 	Warp warp;
-	
 	cv::Mat toutputImage,thomography;
 	cv::Point ttopLeft,tbottomRight;
 	thomography=homography.clone();
@@ -216,7 +219,7 @@ void Stitching::Stitch(){
     //cv::waitKey(0);
 }
 
-cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
+bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homography){
 	Corners corner;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 	cv::Mat image1_8bit,image2_8bit;
@@ -249,12 +252,31 @@ cv::Mat Stitching::calculateHomography(cv::Mat image1,cv::Mat image2){
 
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
-	cv::Mat homography;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	//homography.at<double>(2,0)=homography.at<double>(2,1)=0;
+	std::vector<cv::Point2f> points1,points2;
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+	matching.DrawInliers(points1,inliers,image1,tmpImage);
+	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
+	
+	int inliers_count=0;
+	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
+		iterator!=inliers.end();++iterator){
+			if(*iterator){
+				++inliers_count;
+			}
+	}
+
+	if(inliers_count<10){
+		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
+		return false;
+	}
+
+	matching.DrawInliers(points2,inliers,image2,tmpImage);
+	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+	
 	Utility utility;
 	utility.WriteHomography("Homography",homography);
-	return homography;
 }
 
 
