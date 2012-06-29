@@ -29,8 +29,8 @@ int main(void)
 
     #pragma region "Input Images"
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Wifi/Krishna_Test_Head_41_5_150_C.dcm.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Wifi/Krishna_Test_Head_41_5_120_C.dcm.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Wifi/Krishna_Test_Back_62_5_150_C.dcm.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Wifi/Krishna_Test_Back_62_5_120_10Clock_C.dcm.png";
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/l_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_16.png";*/
