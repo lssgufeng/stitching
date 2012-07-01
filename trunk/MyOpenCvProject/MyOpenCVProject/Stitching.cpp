@@ -17,12 +17,22 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 
-void Stitching::Stitch(){	
+void Stitching::Stitch(){
+
+	
+
 	cv::Mat homography;
 	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
 	if(!success){
 		return;
 	}
+
+	cv::Mat panorama;
+	this->stich(this->baseImage,this->floatingImage,homography,panorama);
+
+	cv::imwrite("panorama.png",panorama);
+	cv::imwrite("floating.png",this->floatingImage);
+
 	Warp warp;
 	cv::Mat toutputImage,thomography;
 	cv::Point ttopLeft,tbottomRight;
@@ -277,6 +287,82 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	
 	Utility utility;
 	utility.WriteHomography("Homography",homography);
+}
+
+
+/** This is a method copied from somewhere**/
+void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama){
+
+
+cv::Mat corners1(1, 4,CV_32F);
+cv:: Mat corners2(1,4,CV_32F);
+cv::Mat corners(1,4,CV_32F);
+vector<cv::Mat> planes;
+/* compute corners 
+of warped image
+*/
+corners1.at<float>(0,0)=0;
+corners2.at<float>(0,0)=0;
+corners1.at<float>(0,1)=0;
+corners2.at<float>(0,1)=target.rows;
+corners1.at<float>(0,2)=target.cols;
+corners2.at<float>(0,2)=0;
+corners1.at<float>(0,3)=target.cols;
+corners2.at<float>(0,3)=target.rows;
+
+planes.push_back(corners1);
+planes.push_back(corners2);
+
+merge(planes,corners);
+
+perspectiveTransform(corners, corners, homography);
+
+/* compute size of resulting 
+image and allocate memory
+*/
+double x_start = cv::min( min( (double)corners.at<cv::Vec2f>(0,0)[0], (double)corners.at<cv::Vec2f> (0,1)[0]),0.0);
+double x_end   = cv::max( max( (double)corners.at<cv::Vec2f>(0,2)[0], (double)corners.at<cv::Vec2f>(0,3)[0]), (double)base.cols);
+double y_start = cv::min( min( (double)corners.at<cv::Vec2f>(0,0)[1], (double)corners.at<cv::Vec2f>(0,2)[1]), 0.0);
+double y_end   = cv::max( max( (double)corners.at<cv::Vec2f>(0,1)[1], (double)corners.at<cv::Vec2f>(0,3)[1]), (double)base.rows);
+
+/*Creating image
+with same channels, depth
+as target
+and proper size
+*/
+panorama.create(cv::Size(x_end - x_start + 1, y_end - y_start + 1), target.depth());
+
+planes.clear();
+
+/*Planes should
+have same n.channels
+as target
+*/
+for (int i=0;i<target.channels();i++){
+planes.push_back(panorama);
+}
+
+merge(planes,panorama);
+    // create translation matrix in order to copy both images to correct places
+cv::Mat T;
+T=cv::Mat::zeros(3,3,CV_64F);
+T.at<double>(0,0)=1;
+T.at<double>(1,1)=1;
+T.at<double>(2,2)=1;
+T.at<double>(0,2)=-x_start;
+T.at<double>(1,2)=-y_start;
+
+// copy base image to correct position within output image
+
+ warpPerspective(base, panorama, T,panorama.size(),cv::INTER_LINEAR| CV_WARP_FILL_OUTLIERS);
+ // change homography to take necessary translation into account
+gemm(T, homography,1,T,0,T);
+    // warp second image and copy it to output image
+warpPerspective(target,panorama, T, panorama.size(),cv::INTER_LINEAR);
+ //tidy
+corners.release();
+T.release();
+
 }
 
 
