@@ -28,9 +28,12 @@ void Stitching::Stitch(){
 	cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
 
+
 	cv::imwrite("output/panorama.png",panorama);
 	cv::imwrite("output/floating.png",this->floatingImage);
 	cv::imwrite("output/base.png",this->baseImage);
+
+	return;
 
 	Warp warp;
 	cv::Mat toutputImage,thomography;
@@ -336,7 +339,8 @@ void Stitching::stich(cv::Mat base,
 
 
 	cv::Mat panorama1, panorama2;
-	panorama1=panorama2=panorama.clone();
+	panorama1=panorama.clone();
+	panorama2=panorama.clone();
 
 	/*Planes should
 	have same n.channels
@@ -366,7 +370,8 @@ void Stitching::stich(cv::Mat base,
 	cv::imwrite("panorama2.png",panorama2);
 
 	AlphaBlender blender;
-	blender.blend(panorama1,panorama2,panorama);
+	panorama=blender.blend(panorama1,panorama2,panorama);
+	cv::imwrite("panorama.png",panorama);
 
 	 //tidy
 	corners.release();
