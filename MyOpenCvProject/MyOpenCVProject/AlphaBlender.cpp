@@ -68,6 +68,39 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		cv::imshow("output Image", outputImage);
 		return outputImage;
 }
+cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,
+	const cv::Mat& secondImage,cv::Mat& outputImage){
+		cv::Mat image1=firstImage.clone();
+		cv::Mat image2=secondImage.clone();
+		this->levelPixels(image1,image2);
+		cv::Mat tmpImageX(image1.rows,image2.cols,CV_16U), tmpImageY(image1.rows,image1.cols,CV_16U);
+		performBlendX(image1,image2,tmpImageX);
+		performBlendY(image1,image2,tmpImageY);
+		for(int i=0;i<image1.rows;i++){
+			for(int j=0;j<image1.cols;j++){
+				double weightX=-1;
+				if(i==0 && j==0)
+					weightX=1;
+				else if(j<=image1.cols/2 && i<=image1.rows/2)
+					weightX=1.0-(double)j/(i+j);
+				else if(j<=image1.cols/2 && i>image1.rows/2)
+					weightX=1.0-(double)j/(j+(image1.rows-i));
+				else if(j>image1.cols/2 && i<=image1.rows/2)
+					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+i);
+				else 
+					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
+
+				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
+				outputImage.at<ushort>(i,j)=/*255*weightX;*/tmpImageX.at<ushort>(i,j)*weightX+tmpImageY.at<ushort>(i,j)*(1-weightX);
+			}
+		}
+
+		cv::imwrite("output/o_output_blend.png",outputImage);
+		cv::imshow("output Image", outputImage);
+		return outputImage;
+}
+
+
 
 void AlphaBlender::performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
 	/*cv::imshow("BlendX:image1",image1);
