@@ -71,7 +71,9 @@ int main(void)
 		exit(0);
 	}
 
-	Stitch(image1, image2);
+	cv::Mat stitchedImage=Stitch(image1, image2);
+	cv::imwrite("output/stitchedImage.png",stitchedImage);
+	getchar();
 
 	/*Corners corners;
 
@@ -284,7 +286,7 @@ int main(void)
 
 	//We have homography matrix, now the final task 
 	//is to transform image1 on image 2 and stitch together
-
+   
 	
 
 	//cv::Mat destination;
@@ -298,9 +300,9 @@ int main(void)
 	warp.RotateImage(image1,output,homography);*/
 
 	//Stitching Process starts
-	Stitching stitching(image1,image2);
+	/*Stitching stitching(image1,image2);
 	stitching.Stitch();
-	std::getchar();	
+	std::getchar();	*/
 }
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 	for(int i=0;i<image1.rows;i++){
@@ -318,7 +320,6 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 		}
 	}
 	Stitching stitching(image1,image2);
-	stitching.Stitch();
-	std::getchar();	
+	return stitching.Stitch();	
 }
 
