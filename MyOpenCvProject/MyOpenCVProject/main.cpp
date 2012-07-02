@@ -31,11 +31,11 @@ int main(void)
 
     #pragma region "Input Images"
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Head_62KV_5.1mAs_100cm.dcm.png";
+	/*char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Head_62KV_5.1mAs_100cm.dcm.png";*/
 	
-	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
-	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
+	char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
+	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
