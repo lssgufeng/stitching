@@ -95,7 +95,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,
 			}
 		}
 
-		cv::imwrite("output/o_output_blend.png",outputImage);
+		cv::imwrite("output/output_blend.png",outputImage);
 		cv::imshow("output Image", outputImage);
 		return outputImage;
 }
