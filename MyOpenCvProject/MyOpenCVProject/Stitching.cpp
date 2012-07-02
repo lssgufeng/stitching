@@ -18,7 +18,6 @@ Stitching::~Stitching(){
 }
 
 void Stitching::Stitch(){
-
 	cv::Mat homography;
 	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
 	if(!success){
