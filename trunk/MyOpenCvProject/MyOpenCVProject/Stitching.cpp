@@ -321,10 +321,10 @@ void Stitching::stich(cv::Mat base,
 	/*compute size of resulting 
 	image and allocate memory
 	*/
-	double x_start = cv::min( min( (double)corners.at<cv::Vec2f>(0,0)[0], (double)corners.at<cv::Vec2f> (0,1)[0]),0.0);
-	double x_end   = cv::max( max( (double)corners.at<cv::Vec2f>(0,2)[0], (double)corners.at<cv::Vec2f>(0,3)[0]), (double)base.cols);
-	double y_start = cv::min( min( (double)corners.at<cv::Vec2f>(0,0)[1], (double)corners.at<cv::Vec2f>(0,2)[1]), 0.0);
-	double y_end   = cv::max( max( (double)corners.at<cv::Vec2f>(0,1)[1], (double)corners.at<cv::Vec2f>(0,3)[1]), (double)base.rows);
+	double x_start = cv::min( cv::min( (double)corners.at<cv::Vec2f>(0,0)[0], (double)corners.at<cv::Vec2f> (0,1)[0]),0.0);
+	double x_end   = cv::max( cv::max( (double)corners.at<cv::Vec2f>(0,2)[0], (double)corners.at<cv::Vec2f>(0,3)[0]), (double)base.cols);
+	double y_start = cv::min( cv::min( (double)corners.at<cv::Vec2f>(0,0)[1], (double)corners.at<cv::Vec2f>(0,2)[1]), 0.0);
+	double y_end   = cv::max( cv::max( (double)corners.at<cv::Vec2f>(0,1)[1], (double)corners.at<cv::Vec2f>(0,3)[1]), (double)base.rows);
 
 	/*Creating image
 	with same channels, depth
