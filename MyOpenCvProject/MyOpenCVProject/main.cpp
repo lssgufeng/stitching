@@ -21,6 +21,8 @@
 #include "Utility.h"
 #include "Stitching.h"
 
+/* Method that stitches two images*/
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
 int main(void)  
 
 {
@@ -31,10 +33,7 @@ int main(void)
 
 	char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Head_62KV_5.1mAs_100cm.dcm.png";
-
-
-
-
+	
 	/*char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";*/
 
@@ -72,6 +71,8 @@ int main(void)
 		exit(0);
 	}
 
+	Stitch(image1, image2);
+
 	/*Corners corners;
 
 	cv::Mat cornerFeature=image1.clone();
@@ -98,23 +99,10 @@ int main(void)
 
 	
 
-	std::cout<<"Channels="<<image1.channels()<<"\tType="<<image1.type()<<"\tDepth="<<image1.depth();;
+	//std::cout<<"Channels="<<image1.channels()<<"\tType="<<image1.type()<<"\tDepth="<<image1.depth();;
 
     #pragma endregion 
-	for(int i=0;i<image1.rows;i++){
-		for(int j=0;j<image1.cols;j++){
-			if(image1.at<ushort>(i,j)==0){
-				image1.at<ushort>(i,j)=1;
-			}			
-		}
-	}
-	for(int i=0;i<image2.rows;i++){
-		for(int j=0;j<image2.cols;j++){
-			if(image2.at<ushort>(i,j)==0){
-				image2.at<ushort>(i,j)=1;
-			}			
-		}
-	}
+	
 	
 
 	////alpha beta blending
@@ -314,3 +302,23 @@ int main(void)
 	stitching.Stitch();
 	std::getchar();	
 }
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	for(int i=0;i<image2.rows;i++){
+		for(int j=0;j<image2.cols;j++){
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	Stitching stitching(image1,image2);
+	stitching.Stitch();
+	std::getchar();	
+}
+
