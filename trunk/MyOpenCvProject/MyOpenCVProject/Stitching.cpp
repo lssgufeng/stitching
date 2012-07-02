@@ -365,8 +365,7 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	cv::imwrite("panorama2.png",panorama2);
 
 	AlphaBlender blender;
-	blender.blend(panorama1,panorama2,
-
+	blender.blend(panorama1,panorama2,panorama);
 
 	 //tidy
 	corners.release();
