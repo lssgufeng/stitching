@@ -35,6 +35,7 @@ void Stitching::Stitch(){
 	return;*/
 
 	Warp warp;
+	/*
 	cv::Mat toutputImage,thomography;
 	cv::Point ttopLeft,tbottomRight;
 	thomography=homography.clone();
@@ -43,7 +44,7 @@ void Stitching::Stitch(){
 
 	cv::warpPerspective(this->floatingImage,toutputImage,homography,cv::Size());
 	cv::imwrite("output/original_warped.png",toutputImage);
-
+*/
 
 	cv::Point topLeft, bottomRight;
 	warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
