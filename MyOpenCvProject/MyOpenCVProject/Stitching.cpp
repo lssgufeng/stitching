@@ -290,7 +290,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 
 
 /** This is a method copied from somewhere**/
-void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama){
+void Stitching::stich(cv::Mat base, 
+	cv::Mat target,cv::Mat homography, cv::Mat& panorama){
 	cv::Mat corners1(1, 4,CV_32F);
 	cv:: Mat corners2(1,4,CV_32F);
 	cv::Mat corners(1,4,CV_32F);
