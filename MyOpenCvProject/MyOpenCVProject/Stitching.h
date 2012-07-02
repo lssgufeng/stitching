@@ -51,6 +51,6 @@ public:
 	~Stitching();
 	//it performs the main task of stitching
 	void Stitch();
-
+	void stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama);
 };
 
