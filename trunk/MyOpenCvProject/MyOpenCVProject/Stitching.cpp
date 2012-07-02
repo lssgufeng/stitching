@@ -28,8 +28,8 @@ void Stitching::Stitch(){
 	cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
 
-	cv::imwrite("panorama.png",panorama);
-	cv::imwrite("floating.png",this->floatingImage);
+	cv::imwrite("output/panorama.png",panorama);
+	cv::imwrite("output/floating.png",this->floatingImage);
 
 	Warp warp;
 	cv::Mat toutputImage,thomography;
