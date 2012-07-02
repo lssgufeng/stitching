@@ -356,13 +356,16 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	T.at<double>(1,2)=-y_start;
 
 	//copy base image to correct position within output image
-	cv::warpPerspective(base, panorama, T,panorama.size(),cv::INTER_LINEAR| CV_WARP_FILL_OUTLIERS);
-	cv::imwrite("panorama1.png",panorama);
+	cv::warpPerspective(base, panorama1, T,panorama.size(),cv::INTER_LINEAR| CV_WARP_FILL_OUTLIERS);
+	cv::imwrite("panorama1.png",panorama1);
 	// change homography to take necessary translation into account
 	cv::gemm(T, homography,1,T,0,T);
 	// warp second image and copy it to output image
-	cv::warpPerspective(target,panorama, T, panorama.size(),cv::INTER_LINEAR);
-	cv::imwrite("panorama2.png",panorama);
+	cv::warpPerspective(target,panorama2, T, panorama.size(),cv::INTER_LINEAR);
+	cv::imwrite("panorama2.png",panorama2);
+
+	AlphaBlender blender;
+	blender.blend(panorama1,panorama2,
 
 
 	 //tidy
