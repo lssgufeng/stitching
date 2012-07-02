@@ -295,6 +295,9 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	cv:: Mat corners2(1,4,CV_32F);
 	cv::Mat corners(1,4,CV_32F);
 	vector<cv::Mat> planes;
+
+
+	
 	/* compute corners 
 	of warped image
 	*/
@@ -328,10 +331,11 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	and proper size
 	*/
 	panorama.create(cv::Size(x_end - x_start + 1, y_end - y_start + 1), target.depth());
-
-	cv::Mat resultPanorama=panorama.clone();
-
 	planes.clear();
+
+
+	cv::Mat panorama1, panorama2;
+	panorama1=panorama2=panorama.clone();
 
 	/*Planes should
 	have same n.channels
@@ -359,6 +363,8 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	// warp second image and copy it to output image
 	cv::warpPerspective(target,panorama, T, panorama.size(),cv::INTER_LINEAR);
 	cv::imwrite("panorama2.png",panorama);
+
+
 	 //tidy
 	corners.release();
 	T.release();
