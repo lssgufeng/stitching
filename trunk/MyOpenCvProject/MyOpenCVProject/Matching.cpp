@@ -32,6 +32,7 @@ void Matching::performMatching(cv::Mat descriptors1, cv::Mat descriptors2,
 	cv::BruteForceMatcher<cv::L2<float>> matcher;
 	matcher.knnMatch(descriptors1,descriptors2,matches1,2);
 	matcher.knnMatch(descriptors2,descriptors1,matches2,2);
+	
 }
 
 int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){

@@ -43,7 +43,7 @@ int main(void)
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/rot_br_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/c_16.png";*/
 
-
+	
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
