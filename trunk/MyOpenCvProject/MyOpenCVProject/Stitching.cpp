@@ -30,6 +30,7 @@ void Stitching::Stitch(){
 
 	cv::imwrite("output/panorama.png",panorama);
 	cv::imwrite("output/floating.png",this->floatingImage);
+	cv::imwrite("output/base.png",this->baseImage);
 
 	Warp warp;
 	cv::Mat toutputImage,thomography;
@@ -328,6 +329,8 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	*/
 	panorama.create(cv::Size(x_end - x_start + 1, y_end - y_start + 1), target.depth());
 
+	cv::Mat resultPanorama=panorama.clone();
+
 	planes.clear();
 
 	/*Planes should
@@ -338,7 +341,7 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 		planes.push_back(panorama);
 	}
 
-	merge(planes,panorama);
+	cv::merge(planes,panorama);
 	// create translation matrix in order to copy both images to correct places
 	cv::Mat T;
 	T=cv::Mat::zeros(3,3,CV_64F);
@@ -349,12 +352,13 @@ void Stitching::stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& 
 	T.at<double>(1,2)=-y_start;
 
 	//copy base image to correct position within output image
-
-	warpPerspective(base, panorama, T,panorama.size(),cv::INTER_LINEAR| CV_WARP_FILL_OUTLIERS);
+	cv::warpPerspective(base, panorama, T,panorama.size(),cv::INTER_LINEAR| CV_WARP_FILL_OUTLIERS);
+	cv::imwrite("panorama1.png",panorama);
 	// change homography to take necessary translation into account
-	//gemm(T, homography,1,T,0,T);
+	cv::gemm(T, homography,1,T,0,T);
 	// warp second image and copy it to output image
-	//warpPerspective(target,panorama, T, panorama.size(),cv::INTER_LINEAR);
+	cv::warpPerspective(target,panorama, T, panorama.size(),cv::INTER_LINEAR);
+	cv::imwrite("panorama2.png",panorama);
 	 //tidy
 	corners.release();
 	T.release();
