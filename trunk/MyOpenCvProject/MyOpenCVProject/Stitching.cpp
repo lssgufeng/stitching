@@ -24,7 +24,7 @@ void Stitching::Stitch(){
 		return;
 	}
 
-	cv::Mat panorama;
+	/*cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
 
 
@@ -32,7 +32,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/floating.png",this->floatingImage);
 	cv::imwrite("output/base.png",this->baseImage);
 
-	return;
+	return;*/
 
 	Warp warp;
 	cv::Mat toutputImage,thomography;
@@ -46,7 +46,7 @@ void Stitching::Stitch(){
 
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);

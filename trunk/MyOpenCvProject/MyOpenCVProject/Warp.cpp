@@ -69,133 +69,122 @@ void Warp::TransformCorners(const cv::Point* corners,
 
 void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,
 	cv::Point& topLeft,cv::Point& bottomRight){
-    //Get the transformed point
-    cv::Point corners[4],dstCorners[4];
-	corners[0].x=corners[0].y=0;
-	corners[1].x=image.cols;corners[1].y=0;
-	corners[2].x=image.cols;corners[2].y=image.rows;
-	corners[3].x=0;corners[3].y=image.rows;
-	this->TransformCorners(corners,dstCorners,homography);
-	this->GetCorners(dstCorners,topLeft,bottomRight); 
+	cv::Mat corners1(1, 4,CV_32F);
+	cv:: Mat corners2(1,4,CV_32F);
+	cv::Mat corners(1,4,CV_32F);
+	cv::vector<cv::Mat> planes;
 
-	std::cout<<std::endl<<"homography="<<std::endl<<homography<<std::endl;
-	double tic=cv::getTickCount();
-	//setting the translation to 
-	cv::Point srcCenter,dstCenter;
-	srcCenter=cv::Point(image.cols/2,image.rows/2);	
-	this->TransformPoint(srcCenter,dstCenter,homography);
-	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
-	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
-	//Getting new image size
-	/**cv::Mat corners(3,4,CV_64F),dstCorners; **/
-	//top left
-	/**
-	corners.at<double>(0,0)=0;corners.at<double>(1,0)=0;corners.at<double>(2,0)=1;
-	corners.at<double>(0,1)=image.cols;corners.at<double>(1,1)=0;corners.at<double>(2,1)=1;
-	corners.at<double>(0,2)=image.cols;corners.at<double>(1,2)=image.rows;corners.at<double>(2,2)=1;
-	corners.at<double>(0,3)=0;corners.at<double>(1,3)=image.rows;corners.at<double>(2,3)=1;
-	**/
+	corners1.at<float>(0,0)=0;
+	corners2.at<float>(0,0)=0;
+	corners1.at<float>(0,1)=image.cols;
+	corners2.at<float>(0,1)=0;
+	corners1.at<float>(0,2)=image.cols;
+	corners2.at<float>(0,2)=image.rows;
+	corners1.at<float>(0,3)=0;
+	corners2.at<float>(0,3)=image.rows;
+	planes.push_back(corners1);
+	planes.push_back(corners2);
+
+	cv::merge(planes,corners);
+
+	cv::perspectiveTransform(corners, corners, homography);
+
+	this->GetCorners(corners,topLeft,bottomRight); 
+
+	cv::Mat T;
+	T=cv::Mat::zeros(3,3,CV_64F);
+	T.at<double>(0,0)=1;
+	T.at<double>(1,1)=1;
+	T.at<double>(2,2)=1;
+	T.at<double>(0,2)=-topLeft.x;
+	T.at<double>(1,2)=-topLeft.y;
+
+	// change homography to take necessary translation into account
+	cv::gemm(T, homography,1,T,0,T);
+	// warp second image and copy it to output image
+	cv::warpPerspective(image,outputImage, T, 
+		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
+		cv::INTER_LINEAR,0,32768);
+
 	
-	/**
-	tic=cv::getTickCount();
-	this->GetWarpPoints(corners,dstCorners,homography);
-	**/
-	//this->
-	/**
-	printf("GetWarpPoints took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
-	std::cout<<"\n source corners="<<std::endl<<" "<<corners<<std::endl<<std::endl;
-	std::cout<<"\n dest corners="<<std::endl<<" "<<dstCorners<<std::endl<<std::endl;
-	double minX,minY,maxX,maxY;
-	//Getting the size of the warped image
-	for(int i=0;i<dstCorners.rows-1;i++){
-		double* row=dstCorners.ptr<double>(i);
-		cv::Mat tmp(1,dstCorners.cols,CV_64F);
-		for(int j=0;j<dstCorners.cols;j++){
-			tmp.at<double>(0,j)=*row++;
-		}
-		if(i==0)
-			cv::minMaxLoc(tmp,&minX,&maxX);
-		else if(i==1)
-			cv::minMaxLoc(tmp,&minY,&maxY);
-		else break;
-	}
-	**/	
-	
-	//cv::Point newTopLeft, newBottomRight; //This is translation suppressed point
-	//this->TransformCorners(corners,dstCorners,homography);
-	//std::cout<<"dstCorners="<<dstCorners[0].x<<","<<dstCorners[0].y<<"\t"<<dstCorners[1].x<<","<<dstCorners[1].y<<"\n"<<dstCorners[2].x<<","<<dstCorners[2].y<<"\t"<<dstCorners[3].x<<","<<dstCorners[3].y;	
-	//this->GetCorners(dstCorners,newTopLeft,newBottomRight);	
-	////printf("Transformed Corners: Top Left=%d,%d and Bottom Right=%d,%d",minTopLeft.x,minTopLeft.y,
-	////	minBottomRight.x,minBottomRight.y);
-	//
-	//double newWidth=newBottomRight.x-newTopLeft.x;
-	//double newHeight=newBottomRight.y-newTopLeft.y;
-	//int shiftX=(newWidth-image.cols)/2;
-	//int shiftY=(newHeight-image.rows)/2;
-	//homography.at<double>(0,2)+=shiftX;
-	//homography.at<double>(1,2)+=shiftY;
-	/*homography.at<double>(2,0)=0;
-	homography.at<double>(2,1)=0;*/
-
-
-	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
-	//cv::warpPerspective(image,outputImage,homography,cv::Size(newWidth,newHeight));	    
-
-	printf("Rotating took %f seconds",(cv::getTickCount()-tic)/cv::getTickFrequency());
 }
 
-int Warp::RotateImage_Xcrop(cv::Mat image,
+void Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
-	cv::Point corners[4],dstCorners[4];
-	corners[0].x=corners[0].y=0;
-	corners[1].x=image.cols;corners[1].y=0;
-	corners[2].x=image.cols;corners[2].y=image.rows;
-	corners[3].x=0;corners[3].y=image.rows;
-	this->TransformCorners(corners,dstCorners,homography);
-	int cropped=this->GetCorners_Xcrop(dstCorners,topLeft,bottomRight); 
+	cv::Mat corners1(1, 4,CV_32F);
+	cv:: Mat corners2(1,4,CV_32F);
+	cv::Mat corners(1,4,CV_32F);
+	cv::vector<cv::Mat> planes;
+
+	corners1.at<float>(0,0)=0;
+	corners2.at<float>(0,0)=0;
+	corners1.at<float>(0,1)=image.cols;
+	corners2.at<float>(0,1)=0;
+	corners1.at<float>(0,2)=image.cols;
+	corners2.at<float>(0,2)=image.rows;
+	corners1.at<float>(0,3)=0;
+	corners2.at<float>(0,3)=image.rows;
+	planes.push_back(corners1);
+	planes.push_back(corners2);
+
+	cv::merge(planes,corners);
+
+	cv::perspectiveTransform(corners, corners, homography);
+	this->GetCorners_Xcrop(corners,topLeft,bottomRight); 
 	
-	cv::Point srcCenter,dstCenter;
-	srcCenter=cv::Point(image.cols/2,image.rows/2);	
-	this->TransformPoint(srcCenter,dstCenter,homography);
-	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
-	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
-	
-	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
-	return cropped;
+	cv::Mat T;
+	T=cv::Mat::zeros(3,3,CV_64F);
+	T.at<double>(0,0)=1;
+	T.at<double>(1,1)=1;
+	T.at<double>(2,2)=1;
+	T.at<double>(0,2)=-topLeft.x;
+	T.at<double>(1,2)=-topLeft.y;
+
+	// change homography to take necessary translation into account
+	cv::gemm(T, homography,1,T,0,T);
+	// warp second image and copy it to output image
+	cv::warpPerspective(image,outputImage, T, 
+		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
+		cv::INTER_LINEAR,0,32768);
 }
 
-int Warp::RotateImage_Ycrop(cv::Mat image,
+void Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::Mat homography, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
-    cv::Point corners[4],dstCorners[4];
-	corners[0].x=corners[0].y=0;
-	corners[1].x=image.cols;corners[1].y=0;
-	corners[2].x=image.cols;corners[2].y=image.rows;
-	corners[3].x=0;corners[3].y=image.rows;
-	this->TransformCorners(corners,dstCorners,homography);
-	int cropped=this->GetCorners_Ycrop(dstCorners,topLeft,bottomRight); 
+    cv::Mat corners1(1, 4,CV_32F);
+	cv:: Mat corners2(1,4,CV_32F);
+	cv::Mat corners(1,4,CV_32F);
+	cv::vector<cv::Mat> planes;
 
+	corners1.at<float>(0,0)=0;
+	corners2.at<float>(0,0)=0;
+	corners1.at<float>(0,1)=image.cols;
+	corners2.at<float>(0,1)=0;
+	corners1.at<float>(0,2)=image.cols;
+	corners2.at<float>(0,2)=image.rows;
+	corners1.at<float>(0,3)=0;
+	corners2.at<float>(0,3)=image.rows;
+	planes.push_back(corners1);
+	planes.push_back(corners2);
 
-	cv::Point srcCenter,dstCenter;
-	srcCenter=cv::Point(image.cols/2,image.rows/2);	
-	this->TransformPoint(srcCenter,dstCenter,homography);
-	homography.at<double>(0,2)+=srcCenter.x-dstCenter.x+(bottomRight.x-topLeft.x-image.cols)/2;
-	homography.at<double>(1,2)+=srcCenter.y-dstCenter.y+(bottomRight.y-topLeft.y-image.rows)/2;
+	cv::merge(planes,corners);
+
+	cv::perspectiveTransform(corners, corners, homography);
+    this->GetCorners_Ycrop(corners,topLeft,bottomRight); 
 	
-	//cv::Point newTopLeft, newBottomRight; //This is translation suppressed point
-	//this->TransformCorners(corners,dstCorners,homography);
-	//Utility utility;
-	//utility.WriteCorners("source corners",corners);
-	//utility.WriteCorners("dest corners",dstCorners);
-	//this->GetCorners_Ycrop(dstCorners,newTopLeft,newBottomRight);
-	//utility.WriteExtremePoints("Extreme Points",newTopLeft,newBottomRight);
-	//double newWidth=newBottomRight.x-newTopLeft.x;
-	//double newHeight=newBottomRight.y-newTopLeft.y;
-	//int shiftX=(newWidth-image.cols)/2;
-	//int shiftY=(newHeight-image.rows)/2;
-	//homography.at<double>(0,2)+=shiftX;
-	//homography.at<double>(1,2)+=shiftY;
-	cv::warpPerspective(image,outputImage,homography,cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),cv::INTER_NEAREST,cv::BORDER_CONSTANT,32767);
-	return cropped;
+	cv::Mat T;
+	T=cv::Mat::zeros(3,3,CV_64F);
+	T.at<double>(0,0)=1;
+	T.at<double>(1,1)=1;
+	T.at<double>(2,2)=1;
+	T.at<double>(0,2)=-topLeft.x;
+	T.at<double>(1,2)=-topLeft.y;
+
+	// change homography to take necessary translation into account
+	cv::gemm(T, homography,1,T,0,T);
+	// warp second image and copy it to output image
+	cv::warpPerspective(image,outputImage, T, 
+		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
+		cv::INTER_LINEAR,0,32768);
 }
 
 void Warp::TestTransformation(cv::Mat& image,
@@ -345,6 +334,19 @@ void Warp::GetCorners(const cv::Point corners[],cv::Point& topLeft,cv::Point& bo
 	bottomRight.y=maxY;
 }
 
+void Warp::GetCorners(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight){
+	topLeft.x=cv::min(cv::min((double)corners.at<cv::Vec2f>(0,0)[0],(double)corners.at<cv::Vec2f>(0,1)[0]),
+		cv::min((double)corners.at<cv::Vec2f>(0,2)[0],(double)corners.at<cv::Vec2f>(0,3)[0]));
+	topLeft.y=cv::min(cv::min((double)corners.at<cv::Vec2f>(0,0)[1],(double)corners.at<cv::Vec2f>(0,1)[1]),
+		cv::min((double)corners.at<cv::Vec2f>(0,2)[1],(double)corners.at<cv::Vec2f>(0,3)[1]));
+
+	bottomRight.x=cv::max(cv::max((double)corners.at<cv::Vec2f>(0,0)[0],(double)corners.at<cv::Vec2f>(0,1)[0]),
+		cv::max((double)corners.at<cv::Vec2f>(0,2)[0],(double)corners.at<cv::Vec2f>(0,3)[0]));
+	bottomRight.y=cv::max(cv::max((double)corners.at<cv::Vec2f>(0,0)[1],(double)corners.at<cv::Vec2f>(0,1)[1]),
+		cv::max((double)corners.at<cv::Vec2f>(0,2)[1],(double)corners.at<cv::Vec2f>(0,3)[1]));
+}
+
+
 /*
 void Warp::GetMinimalCorners(const cv:: Point corners[], 
 	cv::Point& topLeft, cv::Point& bottomRight){
@@ -374,7 +376,7 @@ void Warp::GetMinimalCorners(const cv:: Point corners[],
 }
 */
 
-int Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int yValues[]={corners[0].y,corners[1].y,corners[2].y, corners[3].y};
 	int minX=INT_MAX,maxX=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -399,10 +401,38 @@ int Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Po
 	topLeft.y=yValues[1];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
-	return yValues[1];
 }
 
-int Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Ycrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight){
+	double yValues[]={(double)corners.at<cv::Vec2f>(0,0)[1],(double)corners.at<cv::Vec2f>(0,1)[1],
+		(double)corners.at<cv::Vec2f>(0,2)[1],(double)corners.at<cv::Vec2f>(0,3)[1]};
+	double minX=(double)INT_MAX,maxX=(double)INT_MIN;
+	for(int i=0;i<3;i++){
+		for(int j=i+1;j<4;j++){
+			if(yValues[j]<yValues[i]){
+				int temp=yValues[i];
+				yValues[i]=yValues[j];
+				yValues[j]=temp;
+			}			
+		}
+	}
+	for(int i=0;i<4;i++){
+		if((double)corners.at<cv::Vec2f>(0,i)[0]<minX){
+			minX=corners.at<cv::Vec2f>(0,i)[0];
+		}
+		if((double)corners.at<cv::Vec2f>(0,i)[0]>maxX){
+			maxX=corners.at<cv::Vec2f>(0,i)[0];
+		}
+	}
+
+	topLeft.x=minX;
+	topLeft.y=yValues[1];
+	bottomRight.x=maxX;
+	bottomRight.y=yValues[2];
+	
+}
+
+void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
 	int xValues[]={corners[0].x,corners[1].x,corners[2].x, corners[3].x};
 	int minY=INT_MAX,maxY=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -426,6 +456,34 @@ int Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Po
 	topLeft.x=xValues[1];
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
-	bottomRight.y=maxY;
-	return xValues[1]-xValues[0];
+	bottomRight.y=maxY;	
 }
+
+void Warp::GetCorners_Xcrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight){
+	double xValues[]={(double)corners.at<cv::Vec2f>(0,0)[0],(double)corners.at<cv::Vec2f>(0,1)[0],
+		(double)corners.at<cv::Vec2f>(0,2)[0],(double)corners.at<cv::Vec2f>(0,3)[0]};
+	double minY=(double)INT_MAX,maxY=(double)INT_MIN;
+	for(int i=0;i<3;i++){
+		for(int j=i+1;j<4;j++){
+			if(xValues[j]<xValues[i]){
+				int temp=xValues[i];
+				xValues[i]=xValues[j];
+				xValues[j]=temp;
+			}			
+		}
+	}
+	for(int i=0;i<4;i++){
+		if((double)corners.at<cv::Vec2f>(0,i)[1]<minY){
+			minY=(double)corners.at<cv::Vec2f>(0,i)[1];
+		}
+		if((double)corners.at<cv::Vec2f>(0,i)[1]>maxY){
+			maxY=(double)corners.at<cv::Vec2f>(0,i)[1];
+		}
+	}
+
+	topLeft.x=xValues[1];
+	topLeft.y=minY;
+	bottomRight.x=xValues[2];
+	bottomRight.y=maxY;
+}
+
