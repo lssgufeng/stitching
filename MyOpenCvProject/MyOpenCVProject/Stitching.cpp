@@ -17,13 +17,13 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 
-void Stitching::Stitch(){
+cv::Mat Stitching::Stitch(){
 	cv::Mat homography;
 	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
-	if(!success){
+	/*if(!success){
 		return;
 	}
-
+*/
 	/*cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
 
@@ -227,8 +227,7 @@ void Stitching::Stitch(){
 	cv::imwrite("output/common_blended_pyr.png",outputImage);
 	outputImage.copyTo(stitchedImage(commonStitchedRegion));
 	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
-    //cv::imshow("StitchedImage_pyr",stitchedImage);
-    //cv::waitKey(0);
+	return stitchedImage;
 }
 
 bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homography){
