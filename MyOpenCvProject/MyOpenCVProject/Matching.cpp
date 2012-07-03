@@ -12,10 +12,12 @@ void Matching::GetMatchesBrief(cv::Mat& image1,cv::Mat& image2,
 void Matching::GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2){
+		int64 tick=cv::getTickCount();
 		this->extractor=new cv::SurfDescriptorExtractor();
 		this->extractor->compute(image1,keyPoints1,this->descriptors1);
 		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		this->performMatching(this->descriptors1,this->descriptors2,matches1,matches2);
+		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
 void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
@@ -29,10 +31,11 @@ void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 
 void Matching::performMatching(cv::Mat descriptors1, cv::Mat descriptors2,
 	std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2){
-	cv::BruteForceMatcher<cv::L2<float>> matcher;
-	matcher.knnMatch(descriptors1,descriptors2,matches1,2);
-	matcher.knnMatch(descriptors2,descriptors1,matches2,2);
-	
+		int64 tick=cv::getTickCount();
+		cv::BruteForceMatcher<cv::L2<float>> matcher;
+		matcher.knnMatch(descriptors1,descriptors2,matches1,2);
+		matcher.knnMatch(descriptors2,descriptors1,matches2,2);
+		printf("PerformMatching Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
 int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
@@ -55,6 +58,7 @@ int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double thr
 void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 	const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches){
+			int64 tick=cv::getTickCount();
 			//check for image1->imag2 matches
 			for(std::vector<std::vector<cv::DMatch>>::const_iterator matchIterator1=matches1.begin();
 				matchIterator1!=matches1.end();++matchIterator1){
@@ -73,6 +77,7 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 							}
 					}
 			}
+			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
@@ -116,6 +121,7 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 	std::vector<cv::KeyPoint>& keyPoints1,
 	std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<uchar>& inliers){
+		int64 tick =cv::getTickCount();
 		std::vector<cv::Point2f> points1,points2;
 		//convert to floating point for homography		
 		this->GetFloatPoints(keyPoints1,keyPoints2,goodMatches,points1,points2);
@@ -125,6 +131,7 @@ cv::Mat Matching::GetHomography(const std::vector<cv::DMatch>& goodMatches,
 			inliers,          //inliers
 			CV_RANSAC,        //using RANSAC method
 			3);        		  //maximum pixel distance		
+		printf("GetHomography Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 		return homography;
 }
 
