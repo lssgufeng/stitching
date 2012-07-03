@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonStitch = new System.Windows.Forms.Button();
             this.groupBoxStitch = new System.Windows.Forms.GroupBox();
             this.buttonBrowse2 = new System.Windows.Forms.Button();
@@ -36,12 +37,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
+            this.labelProgress = new System.Windows.Forms.Label();
             this.groupBoxStitch.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStitch
             // 
-            this.buttonStitch.Location = new System.Drawing.Point(69, 78);
+            this.buttonStitch.Location = new System.Drawing.Point(69, 76);
             this.buttonStitch.Name = "buttonStitch";
             this.buttonStitch.Size = new System.Drawing.Size(135, 31);
             this.buttonStitch.TabIndex = 6;
@@ -51,6 +53,7 @@
             // 
             // groupBoxStitch
             // 
+            this.groupBoxStitch.Controls.Add(this.labelProgress);
             this.groupBoxStitch.Controls.Add(this.buttonBrowse2);
             this.groupBoxStitch.Controls.Add(this.bottonBrowse1);
             this.groupBoxStitch.Controls.Add(this.textBoxImage2);
@@ -117,12 +120,22 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
+            // labelProgress
+            // 
+            this.labelProgress.Image = ((System.Drawing.Image)(resources.GetObject("labelProgress.Image")));
+            this.labelProgress.Location = new System.Drawing.Point(214, 76);
+            this.labelProgress.Name = "labelProgress";
+            this.labelProgress.Size = new System.Drawing.Size(42, 36);
+            this.labelProgress.TabIndex = 13;
+            this.labelProgress.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 144);
             this.Controls.Add(this.groupBoxStitch);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.groupBoxStitch.ResumeLayout(false);
@@ -141,6 +154,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxImage1;
         private System.Windows.Forms.Label labelImage1;
+        private System.Windows.Forms.Label labelProgress;
 
 
     }
