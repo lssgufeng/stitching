@@ -13,6 +13,7 @@ namespace ImageStitcher
     {
         String image1Path="";
         String image2Path="";
+        delegate void myDelegate(bool visible);
         public MainForm()
         {
             InitializeComponent();
@@ -43,11 +44,18 @@ namespace ImageStitcher
         {
             if (this.image1Path.Length == 0 || this.image2Path.Length == 0)
             {
-                MessageBox.Show("Pleas select image file");
+                MessageBox.Show("Please select image file");
                 return;
             }
-
+            this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { true });
             StitcherWrapper.Stitch(this.image1Path, this.image2Path);
+            this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { false });
+        }
+
+        private void setVisible(bool visible)
+        {
+            this.labelProgress.Visible = visible;
+            this.Refresh();
         }
     }
 }
