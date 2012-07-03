@@ -41,7 +41,7 @@
             // 
             // buttonStitch
             // 
-            this.buttonStitch.Location = new System.Drawing.Point(70, 77);
+            this.buttonStitch.Location = new System.Drawing.Point(69, 78);
             this.buttonStitch.Name = "buttonStitch";
             this.buttonStitch.Size = new System.Drawing.Size(135, 31);
             this.buttonStitch.TabIndex = 6;
