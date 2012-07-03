@@ -46,6 +46,7 @@ namespace ImageStitcher
                 MessageBox.Show("Pleas select image file");
                 return;
             }
+
             StitcherWrapper.Stitch(this.image1Path, this.image2Path);
         }
     }
