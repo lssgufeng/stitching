@@ -40,8 +40,8 @@ int main(void)
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Head_62KV_5.1mAs_100cm.dcm.png";*/
 	
-	char* path2="C:/Users/krishna/Google Drive/images/16bit/test3_16.png";
-	char* path1="C:/Users/krishna/Google Drive/images/16bit/test4_16.png";
+	/*char* path2="C:/Users/krishna/Google Drive/images/16bit/test3_16.png";
+	char* path1="C:/Users/krishna/Google Drive/images/16bit/test4_16.png";*/
 	//char* path2="C:/Users/krishna/Google Drive/images/test3.jpg";
 	//char* path1="C:/Users/krishna/Google Drive/images/test4.jpg";
 
@@ -59,7 +59,6 @@ int main(void)
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/";
 	char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/";*/
 
-	findSquareRoot(12);
 	
 	//printf("path1=%s",path1);printf("path2=%s",path2);
 	//printf("path1=%s",path1);printf("path2=%s",path2);
