@@ -31,6 +31,6 @@ namespace ImageStitcher
         [DllImport(@"Stitching(1.0.1).dll")]
         public static extern void Stitch([MarshalAs(UnmanagedType.LPStr)] string path1, [MarshalAs(UnmanagedType.LPStr)] string path2);
         [DllImport(@"Stitching(1.0.1).dll")]
-        public static extern ushort[] Stitch(ushort[] image1, ushort[] image2); 
+        public static extern ushort[] StitchRaw(ushort[] image1, ushort[] image2); 
     }
 }
