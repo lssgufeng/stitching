@@ -24,7 +24,7 @@
 #define DllExport __declspec(dllexport)
 extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2);
 
-extern "C" DllExport void Stitch(unsigned short* image1, unsigned short* image2);
+//extern "C" DllExport void Stitch(unsigned short* image1, unsigned short* image2);
 
 /* Method that stitches two images*/
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
@@ -58,7 +58,12 @@ void Stitch(LPSTR path1, LPSTR path2){
 	cv::imwrite("output/image2.png",image2);
 	Stitch(image1,image2);
 }
-void Stitch(unsigned short* image1,int width1,int height1, 
-	unsigned short* image2,int width2,int height2){
-
-}
+//unsigned short* Stitch(unsigned short* image1Data,int width1,int height1, 
+//	unsigned short* image2Data,int width2,int height2){
+//		cv::Mat image1,image2;
+//		image1.create(width1, height1,CV_16U);
+//		image2.create(width2, height2,CV_16U);
+//		image1.data=image1Data;
+//		image2.data=image2Data;
+//		Stitch(image1,image2);
+//}
