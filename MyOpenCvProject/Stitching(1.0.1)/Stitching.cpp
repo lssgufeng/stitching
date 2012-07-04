@@ -10,8 +10,6 @@ Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage){
 		this->floatingImage=floatingImage;
 		this->baseImage=baseImage;		
-		MyLog* log=new MyLog();
-		int i=2;
 }
 
 Stitching::~Stitching(){
@@ -20,38 +18,10 @@ Stitching::~Stitching(){
 cv::Mat Stitching::Stitch(){
 	cv::Mat homography;
 	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
-	/*if(!success){
-		return;
-	}
-*/
-	/*cv::Mat panorama;
-	this->stich(this->baseImage,this->floatingImage,homography,panorama);
-
-
-	cv::imwrite("output/panorama.png",panorama);
-	cv::imwrite("output/floating.png",this->floatingImage);
-	cv::imwrite("output/base.png",this->baseImage);
-
-	return;*/
-
 	Warp warp;
-	/*
-	cv::Mat toutputImage,thomography;
-	cv::Point ttopLeft,tbottomRight;
-	thomography=homography.clone();
-	warp.RotateImage(this->floatingImage,thomography,toutputImage,ttopLeft,tbottomRight);
-	cv::imwrite("output/o_warped.png",toutputImage);
-
-	cv::warpPerspective(this->floatingImage,toutputImage,homography,cv::Size());
-	cv::imwrite("output/original_warped.png",toutputImage);
-*/
 
 	cv::Point topLeft, bottomRight;
 	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
-	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
-	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
-		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
-	cv::imwrite("output/rotatedImage_YCrop.png",this->rotatedImage);
 		
 	//We have got top left and bottom right points of the rotated image
 	//Steps:
@@ -93,11 +63,7 @@ cv::Mat Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}	
-	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
-		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
-
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U,32767);
-	cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
 	//we have to define basically 3 regions in the stitched image and 
@@ -114,7 +80,6 @@ cv::Mat Stitching::Stitch(){
 		floatRegion.x=0;
 		baseRegion.x=abs(left.Value);
 		if(top.Index==0){
-			log->Write("Case 1");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);			
 
@@ -135,7 +100,6 @@ cv::Mat Stitching::Stitch(){
 			commonStitchedRegion.x=abs(topLeft.x);
 			commonStitchedRegion.y=abs(topLeft.y);
 		}else{
-			log->Write("Case 2");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 
@@ -159,7 +123,6 @@ cv::Mat Stitching::Stitch(){
 		floatRegion.x=topLeft.x;
 		baseRegion.x=0;
 		if(top.Index==0){
-			log->Write("Case 3");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
 
@@ -180,7 +143,6 @@ cv::Mat Stitching::Stitch(){
 			commonStitchedRegion.y=abs(topLeft.y);
 
 		}else{
-			log->Write("Case 4");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 
@@ -204,11 +166,6 @@ cv::Mat Stitching::Stitch(){
 	this->rotatedImage.copyTo(stitchedImage(floatRegion));
 	this->baseImage.copyTo(stitchedImage(baseRegion));
 	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
-
-
-	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
-	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
-
 
 	AlphaBlender alphaBlender;
 	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
@@ -237,8 +194,6 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	//cv::imwrite("output/image1_8bit.png",image1_8bit);
-    //cv::imwrite("output/image2_8bit.png",image2_8bit);
 
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
@@ -278,15 +233,12 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	}
 
 	if(inliers_count<6){
-		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
 	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
 	
-	Utility utility;
-	utility.WriteHomography("Homography",homography);
 	return true;
 }
 
