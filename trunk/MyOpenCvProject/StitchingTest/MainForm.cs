@@ -55,6 +55,9 @@ namespace ImageStitcher
             }
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { true });
             StitcherWrapper.Stitch(this.image1Path, this.image2Path);
+            //UInt16[,] image1 = new UInt16[3, 5] { { 12, 56, 12, 97, 345 }, { 12, 145, 234, 987, 535 }, { 124, 1234, 675, 986, 331 } };
+            //UInt16[,] image2 = new UInt16[3, 5] { { 122, 156, 142, 1297, 3450 }, { 112, 145, 2234, 9287, 535 }, { 1024, 1234, 6735, 9816, 3431 } };
+            //StitcherWrapper.Stitch(image1, image2);
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { false });
         }
 
