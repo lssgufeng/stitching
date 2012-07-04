@@ -31,6 +31,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
 int main(void)
 {
 	//NOT Required
+
 }
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 	for(int i=0;i<image1.rows;i++){
