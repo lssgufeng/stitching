@@ -180,8 +180,6 @@ cv::Mat Stitching::Stitch(){
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
 	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
 	outputImage= blender.blend(left,top,right,bottom);
-	//outputImage.convertTo(outputImage,CV_8U,255);
-	cv::imwrite("output/common_blended_pyr.png",outputImage);
 	outputImage.copyTo(stitchedImage(commonStitchedRegion));
 	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
 	return stitchedImage;
@@ -199,10 +197,11 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
 
 	cv::Mat tmpImage;
-	cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
+	/*cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
 	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
 	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
 	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+	*/
 
 	Matching matching;
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
@@ -212,17 +211,18 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	std::vector<cv::DMatch> symmetryMatches;
 	matching.SymmetryTest(matches1,matches2,symmetryMatches);
 	
-	matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
+	/*matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
 	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+	*/
 
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
-	//homography.at<double>(2,0)=homography.at<double>(2,1)=0;
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
-	matching.DrawInliers(points1,inliers,image1,tmpImage);
+	/*matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
+	*/
 	
 	int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
@@ -236,8 +236,10 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 		return false;
 	}
 
+	/*
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
 	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+	*/
 	
 	return true;
 }
