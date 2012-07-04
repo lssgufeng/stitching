@@ -240,7 +240,6 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	//cv::imwrite("output/image1_8bit.png",image1_8bit);
     //cv::imwrite("output/image2_8bit.png",image2_8bit);
 
-
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
 
