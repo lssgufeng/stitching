@@ -24,8 +24,6 @@
 #define DllExport __declspec(dllexport)
 extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2);
 
-//double findSquareRoot(double);
-
 /* Method that stitches two images*/
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
 int main(void)
@@ -50,7 +48,6 @@ int main(void)
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/rot_br_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/c_16.png";*/
-
 	
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
@@ -258,8 +255,6 @@ int main(void)
 	//%homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	//%timer.check();
 
- 
-	
 	
 
 	//**********DISPLAY
@@ -336,18 +331,4 @@ void Stitch(LPSTR path1, LPSTR path2){
 	Stitch(image1,image2);
 }
 
-double findSquareRoot(double value){
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_oben10°_66_16_C_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";
-	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-	cv::imwrite("output/image1.png",image1);
-	cv::imwrite("output/image2.png",image2);
-	Stitching stitching(image1, image2);
-	stitching.Stitch();
-	return sqrt(value);
-}
 
-//double findSquareRoot(double value){
-//	return sqrt(value);
-//}
