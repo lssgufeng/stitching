@@ -28,7 +28,7 @@ namespace ImageStitcher
      
     class StitcherWrapper
     {
-        [DllImport(@"Stitching.dll")]
+        [DllImport(@"Stitching(1.0.1).dll")]
         public static extern void Stitch([MarshalAs(UnmanagedType.LPStr)] string path1,[MarshalAs(UnmanagedType.LPStr)] string path2);
     }
 }
