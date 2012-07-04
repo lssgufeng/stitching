@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stitching", "Stitching\Stit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StitchingTest", "StitchingTest\StitchingTest.csproj", "{903B3A92-CDF1-4DF3-85F9-0478FE3B4D47}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stitching(1.0.0)", "Stitching(1.0.0)\Stitching(1.0.0).vcxproj", "{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -39,6 +41,16 @@ Global
 		{903B3A92-CDF1-4DF3-85F9-0478FE3B4D47}.Release|Win32.ActiveCfg = Release|x86
 		{903B3A92-CDF1-4DF3-85F9-0478FE3B4D47}.Release|x86.ActiveCfg = Release|x86
 		{903B3A92-CDF1-4DF3-85F9-0478FE3B4D47}.Release|x86.Build.0 = Release|x86
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Debug|Win32.Build.0 = Debug|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Debug|x86.ActiveCfg = Debug|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Release|Win32.ActiveCfg = Release|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Release|Win32.Build.0 = Release|Win32
+		{3B2D1AC8-0855-43D2-B270-09B9B07E14C4}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

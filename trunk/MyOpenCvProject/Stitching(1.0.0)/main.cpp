@@ -1,5 +1,5 @@
 /**
- * @function main Debug Version
+ * @function main
  * @brief main function as entry point. 
  * @author Krishna
  */
