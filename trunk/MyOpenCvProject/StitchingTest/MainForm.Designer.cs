@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonStitch = new System.Windows.Forms.Button();
             this.groupBoxStitch = new System.Windows.Forms.GroupBox();
+            this.groupBoxDirection = new System.Windows.Forms.GroupBox();
+            this.radioButtonHorizontal = new System.Windows.Forms.RadioButton();
+            this.radioButtonVertical = new System.Windows.Forms.RadioButton();
             this.labelProgress = new System.Windows.Forms.Label();
             this.buttonBrowse2 = new System.Windows.Forms.Button();
             this.bottonBrowse1 = new System.Windows.Forms.Button();
@@ -38,16 +41,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
-            this.groupBoxDirection = new System.Windows.Forms.GroupBox();
-            this.radioButtonVertical = new System.Windows.Forms.RadioButton();
-            this.radioButtonHorizontal = new System.Windows.Forms.RadioButton();
+            this.labelTimeTaken = new System.Windows.Forms.Label();
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStitch
             // 
-            this.buttonStitch.Location = new System.Drawing.Point(69, 135);
+            this.buttonStitch.Location = new System.Drawing.Point(23, 135);
             this.buttonStitch.Name = "buttonStitch";
             this.buttonStitch.Size = new System.Drawing.Size(148, 31);
             this.buttonStitch.TabIndex = 6;
@@ -57,6 +58,7 @@
             // 
             // groupBoxStitch
             // 
+            this.groupBoxStitch.Controls.Add(this.labelTimeTaken);
             this.groupBoxStitch.Controls.Add(this.groupBoxDirection);
             this.groupBoxStitch.Controls.Add(this.labelProgress);
             this.groupBoxStitch.Controls.Add(this.buttonBrowse2);
@@ -73,10 +75,44 @@
             this.groupBoxStitch.TabStop = false;
             this.groupBoxStitch.Text = "Stitch:";
             // 
+            // groupBoxDirection
+            // 
+            this.groupBoxDirection.Controls.Add(this.radioButtonHorizontal);
+            this.groupBoxDirection.Controls.Add(this.radioButtonVertical);
+            this.groupBoxDirection.Location = new System.Drawing.Point(69, 78);
+            this.groupBoxDirection.Name = "groupBoxDirection";
+            this.groupBoxDirection.Size = new System.Drawing.Size(328, 44);
+            this.groupBoxDirection.TabIndex = 14;
+            this.groupBoxDirection.TabStop = false;
+            this.groupBoxDirection.Text = "Direction:";
+            // 
+            // radioButtonHorizontal
+            // 
+            this.radioButtonHorizontal.AutoSize = true;
+            this.radioButtonHorizontal.Location = new System.Drawing.Point(240, 17);
+            this.radioButtonHorizontal.Name = "radioButtonHorizontal";
+            this.radioButtonHorizontal.Size = new System.Drawing.Size(72, 17);
+            this.radioButtonHorizontal.TabIndex = 1;
+            this.radioButtonHorizontal.TabStop = true;
+            this.radioButtonHorizontal.Text = "Horizontal";
+            this.radioButtonHorizontal.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonVertical
+            // 
+            this.radioButtonVertical.AutoSize = true;
+            this.radioButtonVertical.Checked = true;
+            this.radioButtonVertical.Location = new System.Drawing.Point(60, 18);
+            this.radioButtonVertical.Name = "radioButtonVertical";
+            this.radioButtonVertical.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonVertical.TabIndex = 0;
+            this.radioButtonVertical.TabStop = true;
+            this.radioButtonVertical.Text = "Vertical";
+            this.radioButtonVertical.UseVisualStyleBackColor = true;
+            // 
             // labelProgress
             // 
             this.labelProgress.Image = ((System.Drawing.Image)(resources.GetObject("labelProgress.Image")));
-            this.labelProgress.Location = new System.Drawing.Point(223, 133);
+            this.labelProgress.Location = new System.Drawing.Point(177, 133);
             this.labelProgress.Name = "labelProgress";
             this.labelProgress.Size = new System.Drawing.Size(42, 36);
             this.labelProgress.TabIndex = 13;
@@ -134,39 +170,14 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
-            // groupBoxDirection
+            // labelTimeTaken
             // 
-            this.groupBoxDirection.Controls.Add(this.radioButtonHorizontal);
-            this.groupBoxDirection.Controls.Add(this.radioButtonVertical);
-            this.groupBoxDirection.Location = new System.Drawing.Point(69, 78);
-            this.groupBoxDirection.Name = "groupBoxDirection";
-            this.groupBoxDirection.Size = new System.Drawing.Size(328, 44);
-            this.groupBoxDirection.TabIndex = 14;
-            this.groupBoxDirection.TabStop = false;
-            this.groupBoxDirection.Text = "Direction:";
-            // 
-            // radioButtonVertical
-            // 
-            this.radioButtonVertical.AutoSize = true;
-            this.radioButtonVertical.Checked = true;
-            this.radioButtonVertical.Location = new System.Drawing.Point(60, 18);
-            this.radioButtonVertical.Name = "radioButtonVertical";
-            this.radioButtonVertical.Size = new System.Drawing.Size(60, 17);
-            this.radioButtonVertical.TabIndex = 0;
-            this.radioButtonVertical.TabStop = true;
-            this.radioButtonVertical.Text = "Vertical";
-            this.radioButtonVertical.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonHorizontal
-            // 
-            this.radioButtonHorizontal.AutoSize = true;
-            this.radioButtonHorizontal.Location = new System.Drawing.Point(240, 17);
-            this.radioButtonHorizontal.Name = "radioButtonHorizontal";
-            this.radioButtonHorizontal.Size = new System.Drawing.Size(72, 17);
-            this.radioButtonHorizontal.TabIndex = 1;
-            this.radioButtonHorizontal.TabStop = true;
-            this.radioButtonHorizontal.Text = "Horizontal";
-            this.radioButtonHorizontal.UseVisualStyleBackColor = true;
+            this.labelTimeTaken.AutoSize = true;
+            this.labelTimeTaken.Location = new System.Drawing.Point(240, 144);
+            this.labelTimeTaken.Name = "labelTimeTaken";
+            this.labelTimeTaken.Size = new System.Drawing.Size(70, 13);
+            this.labelTimeTaken.TabIndex = 15;
+            this.labelTimeTaken.Text = "Time Taken: ";
             // 
             // MainForm
             // 
@@ -200,6 +211,7 @@
         private System.Windows.Forms.GroupBox groupBoxDirection;
         private System.Windows.Forms.RadioButton radioButtonHorizontal;
         private System.Windows.Forms.RadioButton radioButtonVertical;
+        private System.Windows.Forms.Label labelTimeTaken;
 
 
     }
