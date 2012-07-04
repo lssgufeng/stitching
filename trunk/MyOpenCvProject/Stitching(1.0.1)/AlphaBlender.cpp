@@ -52,11 +52,9 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 				else 
 					weightX=1.0-(image1.cols-(double)j)/((image1.cols-j)+(image1.rows-i));
 
-				//printf("i=%d,j=%d,weightX=%f\t",i,j,weightX);
 				outputImage.at<ushort>(i,j)=/*255*weightX;*/tmpImageX.at<ushort>(i,j)*weightX+tmpImageY.at<ushort>(i,j)*(1-weightX);
 			}
 		}
-		cv::imshow("output Image", outputImage);
 		return outputImage;
 }
 cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,
