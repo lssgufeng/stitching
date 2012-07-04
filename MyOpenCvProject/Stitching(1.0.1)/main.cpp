@@ -63,6 +63,8 @@ unsigned short* StitchRaw(unsigned short* image1Data,int width1,int height1,
 	unsigned short* image2Data,int width2,int height2){
 		cv::Mat image1(height1,width1,CV_16U,image1Data);
 		cv::Mat image2(height2,width2,CV_16U,image2Data);
+		cv::imwrite("output/image1_raw.png",image1);
+		cv::imwrite("output/image2_raw.png",image2);
 		cv::Mat stitched;
 		stitched=Stitch(image1,image2);
 		return image1Data;
