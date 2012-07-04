@@ -79,6 +79,8 @@ int main(void)
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	getchar();
 
+
+	cv::Mat image(12,12,CV_16U,
 	/*Corners corners;
 
 	cv::Mat cornerFeature=image1.clone();
@@ -91,8 +93,7 @@ int main(void)
 
 	/*cv::Mat image1_8bit,image2_8bit;
 	image1.convertTo(image1_8bit,CV_8U,1./256);
-	image2.convertTo(image2_8bit,CV_8U,1./256);*/
-
+	image2.convertTo(image2_8bit,CV_8U,1./256);*/	
 
 	/*cv::imshow("Image1",image1_8bit);
 	cv::waitKey(0);
@@ -103,7 +104,6 @@ int main(void)
 
 	//std::cout<<image1;
 
-	
 
 	//std::cout<<"Channels="<<image1.channels()<<"\tType="<<image1.type()<<"\tDepth="<<image1.depth();;
 
