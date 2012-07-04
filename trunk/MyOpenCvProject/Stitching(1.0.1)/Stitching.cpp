@@ -174,7 +174,7 @@ cv::Mat Stitching::Stitch(){
 	result.copyTo(stitchedImage(commonStitchedRegion));
 
 	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
-	cv::imshow("stitchedImage_alpha",stitchedImage);
+	//cv::imshow("stitchedImage_alpha",stitchedImage);
 
 	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
 	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);

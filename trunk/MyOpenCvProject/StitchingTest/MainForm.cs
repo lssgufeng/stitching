@@ -59,8 +59,8 @@ namespace ImageStitcher
             long spentTicks = System.DateTime.Now.Ticks - ticks;
             int seconds=TimeSpan.FromTicks(spentTicks).Seconds;
             this.labelTimeTaken.Text = "Time Taken: " + seconds + " Seconds";
-            //UInt16[,] image1 = new UInt16[3, 5] { { 12, 56, 12, 97, 345 }, { 12, 145, 234, 987, 535 }, { 124, 1234, 675, 986, 331 } };
-            //UInt16[,] image2 = new UInt16[3, 5] { { 122, 156, 142, 1297, 3450 }, { 112, 145, 2234, 9287, 535 }, { 1024, 1234, 6735, 9816, 3431 } };
+            //UInt16[] image1 = new UInt16[5]  { 12, 56, 12, 97, 345 };
+            //UInt16[] image2 = new UInt16[6] { 122, 156, 142, 1297, 3450,2345};
             //StitcherWrapper.Stitch(image1, image2);
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { false });
         }
