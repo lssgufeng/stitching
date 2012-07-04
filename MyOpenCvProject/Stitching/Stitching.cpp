@@ -287,6 +287,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	
 	Utility utility;
 	utility.WriteHomography("Homography",homography);
+	return true;
 }
 
 
