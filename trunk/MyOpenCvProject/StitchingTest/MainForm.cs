@@ -57,7 +57,7 @@ namespace ImageStitcher
             long ticks=System.DateTime.Now.Ticks;
             StitcherWrapper.Stitch(this.image1Path, this.image2Path);
             long spentTicks = System.DateTime.Now.Ticks - ticks;
-            int seconds=TimeSpan.FromTicks(spentTicks).Seconds;
+            int seconds = TimeSpan.FromTicks(spentTicks).Seconds;
             this.labelTimeTaken.Text = "Time Taken: " + seconds + " Seconds";
             //UInt16[] image1 = new UInt16[5]  { 12, 56, 12, 97, 345 };
             //UInt16[] image2 = new UInt16[6] { 122, 156, 142, 1297, 3450,2345};
