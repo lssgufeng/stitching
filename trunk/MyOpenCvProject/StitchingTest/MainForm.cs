@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 
 namespace ImageStitcher
 {
@@ -17,6 +18,11 @@ namespace ImageStitcher
         public MainForm()
         {
             InitializeComponent();
+            //Directory to store output images
+            if (!Directory.Exists("output"))
+            {
+                Directory.CreateDirectory("output");
+            }
         }
 
         private void bottonBrowse1_Click(object sender, EventArgs e)
