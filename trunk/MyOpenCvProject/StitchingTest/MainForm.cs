@@ -55,13 +55,13 @@ namespace ImageStitcher
             }
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { true });
             long ticks=System.DateTime.Now.Ticks;
-            StitcherWrapper.Stitch(this.image1Path, this.image2Path);
+            //StitcherWrapper.Stitch(this.image1Path, this.image2Path);
             long spentTicks = System.DateTime.Now.Ticks - ticks;
             int seconds = TimeSpan.FromTicks(spentTicks).Seconds;
             this.labelTimeTaken.Text = "Time Taken: " + seconds + " Seconds";
-            //UInt16[] image1 = new UInt16[5]  { 12, 56, 12, 97, 345 };
-            //UInt16[] image2 = new UInt16[6] { 122, 156, 142, 1297, 3450,2345};
-            //StitcherWrapper.Stitch(image1, image2);
+            UInt16[] image1 = new UInt16[6]  { 12, 56, 12, 97, 345,9856 };
+            UInt16[] image2 = new UInt16[8] { 789, 2345, 142, 1297, 3450,2345,764,123};
+            StitcherWrapper.StitchRaw(image1, image2);
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { false });
         }
 
