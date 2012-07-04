@@ -52,5 +52,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 void Stitch(LPSTR path1, LPSTR path2){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::imwrite("image1.png",image1);
+	cv::imwrite("image2.png",image2);
 	Stitch(image1,image2);
 }
