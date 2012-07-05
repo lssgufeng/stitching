@@ -28,7 +28,7 @@ void Corners::GetSurfFeatures(const cv::Mat& image,
 		//double imageInfo=this->getImageInformation(image.clone());
 		//double threshold=imageInfo/10;
 		int64 tick=cv::getTickCount();
-		double threshold=30.00;
+		double threshold=20.00;
 		this->detector=new cv::SurfFeatureDetector(threshold);
 		this->detector->detect(image,keyPoints);
 		printf("GetSurfFeatures Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
