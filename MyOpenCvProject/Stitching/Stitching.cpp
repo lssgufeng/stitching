@@ -25,16 +25,17 @@ cv::Mat Stitching::Stitch(){
 	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
 	cv::imwrite("output/cropFloatingImage.png",cropFloatingImage);
 	bool success=false;
+	int effectiveLength=400;
 	//Horizontal
 	if(this->direction==0){	
-		this->floatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth));
+		this->floatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.colRange(0,baseWidth/2),homography);	
+			this->baseImage.colRange(0,baseWidth),homography);	
     //Vertical
 	}else if(this->direction==1){
-		this->floatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight));
+		this->floatingImage.rowRange(floatingHeight>effectiveLength?floatingHeight-effectiveLength:0,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight>effectiveLength?floatingHeight-effectiveLength:0,floatingHeight));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.rowRange(0,baseHeight/2),homography);		
+			this->baseImage.rowRange(0,baseHeight),homography);		
     //All direction
 	}else{
 		success=calculateHomography(this->floatingImage,
