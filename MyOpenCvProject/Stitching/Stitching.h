@@ -27,6 +27,10 @@ private:
 	cv::Mat baseImage;
 	//Rotated Image
 	cv::Mat rotatedImage;
+
+	//Direction of stitching
+	int direction;
+
 	//Homography
 	cv::Mat homography;	
 
@@ -46,7 +50,8 @@ public:
 	//@floatingImage Floating Image
 	//@baseImage Base Image, which is fixed.
 	//@homography Transformation matrix 
-	Stitching(cv::Mat floatingImage, cv::Mat baseImage);
+	//@direction direction of stitching: 0 for horizontal, 1 for vertical, other no direction
+	Stitching(cv::Mat floatingImage, cv::Mat baseImage,int direction);
 	//destructor
 	~Stitching();
 	//it performs the main task of stitching

@@ -25,7 +25,7 @@
 extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2);
 
 /* Method that stitches two images*/
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction);
 int main(void)
 {
 	//For message display
@@ -33,8 +33,8 @@ int main(void)
 
     #pragma region "Input Images"
 
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_oben10起66_16_C_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10起66_16_C_16.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_oben10起66_16_C_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10起66_16_C_16.png";
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/Cat/Nromal/C_Krishna_Test_Cat_Head_62KV_5.1mAs_100cm.dcm.png";*/
 	
@@ -75,12 +75,11 @@ int main(void)
 		exit(0);
 	}
 
-	cv::Mat stitchedImage=Stitch(image1, image2);
+	cv::Mat stitchedImage=Stitch(image1, image2,1);
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	getchar();
 
 
-	cv::Mat image(12,12,CV_16U,
 	/*Corners corners;
 
 	cv::Mat cornerFeature=image1.clone();
@@ -306,7 +305,7 @@ int main(void)
 	stitching.Stitch();
 	std::getchar();	*/
 }
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2, int direction){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
@@ -321,14 +320,14 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 			}			
 		}
 	}
-	Stitching stitching(image1,image2);
+	Stitching stitching(image1,image2,direction);
 	return stitching.Stitch();	
 }
 
-void Stitch(LPSTR path1, LPSTR path2){
+void Stitch(LPSTR path1, LPSTR path2, int direction){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-	Stitch(image1,image2);
+	Stitch(image1,image2,direction);
 }
 
 
