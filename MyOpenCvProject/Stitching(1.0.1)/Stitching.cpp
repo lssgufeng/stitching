@@ -23,14 +23,19 @@ cv::Mat Stitching::Stitch(){
 	int floatingWidth=this->floatingImage.cols;
 	int baseHeight=this->baseImage.rows;
 	int baseWidth=this->baseImage.cols;
+	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
 	bool success=false;
 	//Horizontal
-	if(this->direction==0){
-		success=calculateHomography(this->floatingImage.colRange(floatingWidth/2,floatingWidth),
+	if(this->direction==0){	
+		this->floatingImage.colRange(floatingWidth/2,
+			floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth/2,floatingWidth));
+		success=calculateHomography(cropFloatingImage,
 			this->baseImage.colRange(0,baseWidth/2),homography);	
     //Vertical
 	}else if(this->direction==1){
-		success=calculateHomography(this->floatingImage.rowRange(floatingHeight/2,floatingHeight),
+		this->floatingImage.rowRange(floatingHeight/2,
+			floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight/2,floatingHeight));
+		success=calculateHomography(cropFloatingImage,
 			this->baseImage.rowRange(0,baseHeight/2),homography);		
     //All direction
 	}else{
@@ -202,11 +207,11 @@ cv::Mat Stitching::Stitch(){
 	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
 	//cv::imshow("stitchedImage_alpha",stitchedImage);
 
-	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
+	/*LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
 	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
 	outputImage= blender.blend(left,top,right,bottom);
 	outputImage.copyTo(stitchedImage(commonStitchedRegion));
-	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);*/
 	return stitchedImage;
 }
 
