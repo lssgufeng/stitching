@@ -68,6 +68,8 @@ namespace ImageStitcher
             UInt16[] image2 = new UInt16[8] { 789, 2345, 142, 1297, 3450,2345,764,123};
             //StitcherWrapper.StitchRaw(image1, image2);
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { false });
+            string directory = Directory.GetCurrentDirectory() + "\\output";
+            System.Diagnostics.Process.Start("explorer.exe",directory);
         }
 
         private void setVisible(bool visible)
