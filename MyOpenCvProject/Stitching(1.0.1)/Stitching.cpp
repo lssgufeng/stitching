@@ -7,9 +7,10 @@
 
 
 Stitching::Stitching(cv::Mat floatingImage,
-	cv::Mat baseImage){
+	cv::Mat baseImage,int direction){
 		this->floatingImage=floatingImage;
-		this->baseImage=baseImage;		
+		this->baseImage=baseImage;	
+		this->direction=direction;
 }
 
 Stitching::~Stitching(){
@@ -17,7 +18,25 @@ Stitching::~Stitching(){
 
 cv::Mat Stitching::Stitch(){
 	cv::Mat homography;
-	bool success=calculateHomography(this->floatingImage,this->baseImage,homography);
+	
+	int floatingHeight=this->floatingImage.rows;
+	int floatingWidth=this->floatingImage.cols;
+	int baseHeight=this->baseImage.rows;
+	int baseWidth=this->baseImage.cols;
+	bool success=false;
+	//Horizontal
+	if(this->direction==0){
+		success=calculateHomography(this->floatingImage.colRange(floatingWidth/2,floatingWidth),
+			this->baseImage.colRange(0,baseWidth/2),homography);	
+    //Vertical
+	}else if(this->direction=1){
+		success=calculateHomography(this->floatingImage.rowRange(floatingHeight/2,floatingHeight),
+			this->baseImage.rowRange(0,baseHeight/2),homography);		
+    //All direction
+	}else{
+		success=calculateHomography(this->floatingImage,
+			this->baseImage,homography);
+	}
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;

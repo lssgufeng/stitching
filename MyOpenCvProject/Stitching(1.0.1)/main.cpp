@@ -33,7 +33,7 @@ int main(void)
 	//NOT Required
 
 }
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
@@ -48,24 +48,24 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2){
 			}			
 		}
 	}
-	Stitching stitching(image1,image2);
+	Stitching stitching(image1,image2,direction);
 	return stitching.Stitch();	
 }
 
-void Stitch(LPSTR path1, LPSTR path2){
+void Stitch(LPSTR path1, LPSTR path2,int direction){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
 	cv::imwrite("output/image1.png",image1);
-	cv::imwrite("output/image2.png",image2);
-	Stitch(image1,image2);
+	cv::imwrite("output/image2.png",image2);	
+	Stitch(image1,image2,direction);
 }
-unsigned short* StitchRaw(unsigned short* image1Data,int width1,int height1, 
-	unsigned short* image2Data,int width2,int height2){
-		cv::Mat image1(height1,width1,CV_16U,image1Data);
-		cv::Mat image2(height2,width2,CV_16U,image2Data);
-		cv::imwrite("output/image1_raw.png",image1);
-		cv::imwrite("output/image2_raw.png",image2);
-		cv::Mat stitched;
-		stitched=Stitch(image1,image2);
-		return image1Data;
-}
+//unsigned short* StitchRaw(unsigned short* image1Data,int width1,int height1, 
+//	unsigned short* image2Data,int width2,int height2){
+//		cv::Mat image1(height1,width1,CV_16U,image1Data);
+//		cv::Mat image2(height2,width2,CV_16U,image2Data);
+//		cv::imwrite("output/image1_raw.png",image1);
+//		cv::imwrite("output/image2_raw.png",image2);
+//		cv::Mat stitched;
+//		stitched=Stitch(image1,image2);
+//		return image1Data;
+//}
