@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonStitch = new System.Windows.Forms.Button();
             this.groupBoxStitch = new System.Windows.Forms.GroupBox();
+            this.labelTimeTaken = new System.Windows.Forms.Label();
             this.groupBoxDirection = new System.Windows.Forms.GroupBox();
             this.radioButtonHorizontal = new System.Windows.Forms.RadioButton();
             this.radioButtonVertical = new System.Windows.Forms.RadioButton();
@@ -41,7 +42,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
-            this.labelTimeTaken = new System.Windows.Forms.Label();
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
             this.SuspendLayout();
@@ -74,6 +74,15 @@
             this.groupBoxStitch.TabIndex = 7;
             this.groupBoxStitch.TabStop = false;
             this.groupBoxStitch.Text = "Stitch:";
+            // 
+            // labelTimeTaken
+            // 
+            this.labelTimeTaken.AutoSize = true;
+            this.labelTimeTaken.Location = new System.Drawing.Point(240, 144);
+            this.labelTimeTaken.Name = "labelTimeTaken";
+            this.labelTimeTaken.Size = new System.Drawing.Size(70, 13);
+            this.labelTimeTaken.TabIndex = 15;
+            this.labelTimeTaken.Text = "Time Taken: ";
             // 
             // groupBoxDirection
             // 
@@ -140,6 +149,7 @@
             // 
             // textBoxImage2
             // 
+            this.textBoxImage2.Enabled = false;
             this.textBoxImage2.Location = new System.Drawing.Point(69, 50);
             this.textBoxImage2.Name = "textBoxImage2";
             this.textBoxImage2.Size = new System.Drawing.Size(328, 20);
@@ -156,6 +166,7 @@
             // 
             // textBoxImage1
             // 
+            this.textBoxImage1.Enabled = false;
             this.textBoxImage1.Location = new System.Drawing.Point(69, 18);
             this.textBoxImage1.Name = "textBoxImage1";
             this.textBoxImage1.Size = new System.Drawing.Size(328, 20);
@@ -169,15 +180,6 @@
             this.labelImage1.Size = new System.Drawing.Size(45, 13);
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
-            // 
-            // labelTimeTaken
-            // 
-            this.labelTimeTaken.AutoSize = true;
-            this.labelTimeTaken.Location = new System.Drawing.Point(240, 144);
-            this.labelTimeTaken.Name = "labelTimeTaken";
-            this.labelTimeTaken.Size = new System.Drawing.Size(70, 13);
-            this.labelTimeTaken.TabIndex = 15;
-            this.labelTimeTaken.Text = "Time Taken: ";
             // 
             // MainForm
             // 
