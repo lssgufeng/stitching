@@ -27,14 +27,12 @@ cv::Mat Stitching::Stitch(){
 	bool success=false;
 	//Horizontal
 	if(this->direction==0){	
-		this->floatingImage.colRange(floatingWidth/2,
-			floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth/2,floatingWidth));
+		this->floatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth));
 		success=calculateHomography(cropFloatingImage,
 			this->baseImage.colRange(0,baseWidth/2),homography);	
     //Vertical
 	}else if(this->direction==1){
-		this->floatingImage.rowRange(floatingHeight/2,
-			floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight/2,floatingHeight));
+		this->floatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight));
 		success=calculateHomography(cropFloatingImage,
 			this->baseImage.rowRange(0,baseHeight/2),homography);		
     //All direction
