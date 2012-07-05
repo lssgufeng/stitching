@@ -29,7 +29,7 @@ cv::Mat Stitching::Stitch(){
 		success=calculateHomography(this->floatingImage.colRange(floatingWidth/2,floatingWidth),
 			this->baseImage.colRange(0,baseWidth/2),homography);	
     //Vertical
-	}else if(this->direction=1){
+	}else if(this->direction==1){
 		success=calculateHomography(this->floatingImage.rowRange(floatingHeight/2,floatingHeight),
 			this->baseImage.rowRange(0,baseHeight/2),homography);		
     //All direction
