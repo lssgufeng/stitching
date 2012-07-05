@@ -40,7 +40,14 @@ cv::Mat Stitching::Stitch(){
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	if(this->direction==0){
+		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	}else if(this->direction==1){
+		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+	}else{
+		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+	}
+
 		
 	//We have got top left and bottom right points of the rotated image
 	//Steps:

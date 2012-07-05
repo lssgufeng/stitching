@@ -64,7 +64,13 @@ cv::Mat Stitching::Stitch(){
 */
 
 	cv::Point topLeft, bottomRight;
-	warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	if(this->direction==0){
+		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	}else if(this->direction==1){
+		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+	}else{
+		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+	}		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
