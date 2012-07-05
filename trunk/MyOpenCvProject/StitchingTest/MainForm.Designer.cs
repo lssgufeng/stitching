@@ -42,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
+            this.radioButtonNone = new System.Windows.Forms.RadioButton();
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +87,7 @@
             // 
             // groupBoxDirection
             // 
+            this.groupBoxDirection.Controls.Add(this.radioButtonNone);
             this.groupBoxDirection.Controls.Add(this.radioButtonHorizontal);
             this.groupBoxDirection.Controls.Add(this.radioButtonVertical);
             this.groupBoxDirection.Location = new System.Drawing.Point(69, 78);
@@ -98,7 +100,7 @@
             // radioButtonHorizontal
             // 
             this.radioButtonHorizontal.AutoSize = true;
-            this.radioButtonHorizontal.Location = new System.Drawing.Point(240, 17);
+            this.radioButtonHorizontal.Location = new System.Drawing.Point(143, 17);
             this.radioButtonHorizontal.Name = "radioButtonHorizontal";
             this.radioButtonHorizontal.Size = new System.Drawing.Size(72, 17);
             this.radioButtonHorizontal.TabIndex = 1;
@@ -181,6 +183,17 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
+            // radioButtonNone
+            // 
+            this.radioButtonNone.AutoSize = true;
+            this.radioButtonNone.Location = new System.Drawing.Point(233, 17);
+            this.radioButtonNone.Name = "radioButtonNone";
+            this.radioButtonNone.Size = new System.Drawing.Size(51, 17);
+            this.radioButtonNone.TabIndex = 2;
+            this.radioButtonNone.TabStop = true;
+            this.radioButtonNone.Text = "None";
+            this.radioButtonNone.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -214,6 +227,7 @@
         private System.Windows.Forms.RadioButton radioButtonHorizontal;
         private System.Windows.Forms.RadioButton radioButtonVertical;
         private System.Windows.Forms.Label labelTimeTaken;
+        private System.Windows.Forms.RadioButton radioButtonNone;
 
 
     }

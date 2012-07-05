@@ -22,7 +22,7 @@
 #include "Stitching.h"
 
 #define DllExport __declspec(dllexport)
-extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2);
+extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction);
 
 extern "C" DllExport void StitchRaw(unsigned short* image1, unsigned short* image2);
 
