@@ -22,27 +22,34 @@ cv::Mat Stitching::Stitch(){
 	int floatingWidth=this->floatingImage.cols;
 	int baseHeight=this->baseImage.rows;
 	int baseWidth=this->baseImage.cols;
-
+	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
+	cv::imwrite("output/cropFloatingImage.png",cropFloatingImage);
 	bool success=false;
 	//Horizontal
-	if(this->direction==0){
-		success=calculateHomography(this->floatingImage.colRange(floatingWidth/2,floatingWidth),
+	if(this->direction==0){	
+		this->floatingImage.colRange(floatingWidth/2,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth/2,floatingWidth));
+		success=calculateHomography(cropFloatingImage,
 			this->baseImage.colRange(0,baseWidth/2),homography);	
     //Vertical
 	}else if(this->direction==1){
-		success=calculateHomography(this->floatingImage.rowRange(floatingHeight/2,floatingHeight),
+		this->floatingImage.rowRange(floatingHeight/2,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight/2,floatingHeight));
+		success=calculateHomography(cropFloatingImage,
 			this->baseImage.rowRange(0,baseHeight/2),homography);		
     //All direction
 	}else{
 		success=calculateHomography(this->floatingImage,
 			this->baseImage,homography);
 	}
+
+	cv::imwrite("1.png",this->floatingImage);
+	cv::imwrite("2.png",this->baseImage);
 	/*if(!success){
 		return;
 	}
 */
 	/*cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
+
 
 
 	cv::imwrite("output/panorama.png",panorama);
@@ -65,16 +72,16 @@ cv::Mat Stitching::Stitch(){
 
 	cv::Point topLeft, bottomRight;
 	if(this->direction==0){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	}else if(this->direction==1){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
 		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
-	cv::imwrite("output/rotatedImage_YCrop.png",this->rotatedImage);
+	cv::imwrite("output/rotatedImage_Crop.png",this->rotatedImage);
 		
 	//We have got top left and bottom right points of the rotated image
 	//Steps:
