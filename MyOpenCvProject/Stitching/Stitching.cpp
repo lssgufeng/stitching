@@ -25,7 +25,7 @@ cv::Mat Stitching::Stitch(){
 	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
 	cv::imwrite("output/cropFloatingImage.png",cropFloatingImage);
 	bool success=false;
-	int effectiveLength=400;
+	int effectiveLength=800;
 	//Horizontal
 	if(this->direction==0){	
 		this->floatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth));
