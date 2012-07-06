@@ -22,35 +22,44 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 	//left implies float image, right implies base image
 	if(left.Index==0){
 		if(right.Index==0){
-			this->blendLapPyrsX(this->floatLapPyr,this->floatLapPyr,this->floatSmallestLevel,this->floatSmallestLevel);
+			this->blendLapPyrsX(this->floatLapPyr,this->floatLapPyr,
+				this->floatSmallestLevel,this->floatSmallestLevel);
 		}else{
-			this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+			this->blendLapPyrsX(this->floatLapPyr,this->baseLapPyr,
+				this->floatSmallestLevel,this->baseSmallestLevel);
 		}
 	}else{
 		if(right.Index==0){
-			this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+			this->blendLapPyrsX(this->baseLapPyr,this->floatLapPyr,
+				this->baseSmallestLevel,this->floatSmallestLevel);
 		}else{
-			this->blendLapPyrsX(this->baseLapPyr,this->baseLapPyr,this->baseSmallestLevel,this->baseSmallestLevel);
+			this->blendLapPyrsX(this->baseLapPyr,this->baseLapPyr,
+				this->baseSmallestLevel,this->baseSmallestLevel);
 		}
 	}
 
 	if(top.Index==0){
 		if(bottom.Index==0){
-			this->blendLapPyrsY(this->floatLapPyr,this->floatLapPyr,this->floatSmallestLevel,this->floatSmallestLevel);
+			this->blendLapPyrsY(this->floatLapPyr,this->floatLapPyr,
+				this->floatSmallestLevel,this->floatSmallestLevel);
 		}else{
-			this->blendLapPyrsY(this->floatLapPyr,this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
+			this->blendLapPyrsY(this->floatLapPyr,
+				this->baseLapPyr,this->floatSmallestLevel,this->baseSmallestLevel);
 		}
 	}else{
 		if(bottom.Index==0){
-			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,this->baseSmallestLevel,this->floatSmallestLevel);
+			this->blendLapPyrsY(this->baseLapPyr,this->floatLapPyr,
+				this->baseSmallestLevel,this->floatSmallestLevel);
 		}else{
-			this->blendLapPyrsY(this->baseLapPyr,this->baseLapPyr,this->baseSmallestLevel,this->baseSmallestLevel);
+			this->blendLapPyrsY(this->baseLapPyr,this->baseLapPyr,
+				this->baseSmallestLevel,this->baseSmallestLevel);
 		}
 	}
 
 	//Now we reconstruct the image using result pyramids
 	cv::Mat_<cv::Vec3f> blendX,blendY;
-	cv::Mat_<cv::Vec3f> result(this->floatImage.rows,this->floatImage.cols);
+	cv::Mat_<cv::Vec3f> result(this->floatImage.rows,
+		this->floatImage.cols);
 	blendX=this->reconstructImageX();
 	blendY=this->reconstructImageY();	
 	cv::cvtColor(result,result,CV_BGR2GRAY);
@@ -70,10 +79,13 @@ cv::Mat LaplacianBlender::blend(Boundry& left,Boundry& top,Boundry& right,Boundr
 			else if(j<=this->floatImage.cols/2 && i>this->floatImage.rows/2)
 				weightX=1.0-(double)j/(j+(this->floatImage.rows-i));
 			else if(j>this->floatImage.cols/2 && i<=this->floatImage.rows/2)
-				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+(double)i);
+				weightX=1.0-(this->floatImage.cols-(double)j)/
+				((this->floatImage.cols-(double)j)+(double)i);
 			else 
-				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+(this->floatImage.rows-(double)i));
-			result.at<ushort>(i,j)=/*255*weightX;*/blendX.at<ushort>(i,j)*weightX+blendY.at<ushort>(i,j)*(1-weightX);
+				weightX=1.0-(this->floatImage.cols-(double)j)/((this->floatImage.cols-(double)j)+
+				(this->floatImage.rows-(double)i));
+			result.at<ushort>(i,j)=blendX.at<ushort>(i,j)*weightX+
+				blendY.at<ushort>(i,j)*(1-weightX);
 		}
 	}
 	
@@ -101,8 +113,9 @@ void LaplacianBlender::loadBlendMasks(){
 
 
 
-void LaplacianBlender::generateLaplacianPyramid(const cv::Mat& image,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
-		cv::Mat& smallestLevel){
+void LaplacianBlender::generateLaplacianPyramid(const cv::Mat& image,
+	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
+	cv::Mat& smallestLevel){
 			lapPyr.clear();
 			cv::Mat currentImage=image.clone();
 			for(int i=0;i<levels;i++){
@@ -143,7 +156,8 @@ void LaplacianBlender::generateGaussianPyramid(cv::Mat& blendMask,
 	}
 }
 
-void LaplacianBlender::blendLapPyrsX(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
+void LaplacianBlender::blendLapPyrsX(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
+	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
 	cv::Mat& smallestLevel1,cv::Mat& smallestLevel2){
 		this->resultSmallestLevelX=smallestLevel1.mul(this->maskGaussianPyramidX.back())+
 			smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramidX.back());
@@ -156,7 +170,8 @@ void LaplacianBlender::blendLapPyrsX(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,cv
 		}
 }
 
-void LaplacianBlender::blendLapPyrsY(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
+void LaplacianBlender::blendLapPyrsY(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
+	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2,
 	cv::Mat& smallestLevel1,cv::Mat& smallestLevel2){
 		this->resultSmallestLevelY=smallestLevel1.mul(this->maskGaussianPyramidY.back())+
 			smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramidY.back());

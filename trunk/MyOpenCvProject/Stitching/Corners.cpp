@@ -75,7 +75,7 @@ void Corners::GetDynamicAdaptedFeatures_STAR(cv::Mat& image,int minFeatures,
 			cv::Ptr<cv::AdjusterAdapter> adjuster=new cv::StarAdjuster(threshold,minThreshold,maxThreshold);
 			this->dymanicDetector=new cv::DynamicAdaptedFeatureDetector(adjuster,minFeatures,maxFeatures,iterations);
 			this->dymanicDetector->detect(image,keyPoints);
-	}
+}
 
 
 void Corners::DrawKeyPoints(const cv::Mat& originalImage,
