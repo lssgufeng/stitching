@@ -336,7 +336,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 			}
 	}
 
-	if(inliers_count<6){
+	if(inliers_count<15){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}
