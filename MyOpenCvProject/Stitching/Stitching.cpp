@@ -67,11 +67,10 @@ cv::Mat Stitching::Stitch(){
 		}
 	}else{
 		success=calculateHomography(floatingImageResized,
-			baseImageResized,homography);
-		homography.at<double>(0,2)*=1/scale;
-		homography.at<double>(1,2)*=1/scale;
+			baseImageResized,homography);	
 	}
-
+	homography.at<double>(0,2)*=1/scale;
+		homography.at<double>(1,2)*=1/scale;
 	cv::imwrite("1.png",floatingImageResized);
 	cv::imwrite("2.png",baseImageResized);
 	/*if(!success){
