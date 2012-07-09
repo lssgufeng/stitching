@@ -17,29 +17,48 @@ Stitching::~Stitching(){
 }
 
 cv::Mat Stitching::Stitch(){
-	cv::Mat homography;
-	
+	cv::Mat homography;	
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
 	int baseHeight=this->baseImage.rows;
 	int baseWidth=this->baseImage.cols;
-	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
+	float scale=1.0;
+	int standardSize=2000;
+	if(floatingWidth>standardSize){
+		scale=(float)standardSize/floatingWidth;
+	}else if(floatingHeight>standardSize){
+		scale=(float)standardSize/floatingHeight;
+	}
+	cv::Mat floatingImageResized((int)floatingHeight*scale,(int)floatingWidth*scale,this->floatingImage.type());
+	cv::Mat baseImageResized((int)baseHeight*scale,(int)baseWidth*scale,this->baseImage.type());
+	cv::resize(this->floatingImage,floatingImageResized,floatingImageResized.size());
+	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());
+	
+	
+	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
+	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 	bool success=false;
+	//int effectiveLength=600;
 	//Horizontal
 	if(this->direction==0){	
-		this->floatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>200?floatingWidth-200:0,floatingWidth));
+		floatingImageResized.colRange(floatingImageResized.cols/2,
+			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
+			floatingImageResized.cols));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.colRange(0,baseWidth/2),homography);	
+			baseImageResized,homography);			
     //Vertical
 	}else if(this->direction==1){
-		this->floatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight>200?floatingHeight-200:0,floatingHeight));
+		floatingImageResized.rowRange(floatingImageResized.rows/2,
+			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
+			floatingImageResized.rows));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.rowRange(0,baseHeight/2),homography);		
-    //All direction
+			baseImageResized,homography);			
 	}else{
-		success=calculateHomography(this->floatingImage,
-			this->baseImage,homography);
+		success=calculateHomography(floatingImageResized,
+			baseImageResized,homography);
 	}
+	homography.at<double>(0,2)*=1/scale;
+		homography.at<double>(1,2)*=1/scale;
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;
@@ -92,7 +111,7 @@ cv::Mat Stitching::Stitch(){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}	
-	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U,32767);
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
 	
 	//paste the rotated and base images in the stitched image
 	//we have to define basically 3 regions in the stitched image and 
