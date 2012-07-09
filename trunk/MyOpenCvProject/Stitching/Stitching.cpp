@@ -47,7 +47,7 @@ cv::Mat Stitching::Stitch(){
 	/*if(!success){
 		return;
 	}
-*/
+	*/
 	/*cv::Mat panorama;
 	this->stich(this->baseImage,this->floatingImage,homography,panorama);
 
