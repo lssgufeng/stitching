@@ -104,7 +104,7 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 	// warp second image and copy it to output image
 	cv::warpPerspective(image,outputImage, T, 
 		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
-		cv::INTER_LINEAR,0,32768);
+		cv::INTER_LINEAR,0,0);
 
 	
 }
@@ -145,7 +145,7 @@ void Warp::RotateImage_Xcrop(cv::Mat image,
 	// warp second image and copy it to output image
 	cv::warpPerspective(image,outputImage, T, 
 		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
-		cv::INTER_LINEAR,0,32768);
+		cv::INTER_LINEAR,0,0);
 }
 
 void Warp::RotateImage_Ycrop(cv::Mat image,
@@ -184,7 +184,7 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	// warp second image and copy it to output image
 	cv::warpPerspective(image,outputImage, T, 
 		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
-		cv::INTER_LINEAR,0,32768);
+		cv::INTER_LINEAR,0,0);
 }
 
 void Warp::TestTransformation(cv::Mat& image,
