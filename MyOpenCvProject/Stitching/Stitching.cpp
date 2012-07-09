@@ -45,26 +45,14 @@ cv::Mat Stitching::Stitch(){
 			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.colRange(0,baseImageResized.cols/2),homography);	
-		if(!success){
-			baseImageResized.colRange(baseImageResized.cols/2,
-				baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,
-				baseImageResized.cols));
-			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
-		}
+			baseImageResized,homography);			
     //Vertical
 	}else if(this->direction==1){
 		floatingImageResized.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.rowRange(0,baseImageResized.rows/2),homography);	
-		if(!success){
-			baseImageResized.rowRange(baseImageResized.rows/2,
-				baseImageResized.rows).copyTo(cropBaseImage.rowRange(baseImageResized.rows/2,
-				baseImageResized.rows));
-			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
-		}
+			baseImageResized,homography);			
 	}else{
 		success=calculateHomography(floatingImageResized,
 			baseImageResized,homography);
@@ -102,9 +90,9 @@ cv::Mat Stitching::Stitch(){
 
 	cv::Point topLeft, bottomRight;
 	if(this->direction==0){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
 	}else if(this->direction==1){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		
@@ -156,7 +144,7 @@ cv::Mat Stitching::Stitch(){
 	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
 		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
 
-	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U,32767);
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
 	cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
@@ -336,7 +324,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 			}
 	}
 
-	if(inliers_count<15){
+	if(inliers_count<10){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}

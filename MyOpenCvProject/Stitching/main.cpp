@@ -75,7 +75,7 @@ int main(void)
 		exit(0);
 	}
 
-	cv::Mat stitchedImage=Stitch(image1, image2,2);
+	cv::Mat stitchedImage=Stitch(image1, image2,1);
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	getchar();
 
