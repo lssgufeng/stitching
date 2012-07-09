@@ -22,28 +22,58 @@ cv::Mat Stitching::Stitch(){
 	int floatingWidth=this->floatingImage.cols;
 	int baseHeight=this->baseImage.rows;
 	int baseWidth=this->baseImage.cols;
-	cv::Mat cropFloatingImage(floatingHeight,floatingWidth,CV_16U);
-	cv::imwrite("output/cropFloatingImage.png",cropFloatingImage);
+	float scale=1.0;
+	int standardSize=2000;
+	if(floatingWidth>standardSize){
+		scale=(float)standardSize/floatingWidth;
+	}else if(floatingHeight>standardSize){
+		scale=(float)standardSize/floatingHeight;
+	}
+	cv::Mat floatingImageResized((int)floatingHeight*scale,(int)floatingWidth*scale,this->floatingImage.type());
+	cv::Mat baseImageResized((int)baseHeight*scale,(int)baseWidth*scale,this->baseImage.type());
+	cv::resize(this->floatingImage,floatingImageResized,floatingImageResized.size());
+	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());
+	
+	
+	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
+	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 	bool success=false;
-	int effectiveLength=800;
+	//int effectiveLength=600;
 	//Horizontal
 	if(this->direction==0){	
-		this->floatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth).copyTo(cropFloatingImage.colRange(floatingWidth>effectiveLength?floatingWidth-effectiveLength:0,floatingWidth));
+		floatingImageResized.colRange(floatingImageResized.cols/2,
+			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
+			floatingImageResized.cols));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.colRange(0,baseWidth),homography);	
+			this->baseImage.colRange(0,baseImageResized.cols/2),homography);	
+		if(!success){
+			baseImageResized.colRange(baseImageResized.cols/2,
+				baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,
+				baseImageResized.cols));
+			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
+		}
     //Vertical
 	}else if(this->direction==1){
-		this->floatingImage.rowRange(floatingHeight>effectiveLength?floatingHeight-effectiveLength:0,floatingHeight).copyTo(cropFloatingImage.rowRange(floatingHeight>effectiveLength?floatingHeight-effectiveLength:0,floatingHeight));
+		floatingImageResized.rowRange(floatingImageResized.rows/2,
+			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
+			floatingImageResized.rows));
 		success=calculateHomography(cropFloatingImage,
-			this->baseImage.rowRange(0,baseHeight),homography);		
-    //All direction
+			this->baseImage.rowRange(0,baseImageResized.rows/2),homography);	
+		if(!success){
+			baseImageResized.rowRange(baseImageResized.rows/2,
+				baseImageResized.rows).copyTo(cropBaseImage.rowRange(baseImageResized.rows/2,
+				baseImageResized.rows));
+			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
+		}
 	}else{
-		success=calculateHomography(this->floatingImage,
-			this->baseImage,homography);
+		success=calculateHomography(floatingImageResized,
+			baseImageResized,homography);
+		homography.at<double>(0,2)*=1/scale;
+		homography.at<double>(1,2)*=1/scale;
 	}
 
-	cv::imwrite("1.png",this->floatingImage);
-	cv::imwrite("2.png",this->baseImage);
+	cv::imwrite("1.png",floatingImageResized);
+	cv::imwrite("2.png",baseImageResized);
 	/*if(!success){
 		return;
 	}
@@ -294,7 +324,6 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
-	//homography.at<double>(2,0)=homography.at<double>(2,1)=0;
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
