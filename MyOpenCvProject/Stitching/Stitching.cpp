@@ -72,7 +72,7 @@ cv::Mat Stitching::Stitch(){
 
 	cv::warpPerspective(this->floatingImage,toutputImage,homography,cv::Size());
 	cv::imwrite("output/original_warped.png",toutputImage);
-*/
+	*/
 
 	cv::Point topLeft, bottomRight;
 	if(this->direction==0){
