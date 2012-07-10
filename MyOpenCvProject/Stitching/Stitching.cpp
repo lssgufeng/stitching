@@ -60,21 +60,7 @@ cv::Mat Stitching::Stitch(){
 	homography.at<double>(0,2)*=1/scale;
 		homography.at<double>(1,2)*=1/scale;
 	cv::imwrite("1.png",floatingImageResized);
-	cv::imwrite("2.png",baseImageResized);
-	/*if(!success){
-		return;
-	}
-	*/
-	/*cv::Mat panorama;
-	this->stich(this->baseImage,this->floatingImage,homography,panorama);
-
-
-
-	cv::imwrite("output/panorama.png",panorama);
-	cv::imwrite("output/floating.png",this->floatingImage);
-	cv::imwrite("output/base.png",this->baseImage);
-
-	return;*/
+	cv::imwrite("2.png",baseImageResized);	
 
 	Warp warp;
 	/*
