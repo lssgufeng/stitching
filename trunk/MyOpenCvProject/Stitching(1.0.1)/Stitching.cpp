@@ -44,15 +44,40 @@ cv::Mat Stitching::Stitch(){
 		floatingImageResized.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols));
+		baseImageResized.colRange(0,baseImageResized.cols/2).copyTo(cropBaseImage.colRange(0,
+			baseImageResized.cols/2));
 		success=calculateHomography(cropFloatingImage,
-			baseImageResized,homography);			
+			cropBaseImage,homography);	
+		if(!success){
+			baseImageResized.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4).copyTo(cropBaseImage.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4));
+			success=calculateHomography(cropFloatingImage,
+				cropBaseImage,homography);
+			if(!success){
+				baseImageResized.colRange(baseImageResized.cols/2,baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,baseImageResized.cols));
+				success=calculateHomography(cropFloatingImage,
+				cropBaseImage,homography);
+			}
+		}
+		
     //Vertical
 	}else if(this->direction==1){
 		floatingImageResized.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows));
+		baseImageResized.rowRange(0,baseImageResized.rows/2).copyTo(cropBaseImage.rowRange(0,baseImageResized.rows/2));
 		success=calculateHomography(cropFloatingImage,
-			baseImageResized,homography);			
+			cropBaseImage,homography);			
+		if(!success){
+			baseImageResized.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4).copyTo(cropBaseImage.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4));
+			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
+			if(!success){
+				baseImageResized.rowRange(3*baseImageResized.rows/4,
+					baseImageResized.rows).copyTo(cropBaseImage.rowRange(3*baseImageResized.rows/4,
+					baseImageResized.rows));
+				success=calculateHomography(cropFloatingImage,
+					cropBaseImage,homography);
+			}
+		}
 	}else{
 		success=calculateHomography(floatingImageResized,
 			baseImageResized,homography);
