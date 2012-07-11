@@ -44,8 +44,21 @@ cv::Mat Stitching::Stitch(){
 		floatingImageResized.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols));
+		baseImageResized.colRange(0,baseImageResized.cols/2).copyTo(cropBaseImage.colRange(0,
+			baseImageResized.cols/2));
 		success=calculateHomography(cropFloatingImage,
-			baseImageResized,homography);			
+			cropBaseImage,homography);	
+		if(!success){
+			baseImageResized.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4).copyTo(cropBaseImage.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4));
+			success=calculateHomography(cropFloatingImage,
+				cropBaseImage,homography);
+			if(!success){
+				baseImageResized.colRange(baseImageResized.cols/2,baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,baseImageResized.cols));
+				success=calculateHomography(cropFloatingImage,
+				cropBaseImage,homography);
+			}
+		}
+		
     //Vertical
 	}else if(this->direction==1){
 		floatingImageResized.rowRange(floatingImageResized.rows/2,
