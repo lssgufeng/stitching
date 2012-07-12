@@ -104,7 +104,7 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 	// warp second image and copy it to output image
 	cv::warpPerspective(image,outputImage, T, 
 		cv::Size(bottomRight.x-topLeft.x,bottomRight.y-topLeft.y),
-		cv::INTER_LINEAR,0,0);
+		cv::INTER_NEAREST,0,0);
 
 	
 }
