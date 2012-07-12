@@ -24,7 +24,7 @@ cv::Mat Stitching::Stitch(){
 	int baseWidth=this->baseImage.cols;
 	float scale=1.0;
 	int standardSize=2000;
-	if(floatingWidth>standardSize){
+	/*if(floatingWidth>standardSize){
 		scale=(float)standardSize/floatingWidth;
 	}else if(floatingHeight>standardSize){
 		scale=(float)standardSize/floatingHeight;
@@ -32,8 +32,10 @@ cv::Mat Stitching::Stitch(){
 	cv::Mat floatingImageResized((int)floatingHeight*scale,(int)floatingWidth*scale,this->floatingImage.type());
 	cv::Mat baseImageResized((int)baseHeight*scale,(int)baseWidth*scale,this->baseImage.type());
 	cv::resize(this->floatingImage,floatingImageResized,floatingImageResized.size());
-	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());
-	
+	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());*/
+	cv::Mat floatingImageResized=this->floatingImage.clone();
+	cv::Mat baseImageResized=this->baseImage.clone();
+		
 	
 	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
 	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
