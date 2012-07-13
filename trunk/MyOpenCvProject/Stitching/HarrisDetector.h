@@ -27,16 +27,15 @@ private:
 	//size of neighborhood for non-maximum suppression
 	int nonMaxSize;
 	//kerner for non-max suppression
-	cv::Mat kernel;
-
+	cv::Mat kernel;	
 	
-	// Get the corner map from the computed Harris values
-	cv::Mat getCornerMap(double qualityLevel);	
 	//Get the feature points from the computed corner map
 	void getCorners(std::vector<cv::Point>&,const cv::Mat& cornerMap);
 
 public:
 	HarrisDetector();
+	// Get the corner map from the computed Harris values
+	cv::Mat getCornerMap(double qualityLevel);	
 	// Compute Harris corners
 	void detect(const cv::Mat& image);
 	//get the feature points from the computed corner map
