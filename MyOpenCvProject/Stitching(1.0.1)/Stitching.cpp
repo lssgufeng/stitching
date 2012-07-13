@@ -82,8 +82,8 @@ cv::Mat Stitching::Stitch(){
 		success=calculateHomography(floatingImageResized,
 			baseImageResized,homography);
 	}
-	homography.at<double>(0,2)*=1/scale;
-		homography.at<double>(1,2)*=1/scale;
+	/*homography.at<double>(0,2)*=1/scale;
+		homography.at<double>(1,2)*=1/scale;*/
 	Warp warp;
 
 	cv::Point topLeft, bottomRight;
