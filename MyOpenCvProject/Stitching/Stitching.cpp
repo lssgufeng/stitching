@@ -4,6 +4,7 @@
 #include "Corners.h"
 #include "Matching.h"
 #include "Utility.h"
+#include "HarrisDetector.h"
 
 
 Stitching::Stitching(cv::Mat floatingImage,
@@ -35,8 +36,8 @@ cv::Mat Stitching::Stitch(){
 	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());*/
 	cv::Mat floatingImageResized=this->floatingImage.clone();
 	cv::Mat baseImageResized=this->baseImage.clone();
-		
-	
+
+
 	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
 	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 	bool success=false;
@@ -299,7 +300,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	matching.
+	HarrisDetector harris;
+	harris.getCornerMap(4.5);
 
 
 	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(15,15),10);
