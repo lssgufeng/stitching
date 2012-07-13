@@ -5,6 +5,7 @@
 #include "Matching.h"
 #include "Utility.h"
 #include "HarrisDetector.h"
+#include "Arithmatic.h"
 
 
 Stitching::Stitching(cv::Mat floatingImage,
@@ -36,7 +37,6 @@ cv::Mat Stitching::Stitch(){
 	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());*/
 	cv::Mat floatingImageResized=this->floatingImage.clone();
 	cv::Mat baseImageResized=this->baseImage.clone();
-
 
 	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
 	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
@@ -304,13 +304,26 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	cv::setNumThreads(10);
+	//cv::Mat cornerImage(image1_8bit.rows,image1_8bit.cols,image1_8bit.type());
+	//cv::cornerHarris(image1_8bit,cornerImage,3,11,0.04,cv::BORDER_DEFAULT);
+	//Arithmatic arithmatic;
+	//double average=arithmatic.CalculateAverage(cornerImage);
+	//printf("%f", average);
+	//cv::imwrite("output/Cornerness.png",cornerImage);
+	//cv::imshow("corness",cornerImage);  
+	//cv::waitKey(0);
+	
 
 	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(11,11),4);
 	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(11,11),4);
 
+	
+
+
 	cv::imwrite("output/image1_8bit.png",image1_8bit);
     cv::imwrite("output/image2_8bit.png",image2_8bit);
+
+	
 
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
