@@ -293,13 +293,17 @@ cv::Mat Stitching::Stitch(){
 
 bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homography){
 	Corners corner;
+	Matching matching;
 	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
 	cv::Mat image1_8bit,image2_8bit;
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(15,15),5);
-	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(15,15),5);
+	matching.
+
+
+	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(15,15),10);
+	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(15,15),10);
 
 	cv::imwrite("output/image1_8bit.png",image1_8bit);
     cv::imwrite("output/image2_8bit.png",image2_8bit);
@@ -313,7 +317,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
 	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
 
-	Matching matching;
+	
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	matching.GetMatchesSurf(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);	
 	int removed1=matching.RatioTest(matches1,0.8);	
