@@ -52,10 +52,12 @@ cv::Mat Stitching::Stitch(){
 		success=calculateHomography(cropFloatingImage,
 			cropBaseImage,homography);	
 		if(!success){
+			cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 			baseImageResized.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4).copyTo(cropBaseImage.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4));
 			success=calculateHomography(cropFloatingImage,
 				cropBaseImage,homography);
 			if(!success){
+				cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 				baseImageResized.colRange(baseImageResized.cols/2,baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,baseImageResized.cols));
 				success=calculateHomography(cropFloatingImage,
 				cropBaseImage,homography);
@@ -71,9 +73,11 @@ cv::Mat Stitching::Stitch(){
 		success=calculateHomography(cropFloatingImage,
 			cropBaseImage,homography);			
 		if(!success){
+			cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 			baseImageResized.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4).copyTo(cropBaseImage.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4));
 			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
 			if(!success){
+				cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 				baseImageResized.rowRange(3*baseImageResized.rows/4,
 					baseImageResized.rows).copyTo(cropBaseImage.rowRange(3*baseImageResized.rows/4,
 					baseImageResized.rows));
@@ -299,6 +303,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::Mat image1_8bit,image2_8bit;
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
+
+	cv::setNumThreads(10);
 
 	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(11,11),4);
 	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(11,11),4);
