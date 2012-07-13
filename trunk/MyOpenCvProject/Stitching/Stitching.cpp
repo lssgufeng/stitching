@@ -300,8 +300,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(15,15),10);
-	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(15,15),10);
+	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(11,11),4);
+	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(11,11),4);
 
 	cv::imwrite("output/image1_8bit.png",image1_8bit);
     cv::imwrite("output/image2_8bit.png",image2_8bit);
