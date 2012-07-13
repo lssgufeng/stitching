@@ -40,11 +40,11 @@ int main(void)
 	
 	//char* path2="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	//char* path1="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/test3_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/test4_16.png";
+	//char* path1="C:/Users/krpaudel/Google Drive/images/16bit/test3_16.png";
+	//char* path2="C:/Users/krpaudel/Google Drive/images/16bit/test4_16.png";
 
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";
 
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/16bit/rot_br_16.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/c_16.png";*/
@@ -70,7 +70,7 @@ int main(void)
 	}
 
 	if(image1.depth()!=CV_16U || image2.depth()!=CV_16U){
-		printf("\nThis application need 16 bits images to work!");
+		printf("\nThis application needs 16 bits images to work!");
 		std::getchar();
 		exit(0);
 	}
