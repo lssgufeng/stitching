@@ -78,8 +78,8 @@ cv::Mat Stitching::Stitch(){
 			success=calculateHomography(cropFloatingImage,cropBaseImage,homography);
 			if(!success){
 				cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
-				baseImageResized.rowRange(3*baseImageResized.rows/4,
-					baseImageResized.rows).copyTo(cropBaseImage.rowRange(3*baseImageResized.rows/4,
+				baseImageResized.rowRange(baseImageResized.rows/2,
+					baseImageResized.rows).copyTo(cropBaseImage.rowRange(baseImageResized.rows/2,
 					baseImageResized.rows));
 				success=calculateHomography(cropFloatingImage,
 					cropBaseImage,homography);
