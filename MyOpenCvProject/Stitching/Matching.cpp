@@ -19,29 +19,26 @@ void Matching::GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 		this->performMatching(this->descriptors1,this->descriptors2,matches1,matches2);
 		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
+
 void Matching::GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2){
 		int64 tick=cv::getTickCount();
-		//this->extractor=new cv::SurfDescriptorExtractor();
-		//this->extractor->compute(image1,keyPoints1,this->descriptors1);
-		//this->extractor->compute(image2,keyPoints2,this->descriptors2);
+		this->extractor=new cv::SurfDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		//this->performMatching(this->descriptors1,this->descriptors2,matches1,matches2);
-		struct threadData matchData[2];
-		matchData[0].descriptors1=descriptors1;
-		matchData[0].descriptors2=descriptors2;
-		matchData[0].matches=matches1;
-
-		matchData[1].descriptors1=descriptors2;
-		matchData[1].descriptors2=descriptors1;
-		matchData[1].matches=matches2;
+		threadData matchData1={this->descriptors1,this->descriptors2,matches1};
+		threadData matchData2={this->descriptors2,this->descriptors1,matches2};
 
 		HANDLE hThreads[2];
-		hThreads[0]=(HANDLE)_beginthread(knnMatch,0,(void*)&matchData[0]);
-		hThreads[1]=(HANDLE)_beginthread(knnMatch,0,(void*)&matchData[1]);
+		
+		hThreads[0]=(HANDLE)_beginthread(knnMatch,0,(void*)&matchData1);
+		hThreads[1]=(HANDLE)_beginthread(knnMatch,0,(void*)&matchData2);
 		WaitForMultipleObjects(2,hThreads,TRUE,INFINITE);
 		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());		
 }
+
 
 
 void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
