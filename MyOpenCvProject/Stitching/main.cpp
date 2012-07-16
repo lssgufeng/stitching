@@ -76,7 +76,8 @@ int main(void)
 	}
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,2);
+	cv::Mat stitchedImage=Stitch(image1, image2,1);
+
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
 	printf("Stiching Took %f seconds",seconds);
