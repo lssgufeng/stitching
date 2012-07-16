@@ -264,8 +264,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	/*cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(5,5),2);
-	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(5,5),2);*/
+	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(25,25),4);
+	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(25,25),4);
 
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
