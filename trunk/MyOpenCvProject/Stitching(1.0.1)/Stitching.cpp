@@ -292,6 +292,9 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
 	*/
 
+	if(symmetryMatches.size()<5)
+		return false;
+
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
