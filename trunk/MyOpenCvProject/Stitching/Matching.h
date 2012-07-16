@@ -8,8 +8,9 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
-#include<windows.h>
 #include<process.h>
+#define NOMINMAX
+#include<windows.h>
 
 struct threadData{
 	cv::Mat descriptors1;
