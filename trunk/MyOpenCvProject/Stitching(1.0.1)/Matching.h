@@ -8,13 +8,24 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
+#include<process.h>
+#include<windows.h>
+
+
+struct threadData{
+	cv::Mat descriptors1;
+	cv::Mat descriptors2;
+	std::vector<std::vector<cv::DMatch>>& matches;
+};
+void knnMatch(void* threadArg);
+
 class Matching {
 private:
 	//private members
 	cv::Ptr<cv::DescriptorExtractor> extractor;
 	cv::Mat descriptors1,descriptors2;
 	void performMatching(cv::Mat descriptors1,cv::Mat descriptors2,
-		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);	
 	
 public:
 	//Get the matches using the Brief Descriptors
@@ -23,6 +34,9 @@ public:
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);	
 	//Get the matches using Surf Descriptors
 	void GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
 	//Get the matches using Sift Descriptors
