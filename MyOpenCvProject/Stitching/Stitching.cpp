@@ -91,8 +91,6 @@ cv::Mat Stitching::Stitch(){
 	}
 	/*homography.at<double>(0,2)*=1/scale;
 		homography.at<double>(1,2)*=1/scale;*/
-	cv::imwrite("1.png",floatingImageResized);
-	cv::imwrite("2.png",baseImageResized);	
 
 	Warp warp;
 	/*
@@ -317,7 +315,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	//cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(25,25),4);
 	//cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(25,25),4);
 
-	
+	cv::medianBlur(image1_8bit,image1_8bit,3);
+	cv::medianBlur(image2_8bit,image2_8bit,3);
 
 
 	cv::imwrite("output/image1_8bit.png",image1_8bit);
