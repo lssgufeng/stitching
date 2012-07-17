@@ -40,14 +40,14 @@ int main(void)
 	
 	//char* path2="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	//char* path1="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm.png";
-	char* path1="C:/Users/krishna/Google Drive/images/16bit/Full_16.png";
-	char* path2="C:/Users/krishna/Google Drive/images/16bit/Full_inv_16.png";
+	//char* path1="C:/Users/krpaudel/Google Drive/images/16bit/Full_16.png";
+	//char* path2="C:/Users/krpaudel/Google Drive/images/16bit/Full_inv_16.png";
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
 
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/16bit/rot_br_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/c_16.png";*/
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/house1.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/house2.png";
 	
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
@@ -76,10 +76,11 @@ int main(void)
 	}
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,0);
+	cv::Mat stitchedImage=Stitch(image1, image2,2);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
 	printf("Stiching Took %f seconds",seconds);
 	getchar();
 

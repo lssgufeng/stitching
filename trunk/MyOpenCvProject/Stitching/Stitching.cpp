@@ -314,8 +314,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	//cv::waitKey(0);
 	
 
-	cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(25,25),4);
-	cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(25,25),4);
+	//cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(25,25),4);
+	//cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(25,25),4);
 
 	
 
