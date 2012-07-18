@@ -19,11 +19,6 @@ struct threadData{
 	//std::vector<cv::DMatch>& matches;
 };
 
-struct threadFlannData{
-	cv::Mat descriptor1;
-	cv::Mat descriptor2;
-	std::vector<cv::DMatch>& matches;
-}
 void knnMatch(void* threadArg);
 
 class Matching {
@@ -33,7 +28,9 @@ private:
 	cv::Mat descriptors1,descriptors2;
 	void performMatching(cv::Mat descriptors1,cv::Mat descriptors2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
-	
+	void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
+	std::vector<cv::DMatch>& matches);
+
 public:
 	//Get the matches using the Brief Descriptors
 	void GetMatchesBrief(cv::Mat& image1,cv::Mat& image2,
@@ -45,7 +42,7 @@ public:
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
 	void GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+		std::vector<cv::DMatch>& matches);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
