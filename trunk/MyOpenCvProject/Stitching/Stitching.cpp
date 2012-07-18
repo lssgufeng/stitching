@@ -620,45 +620,21 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 
 	std::vector<cv::DMatch> matches1,matches2;
 	matching.GetMatchesSurf_Flann(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
+	std::vector<cv::DMatch> symmetryMatches;
+	matching.SymmetryTest_Flann(matches1,matches2,symmetryMatches);
 
-	/*if(matches.size()<25)
+
+	matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
+	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+
+	if(symmetryMatches.size()<5)
 		return false;
-*/
-
-	/*double maxDistance=0; double minDistance=100;
-	for( int i = 0; i < matches.size(); i++ ){
-		printf("i=%d\t",i);
-		double dist = matches[i].distance;
-		if( dist < minDistance ) minDistance = dist;
-		if( dist > maxDistance ) maxDistance = dist;
-	}
-	if(minDistance==0){
-		minDistance=(maxDistance-minDistance)/2;
-	}
-	printf("Minimum Distance=%f",minDistance);
-	printf("Maximum Distance=%f",maxDistance);*/
-
-	std::vector<cv::DMatch> goodMatches;
-	int count = matches.size()<50?matches.size():50;
 	
-	std::nth_element(matches.begin(),matches.begin()+count,matches.end());
-	matches.erase(matches.begin()+count,matches.end());
-
-	/*for( int i = 0; i < matches.size(); i++ ){	
-		printf("i=%d\t",i);
-		if( matches[i].distance < 2*minDistance){
-			printf("matched i=%d\t",i);
-			goodMatches.push_back( matches[i]);
-		}
-	}*/
-
-	
-
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
-	homography=matching.GetHomography(matches,keyPoints1,keyPoints2,inliers);	
+	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	std::vector<cv::Point2f> points1,points2;
-	matching.GetFloatPoints(keyPoints1,keyPoints2,matches,points1,points2);
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	
@@ -670,13 +646,13 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 			}
 	}
 
-	if(inliers_count<8){
+	if(inliers_count<10){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}
 
-	//matching.DrawInliers(points2,inliers,image2,tmpImage);
-	//cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+	matching.DrawInliers(points2,inliers,image2,tmpImage);
+	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
 	
 	Utility utility;
 	utility.WriteHomography("Homography",homography);
