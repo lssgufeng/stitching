@@ -377,6 +377,34 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 }
 
 
+bool calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Mat& homography){
+	Corners corner;
+	Matching matching;
+	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
+	cv::Mat image1_8bit,image2_8bit;
+	image1.convertTo(image1_8bit,CV_8U,1./256);
+	image2.convertTo(image2_8bit,CV_8U,1./256);
+	cv::medianBlur(image1_8bit,image1_8bit,3);
+	cv::medianBlur(image2_8bit,image2_8bit,3);
+	cv::imwrite("output/image1_8bit.png",image1_8bit);
+    cv::imwrite("output/image2_8bit.png",image2_8bit);
+	corner.GetSurfFeatures(image1_8bit,keyPoints1);
+	corner.GetSurfFeatures(image2_8bit,keyPoints2);
+
+	cv::Mat tmpImage;
+	cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
+	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
+	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
+	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+
+
+	std::vector<cv::DMatch> matches;
+	matching.GetMatchesSurfFlann();
+}
+
+
+
+
 /** This is a method copied from somewhere**/
 //void Stitching::stich(cv::Mat base, 
 //	cv::Mat target,cv::Mat homography, cv::Mat& panorama){
