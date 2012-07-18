@@ -15,7 +15,8 @@
 struct threadData{
 	cv::Mat descriptors1;
 	cv::Mat descriptors2;
-	std::vector<std::vector<cv::DMatch>>& matches;
+	std::vector<std::vector<cv::DMatch>>& matches
+	//std::vector<cv::DMatch>& matches;
 };
 void knnMatch(void* threadArg);
 

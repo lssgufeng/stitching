@@ -63,8 +63,15 @@ void knnMatch(void* threadArg){
 	struct threadData* matchData;
 	matchData=(struct threadData*)threadArg;
 	cv::BruteForceMatcher<cv::L2<float>> matcher;
-	matcher.knnMatch(matchData->descriptors1,matchData->descriptors2,matchData->matches,2);	
+	//matcher.knnMatch(matchData->descriptors1,matchData->descriptors2,matchData->matches,2);	
 
+}
+
+void flannMatch(void* threadArg){
+	struct threadData* matchData;
+	matchData=(struct threadData*)threadArg;	
+	cv::FlannBasedMatcher matcher;
+	matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);
 }
 
 int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
