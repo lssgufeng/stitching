@@ -147,6 +147,7 @@ void Matching::SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
 							}
 				}
 		}
+		printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
 		printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
