@@ -108,6 +108,11 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
+void Matching::SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches){
+}
+
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
 		const std::vector<cv::KeyPoint>& keyPoints2,
