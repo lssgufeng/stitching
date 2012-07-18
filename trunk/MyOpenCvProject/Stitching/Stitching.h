@@ -56,7 +56,7 @@ public:
 	~Stitching();
 	//it performs the main task of stitching
 	cv::Mat Stitch(int direction);
-	cv::Mat Stitching::Stitch_Flann();
+	cv::Mat Stitching::Stitch_Flann(int direction);
 	//void stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama);
 };
 

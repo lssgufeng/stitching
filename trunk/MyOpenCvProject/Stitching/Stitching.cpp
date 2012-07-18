@@ -43,7 +43,7 @@ cv::Mat Stitching::Stitch(int direction){
 	//KNN METHOD
 
 	//Horizontal
-	/*if(this->direction==0){	
+	if(direction==0){	
 		floatingImageResized.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
 			floatingImageResized.cols));
@@ -62,10 +62,10 @@ cv::Mat Stitching::Stitch(int direction){
 				success=calculateHomography(cropFloatingImage,
 				cropBaseImage,homography);
 			}
-		}*/
+		}
 		
     //Vertical
-	/*}else if(this->direction==1){
+	}else if(direction==1){
 		floatingImageResized.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
 			floatingImageResized.rows));
@@ -88,55 +88,9 @@ cv::Mat Stitching::Stitch(int direction){
 	}else{
 		success=calculateHomography(floatingImageResized,
 			baseImageResized,homography);
-	}*/
-
-	//Horizontal
-	if(direction==0){	
-		floatingImageResized.colRange(floatingImageResized.cols/2,
-			floatingImageResized.cols).copyTo(cropFloatingImage.colRange(floatingImageResized.cols/2,
-			floatingImageResized.cols));
-		baseImageResized.colRange(0,baseImageResized.cols/2).copyTo(cropBaseImage.colRange(0,
-			baseImageResized.cols/2));
-		success=calculateHomography_Flann(cropFloatingImage,
-			cropBaseImage,homography);	
-		if(!success){
-			cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
-			baseImageResized.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4).copyTo(cropBaseImage.colRange(baseImageResized.cols/4,3*baseImageResized.cols/4));
-			success=calculateHomography_Flann(cropFloatingImage,
-				cropBaseImage,homography);
-			if(!success){
-				cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
-				baseImageResized.colRange(baseImageResized.cols/2,baseImageResized.cols).copyTo(cropBaseImage.colRange(baseImageResized.cols/2,baseImageResized.cols));
-				success=calculateHomography_Flann(cropFloatingImage,
-				cropBaseImage,homography);
-			}
-		}
-		
-    //Vertical
-	}else if(direction==1){
-		floatingImageResized.rowRange(floatingImageResized.rows/2,
-			floatingImageResized.rows).copyTo(cropFloatingImage.rowRange(floatingImageResized.rows/2,
-			floatingImageResized.rows));
-		baseImageResized.rowRange(0,baseImageResized.rows/2).copyTo(cropBaseImage.rowRange(0,baseImageResized.rows/2));
-		success=calculateHomography_Flann(cropFloatingImage,
-			cropBaseImage,homography);			
-		if(!success){
-			cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
-			baseImageResized.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4).copyTo(cropBaseImage.rowRange(baseImageResized.rows/4,3*baseImageResized.rows/4));
-			success=calculateHomography_Flann(cropFloatingImage,cropBaseImage,homography);
-			if(!success){
-				cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
-				baseImageResized.rowRange(baseImageResized.rows/2,
-					baseImageResized.rows).copyTo(cropBaseImage.rowRange(baseImageResized.rows/2,
-					baseImageResized.rows));
-				success=calculateHomography_Flann(cropFloatingImage,
-					cropBaseImage,homography);
-			}
-		}
-	}else{
-		success=calculateHomography_Flann(floatingImageResized,
-			baseImageResized,homography);
 	}
+
+	
 
 	/*homography.at<double>(0,2)*=1/scale;
 		homography.at<double>(1,2)*=1/scale;*/
@@ -343,7 +297,7 @@ cv::Mat Stitching::Stitch(int direction){
 	return stitchedImage;
 }
 
-cv::Mat Stitching::Stitch_Flann(){
+cv::Mat Stitching::Stitch_Flann(int direction){
 	cv::Mat homography;
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
@@ -352,12 +306,11 @@ cv::Mat Stitching::Stitch_Flann(){
 	cv::Mat floatingImageResized=this->floatingImage.clone();
 	cv::Mat baseImageResized=this->baseImage.clone();
 
-	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
-	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
+	/*cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
+	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);*/
 	bool success=false;
 	success=calculateHomography_Flann(floatingImageResized,
 			baseImageResized,homography);
-
 
 	Warp warp;
 	/*
@@ -372,9 +325,9 @@ cv::Mat Stitching::Stitch_Flann(){
 	*/
 
 	cv::Point topLeft, bottomRight;
-	if(this->direction==0){
+	if(direction==0){
 		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
-	}else if(this->direction==1){
+	}else if(direction==1){
 		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
@@ -665,8 +618,12 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
 
 
-	std::vector<cv::DMatch> matches;
-	matching.GetMatchesSurf_Flann(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches);
+	std::vector<cv::DMatch> matches1,matches2;
+	matching.GetMatchesSurf_Flann(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
+
+	/*if(matches.size()<25)
+		return false;
+*/
 
 	/*double maxDistance=0; double minDistance=100;
 	for( int i = 0; i < matches.size(); i++ ){
@@ -682,9 +639,10 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	printf("Maximum Distance=%f",maxDistance);*/
 
 	std::vector<cv::DMatch> goodMatches;
+	int count = matches.size()<50?matches.size():50;
 	
-	std::nth_element(matches.begin(),matches.begin()+24,matches.end());
-	matches.erase(matches.begin()+24,matches.end());
+	std::nth_element(matches.begin(),matches.begin()+count,matches.end());
+	matches.erase(matches.begin()+count,matches.end());
 
 	/*for( int i = 0; i < matches.size(); i++ ){	
 		printf("i=%d\t",i);
@@ -694,9 +652,7 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 		}
 	}*/
 
-	/*if(goodMatches.size()<5)
-		return false;
-*/
+	
 
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
@@ -714,7 +670,7 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 			}
 	}
 
-	if(inliers_count<10){
+	if(inliers_count<8){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}
