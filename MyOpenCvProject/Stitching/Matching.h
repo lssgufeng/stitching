@@ -15,9 +15,15 @@
 struct threadData{
 	cv::Mat descriptors1;
 	cv::Mat descriptors2;
-	std::vector<std::vector<cv::DMatch>>& matches
+	std::vector<std::vector<cv::DMatch>>& matches;
 	//std::vector<cv::DMatch>& matches;
 };
+
+struct threadFlannData{
+	cv::Mat descriptor1;
+	cv::Mat descriptor2;
+	std::vector<cv::DMatch>& matches;
+}
 void knnMatch(void* threadArg);
 
 class Matching {
@@ -37,6 +43,9 @@ public:
 	void GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	void GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
