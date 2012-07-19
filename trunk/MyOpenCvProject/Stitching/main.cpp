@@ -82,7 +82,7 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch_Flann(image1, image2,2);
+	cv::Mat stitchedImage=Stitch(image1, image2,2);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
@@ -355,8 +355,6 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
 	Stitching stitching(image1,image2);
 	return stitching.Stitch_Flann(direction);	
 }
-
-
 
 void Stitch(LPSTR path1, LPSTR path2, int direction){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
