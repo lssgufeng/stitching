@@ -56,11 +56,18 @@ namespace ImageStitcher
             this.labelProgress.Invoke(new myDelegate(setVisible), new object[] { true });
             long ticks=System.DateTime.Now.Ticks;
             int direction = -1;
+            int method = -1;
             if (this.radioButtonHorizontal.Checked)
                 direction = 0;
             else if (this.radioButtonVertical.Checked)
                 direction = 1;
-            StitcherWrapper.Stitch(this.image1Path, this.image2Path,direction);
+
+            if (this.radioButtonKnn.Checked)
+                method = 0;
+            else if (this.radioButtonFlann.Checked)
+                method = 1;           
+
+            StitcherWrapper.Stitch(this.image1Path, this.image2Path,direction,method);
             long spentTicks = System.DateTime.Now.Ticks - ticks;
             int seconds = TimeSpan.FromTicks(spentTicks).Seconds;
             this.labelTimeTaken.Text = "Time Taken: " + seconds + " Seconds";
