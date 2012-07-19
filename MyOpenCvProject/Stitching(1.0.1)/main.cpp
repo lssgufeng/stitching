@@ -52,6 +52,26 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
 	return stitching.Stitch();	
 }
 
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	for(int i=0;i<image2.rows;i++){
+		for(int j=0;j<image2.cols;j++){
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	Stitching stitching(image1,image2);
+	return stitching.Stitch_Flann(direction);	
+}
+
+
 void Stitch(LPSTR path1, LPSTR path2,int direction){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	

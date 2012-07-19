@@ -22,7 +22,7 @@
 #include "Stitching.h"
 
 #define DllExport __declspec(dllexport)
-extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2);
+extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2, int direction, int method);
 
 /* Method that stitches two images*/
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction);
@@ -355,10 +355,16 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
 	return stitching.Stitch_Flann(direction);	
 }
 
-void Stitch(LPSTR path1, LPSTR path2, int direction){
+void Stitch(LPSTR path1, LPSTR path2, int direction,int method){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-	Stitch(image1,image2,direction);
+	if(method==0){
+		Stitch(image1,image2,direction);
+	}else{
+		Stitch_Flann(image1,image1,direction);
+	}
+
+	
 }
 
 
