@@ -178,12 +178,10 @@ cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
 					resultMatches.push_back(*iteratorMatch);
 				}
 			}
-
 			//Refinement of Fundamental Matrix from the accepted matches
 			points1.clear();
 			points2.clear();
 			this->GetFloatPoints(keyPoints1,keyPoints2,resultMatches,points1,points2);
-
 
 			return fundamental;
 }
