@@ -58,8 +58,8 @@ public:
 		const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches);
 	void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
-	const std::vector<cv::DMatch>& matches2,
-	std::vector<cv::DMatch>& symMatches);
+		const std::vector<cv::DMatch>& matches2,
+		std::vector<cv::DMatch>& symMatches);
 	//Perform RANSAC Test to get the best matched points. It returns fundamental matrix
 	cv::Mat RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		const std::vector<cv::KeyPoint>& keyPoints1,
