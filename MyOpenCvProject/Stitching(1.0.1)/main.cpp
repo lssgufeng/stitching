@@ -22,7 +22,7 @@
 #include "Stitching.h"
 
 #define DllExport __declspec(dllexport)
-extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction);
+extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction,int method);
 
 extern "C" DllExport void StitchRaw(unsigned short* image1, unsigned short* image2);
 
@@ -50,8 +50,8 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
 			}			
 		}
 	}
-	Stitching stitching(image1,image2,direction);
-	return stitching.Stitch();	
+	Stitching stitching(image1,image2);
+	return stitching.Stitch(direction);	
 }
 
 cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
@@ -74,13 +74,19 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
 }
 
 
-void Stitch(LPSTR path1, LPSTR path2,int direction){
+void Stitch(LPSTR path1, LPSTR path2,int direction, int method){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
 	cv::imwrite("output/image1.png",image1);
 	cv::imwrite("output/image2.png",image2);	
-	Stitch(image1,image2,direction);
+	if(method==0){
+		Stitch(image1,image2,direction);
+	}else{
+		Stitch_Flann(image1,image1,direction);
+	}
 }
+
+
 //unsigned short* StitchRaw(unsigned short* image1Data,int width1,int height1, 
 //	unsigned short* image2Data,int width2,int height2){
 //		cv::Mat image1(height1,width1,CV_16U,image1Data);
