@@ -130,6 +130,28 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
+void Matching::SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches){
+		int64 tick=cv::getTickCount();
+		for(std::vector<cv::DMatch>::const_iterator matchIterator1=matches1.begin();
+			matchIterator1!=matches1.end();++matchIterator1){
+				for(std::vector<cv::DMatch>::const_iterator matchIterator2=matches2.begin();
+					matchIterator2!=matches2.end();++matchIterator2){
+						bool condition=(*matchIterator1).queryIdx==(*matchIterator2).trainIdx
+							&&(*matchIterator1).trainIdx==(*matchIterator2).queryIdx;
+							if(condition){
+								symMatches.push_back(cv::DMatch((*matchIterator1).queryIdx,
+									(*matchIterator1).trainIdx,(*matchIterator1).distance));								
+								break;
+							}
+				}
+		}
+		printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+		printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
+
+
 
 
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,
