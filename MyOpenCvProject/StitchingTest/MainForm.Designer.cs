@@ -43,8 +43,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
+            this.groupBoxMethod = new System.Windows.Forms.GroupBox();
+            this.radioButtonKnn = new System.Windows.Forms.RadioButton();
+            this.radioButtonFlann = new System.Windows.Forms.RadioButton();
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
+            this.groupBoxMethod.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonStitch
@@ -59,6 +63,7 @@
             // 
             // groupBoxStitch
             // 
+            this.groupBoxStitch.Controls.Add(this.groupBoxMethod);
             this.groupBoxStitch.Controls.Add(this.labelTimeTaken);
             this.groupBoxStitch.Controls.Add(this.groupBoxDirection);
             this.groupBoxStitch.Controls.Add(this.labelProgress);
@@ -90,9 +95,9 @@
             this.groupBoxDirection.Controls.Add(this.radioButtonNone);
             this.groupBoxDirection.Controls.Add(this.radioButtonHorizontal);
             this.groupBoxDirection.Controls.Add(this.radioButtonVertical);
-            this.groupBoxDirection.Location = new System.Drawing.Point(69, 78);
+            this.groupBoxDirection.Location = new System.Drawing.Point(19, 85);
             this.groupBoxDirection.Name = "groupBoxDirection";
-            this.groupBoxDirection.Size = new System.Drawing.Size(328, 44);
+            this.groupBoxDirection.Size = new System.Drawing.Size(234, 44);
             this.groupBoxDirection.TabIndex = 14;
             this.groupBoxDirection.TabStop = false;
             this.groupBoxDirection.Text = "Direction:";
@@ -100,7 +105,7 @@
             // radioButtonNone
             // 
             this.radioButtonNone.AutoSize = true;
-            this.radioButtonNone.Location = new System.Drawing.Point(233, 17);
+            this.radioButtonNone.Location = new System.Drawing.Point(165, 17);
             this.radioButtonNone.Name = "radioButtonNone";
             this.radioButtonNone.Size = new System.Drawing.Size(51, 17);
             this.radioButtonNone.TabIndex = 2;
@@ -122,7 +127,7 @@
             // radioButtonVertical
             // 
             this.radioButtonVertical.AutoSize = true;
-            this.radioButtonVertical.Location = new System.Drawing.Point(126, 17);
+            this.radioButtonVertical.Location = new System.Drawing.Point(95, 17);
             this.radioButtonVertical.Name = "radioButtonVertical";
             this.radioButtonVertical.Size = new System.Drawing.Size(60, 17);
             this.radioButtonVertical.TabIndex = 0;
@@ -192,6 +197,39 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
+            // groupBoxMethod
+            // 
+            this.groupBoxMethod.Controls.Add(this.radioButtonFlann);
+            this.groupBoxMethod.Controls.Add(this.radioButtonKnn);
+            this.groupBoxMethod.Location = new System.Drawing.Point(259, 85);
+            this.groupBoxMethod.Name = "groupBoxMethod";
+            this.groupBoxMethod.Size = new System.Drawing.Size(184, 44);
+            this.groupBoxMethod.TabIndex = 16;
+            this.groupBoxMethod.TabStop = false;
+            this.groupBoxMethod.Text = "Method:";
+            // 
+            // radioButtonKnn
+            // 
+            this.radioButtonKnn.AutoSize = true;
+            this.radioButtonKnn.Location = new System.Drawing.Point(19, 17);
+            this.radioButtonKnn.Name = "radioButtonKnn";
+            this.radioButtonKnn.Size = new System.Drawing.Size(48, 17);
+            this.radioButtonKnn.TabIndex = 0;
+            this.radioButtonKnn.TabStop = true;
+            this.radioButtonKnn.Text = "KNN";
+            this.radioButtonKnn.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFlann
+            // 
+            this.radioButtonFlann.AutoSize = true;
+            this.radioButtonFlann.Location = new System.Drawing.Point(93, 17);
+            this.radioButtonFlann.Name = "radioButtonFlann";
+            this.radioButtonFlann.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonFlann.TabIndex = 1;
+            this.radioButtonFlann.TabStop = true;
+            this.radioButtonFlann.Text = "FLANN";
+            this.radioButtonFlann.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -206,6 +244,8 @@
             this.groupBoxStitch.PerformLayout();
             this.groupBoxDirection.ResumeLayout(false);
             this.groupBoxDirection.PerformLayout();
+            this.groupBoxMethod.ResumeLayout(false);
+            this.groupBoxMethod.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -226,6 +266,9 @@
         private System.Windows.Forms.RadioButton radioButtonVertical;
         private System.Windows.Forms.Label labelTimeTaken;
         private System.Windows.Forms.RadioButton radioButtonNone;
+        private System.Windows.Forms.GroupBox groupBoxMethod;
+        private System.Windows.Forms.RadioButton radioButtonFlann;
+        private System.Windows.Forms.RadioButton radioButtonKnn;
 
 
     }

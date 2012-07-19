@@ -28,8 +28,15 @@ namespace ImageStitcher
      
     class StitcherWrapper
     {
+        /// <summary>
+        /// Stitches two images 
+        /// </summary>
+        /// <param name="path1">Path of the first image(float image)</param>
+        /// <param name="path2">Path of the second image(base image)</param>
+        /// <param name="direction">0-> horizontal, 1->vertical</param>
+        /// <param name="method">0->Knn, 1-> FLANN</param>
         [DllImport(@"Stitching(1.0.1).dll")]
-        public static extern void Stitch([MarshalAs(UnmanagedType.LPStr)] string path1, [MarshalAs(UnmanagedType.LPStr)] string path2,int direction);
+        public static extern void Stitch([MarshalAs(UnmanagedType.LPStr)] string path1, [MarshalAs(UnmanagedType.LPStr)] string path2,int direction,int method);
         [DllImport(@"Stitching(1.0.1).dll")]
         public static extern ushort[] StitchRaw(ushort[] image1, ushort[] image2); 
     }
