@@ -518,8 +518,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
-	std::vector<cv::Point2f> points1,points2;
-	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+	/*std::vector<cv::Point2f> points1,points2;
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);*/
 	/*matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	*/
@@ -532,7 +532,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 			}
 	}
 
-	if(inliers_count<6){
+	if(inliers_count<10){
 		return false;
 	}
 
@@ -553,16 +553,14 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 	cv::medianBlur(image1_8bit,image1_8bit,3);
 	cv::medianBlur(image2_8bit,image2_8bit,3);
-	cv::imwrite("output/image1_8bit.png",image1_8bit);
-    cv::imwrite("output/image2_8bit.png",image2_8bit);
 	corner.GetSurfFeatures(image1_8bit,keyPoints1);
 	corner.GetSurfFeatures(image2_8bit,keyPoints2);
 
 	cv::Mat tmpImage;
-	cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
+	/*cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
 	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
 	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
-	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);*/
 
 
 	std::vector<cv::DMatch> matches1,matches2;
@@ -571,8 +569,8 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	matching.SymmetryTest_Flann(matches1,matches2,symmetryMatches);
 
 
-	matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
-	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+	/*matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
+	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);*/
 
 	if(symmetryMatches.size()<5)
 		return false;
@@ -580,10 +578,10 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	cv::Mat imageMatches;	
 	std::vector<uchar> inliers;
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
-	std::vector<cv::Point2f> points1,points2;
-	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
-	matching.DrawInliers(points1,inliers,image1,tmpImage);
-	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
+	/*std::vector<cv::Point2f> points1,points2;
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);*/
+	/*matching.DrawInliers(points1,inliers,image1,tmpImage);
+	cv::imwrite("output/o_Image1(inliers).png",tmpImage);*/
 	
 	int inliers_count=0;
 	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
@@ -598,11 +596,11 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 		return false;
 	}
 
-	matching.DrawInliers(points2,inliers,image2,tmpImage);
-	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+	/*matching.DrawInliers(points2,inliers,image2,tmpImage);
+	cv::imwrite("output/o_Image2(inliers).png",tmpImage);*/
 	
-	Utility utility;
-	utility.WriteHomography("Homography",homography);
+	/*Utility utility;
+	utility.WriteHomography("Homography",homography);*/
 	return true;
 }
 
