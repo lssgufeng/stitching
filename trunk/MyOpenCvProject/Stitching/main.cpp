@@ -35,8 +35,8 @@ int main(void)
 
     #pragma region "Input Images"
 
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_middle_66_8_C_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_middle_66_8_C_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";
 	
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm.png";*/
@@ -46,8 +46,8 @@ int main(void)
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/house1.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/house2.png";
+	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/house1.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/house2.png";*/
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/test4_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/test5_16.png";*/
