@@ -293,9 +293,9 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		
 	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
-	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
-		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
-	cv::imwrite("output/rotatedImage_Crop.png",this->rotatedImage);
+	//this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
+	//	topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
+	//cv::imwrite("output/rotatedImage_Crop.png",this->rotatedImage);
 		
 	//We have got top left and bottom right points of the rotated image
 	//Steps:
@@ -337,11 +337,11 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 		bottom.Index=1;
 		bottom.Value=this->baseImage.rows;
 	}	
-	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
-		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
+	/*this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
+		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);*/
 
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
-	cv::imwrite("output/stitched.png",stitchedImage);
+	//cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
 	//we have to define basically 3 regions in the stitched image and 
@@ -358,7 +358,6 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 		floatRegion.x=0;
 		baseRegion.x=abs(left.Value);
 		if(top.Index==0){
-			log->Write("Case 1");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);			
 
@@ -379,7 +378,6 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 			commonStitchedRegion.x=abs(topLeft.x);
 			commonStitchedRegion.y=abs(topLeft.y);
 		}else{
-			log->Write("Case 2");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 
@@ -403,7 +401,6 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 		floatRegion.x=topLeft.x;
 		baseRegion.x=0;
 		if(top.Index==0){
-			log->Write("Case 3");
 			floatRegion.y=0;
 			baseRegion.y=abs(top.Value);
 
@@ -424,7 +421,6 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 			commonStitchedRegion.y=abs(topLeft.y);
 
 		}else{
-			log->Write("Case 4");
 			floatRegion.y=topLeft.y;
 			baseRegion.y=0;
 
@@ -450,8 +446,8 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
 
 
-	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
-	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+	//cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+	//cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 
 
 	AlphaBlender alphaBlender;
@@ -461,16 +457,16 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 	result.copyTo(stitchedImage(commonStitchedRegion));
 
 	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
-	cv::imshow("stitchedImage_alpha",stitchedImage);
-	cv::waitKey(0);
+	//cv::imshow("stitchedImage_alpha",stitchedImage);
+	//cv::waitKey(0);
 
-	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
-	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
-	outputImage= blender.blend(left,top,right,bottom);
-	//outputImage.convertTo(outputImage,CV_8U,255);
-	cv::imwrite("output/common_blended_pyr.png",outputImage);
-	outputImage.copyTo(stitchedImage(commonStitchedRegion));
-	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+	//LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
+	//cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
+	//outputImage= blender.blend(left,top,right,bottom);
+	////outputImage.convertTo(outputImage,CV_8U,255);
+	//cv::imwrite("output/common_blended_pyr.png",outputImage);
+	//outputImage.copyTo(stitchedImage(commonStitchedRegion));
+	//cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
 	return stitchedImage;
 }
 
@@ -592,7 +588,7 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	}
 
 	if(inliers_count<10){
-		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
+		//printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
 	}
 
