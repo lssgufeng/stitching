@@ -28,6 +28,8 @@ extern "C" DllExport void StitchRaw(unsigned short* image1, unsigned short* imag
 
 /* Method that stitches two images*/
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction);
+
 int main(void)
 {
 	//NOT Required
