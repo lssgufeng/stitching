@@ -27,12 +27,26 @@ extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction,int met
 extern "C" DllExport void StitchRaw(unsigned short* image1, unsigned short* image2);
 
 /* Method that stitches two images*/
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2);
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction);
 cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction);
 
 int main(void)
 {
 	//NOT Required
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm_16.png";
+	
+	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	int64 tick=cv::getTickCount();
+	cv::Mat stitchedImage=Stitch_Flann(image1, image2,2);
+
+	cv::imwrite("output/stitchedImage.png",stitchedImage);
+	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
+	printf("Stiching Took %f seconds",seconds);
+
+	getchar();
 
 }
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
