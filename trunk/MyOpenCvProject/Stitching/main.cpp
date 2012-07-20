@@ -88,8 +88,6 @@ int main(void)
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
 
 	printf("Stiching Took %f seconds",seconds);
-
-
 	getchar();
 
 
