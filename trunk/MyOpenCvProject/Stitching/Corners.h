@@ -6,12 +6,15 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
+#include <process.h>
+#define NOMINMAX
+#include<windows.h>
 
 struct threadDataSurf{
 	cv::Mat image;
-	std::vector<cv::KeyPoint>& keyPoints1;
+	std::vector<cv::KeyPoint>& keyPoints;
 };
-void getSurfFeatures(void* threadArg);
+void surfFeatures(void* threadArg);
 
 class Corners{
 private: 
@@ -31,8 +34,8 @@ public:
 	void GetFastFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
 	//SURF features
 	void GetSurfFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
-	void Corners::GetSurfFeaturesThread(const cv::Mat& image, 
-	std::vector<cv::KeyPoint>& keyPoints);
+	void Corners::GetSurfFeaturesThread(const cv::Mat& image1, 
+	std::vector<cv::KeyPoint>& keyPoints1, const cv::Mat& image2,std::vector<cv::KeyPoint>& keyPoints2);
 	//SIFT features
 	void GetSiftFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoitns);
 	//To obtain the corner points within a defined range
