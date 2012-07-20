@@ -52,7 +52,7 @@ public:
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2)
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
