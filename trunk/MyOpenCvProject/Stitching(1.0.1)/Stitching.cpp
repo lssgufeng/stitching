@@ -560,7 +560,7 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 
 
 	std::vector<cv::DMatch> matches1,matches2;
-	matching.GetMatchesSurf_Flann(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
+	matching.GetMatchesSurf_FlannThread(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
 	std::vector<cv::DMatch> symmetryMatches;
 	matching.SymmetryTest_Flann(matches1,matches2,symmetryMatches);
 
