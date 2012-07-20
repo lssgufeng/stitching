@@ -20,17 +20,6 @@ void Matching::GetMatchesSurf(cv::Mat& image1,cv::Mat& image2,
 		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());		
 }
 
-void Matching::GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
-	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2){
-		int64 tick=cv::getTickCount();
-		this->extractor=new cv::SurfDescriptorExtractor();
-		this->extractor->compute(image1,keyPoints1,this->descriptors1);
-		this->extractor->compute(image2,keyPoints2,this->descriptors2);
-		this->performMatching_Flann(this->descriptors1,this->descriptors2,matches1,matches2);
-		printf("Descriptor count=%d GetMatchesSurf_Flann Took %f Seconds, ",this->descriptors1.rows,(cv::getTickCount()-tick)/cv::getTickFrequency());
-}
-
 void Matching::GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 	std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2){
@@ -48,6 +37,17 @@ void Matching::GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		hThreads[1]=(HANDLE)_beginthread(knnMatch,0,(void*)&matchData2);
 		WaitForMultipleObjects(2,hThreads,TRUE,INFINITE);
 		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());		
+}
+
+void Matching::GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2){
+		int64 tick=cv::getTickCount();
+		this->extractor=new cv::SurfDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
+		this->performMatching_Flann(this->descriptors1,this->descriptors2,matches1,matches2);
+		printf("Descriptor count=%d GetMatchesSurf_Flann Took %f Seconds, ",this->descriptors1.rows,(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
 
@@ -81,11 +81,21 @@ void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
 }
 
 void knnMatch(void* threadArg){
-	struct threadData* matchData;
-	matchData=(struct threadData*)threadArg;
+	int64 tick=cv::getTickCount();
+	struct threadDataKnn* matchData;
+	matchData=(struct threadDataKnn*)threadArg;
 	cv::BruteForceMatcher<cv::L2<float>> matcher;
-	matcher.knnMatch(matchData->descriptors1,matchData->descriptors2,matchData->matches,2);	
+    matcher.knnMatch(matchData->descriptors1,matchData->descriptors2,matchData->matches,2);	
+	printf("knn match took %f seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
 
+void flannMatch(void* threadArg){
+	int64 tick=cv::getTickCount();
+	struct threadDataFlann* matchData;
+	matchData=(struct threadDataFlann*)threadArg;
+	cv::FlannBasedMatcher matcher;
+    matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);	
+	printf("knn match took %f seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
 int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){

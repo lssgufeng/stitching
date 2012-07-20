@@ -82,7 +82,7 @@ void Stitch(LPSTR path1, LPSTR path2,int direction, int method){
 	if(method==0){
 		Stitch(image1,image2,direction);
 	}else{
-		Stitch_Flann(image1,image1,direction);
+		Stitch_Flann(image1,image2,direction);
 	}
 }
 
