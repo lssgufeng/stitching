@@ -7,6 +7,12 @@
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
 
+struct threadDataSurf{
+	cv::Mat image;
+	std::vector<cv::KeyPoint>& keyPoints1;
+};
+void getSurfFeatures(void* threadArg);
+
 class Corners{
 private: 
 	//if any private variables..include here
@@ -25,6 +31,8 @@ public:
 	void GetFastFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
 	//SURF features
 	void GetSurfFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
+	void Corners::GetSurfFeaturesThread(const cv::Mat& image, 
+	std::vector<cv::KeyPoint>& keyPoints);
 	//SIFT features
 	void GetSiftFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoitns);
 	//To obtain the corner points within a defined range
