@@ -28,8 +28,8 @@ void Matching::GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		this->extractor->compute(image1,keyPoints1,this->descriptors1);
 		this->extractor->compute(image2,keyPoints2,this->descriptors2);
 		//this->performMatching(this->descriptors1,this->descriptors2,matches1,matches2);
-		threadData matchData1={this->descriptors1,this->descriptors2,matches1};
-		threadData matchData2={this->descriptors2,this->descriptors1,matches2};
+		threadDataKnn matchData1={this->descriptors1,this->descriptors2,matches1};
+		threadDataKnn matchData2={this->descriptors2,this->descriptors1,matches2};
 
 		HANDLE hThreads[2];
 		
@@ -49,6 +49,25 @@ void Matching::GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
 		this->performMatching_Flann(this->descriptors1,this->descriptors2,matches1,matches2);
 		printf("Descriptor count=%d GetMatchesSurf_Flann Took %f Seconds, ",this->descriptors1.rows,(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
+void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2){
+		int64 tick=cv::getTickCount();
+		this->extractor=new cv::SurfDescriptorExtractor();
+		this->extractor->compute(image1,keyPoints1,this->descriptors1);
+		this->extractor->compute(image2,keyPoints2,this->descriptors2);
+		threadDataFlann matchData1={this->descriptors1,this->descriptors2,matches1};
+		threadDataFlann matchData2={this->descriptors2,this->descriptors1,matches2};
+
+		HANDLE hThreads[2];
+		
+		hThreads[0]=(HANDLE)_beginthread(flannMatch,0,(void*)&matchData1);
+		hThreads[1]=(HANDLE)_beginthread(flannMatch,0,(void*)&matchData2);
+
+		WaitForMultipleObjects(2,hThreads,TRUE,INFINITE);
+		printf("GetMatchesSurf Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
+
 
 
 void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
