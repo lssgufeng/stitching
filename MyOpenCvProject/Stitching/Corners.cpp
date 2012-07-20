@@ -1,7 +1,7 @@
 #include "Corners.h"
 #include "Arithmatic.h"
 #include "MyFilter.h"
-
+#define surf_threshold 50.00
 
 Corners::Corners(){
 }
@@ -24,22 +24,34 @@ void Corners::GetFastFeatures(
 }
 
 void Corners::GetSurfFeatures(const cv::Mat& image,
-	std::vector<cv::KeyPoint>& keyPoints){		
-		//double imageInfo=this->getImageInformation(image.clone());
-		//double threshold=imageInfo/10;
-		int64 tick=cv::getTickCount();
-		double threshold=50.00;
-		this->detector=new cv::SurfFeatureDetector(threshold);
+	std::vector<cv::KeyPoint>& keyPoints){				
+		int64 tick=cv::getTickCount();		
+		this->detector=new cv::SurfFeatureDetector(surf_threshold);
 		this->detector->detect(image,keyPoints);
 		printf("GetSurfFeatures Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
-void Corners::GetSurfFeaturesThread(const cv::Mat& image, 
-	std::vector<cv::KeyPoint>& keyPoints){
+void Corners::GetSurfFeaturesThread(const cv::Mat& image1, std::vector<cv::KeyPoint>& keyPoints1,
+	const cv::Mat& image2,std::vector<cv::KeyPoint>& keyPoints2){
+		int64 tick=cv::getTickCount();
+		threadDataSurf image1Info={image1,keyPoints1};
+		threadDataSurf image2Info={image2,keyPoints2};
+
+		HANDLE hThreads[2];
 		
+		hThreads[0]=(HANDLE)_beginthread(surfFeatures,0,(void*)&image1Info);
+		hThreads[1]=(HANDLE)_beginthread(surfFeatures,0,(void*)&image2Info);
+
+		WaitForMultipleObjects(2,hThreads,TRUE,INFINITE);
+		printf("GetSurfFeaturesThread Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+
 }
 
-void getSurfFeatures(void* threadArg){
+void surfFeatures(void* threadArg){
+	struct threadDataSurf* surfInfo;
+	surfInfo=(struct threadDataSurf*)threadArg;
+	cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(surf_threshold);
+	detector->detect(surfInfo->image,surfInfo->keyPoints);
 }
 
 
