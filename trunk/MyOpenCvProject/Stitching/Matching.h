@@ -12,14 +12,21 @@
 #define NOMINMAX
 #include<windows.h>
 
-struct threadData{
+//For knn match 
+struct threadDataKnn{
 	cv::Mat descriptors1;
 	cv::Mat descriptors2;
-	std::vector<std::vector<cv::DMatch>>& matches;
-	//std::vector<cv::DMatch>& matches;
+	std::vector<std::vector<cv::DMatch>>& matches;	
+};
+//For flann match
+struct threadDataFlann{
+	cv::Mat descriptors1;
+	cv::Mat descriptors2;
+	std::vector<cv::DMatch>& matches;	
 };
 
 void knnMatch(void* threadArg);
+void flannMatch(void* threadArg);
 
 class Matching {
 private:
@@ -43,6 +50,9 @@ public:
 	void GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+	void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
