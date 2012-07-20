@@ -597,6 +597,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 }
 
 
+
+
 bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Mat& homography){
 	Corners corner;
 	Matching matching;

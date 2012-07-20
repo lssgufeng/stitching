@@ -33,6 +33,16 @@ void Corners::GetSurfFeatures(const cv::Mat& image,
 		this->detector->detect(image,keyPoints);
 		printf("GetSurfFeatures Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
+
+void Corners::GetSurfFeaturesThread(const cv::Mat& image, 
+	std::vector<cv::KeyPoint>& keyPoints){
+		
+}
+
+void getSurfFeatures(void* threadArg){
+}
+
+
 void Corners::GetSiftFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
 		double threshold=0.01;
