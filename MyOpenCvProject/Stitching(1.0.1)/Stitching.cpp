@@ -483,8 +483,10 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::medianBlur(image1_8bit,image1_8bit,3);
 	cv::medianBlur(image2_8bit,image2_8bit,3);
 
-	corner.GetSurfFeatures(image1_8bit,keyPoints1);
-	corner.GetSurfFeatures(image2_8bit,keyPoints2);
+	/*corner.GetSurfFeatures(image1_8bit,keyPoints1);
+	corner.GetSurfFeatures(image2_8bit,keyPoints2);*/
+	corner.GetSurfFeaturesThread(image1_8bit,keyPoints1,
+		image2_8bit,keyPoints2);
 
 	cv::Mat tmpImage;
 	/*cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
@@ -549,8 +551,10 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 	cv::medianBlur(image1_8bit,image1_8bit,3);
 	cv::medianBlur(image2_8bit,image2_8bit,3);
-	corner.GetSurfFeatures(image1_8bit,keyPoints1);
-	corner.GetSurfFeatures(image2_8bit,keyPoints2);
+
+	/*corner.GetSurfFeatures(image1_8bit,keyPoints1);
+	corner.GetSurfFeatures(image2_8bit,keyPoints2);*/
+	corner.GetSurfFeaturesThread(image1_8bit,keyPoints1,image2_8bit,keyPoints2);
 
 	cv::Mat tmpImage;
 	/*cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
