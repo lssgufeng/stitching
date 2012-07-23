@@ -33,8 +33,8 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction);
 int main(void)
 {
 	//NOT Required
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/13_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/3_16.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/56_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/7_16.png";
 	
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
