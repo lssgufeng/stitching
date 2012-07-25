@@ -63,7 +63,7 @@ cv::Mat Stitching::Stitch(int direction){
 				cropBaseImage,homography);
 			}
 		}
-		
+
     //Vertical
 	}else if(direction==1){
 		floatingImageResized.rowRange(floatingImageResized.rows/2,
