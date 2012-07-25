@@ -363,8 +363,6 @@ void Stitch(LPSTR path1, LPSTR path2, int direction,int method){
 	}else{
 		Stitch_Flann(image1,image1,direction);
 	}
-
-	
 }
 
 
