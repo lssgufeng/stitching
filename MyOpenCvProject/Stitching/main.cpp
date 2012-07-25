@@ -40,8 +40,8 @@ int main(void)
 	
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm.png";*/
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm_16.png";
+	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm_16.png";*/
 
 	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
 	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
@@ -56,8 +56,8 @@ int main(void)
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
 
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/";*/
+	char* path2="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/l.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/real/Parallel/16bit/r.png";
 
 	
 	//printf("path1=%s",path1);printf("path2=%s",path2);
