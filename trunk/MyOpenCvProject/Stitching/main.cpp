@@ -56,8 +56,8 @@ int main(void)
 	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
 	char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
 
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/l_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_little_br_16.png";
+	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/mountain1_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/mountain2_16.png";
 
 	
 	//printf("path1=%s",path1);printf("path2=%s",path2);
@@ -82,7 +82,7 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,2);
+	cv::Mat stitchedImage=Stitch(image1, image2,0);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
