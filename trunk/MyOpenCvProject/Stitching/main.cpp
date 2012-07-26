@@ -57,7 +57,7 @@ int main(void)
 	char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
 
 	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/l_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_16.png";
+	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/r_little_br_16.png";
 
 	
 	//printf("path1=%s",path1);printf("path2=%s",path2);
