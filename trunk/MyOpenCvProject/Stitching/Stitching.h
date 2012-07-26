@@ -55,8 +55,8 @@ public:
 	//destructor
 	~Stitching();
 	//it performs the main task of stitching
-	cv::Mat Stitch(int direction);
-	cv::Mat Stitching::Stitch_Flann(int direction);
+	cv::Mat Stitch(int direction,bool crop);
+	cv::Mat Stitching::Stitch_Flann(int direction,bool crop);
 	//void stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama);
 };
 

@@ -49,9 +49,9 @@ public:
 	//copied to the resultant image.
 	void RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,cv::Point& topLeft,cv::Point& bottomRight);
 	//This rotates the image and crops vertically
-	void RotateImage_Xcrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
+	void RotateImage_Xcrop(cv::Mat image,cv::Mat homography,bool crop, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
 	//This rotates the image and crops horizontally
-	void RotateImage_Ycrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
+	void RotateImage_Ycrop(cv::Mat image,cv::Mat homography,bool crop, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
 
 	/***
 	* Tests the transformation of the image with the supplied parameters
@@ -82,10 +82,10 @@ public:
 	void GetCorners(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
 	//We get the corners of x croped image.
 	//Returns the shifted X
-	void GetCorners_Xcrop(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
-	void GetCorners_Xcrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
+	void GetCorners_Xcrop(const cv:: Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight);
+	void GetCorners_Xcrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight);
 	//Get the corners of y croped image
 	//Returns the shifted Y used for stitching
-	void GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
-	void GetCorners_Ycrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
+	void GetCorners_Ycrop(const cv::Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight);
+	void GetCorners_Ycrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight);
 };

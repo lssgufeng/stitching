@@ -318,7 +318,7 @@ int main(void)
 	stitching.Stitch();
 	std::getchar();	*/
 }
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2, int direction){
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
@@ -337,7 +337,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2, int direction){
 	return stitching.Stitch(direction);	
 }
 
-cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
