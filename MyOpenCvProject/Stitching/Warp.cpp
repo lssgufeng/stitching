@@ -110,7 +110,7 @@ void Warp::RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputIma
 }
 
 void Warp::RotateImage_Xcrop(cv::Mat image,
-	cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
+	cv::Mat homography,bool crop, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight){
 	cv::Mat corners1(1, 4,CV_32F);
 	cv:: Mat corners2(1,4,CV_32F);
 	cv::Mat corners(1,4,CV_32F);
@@ -130,7 +130,7 @@ void Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::merge(planes,corners);
 
 	cv::perspectiveTransform(corners, corners, homography);
-	this->GetCorners_Xcrop(corners,topLeft,bottomRight); 
+	this->GetCorners_Xcrop(corners,crop,topLeft,bottomRight); 
 	
 	cv::Mat T;
 	T=cv::Mat::zeros(3,3,CV_64F);
@@ -149,7 +149,7 @@ void Warp::RotateImage_Xcrop(cv::Mat image,
 }
 
 void Warp::RotateImage_Ycrop(cv::Mat image,
-	cv::Mat homography, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
+	cv::Mat homography,bool crop, cv::Mat& outputImage,cv::Point& topLeft, cv::Point& bottomRight){
     cv::Mat corners1(1, 4,CV_32F);
 	cv:: Mat corners2(1,4,CV_32F);
 	cv::Mat corners(1,4,CV_32F);
@@ -169,7 +169,7 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::merge(planes,corners);
 
 	cv::perspectiveTransform(corners, corners, homography);
-    this->GetCorners_Ycrop(corners,topLeft,bottomRight); 
+    this->GetCorners_Ycrop(corners,crop,topLeft,bottomRight); 
 	
 	cv::Mat T;
 	T=cv::Mat::zeros(3,3,CV_64F);
@@ -376,7 +376,7 @@ void Warp::GetMinimalCorners(const cv:: Point corners[],
 }
 */
 
-void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Ycrop(const cv::Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight){
 	int yValues[]={corners[0].y,corners[1].y,corners[2].y, corners[3].y};
 	int minX=INT_MAX,maxX=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -398,12 +398,15 @@ void Warp::GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 	}
 
 	topLeft.x=minX;
-	topLeft.y=yValues[0];
+	if(crop)
+		topLeft.y=yValues[1];
+	else
+		topLeft.y=yValues[0];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
 }
 
-void Warp::GetCorners_Ycrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight){
+void Warp::GetCorners_Ycrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight){
 	double yValues[]={(double)corners.at<cv::Vec2f>(0,0)[1],(double)corners.at<cv::Vec2f>(0,1)[1],
 		(double)corners.at<cv::Vec2f>(0,2)[1],(double)corners.at<cv::Vec2f>(0,3)[1]};
 	double minX=(double)INT_MAX,maxX=(double)INT_MIN;
@@ -426,13 +429,16 @@ void Warp::GetCorners_Ycrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& 
 	}
 
 	topLeft.x=minX;
-	topLeft.y=yValues[0];
+	if(crop)
+		topLeft.y=yValues[1];
+	else
+		topLeft.y=yValues[0];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
 	
 }
 
-void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight){
+void Warp::GetCorners_Xcrop(const cv::Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight){
 	int xValues[]={corners[0].x,corners[1].x,corners[2].x, corners[3].x};
 	int minY=INT_MAX,maxY=INT_MIN;
 	for(int i=0;i<3;i++){
@@ -453,13 +459,16 @@ void Warp::GetCorners_Xcrop(const cv::Point corners[], cv::Point& topLeft, cv::P
 		}
 	}
 
-	topLeft.x=xValues[0];
+	if(crop)
+		topLeft.x=xValues[1];
+	else
+		topLeft.x=xValues[0];
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
 	bottomRight.y=maxY;	
 }
 
-void Warp::GetCorners_Xcrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight){
+void Warp::GetCorners_Xcrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight){
 	double xValues[]={(double)corners.at<cv::Vec2f>(0,0)[0],(double)corners.at<cv::Vec2f>(0,1)[0],
 		(double)corners.at<cv::Vec2f>(0,2)[0],(double)corners.at<cv::Vec2f>(0,3)[0]};
 	double minY=(double)INT_MAX,maxY=(double)INT_MIN;
@@ -480,8 +489,11 @@ void Warp::GetCorners_Xcrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& 
 			maxY=(double)corners.at<cv::Vec2f>(0,i)[1];
 		}
 	}
+	if(crop)
+		topLeft.x=xValues[1];
+	else
+		topLeft.x=xValues[0];
 
-	topLeft.x=xValues[0];
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
 	bottomRight.y=maxY;

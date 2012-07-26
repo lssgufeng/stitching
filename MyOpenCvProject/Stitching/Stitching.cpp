@@ -17,7 +17,7 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 
-cv::Mat Stitching::Stitch(int direction){
+cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::Mat homography;
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
@@ -109,9 +109,9 @@ cv::Mat Stitching::Stitch(int direction){
 
 	cv::Point topLeft, bottomRight;
 	if(direction==0){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Xcrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);		
 	}else if(direction==1){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Ycrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		
@@ -297,7 +297,7 @@ cv::Mat Stitching::Stitch(int direction){
 	return stitchedImage;
 }
 
-cv::Mat Stitching::Stitch_Flann(int direction){
+cv::Mat Stitching::Stitch_Flann(int direction,bool crop){
 	cv::Mat homography;
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
@@ -326,9 +326,9 @@ cv::Mat Stitching::Stitch_Flann(int direction){
 
 	cv::Point topLeft, bottomRight;
 	if(direction==0){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Xcrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);		
 	}else if(direction==1){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Ycrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		
