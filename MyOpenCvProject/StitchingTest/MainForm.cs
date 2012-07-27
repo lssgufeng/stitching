@@ -57,7 +57,7 @@ namespace ImageStitcher
             long ticks=System.DateTime.Now.Ticks;
             int direction = -1;
             int method = -1;
-            bool crop=true;
+            bool crop=false;
             if (this.radioButtonHorizontal.Checked)
                 direction = 0;
             else if (this.radioButtonVertical.Checked)
@@ -68,9 +68,9 @@ namespace ImageStitcher
             else if (this.radioButtonFlann.Checked)
                 method = 1;
 
-            if (this.checkBoxRetainImageParts.Checked)
+            if (this.checkBoxCrop.Checked)
             {
-                crop = false;
+                crop = true;
             }
 
 

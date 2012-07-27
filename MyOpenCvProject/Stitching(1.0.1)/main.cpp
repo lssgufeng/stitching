@@ -39,7 +39,7 @@ int main(void)
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch_Flann(image1, image2,2,false);
+	cv::Mat stitchedImage=Stitch_Flann(image1, image2,1,false);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
