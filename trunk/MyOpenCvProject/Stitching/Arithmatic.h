@@ -2,11 +2,11 @@
 #include "opencv2\core\core.hpp"
 
 /***
-* class Arithmatic
-* description This class is targetted for getting statistical 
+* @class Arithmatic
+* @description This class is targetted for getting statistical 
   & arithmatic operated image. 
-* author Krishna Paudel(krishna444@gmail.com)
-* date 2012-04-27 11:50am
+* @author Krishna Paudel(krishna444@gmail.com)
+* @date 2012-04-27 11:50am
 ***/
 class Arithmatic{	
 

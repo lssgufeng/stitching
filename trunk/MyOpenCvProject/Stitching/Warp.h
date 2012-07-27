@@ -1,7 +1,7 @@
 /***
 * @class Warp
 * @description It handles all image warping related operations. Generally it 
-*              does its operations 
+*              does its operations using homography matrix
 * @author Krishna (krishna444@gmail.com)
 ***/
 #include "opencv2\highgui\highgui.hpp"
