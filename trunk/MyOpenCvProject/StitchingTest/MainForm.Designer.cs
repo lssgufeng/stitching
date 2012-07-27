@@ -32,6 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonStitch = new System.Windows.Forms.Button();
             this.groupBoxStitch = new System.Windows.Forms.GroupBox();
+            this.checkBoxRetainImageParts = new System.Windows.Forms.CheckBox();
             this.groupBoxMethod = new System.Windows.Forms.GroupBox();
             this.radioButtonFlann = new System.Windows.Forms.RadioButton();
             this.radioButtonKnn = new System.Windows.Forms.RadioButton();
@@ -47,7 +48,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxMethod.SuspendLayout();
@@ -66,7 +66,7 @@
             // 
             // groupBoxStitch
             // 
-            this.groupBoxStitch.Controls.Add(this.checkBox1);
+            this.groupBoxStitch.Controls.Add(this.checkBoxRetainImageParts);
             this.groupBoxStitch.Controls.Add(this.groupBoxMethod);
             this.groupBoxStitch.Controls.Add(this.labelTimeTaken);
             this.groupBoxStitch.Controls.Add(this.groupBoxDirection);
@@ -84,6 +84,19 @@
             this.groupBoxStitch.TabIndex = 7;
             this.groupBoxStitch.TabStop = false;
             this.groupBoxStitch.Text = "Stitch:";
+            // 
+            // checkBoxRetainImageParts
+            // 
+            this.checkBoxRetainImageParts.AutoSize = true;
+            this.checkBoxRetainImageParts.Checked = true;
+            this.checkBoxRetainImageParts.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRetainImageParts.Location = new System.Drawing.Point(17, 140);
+            this.checkBoxRetainImageParts.Name = "checkBoxRetainImageParts";
+            this.checkBoxRetainImageParts.Size = new System.Drawing.Size(89, 30);
+            this.checkBoxRetainImageParts.TabIndex = 17;
+            this.checkBoxRetainImageParts.Text = "Retain Image\r\nParts";
+            this.toolTip.SetToolTip(this.checkBoxRetainImageParts, resources.GetString("checkBoxRetainImageParts.ToolTip"));
+            this.checkBoxRetainImageParts.UseVisualStyleBackColor = true;
             // 
             // groupBoxMethod
             // 
@@ -242,19 +255,6 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(17, 140);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(89, 30);
-            this.checkBox1.TabIndex = 17;
-            this.checkBox1.Text = "Retain Image\r\nParts";
-            this.toolTip.SetToolTip(this.checkBox1, resources.GetString("checkBox1.ToolTip"));
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -294,7 +294,7 @@
         private System.Windows.Forms.GroupBox groupBoxMethod;
         private System.Windows.Forms.RadioButton radioButtonFlann;
         private System.Windows.Forms.RadioButton radioButtonKnn;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBoxRetainImageParts;
         private System.Windows.Forms.ToolTip toolTip;
 
 

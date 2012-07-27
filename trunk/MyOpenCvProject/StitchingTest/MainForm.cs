@@ -57,6 +57,7 @@ namespace ImageStitcher
             long ticks=System.DateTime.Now.Ticks;
             int direction = -1;
             int method = -1;
+            bool crop=true;
             if (this.radioButtonHorizontal.Checked)
                 direction = 0;
             else if (this.radioButtonVertical.Checked)
@@ -65,9 +66,15 @@ namespace ImageStitcher
             if (this.radioButtonKnn.Checked)
                 method = 0;
             else if (this.radioButtonFlann.Checked)
-                method = 1;           
+                method = 1;
 
-            StitcherWrapper.Stitch(this.image1Path, this.image2Path,direction,method);
+            if (this.checkBoxRetainImageParts.Checked)
+            {
+                crop = false;
+            }
+
+
+            StitcherWrapper.Stitch(this.image1Path, this.image2Path,direction,method,crop);
             long spentTicks = System.DateTime.Now.Ticks - ticks;
             int seconds = TimeSpan.FromTicks(spentTicks).Seconds;
             this.labelTimeTaken.Text = "Time Taken: " + seconds + " Seconds";
