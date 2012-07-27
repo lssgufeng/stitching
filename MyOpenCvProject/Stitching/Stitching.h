@@ -48,14 +48,17 @@ public:
 
 	//Constructor. The size of the images should be same.
 	//@floatingImage Floating Image
-	//@baseImage Base Image, which is fixed.
-	//@homography Transformation matrix 
-	//@direction direction of stitching: 0 for horizontal, 1 for vertical, other no direction
+	//@baseImage Base Image, which is fixed.	
 	Stitching(cv::Mat floatingImage, cv::Mat baseImage);
 	//destructor
 	~Stitching();
-	//it performs the main task of stitching
+	//it performs the main task of stitching using exhaustive knn method
+	//@direction Direction of stitching: vertical or horizontal
+	//@crop Cropping allowed or not
 	cv::Mat Stitch(int direction,bool crop);
+	//it performs the main task of stitching using exhaustive ann(approximate nearest neighborhood  method)
+	//@direction Direction of stitching: vertical or horizontal
+	//@crop Cropping allowed or not
 	cv::Mat Stitching::Stitch_Flann(int direction,bool crop);
 	//void stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama);
 };
