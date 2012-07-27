@@ -89,9 +89,9 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 
 	cv::Point topLeft, bottomRight;
 	if(direction==0){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Xcrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);		
 	}else if(direction==1){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Ycrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}
@@ -286,9 +286,9 @@ cv::Mat Stitching::Stitch_Flann(int direction,bool crop){
 
 	cv::Point topLeft, bottomRight;
 	if(direction==0){
-		warp.RotateImage_Xcrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+		warp.RotateImage_Xcrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);		
 	}else if(direction==1){
-		warp.RotateImage_Ycrop(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+		warp.RotateImage_Ycrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);
 	}else{
 		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
 	}		

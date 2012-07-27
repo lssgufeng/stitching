@@ -49,9 +49,9 @@ public:
 	//copied to the resultant image.
 	void RotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,cv::Point& topLeft,cv::Point& bottomRight);
 	//This rotates the image and crops vertically
-	void RotateImage_Xcrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
+	void RotateImage_Xcrop(cv::Mat image,cv::Mat homography,bool crop, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
 	//This rotates the image and crops horizontally
-	void RotateImage_Ycrop(cv::Mat image,cv::Mat homography, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
+	void RotateImage_Ycrop(cv::Mat image,cv::Mat homography,bool crop, cv::Mat& outputImage, cv::Point& topLeft, cv::Point& bottomRight);
 
 	/***
 	* Tests the transformation of the image with the supplied parameters

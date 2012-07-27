@@ -130,7 +130,7 @@ void Warp::RotateImage_Xcrop(cv::Mat image,
 	cv::merge(planes,corners);
 
 	cv::perspectiveTransform(corners, corners, homography);
-	this->GetCorners_Xcrop(corners,topLeft,bottomRight); 
+	this->GetCorners_Xcrop(corners,crop,topLeft,bottomRight); 
 	
 	cv::Mat T;
 	T=cv::Mat::zeros(3,3,CV_64F);
@@ -169,7 +169,7 @@ void Warp::RotateImage_Ycrop(cv::Mat image,
 	cv::merge(planes,corners);
 
 	cv::perspectiveTransform(corners, corners, homography);
-    this->GetCorners_Ycrop(corners,topLeft,bottomRight); 
+    this->GetCorners_Ycrop(corners,crop,topLeft,bottomRight); 
 	
 	cv::Mat T;
 	T=cv::Mat::zeros(3,3,CV_64F);
