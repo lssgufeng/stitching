@@ -65,7 +65,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction,bool crop){
 		}
 	}
 	Stitching stitching(image1,image2);
-	return stitching.Stitch(direction);	
+	return stitching.Stitch(direction,crop);	
 }
 
 cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
@@ -84,7 +84,7 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 		}
 	}
 	Stitching stitching(image1,image2);
-	return stitching.Stitch_Flann(direction);	
+	return stitching.Stitch_Flann(direction,crop);	
 }
 
 
