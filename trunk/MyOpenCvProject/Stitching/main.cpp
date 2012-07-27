@@ -82,7 +82,7 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,0);
+	cv::Mat stitchedImage=Stitch(image1, image2,0,false);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
