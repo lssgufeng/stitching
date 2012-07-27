@@ -15,7 +15,7 @@ Stitching::Stitching(cv::Mat floatingImage,
 Stitching::~Stitching(){
 }
 
-cv::Mat Stitching::Stitch(int direction){
+cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::Mat homography;	
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
@@ -257,7 +257,7 @@ cv::Mat Stitching::Stitch(int direction){
 	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);*/
 	return stitchedImage;
 }
-cv::Mat Stitching::Stitch_Flann(int direction){
+cv::Mat Stitching::Stitch_Flann(int direction,bool crop){
 	cv::Mat homography;
 	int floatingHeight=this->floatingImage.rows;
 	int floatingWidth=this->floatingImage.cols;
