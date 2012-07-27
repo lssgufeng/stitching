@@ -82,10 +82,10 @@ public:
 	void GetCorners(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
 	//We get the corners of x croped image.
 	//Returns the shifted X
-	void GetCorners_Xcrop(const cv:: Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
-	void GetCorners_Xcrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
+	void GetCorners_Xcrop(const cv:: Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight);
+	void GetCorners_Xcrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight);
 	//Get the corners of y croped image
 	//Returns the shifted Y used for stitching
-	void GetCorners_Ycrop(const cv::Point corners[], cv::Point& topLeft, cv::Point& bottomRight);
-	void GetCorners_Ycrop(const cv::Mat corners,cv::Point& topLeft,cv::Point& bottomRight);
+	void GetCorners_Ycrop(const cv::Point corners[],bool crop, cv::Point& topLeft, cv::Point& bottomRight);
+	void GetCorners_Ycrop(const cv::Mat corners,bool crop,cv::Point& topLeft,cv::Point& bottomRight);
 };
