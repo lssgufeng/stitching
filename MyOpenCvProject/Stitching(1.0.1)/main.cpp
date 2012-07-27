@@ -22,13 +22,13 @@
 #include "Stitching.h"
 
 #define DllExport __declspec(dllexport)
-extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction,int method);
+extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2,int direction,int method,bool crop);
 
 extern "C" DllExport void StitchRaw(unsigned short* image1, unsigned short* image2);
 
 /* Method that stitches two images*/
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction);
-cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction);
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction,bool crop);
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction,bool crop);
 
 int main(void)
 {
@@ -39,7 +39,7 @@ int main(void)
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch_Flann(image1, image2,2);
+	cv::Mat stitchedImage=Stitch_Flann(image1, image2,2,false);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
@@ -49,7 +49,7 @@ int main(void)
 	getchar();
 
 }
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction,bool crop){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
@@ -68,7 +68,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction){
 	return stitching.Stitch(direction);	
 }
 
-cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 	for(int i=0;i<image1.rows;i++){
 		for(int j=0;j<image1.cols;j++){
 			if(image1.at<ushort>(i,j)==0){
@@ -88,15 +88,15 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction){
 }
 
 
-void Stitch(LPSTR path1, LPSTR path2,int direction, int method){
+void Stitch(LPSTR path1, LPSTR path2,int direction, int method,bool crop){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
 	cv::imwrite("output/image1.png",image1);
 	cv::imwrite("output/image2.png",image2);	
 	if(method==0){
-		Stitch(image1,image2,direction);
+		Stitch(image1,image2,direction,crop);
 	}else{
-		Stitch_Flann(image1,image2,direction);
+		Stitch_Flann(image1,image2,direction,crop);
 	}
 }
 

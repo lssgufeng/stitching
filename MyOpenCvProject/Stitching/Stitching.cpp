@@ -42,6 +42,7 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 	bool success=false;
 	//KNN METHOD
 
+	//Get Homography
 	//Horizontal
 	if(direction==0){	
 		floatingImageResized.colRange(floatingImageResized.cols/2,
@@ -535,6 +536,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	//cv::GaussianBlur(image1_8bit,image1_8bit,cv::Size(25,25),4);
 	//cv::GaussianBlur(image2_8bit,image2_8bit,cv::Size(25,25),4);
 
+	//Median Blur to remove noise 
 	cv::medianBlur(image1_8bit,image1_8bit,3);
 	cv::medianBlur(image2_8bit,image2_8bit,3);
 
