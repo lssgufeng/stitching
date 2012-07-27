@@ -25,8 +25,8 @@
 extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2, int direction, int method);
 
 /* Method that stitches two images*/
-cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction);
-cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction);
+cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction,bool crop);
+cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction,bool crop);
 
 int main(void)
 {
@@ -334,7 +334,7 @@ cv::Mat Stitch(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 		}
 	}
 	Stitching stitching(image1,image2);
-	return stitching.Stitch(direction);	
+	return stitching.Stitch(direction,crop);	
 }
 
 cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
@@ -353,16 +353,16 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 		}
 	}
 	Stitching stitching(image1,image2);
-	return stitching.Stitch_Flann(direction);	
+	return stitching.Stitch_Flann(direction,crop);	
 }
 
-void Stitch(LPSTR path1, LPSTR path2, int direction,int method){
+void Stitch(LPSTR path1, LPSTR path2, int direction,int method,bool crop){
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	if(method==0){
-		Stitch(image1,image2,direction);
+		Stitch(image1,image2,direction,crop);
 	}else{
-		Stitch_Flann(image1,image1,direction);
+		Stitch_Flann(image1,image1,direction,crop);
 	}
 }
 
