@@ -398,7 +398,10 @@ void Warp::GetCorners_Ycrop(const cv::Point corners[], bool crop, cv::Point& top
 	}
 
 	topLeft.x=minX;
-	topLeft.y=yValues[1];
+	if(crop)
+		topLeft.y=yValues[1];
+	else 
+		topLeft.y=yValues[0];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
 }
@@ -426,7 +429,10 @@ void Warp::GetCorners_Ycrop(const cv::Mat corners,bool crop,cv::Point& topLeft,c
 	}
 
 	topLeft.x=minX;
-	topLeft.y=yValues[1];
+	if(crop)
+		topLeft.y=yValues[1];
+	else
+		topLeft.y=yValues[0];
 	bottomRight.x=maxX;
 	bottomRight.y=yValues[2];
 	
@@ -452,8 +458,10 @@ void Warp::GetCorners_Xcrop(const cv::Point corners[],bool crop, cv::Point& topL
 			maxY=corners[i].y;
 		}
 	}
-
-	topLeft.x=xValues[1];
+	if(crop)
+		topLeft.x=xValues[1];
+	else
+		topLeft.x=xValues[0];
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
 	bottomRight.y=maxY;	
@@ -481,7 +489,10 @@ void Warp::GetCorners_Xcrop(const cv::Mat corners, bool crop,cv::Point& topLeft,
 		}
 	}
 
-	topLeft.x=xValues[1];
+	if(crop)
+		topLeft.x=xValues[1];
+	else 
+		topLeft.x=xValues[0];
 	topLeft.y=minY;
 	bottomRight.x=xValues[2];
 	bottomRight.y=maxY;
