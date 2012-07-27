@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonStitch = new System.Windows.Forms.Button();
             this.groupBoxStitch = new System.Windows.Forms.GroupBox();
-            this.checkBoxRetainImageParts = new System.Windows.Forms.CheckBox();
+            this.checkBoxCrop = new System.Windows.Forms.CheckBox();
             this.groupBoxMethod = new System.Windows.Forms.GroupBox();
             this.radioButtonFlann = new System.Windows.Forms.RadioButton();
             this.radioButtonKnn = new System.Windows.Forms.RadioButton();
@@ -66,7 +66,7 @@
             // 
             // groupBoxStitch
             // 
-            this.groupBoxStitch.Controls.Add(this.checkBoxRetainImageParts);
+            this.groupBoxStitch.Controls.Add(this.checkBoxCrop);
             this.groupBoxStitch.Controls.Add(this.groupBoxMethod);
             this.groupBoxStitch.Controls.Add(this.labelTimeTaken);
             this.groupBoxStitch.Controls.Add(this.groupBoxDirection);
@@ -85,18 +85,18 @@
             this.groupBoxStitch.TabStop = false;
             this.groupBoxStitch.Text = "Stitch:";
             // 
-            // checkBoxRetainImageParts
+            // checkBoxCrop
             // 
-            this.checkBoxRetainImageParts.AutoSize = true;
-            this.checkBoxRetainImageParts.Checked = true;
-            this.checkBoxRetainImageParts.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxRetainImageParts.Location = new System.Drawing.Point(17, 140);
-            this.checkBoxRetainImageParts.Name = "checkBoxRetainImageParts";
-            this.checkBoxRetainImageParts.Size = new System.Drawing.Size(89, 30);
-            this.checkBoxRetainImageParts.TabIndex = 17;
-            this.checkBoxRetainImageParts.Text = "Retain Image\r\nParts";
-            this.toolTip.SetToolTip(this.checkBoxRetainImageParts, resources.GetString("checkBoxRetainImageParts.ToolTip"));
-            this.checkBoxRetainImageParts.UseVisualStyleBackColor = true;
+            this.checkBoxCrop.AutoSize = true;
+            this.checkBoxCrop.Checked = true;
+            this.checkBoxCrop.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxCrop.Location = new System.Drawing.Point(17, 140);
+            this.checkBoxCrop.Name = "checkBoxCrop";
+            this.checkBoxCrop.Size = new System.Drawing.Size(48, 17);
+            this.checkBoxCrop.TabIndex = 17;
+            this.checkBoxCrop.Text = "Crop";
+            this.toolTip.SetToolTip(this.checkBoxCrop, resources.GetString("checkBoxCrop.ToolTip"));
+            this.checkBoxCrop.UseVisualStyleBackColor = true;
             // 
             // groupBoxMethod
             // 
@@ -294,7 +294,7 @@
         private System.Windows.Forms.GroupBox groupBoxMethod;
         private System.Windows.Forms.RadioButton radioButtonFlann;
         private System.Windows.Forms.RadioButton radioButtonKnn;
-        private System.Windows.Forms.CheckBox checkBoxRetainImageParts;
+        private System.Windows.Forms.CheckBox checkBoxCrop;
         private System.Windows.Forms.ToolTip toolTip;
 
 
