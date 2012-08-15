@@ -35,8 +35,9 @@ int main(void)
 
     #pragma region "Input Images"	
 
-	char* path1="C:/Users/krishna/Google Drive/images/Thesis/l_16.png";
-	char* path2="C:/Users/krishna/Google Drive/images/Thesis/r_16.png";	
+	char* path1="C:/Users/krishna/Google Drive/images/Thesis/house1.png";
+	char* path2="C:/Users/krishna/Google Drive/images/Thesis/house2.png";	
+
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
