@@ -33,35 +33,10 @@ int main(void)
 	//For message display
 	char szBuffer[100];
 
-    #pragma region "Input Images"
+    #pragma region "Input Images"	
 
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_middle_66_8_C_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/real/Angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
-	
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/16bit/C_Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm.png";*/
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Head_50Kv_5.2mAS_120cm.dcm_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/Krishna_Test_Cat_Back_41KV_5.1mAs_120cm.dcm_16.png";*/
-
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/knee_2_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/knee_3_moved_rotated_16.png";*/
-
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/house1.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/house2.png";*/
-
-	/*char* path1="C:/Users/krpaudel/Google Drive/images/16bit/test4_16.png";
-	char* path2="C:/Users/krpaudel/Google Drive/images/16bit/test5_16.png";*/
-	
-
-	/*char* path2="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_middle_66_16_C_16.png";
-	char* path1="C:/Users/krpaudel/Google Drive/images/real/angle/16bit/Test_Stitching_Thorax_unten10°_66_16_C_16.png";*/
-
-	char* path1="C:/Users/krpaudel/Desktop/GoogleDrive/images/16bit/mountain1_16.png";
-	char* path2="C:/Users/krpaudel/Desktop/GoogleDrive/images/16bit/mountain2_16.png";
-
-	
-	//printf("path1=%s",path1);printf("path2=%s",path2);
-	//printf("path1=%s",path1);printf("path2=%s",path2);
+	char* path1="C:/Users/krishna/Google Drive/images/Thesis/l_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/Thesis/r_16.png";	
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -82,7 +57,7 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,0,true);
+	cv::Mat stitchedImage=Stitch(image1, image2,2,true);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
