@@ -165,7 +165,7 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
 
 	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
-	cv::imwrite("output/stitched.png",stitchedImage);
+	//cv::imwrite("output/stitched.png",stitchedImage);
 	
 	//paste the rotated and base images in the stitched image
 	//we have to define basically 3 regions in the stitched image and 
@@ -274,8 +274,8 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
 
 
-	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
-	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+	//cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+	//cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 
 
 	AlphaBlender alphaBlender;
