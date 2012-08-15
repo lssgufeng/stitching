@@ -292,7 +292,7 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
 	outputImage= blender.blend(left,top,right,bottom);
 	//outputImage.convertTo(outputImage,CV_8U,255);
-	cv::imwrite("output/common_blended_pyr.png",outputImage);
+	//cv::imwrite("output/common_blended_pyr.png",outputImage);
 	outputImage.copyTo(stitchedImage(commonStitchedRegion));
 	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
 	return stitchedImage;

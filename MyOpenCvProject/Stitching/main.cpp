@@ -33,10 +33,11 @@ int main(void)
 	//For message display
 	char szBuffer[100];
 
+
     #pragma region "Input Images"	
 
-	char* path1="C:/Users/krishna/Google Drive/images/Thesis/house1.png";
-	char* path2="C:/Users/krishna/Google Drive/images/Thesis/house2.png";	
+	char* path1="C:/Users/krishna/Google Drive/images/Thesis/1_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/Thesis/2_16.png";	
 
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
