@@ -65,7 +65,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,const cv::Mat& secondImage
 		/*cv::medianBlur(outputImage,outputImage,3);*/
 		/*outputImage=tmpImageX.clone();*/
 		//cv::imwrite("output/o_output_blend.png",outputImage);
-		cv::imshow("output Image", outputImage);
+		cv::imshow("x-y blending", outputImage);
 		return outputImage;
 }
 cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,
@@ -96,7 +96,7 @@ cv::Mat AlphaBlender::blend(const cv::Mat& firstImage,
 		}
 
 		//cv::imwrite("output/output_blend.png",outputImage);
-		cv::imshow("output Image", outputImage);
+		//cv::imshow("output Image", outputImage);
 		return outputImage;
 }
 

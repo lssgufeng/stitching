@@ -1,7 +1,7 @@
 #include "Corners.h"
 #include "Arithmatic.h"
 #include "MyFilter.h"
-#define surf_threshold 50.00
+#define surf_threshold 40.00
 
 Corners::Corners(){
 }
