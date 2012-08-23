@@ -576,6 +576,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	
@@ -642,6 +643,8 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+
+    
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	
@@ -652,7 +655,7 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 				++inliers_count;
 			}
 	}
-
+	
 	if(inliers_count<10){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
