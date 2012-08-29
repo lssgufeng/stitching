@@ -153,7 +153,7 @@ void Matching::SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1
 								symMatches.push_back(cv::DMatch((*matchIterator1)[0].queryIdx,
 									(*matchIterator1)[0].trainIdx,(*matchIterator1)[0].distance));								
 								break;
-							}
+							}						
 					}
 			}
 			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());

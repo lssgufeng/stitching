@@ -11,7 +11,7 @@
 Stitching::Stitching(cv::Mat floatingImage,
 	cv::Mat baseImage){
 		this->floatingImage=floatingImage;
-		this->baseImage=baseImage;		
+		this->baseImage=baseImage;	
 }
 
 Stitching::~Stitching(){
@@ -36,7 +36,7 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::resize(this->baseImage,baseImageResized,baseImageResized.size());*/
 	cv::Mat floatingImageResized=this->floatingImage.clone();
 	cv::Mat baseImageResized=this->baseImage.clone();
-
+	
 	cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
 	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);
 	bool success=false;
@@ -63,6 +63,7 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 				success=calculateHomography(cropFloatingImage,
 				cropBaseImage,homography);
 			}
+			
 		}
 
     //Vertical
@@ -557,7 +558,6 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
 	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
 
-	
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	//matching.GetMatchesSurf(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);		
 	matching.GetMatchesSurfThread(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);	
@@ -577,6 +577,9 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 
+    //For intensity related operation
+	std::vector<std::vector<cv::Point2f>> exactMatchedPoints;
+
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	
@@ -587,7 +590,7 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 				++inliers_count;
 			}
 	}
-
+	
 	if(inliers_count<10){
 		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
 		return false;
@@ -644,7 +647,6 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	std::vector<cv::Point2f> points1,points2;
 	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
 
-    
 	matching.DrawInliers(points1,inliers,image1,tmpImage);
 	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
 	
