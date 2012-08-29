@@ -54,6 +54,14 @@ void surfFeatures(void* threadArg){
 	detector->detect(surfInfo->image,surfInfo->keyPoints);
 }
 
+void Corners::GetFreakFeatures(const cv::Mat& image, 
+	std::vector<cv::KeyPoint>& keyPoints){
+		cv::FREAK freak;
+		freak.compute(image,keyPoints,
+
+}
+
+
 
 void Corners::GetSiftFeatures(const cv::Mat& image,
 	std::vector<cv::KeyPoint>& keyPoints){
