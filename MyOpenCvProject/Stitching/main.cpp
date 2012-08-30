@@ -27,6 +27,7 @@ extern "C" DllExport void  Stitch(LPSTR path1, LPSTR path2, int direction, int m
 /* Method that stitches two images*/
 cv::Mat Stitch(cv::Mat image1, cv::Mat image2,int direction,bool crop);
 cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2,int direction,bool crop);
+cv::Mat Stitch_Freak(cv::Mat image1, cv::Mat image2,int,bool crop);
 
 int main(void)
 {
@@ -59,7 +60,7 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch(image1, image2,2,true);
+	cv::Mat stitchedImage=Stitch_Freak(image1, image2,2,true);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();
@@ -331,6 +332,25 @@ cv::Mat Stitch_Flann(cv::Mat image1, cv::Mat image2, int direction,bool crop){
 	}
 	Stitching stitching(image1,image2);
 	return stitching.Stitch_Flann(direction,crop);	
+}
+
+cv::Mat Stitch_Freak(cv::Mat image1, cv::Mat image2, int direction,bool crop){
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(image1.at<ushort>(i,j)==0){
+				image1.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	for(int i=0;i<image2.rows;i++){
+		for(int j=0;j<image2.cols;j++){
+			if(image2.at<ushort>(i,j)==0){
+				image2.at<ushort>(i,j)=1;
+			}			
+		}
+	}
+	Stitching stitching(image1,image2);
+	return stitching.Stitch_Freak(direction,crop);	
 }
 
 void Stitch(LPSTR path1, LPSTR path2, int direction,int method,bool crop){

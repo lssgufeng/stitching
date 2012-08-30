@@ -27,6 +27,12 @@ struct threadDataFlann{
 	std::vector<cv::DMatch>& matches;	
 };
 
+//For Freak match
+struct threadDataFreak{
+	cv::Mat descriptors1;
+    cv::Mat descriptors2;
+	std::vector<cv::DMatch>& matches;
+};
 void knnMatch(void* threadArg);
 void flannMatch(void* threadArg);
 
@@ -38,7 +44,9 @@ private:
 	void performMatching(cv::Mat descriptors1,cv::Mat descriptors2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
 	void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
-	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+	void performMatching_Freak(cv::Mat descriptors1, cv::Mat descriptors2,
+		std::vector<cv::DMatch>& matches1, std::vector<cv::DMatch>& matches2);
 
 public:
 	//Get the matches using the Brief Descriptors
@@ -52,25 +60,19 @@ public:
 	void GetMatchesSurf_Flann(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
-	void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
+	void GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
 	//Get the matches using Freak Descriptors
-	void Matching::GetMatchesFreak(cv::Mat& image1, cv::Mat& image2,
+	void GetMatchesFreak(cv::Mat& image1, cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
-	void Matching::GetMatchesFreakThread(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+	void GetMatchesFreakThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
-	void Matching::GetMatchesFreak_Flann(cv::Mat& image1, cv::Mat& image2,
-		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
-	void Matching::GetMatchesFreak_FlannThread(cv::Mat& image1,cv::Mat& image2,
-		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);	
 
 	//Get the matches using Sift Descriptors
 	void GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
@@ -86,6 +88,10 @@ public:
 	void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
 		const std::vector<cv::DMatch>& matches2,
 		std::vector<cv::DMatch>& symMatches);
+	void SymmetryTest_Freak(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches);
+
 	//Perform RANSAC Test to get the best matched points. It returns fundamental matrix
 	cv::Mat RansacTest(const std::vector<cv::DMatch>& goodMatches,
 		const std::vector<cv::KeyPoint>& keyPoints1,

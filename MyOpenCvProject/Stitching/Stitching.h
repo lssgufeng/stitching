@@ -38,6 +38,8 @@ private:
 
 	bool calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Mat& homography);
 
+	bool calculateHomography_Freak(cv::Mat image1, cv::Mat image2, cv::Mat& homography);
+
     //Calculates the common(overlap) area
 	void calculateOverlapImages(const cv::Mat homography, 
 		const cv::Mat floatImage,const cv::Mat baseImage,
@@ -61,5 +63,6 @@ public:
 	//@crop Cropping allowed or not
 	cv::Mat Stitching::Stitch_Flann(int direction,bool crop);
 	//void stich(cv::Mat base, cv::Mat target,cv::Mat homography, cv::Mat& panorama);
+	cv::Mat Stitching::Stitch_Freak(int direction,bool crop);
 };
 
