@@ -8,6 +8,8 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
+#include "freak.h";
+#include "hammingseg.h"
 #include<process.h>
 #define NOMINMAX
 #include<windows.h>
@@ -25,8 +27,16 @@ struct threadDataFlann{
 	cv::Mat descriptors2;
 	std::vector<cv::DMatch>& matches;	
 };
+//For Freak match
+struct threadDataFreak{
+	cv::Mat descriptors1;
+    cv::Mat descriptors2;
+	std::vector<cv::DMatch>& matches;
+};
+
 void knnMatch(void* threadArg);
 void flannMatch(void* threadArg);
+void hammingMatch(void* threadArg);
 
 class Matching {
 private:
@@ -37,6 +47,8 @@ private:
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);	
 	void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+	void performMatching_Freak(cv::Mat descriptors1, cv::Mat descriptors2,
+		std::vector<cv::DMatch>& matches1, std::vector<cv::DMatch>& matches2);
 	
 public:
 	//Get the matches using the Brief Descriptors
@@ -56,6 +68,13 @@ public:
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	//Get the matches using Freak Descriptors
+	void GetMatchesFreak(cv::Mat& image1, cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+	void GetMatchesFreakThread(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);	
 	//Get the matches using Sift Descriptors
 	void GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
@@ -68,6 +87,9 @@ public:
 		const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches);
 	void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+		const std::vector<cv::DMatch>& matches2,
+		std::vector<cv::DMatch>& symMatches);
+	void SymmetryTest_Freak(const std::vector<cv::DMatch>& matches1,
 		const std::vector<cv::DMatch>& matches2,
 		std::vector<cv::DMatch>& symMatches);
 	//Perform RANSAC Test to get the best matched points. It returns fundamental matrix

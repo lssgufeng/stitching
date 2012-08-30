@@ -90,8 +90,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AlphaBlender.cpp" />
-    <ClCompile Include="C:\Users\krishna\Desktop\FREAK\freak.cpp" />
     <ClCompile Include="Corners.cpp" />
+    <ClCompile Include="freak.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
     <ClCompile Include="LaplacianBlender.cpp" />
     <ClCompile Include="main.cpp" />
@@ -105,8 +105,8 @@
   <ItemGroup>
     <ClInclude Include="Arithmatic.h" />
     <ClInclude Include="AlphaBlender.h" />
-    <ClInclude Include="C:\Users\krishna\Desktop\FREAK\freak.h" />
     <ClInclude Include="Corners.h" />
+    <ClInclude Include="freak.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="hammingseg.h" />
     <ClInclude Include="HarrisDetector.h" />

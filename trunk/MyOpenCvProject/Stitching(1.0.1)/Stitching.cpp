@@ -470,6 +470,224 @@ cv::Mat Stitching::Stitch_Flann(int direction,bool crop){
 	return stitchedImage;
 }
 
+cv::Mat Stitching::Stitch_Freak(int direction,bool crop){
+	cv::Mat homography;
+	int floatingHeight=this->floatingImage.rows;
+	int floatingWidth=this->floatingImage.cols;
+	int baseHeight=this->baseImage.rows;
+	int baseWidth=this->baseImage.cols;
+	cv::Mat floatingImageResized=this->floatingImage.clone();
+	cv::Mat baseImageResized=this->baseImage.clone();
+
+	/*cv::Mat cropFloatingImage(floatingImageResized.rows,floatingImageResized.cols,CV_16U);
+	cv::Mat cropBaseImage(baseImageResized.rows,baseImageResized.cols,CV_16U);*/
+	bool success=false;
+	success=calculateHomography_Freak(floatingImageResized,
+			baseImageResized,homography);
+
+	Warp warp;
+	/*
+	cv::Mat toutputImage,thomography;
+	cv::Point ttopLeft,tbottomRight;
+	thomography=homography.clone();
+	warp.RotateImage(this->floatingImage,thomography,toutputImage,ttopLeft,tbottomRight);
+	cv::imwrite("output/o_warped.png",toutputImage);
+
+	cv::warpPerspective(this->floatingImage,toutputImage,homography,cv::Size());
+	cv::imwrite("output/original_warped.png",toutputImage);
+	*/
+
+	cv::Point topLeft, bottomRight;
+	if(direction==0){
+		warp.RotateImage_Xcrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);		
+	}else if(direction==1){
+		warp.RotateImage_Ycrop(this->floatingImage,homography,crop,this->rotatedImage,topLeft,bottomRight);
+	}else{
+		warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);
+	}		
+	//warp.RotateImage(this->floatingImage,homography,this->rotatedImage,topLeft,bottomRight);		
+	this->log->Write("After Y-crop Rotation:\nTopLeft:%d,%d \t BottomRight:%d,%d",
+		topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
+	cv::imwrite("output/rotatedImage_Crop.png",this->rotatedImage);
+		
+	//We have got top left and bottom right points of the rotated image
+	//Steps:
+	//1. Find the combined area
+	//2. Put the rotated and base images there
+	//3. Get overlapped areas
+	//4. Blend the overlapped area
+	//5. put the blended area to the combined area
+
+	Boundry left, top, right, bottom;
+	if(topLeft.x<0){
+		left.Index=0;
+		left.Value=topLeft.x;
+	}else{
+		left.Index=1;
+		left.Value=0;
+	}
+
+	if(topLeft.y<0){
+		top.Index=0;
+		top.Value=topLeft.y;
+	}else{
+		top.Index=1;
+		top.Value=0;
+	}
+
+	if(bottomRight.x>this->baseImage.cols){
+		right.Index=0;
+		right.Value=bottomRight.x;
+	}else{
+		right.Index=1;
+		right.Value=this->baseImage.cols;
+	}
+
+	if(bottomRight.y>this->baseImage.rows){
+		bottom.Index=0;
+		bottom.Value=bottomRight.y;
+	}else{
+		bottom.Index=1;
+		bottom.Value=this->baseImage.rows;
+	}	
+	this->log->Write("left:I=%d,V=%d\t top:I=%d,V=%d\nright:I=%d,V=%d\tbottom:I=%d,V=%d",
+		left.Index,left.Value,top.Index,top.Value,right.Index,right.Value,bottom.Index,bottom.Value);
+
+	cv::Mat stitchedImage(bottom.Value-top.Value+1,right.Value-left.Value+1,CV_16U);
+	cv::imwrite("output/stitched.png",stitchedImage);
+	
+	//paste the rotated and base images in the stitched image
+	//we have to define basically 3 regions in the stitched image and 
+	//common base region for float image and base image
+
+	cv::Rect floatRegion, baseRegion, commonStitchedRegion, commonBaseRegion, commonFloatRegion;
+    
+	floatRegion.width=this->rotatedImage.cols;
+	floatRegion.height=this->rotatedImage.rows;
+	baseRegion.width=this->baseImage.cols;
+	baseRegion.height=this->baseImage.rows;	
+
+	if(left.Index==0){
+		floatRegion.x=0;
+		baseRegion.x=abs(left.Value);
+		if(top.Index==0){
+			log->Write("Case 1");
+			floatRegion.y=0;
+			baseRegion.y=abs(top.Value);			
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+			
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=abs(topLeft.y);
+		}else{
+			log->Write("Case 2");
+			floatRegion.y=topLeft.y;
+			baseRegion.y=0;
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols-abs(topLeft.x),this->baseImage.cols);
+			int commonHeight=cv::min(this->rotatedImage.rows,this->baseImage.rows-topLeft.y);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=abs(topLeft.x);
+			commonFloatRegion.y=0;
+
+			commonBaseRegion.x=0;
+			commonBaseRegion.y=abs(topLeft.y);
+
+			commonStitchedRegion.x=abs(topLeft.x);
+			commonStitchedRegion.y=topLeft.y;
+		}
+	}else{
+		floatRegion.x=topLeft.x;
+		baseRegion.x=0;
+		if(top.Index==0){
+			log->Write("Case 3");
+			floatRegion.y=0;
+			baseRegion.y=abs(top.Value);
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols,this->baseImage.cols-topLeft.x);
+			int commonHeight=cv::min(this->rotatedImage.rows-abs(topLeft.y),this->baseImage.rows);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=0;
+			commonFloatRegion.y=abs(topLeft.y);
+
+			commonBaseRegion.x=topLeft.x;
+			commonBaseRegion.y=0;
+
+			commonStitchedRegion.x=topLeft.x;
+			commonStitchedRegion.y=abs(topLeft.y);
+
+		}else{
+			log->Write("Case 4");
+			floatRegion.y=topLeft.y;
+			baseRegion.y=0;
+
+			//Common Region
+			int commonWidth=cv::min(this->rotatedImage.cols,this->baseImage.cols-topLeft.x);
+			int commonHeight=cv::min(this->rotatedImage.rows,this->baseImage.rows-topLeft.y);
+
+			commonFloatRegion.width=commonBaseRegion.width=commonStitchedRegion.width=commonWidth;
+			commonFloatRegion.height=commonBaseRegion.height=commonStitchedRegion.height=commonHeight;
+			
+			commonFloatRegion.x=0;
+			commonFloatRegion.y=0;
+
+			commonBaseRegion.x=topLeft.x;
+			commonBaseRegion.y=topLeft.y;
+
+			commonStitchedRegion.x=topLeft.x;
+			commonStitchedRegion.y=topLeft.y;
+		}
+	}
+	this->rotatedImage.copyTo(stitchedImage(floatRegion));
+	this->baseImage.copyTo(stitchedImage(baseRegion));
+	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
+
+
+	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+
+
+	AlphaBlender alphaBlender;
+	cv::Mat result=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
+	alphaBlender.blend(this->rotatedImage(commonFloatRegion),
+		this->baseImage(commonBaseRegion),left,top,right,bottom,result);
+	result.copyTo(stitchedImage(commonStitchedRegion));
+
+	cv::imwrite("output/o_stitched_alpha.png",stitchedImage);
+	cv::imshow("stitchedImage_alpha",stitchedImage);
+	cv::waitKey(0);
+
+	LaplacianBlender blender(this->rotatedImage(commonFloatRegion),this->baseImage(commonBaseRegion));
+	cv::Mat outputImage(commonFloatRegion.height,commonFloatRegion.width,CV_16U);
+	outputImage= blender.blend(left,top,right,bottom);
+	//outputImage.convertTo(outputImage,CV_8U,255);
+	cv::imwrite("output/common_blended_pyr.png",outputImage);
+	outputImage.copyTo(stitchedImage(commonStitchedRegion));
+	cv::imwrite("output/o_stitched_pyr.png",stitchedImage);
+	return stitchedImage;
+}
+
+
 
 bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homography){
 	Corners corner;
@@ -601,6 +819,71 @@ bool Stitching::calculateHomography_Flann(cv::Mat image1, cv::Mat image2, cv::Ma
 	
 	/*Utility utility;
 	utility.WriteHomography("Homography",homography);*/
+	return true;
+}
+
+bool Stitching::calculateHomography_Freak(cv::Mat image1, cv::Mat image2, cv::Mat& homography){
+	Corners corner;
+	Matching matching;
+	std::vector<cv::KeyPoint> keyPoints1,keyPoints2;	
+	cv::Mat image1_8bit,image2_8bit;
+	image1.convertTo(image1_8bit,CV_8U,1./256);
+	image2.convertTo(image2_8bit,CV_8U,1./256);
+	cv::medianBlur(image1_8bit,image1_8bit,3);
+	cv::medianBlur(image2_8bit,image2_8bit,3);
+	cv::imwrite("output/image1_8bit.png",image1_8bit);
+    cv::imwrite("output/image2_8bit.png",image2_8bit);
+
+	/*corner.GetSurfFeatures(image1_8bit,keyPoints1);
+	corner.GetSurfFeatures(image2_8bit,keyPoints2);*/
+	corner.GetSurfFeaturesThread(image1_8bit,keyPoints1,image2_8bit,keyPoints2);
+
+	cv::Mat tmpImage;
+	cv::drawKeypoints(image1_8bit,keyPoints1,tmpImage);
+	cv::imwrite("output/o_Image1(keyPoints).bmp",tmpImage);
+	cv::drawKeypoints(image2_8bit,keyPoints2,tmpImage);
+	cv::imwrite("output/o_Image2(keyPoints).bmp",tmpImage);
+
+
+	std::vector<cv::DMatch> matches1,matches2;
+	matching.GetMatchesFreakThread(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
+	std::vector<cv::DMatch> symmetryMatches;
+	matching.SymmetryTest_Freak(matches1,matches2,symmetryMatches);
+
+
+	matching.DrawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,symmetryMatches,tmpImage);
+	cv::imwrite("output/o_SymmetryMatches.bmp",tmpImage);
+
+	if(symmetryMatches.size()<5)
+		return false;
+	
+	cv::Mat imageMatches;	
+	std::vector<uchar> inliers;
+	homography=matching.GetHomography(symmetryMatches,keyPoints1,keyPoints2,inliers);	
+	std::vector<cv::Point2f> points1,points2;
+	matching.GetFloatPoints(keyPoints1,keyPoints2,symmetryMatches,points1,points2);
+
+	matching.DrawInliers(points1,inliers,image1,tmpImage);
+	cv::imwrite("output/o_Image1(inliers).png",tmpImage);
+	
+	int inliers_count=0;
+	for(std::vector<uchar>::const_iterator iterator=inliers.begin();
+		iterator!=inliers.end();++iterator){
+			if(*iterator){
+				++inliers_count;
+			}
+	}
+	
+	if(inliers_count<10){
+		printf("inliers=%d Not sufficient Inliers. you might get incorrect result.",inliers_count);
+		return false;
+	}
+
+	matching.DrawInliers(points2,inliers,image2,tmpImage);
+	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+	
+	Utility utility;
+	utility.WriteHomography("Homography",homography);
 	return true;
 }
 

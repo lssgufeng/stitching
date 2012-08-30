@@ -49,6 +49,7 @@
             this.textBoxImage1 = new System.Windows.Forms.TextBox();
             this.labelImage1 = new System.Windows.Forms.Label();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.radioButtonFreak = new System.Windows.Forms.RadioButton();
             this.groupBoxStitch.SuspendLayout();
             this.groupBoxMethod.SuspendLayout();
             this.groupBoxDirection.SuspendLayout();
@@ -100,11 +101,12 @@
             // 
             // groupBoxMethod
             // 
+            this.groupBoxMethod.Controls.Add(this.radioButtonFreak);
             this.groupBoxMethod.Controls.Add(this.radioButtonFlann);
             this.groupBoxMethod.Controls.Add(this.radioButtonKnn);
             this.groupBoxMethod.Location = new System.Drawing.Point(226, 85);
             this.groupBoxMethod.Name = "groupBoxMethod";
-            this.groupBoxMethod.Size = new System.Drawing.Size(138, 44);
+            this.groupBoxMethod.Size = new System.Drawing.Size(217, 44);
             this.groupBoxMethod.TabIndex = 16;
             this.groupBoxMethod.TabStop = false;
             this.groupBoxMethod.Text = "Method:";
@@ -255,6 +257,18 @@
             this.labelImage1.TabIndex = 7;
             this.labelImage1.Text = "Image1:";
             // 
+            // radioButtonFreak
+            // 
+            this.radioButtonFreak.AutoSize = true;
+            this.radioButtonFreak.Location = new System.Drawing.Point(137, 17);
+            this.radioButtonFreak.Name = "radioButtonFreak";
+            this.radioButtonFreak.Size = new System.Drawing.Size(60, 17);
+            this.radioButtonFreak.TabIndex = 2;
+            this.radioButtonFreak.TabStop = true;
+            this.radioButtonFreak.Text = "FREAK";
+            this.toolTip.SetToolTip(this.radioButtonFreak, "Approximate NN");
+            this.radioButtonFreak.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -296,6 +310,7 @@
         private System.Windows.Forms.RadioButton radioButtonKnn;
         private System.Windows.Forms.CheckBox checkBoxCrop;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.RadioButton radioButtonFreak;
 
 
     }
