@@ -153,6 +153,13 @@ void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
 		printf("Flann Matching Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
+void Matching::performMatching_Hamming(cv::Mat descriptors1, cv::Mat descriptors2,
+	std::vector<cv::DMatch>& matches1, std::vector<cv::DMatch>& matches2){
+		cv::BruteForceMatcher<Hamming> matcher;
+		matcher.match(descriptors1,descriptor2,matches1);
+		matcher.match(descriptor2, descriptor1,matches2);
+}
+
 
 
 void knnMatch(void* threadArg){
@@ -171,6 +178,13 @@ void flannMatch(void* threadArg){
 	cv::FlannBasedMatcher matcher;
     matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);	
 	printf("knn match took %f seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
+
+void hammingMatch(void* threadArg){
+	struct threadDataFlann* matchData;
+	matchData=(struct threadDataFlann*)threadArg;
+	cv::BruteForceMatcher matcher;
+    matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);
 }
 
 

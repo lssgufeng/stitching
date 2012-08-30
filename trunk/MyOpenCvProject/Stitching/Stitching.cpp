@@ -560,7 +560,8 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 
 	std::vector<std::vector<cv::DMatch>> matches1,matches2;
 	//matching.GetMatchesSurf(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);		
-	matching.GetMatchesSurfThread(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);	
+	//matching.GetMatchesSurfThread(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);	
+	matching.GetMatchesFreak(image1_8bit,image2_8bit,keyPoints1,keyPoints2,matches1,matches2);
 	int removed1=matching.RatioTest(matches1,0.8);	
 	int removed2=matching.RatioTest(matches2,0.8);	
 	std::vector<cv::DMatch> symmetryMatches;

@@ -9,6 +9,7 @@
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
 #include "freak.h";
+#include "hammingseg.h"
 #include<process.h>
 #define NOMINMAX
 #include<windows.h>
