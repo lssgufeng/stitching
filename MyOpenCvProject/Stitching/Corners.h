@@ -36,8 +36,6 @@ public:
 	void GetSurfFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoints);
 	void Corners::GetSurfFeaturesThread(const cv::Mat& image1, 
 	std::vector<cv::KeyPoint>& keyPoints1, const cv::Mat& image2,std::vector<cv::KeyPoint>& keyPoints2);
-	//FREAK features
-	void GetFreakFeatures(const cv::Mat& image, std::vector<cv::KeyPoint>& keyPoints);
 
 	//SIFT features
 	void GetSiftFeatures(const cv::Mat& image,std::vector<cv::KeyPoint>& keyPoitns);
