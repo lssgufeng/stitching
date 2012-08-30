@@ -7,7 +7,6 @@
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
 #include <process.h>
-#include "freak.h";
 #define NOMINMAX
 #include<windows.h>
 

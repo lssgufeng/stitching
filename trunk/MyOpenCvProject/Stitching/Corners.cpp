@@ -57,8 +57,8 @@ void surfFeatures(void* threadArg){
 void Corners::GetFreakFeatures(const cv::Mat& image, 
 	std::vector<cv::KeyPoint>& keyPoints){
 		cv::FREAK freak;
-		freak.compute(image,keyPoints,
-
+		cv::Mat descriptor;
+		freak.compute(image,keyPoints,descriptor);
 }
 
 
