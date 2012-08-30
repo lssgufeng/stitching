@@ -69,6 +69,35 @@ void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
 }
 
 
+void Matching::GetMatchesFreak(cv::Mat& image1, cv::Mat& image2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2){
+		//this->extractor=new cv::FREAK();		
+		cv::FREAK extractor;
+		extractor.compute(image1,keyPoints1,this->descriptors1);
+		extractor.compute(image2,keyPoints2,this->descriptors2);
+		this->performMatching_Freak(this->descriptors1,this->descriptors2,matches1,matches2);
+}
+void Matching::GetMatchesFreakThread(cv::Mat& image1,cv::Mat& image2,
+	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2){
+		int64 tick=cv::getTickCount();
+		cv::FREAK extractor;
+		extractor.compute(image1,keyPoints1,this->descriptors1);
+		extractor.compute(image2,keyPoints2,this->descriptors2);
+		//this->performMatching(this->descriptors1,this->descriptors2,matches1,matches2);
+		threadDataFreak matchData1={this->descriptors1,this->descriptors2,matches1};
+		threadDataFreak matchData2={this->descriptors2,this->descriptors1,matches2};
+
+		HANDLE hThreads[2];
+		
+		hThreads[0]=(HANDLE)_beginthread(hammingMatch,0,(void*)&matchData1);
+		hThreads[1]=(HANDLE)_beginthread(hammingMatch,0,(void*)&matchData2);
+		WaitForMultipleObjects(2,hThreads,TRUE,INFINITE);
+		printf("GetMatchesFreak Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());		
+}
+
+
 
 void Matching::GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
@@ -98,6 +127,12 @@ void Matching::performMatching_Flann(cv::Mat descriptors1, cv::Mat descriptors2,
 
 
 }
+void Matching::performMatching_Freak(cv::Mat descriptors1, cv::Mat descriptors2,
+	std::vector<cv::DMatch>& matches1, std::vector<cv::DMatch>& matches2){
+		cv::BruteForceMatcher<cv::Hamming> matcher;
+		matcher.match(descriptors2, descriptors1,matches2);
+		matcher.match(descriptors1,descriptors2,matches1);
+}
 
 void knnMatch(void* threadArg){
 	int64 tick=cv::getTickCount();
@@ -116,6 +151,13 @@ void flannMatch(void* threadArg){
     matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);	
 	printf("knn match took %f seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
+void hammingMatch(void* threadArg){
+	struct threadDataFreak* matchData;
+	matchData=(struct threadDataFreak*)threadArg;
+	cv::BruteForceMatcher<cv::Hamming> matcher;
+	matcher.match(matchData->descriptors1,matchData->descriptors2,matchData->matches);
+}
+
 
 int Matching::RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
 	int removed=0;
@@ -180,7 +222,27 @@ void Matching::SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
 		printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
 }
 
-
+void Matching::SymmetryTest_Freak(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches){
+		int64 tick=cv::getTickCount();
+		for(std::vector<cv::DMatch>::const_iterator matchIterator1=matches1.begin();
+			matchIterator1!=matches1.end();++matchIterator1){
+				for(std::vector<cv::DMatch>::const_iterator matchIterator2=matches2.begin();
+					matchIterator2!=matches2.end();++matchIterator2){
+						bool condition=(*matchIterator1).queryIdx==(*matchIterator2).trainIdx
+							&&(*matchIterator1).trainIdx==(*matchIterator2).queryIdx;
+							if(condition){
+								symMatches.push_back(cv::DMatch((*matchIterator1).queryIdx,
+									(*matchIterator1).trainIdx,(*matchIterator1).distance));								
+								break;
+							}
+				}
+		}
+		//symMatches=matches1;
+		printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+		printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
 
 
 cv::Mat Matching::RansacTest(const std::vector<cv::DMatch>& goodMatches,

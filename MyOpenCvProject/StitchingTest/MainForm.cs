@@ -67,6 +67,8 @@ namespace ImageStitcher
                 method = 0;
             else if (this.radioButtonFlann.Checked)
                 method = 1;
+            else if (this.radioButtonFreak.Checked)
+                method = 2;
 
             if (this.checkBoxCrop.Checked)
             {

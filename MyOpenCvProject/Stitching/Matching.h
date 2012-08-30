@@ -35,6 +35,7 @@ struct threadDataFreak{
 };
 void knnMatch(void* threadArg);
 void flannMatch(void* threadArg);
+void hammingMatch(void* threadArg);
 
 class Matching {
 private:
@@ -89,8 +90,8 @@ public:
 		const std::vector<cv::DMatch>& matches2,
 		std::vector<cv::DMatch>& symMatches);
 	void SymmetryTest_Freak(const std::vector<cv::DMatch>& matches1,
-	const std::vector<cv::DMatch>& matches2,
-	std::vector<cv::DMatch>& symMatches);
+		const std::vector<cv::DMatch>& matches2,
+		std::vector<cv::DMatch>& symMatches);
 
 	//Perform RANSAC Test to get the best matched points. It returns fundamental matrix
 	cv::Mat RansacTest(const std::vector<cv::DMatch>& goodMatches,

@@ -91,6 +91,7 @@
   <ItemGroup>
     <ClCompile Include="AlphaBlender.cpp" />
     <ClCompile Include="Corners.cpp" />
+    <ClCompile Include="freak.cpp" />
     <ClCompile Include="HarrisDetector.cpp" />
     <ClCompile Include="LaplacianBlender.cpp" />
     <ClCompile Include="main.cpp" />
@@ -105,7 +106,9 @@
     <ClInclude Include="Arithmatic.h" />
     <ClInclude Include="AlphaBlender.h" />
     <ClInclude Include="Corners.h" />
+    <ClInclude Include="freak.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="hammingseg.h" />
     <ClInclude Include="HarrisDetector.h" />
     <ClInclude Include="LaplacianBlender.h" />
     <ClInclude Include="LaplacianBlending.h" />
