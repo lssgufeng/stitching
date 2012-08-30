@@ -8,6 +8,7 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
+#include "freak.h";
 #include<process.h>
 #define NOMINMAX
 #include<windows.h>
@@ -51,11 +52,25 @@ public:
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void Matching::GetMatchesSurf_FlannThread(cv::Mat& image1,cv::Mat& image2,
-	std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
-	std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<cv::DMatch>& matches1,std::vector<cv::DMatch>& matches2);
 	void GetMatchesSurfThread(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
 		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	//Get the matches using Freak Descriptors
+	void Matching::GetMatchesFreak(cv::Mat& image1, cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	void Matching::GetMatchesFreakThread(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	void Matching::GetMatchesFreak_Flann(cv::Mat& image1, cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+	void Matching::GetMatchesFreak_FlannThread(cv::Mat& image1,cv::Mat& image2,
+		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
+		std::vector<std::vector<cv::DMatch>>& matches1,std::vector<std::vector<cv::DMatch>>& matches2);
+
 	//Get the matches using Sift Descriptors
 	void GetMatchesSift(cv::Mat& image1,cv::Mat& image2,
 		std::vector<cv::KeyPoint>& keyPoints1,std::vector<cv::KeyPoint>& keyPoints2,
