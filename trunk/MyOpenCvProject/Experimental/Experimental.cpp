@@ -15,14 +15,29 @@ std::vector<cv::KeyPoint> ExtractSUFTFeatures(char*,char*);
 
 
 
-char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg",};
+char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 
 int main(void)
 {
 	//Testing for feature extraction
-	for(int i=0; i<8; i++){
-	ExtractHarrisFeatures(files[i],"result//harris//re
-		sult.txt");
+	std::vector<cv::Point> basePoints=ExtractHarrisFeatures(files[0],"result/harris/result.txt");
+	for(int i=1; i<8; i++){
+		std::vector<cv::Point> points= ExtractHarrisFeatures(files[i],"result/harris/result.txt");
+		//Analyse the points
+		int repliaction=0;
+		std::vector<cv::Point>::const_iterator base_iterator;
+		std::vector<cv::Point>::const_iterator iterator;
+		for(base_iterator=basePoints.begin();base_iterator!=basePoints.end();base_iterator++){
+			cv::Point basePoint=*base_iterator;
+			for(iterator=points.begin();iterator!=points.end();iterator++){
+				cv::Point point=*iterator;
+				if(basePoint.x==point.x && basePoint.y==point.y){
+
+				}
+			}
+		}
+
+
 	}
 	//ExtractSIFTFeatures("result/SIFT/result.txt");
 	//ExtractSUFTFeatures("result/SURF/result.txt");
@@ -32,15 +47,17 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 	MyLog log;
 	time_t curr;
 	time(&curr);	
-	log.Write(resultFile,ctime(&curr)); 
+	log.Write(resultFile,ctime(&curr));
+	char* imageFullPath=new char[200];
+	char* saveFullPath=new char[200];
 
+	std::vector<cv::Point> basePoints;
+	strcpy(imageFullPath,"images/");
+	imageFullPath=strcat(imageFullPath,imageFile);
+	strcpy(saveFullPath,"result/harris/");
+	saveFullPath=strcat(saveFullPath,imageFile);
 
-	std::vector<cv::KeyPoint> basePoints;
-	char* imagePath;
-	char* savePath;
-	sprintf(imagePath,"images/%s",imageFile);
-	sprintf(savePath,"result/harris/%s",imageFile);
-	cv::Mat image1=cv::imread(imagePath,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
+	cv::Mat image1=cv::imread(imageFullPath,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
 	//Harris Detector
 	int neighbourhood=3;
 	int aperture=11;
@@ -50,7 +67,7 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 	int nonMaxSize=12;
 
 	//LOG
-	log.Write(resultFile,"Image Supplied:%s",imagePath);
+	log.Write(resultFile,"Image Supplied:%s",imageFullPath);
 
 
 	cv::Mat cornerStrength;
@@ -100,8 +117,8 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 			 ++it;
 		 }		 
 
-    cv::imwrite(savePath,image1);
-	return points;
+		 //cv::imwrite(fullSavePath,image1);
+		 return points;
 }
 
 std::vector<cv::KeyPoint> ExtractSIFTFeatures(char* imageFile, char* resultFile){

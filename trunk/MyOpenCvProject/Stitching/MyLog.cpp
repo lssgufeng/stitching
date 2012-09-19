@@ -1,12 +1,13 @@
 #include "MyLog.h"
 
 MyLog::MyLog() {
+	
 }
 
 void MyLog::Write(char* logline){
 	//file<<""<<logline<<endl;
 	std::fstream file;
-	file.open("Stitching.log",std::ios::app);
+	file.open("stitching.log",std::ios::app);
 	file<<endl<<endl<<logline;
 	file<<endl;
 	file.close();
@@ -14,7 +15,7 @@ void MyLog::Write(char* logline){
 
 void MyLog::Write(const char* logline, ...){
 	std::fstream file;
-	file.open("Stitching.log",std::ios::app);
+	file.open("stitching.log",std::ios::app);
 	va_list argList;
 	char cbuffer[1024];
 	va_start(argList, logline);
