@@ -20,7 +20,7 @@ void MyLog::Write(char* filename,const char* logline, ...){
 	va_start(argList, logline);
 	vsnprintf(cbuffer, 1024, logline, argList);
 	va_end(argList);
-	file <<endl<<endl<<cbuffer << endl;
+	file<<cbuffer << endl;
 	file.close();
 }
 
