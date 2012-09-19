@@ -20,27 +20,12 @@ char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg"
 int main(void)
 {
 	//Testing for feature extraction
-	std::vector<cv::Point> basePoints=ExtractHarrisFeatures(files[0],"result/harris/result.txt");
-	for(int i=1; i<8; i++){
-		std::vector<cv::Point> points= ExtractHarrisFeatures(files[i],"result/harris/result.txt");
-		//Analyse the points
-		int repliaction=0;
-		std::vector<cv::Point>::const_iterator base_iterator;
-		std::vector<cv::Point>::const_iterator iterator;
-		for(base_iterator=basePoints.begin();base_iterator!=basePoints.end();base_iterator++){
-			cv::Point basePoint=*base_iterator;
-			for(iterator=points.begin();iterator!=points.end();iterator++){
-				cv::Point point=*iterator;
-				if(basePoint.x==point.x && basePoint.y==point.y){
-
-				}
-			}
-		}
-
-
+	for(int i=0; i<8; i++){
+		ExtractHarrisFeatures(files[i],"result/harris/result.txt");
+		ExtractSIFTFeatures(files[i],"result/SIFT/result.txt");
+		ExtractSUFTFeatures(files[i],"result/SURF/result.txt");
 	}
-	//ExtractSIFTFeatures("result/SIFT/result.txt");
-	//ExtractSUFTFeatures("result/SURF/result.txt");
+	
 }
 
 std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){	
@@ -108,6 +93,7 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 	
 	//LOG 
 	log.Write(resultFile,"Elapsed Time=%f seconds",elapsedTime);
+	log.Write(resultFile,"Got %d points",points.size());
 
 	std::vector<cv::Point>::const_iterator it=points.begin();
 		 //for all corners
@@ -122,9 +108,23 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 }
 
 std::vector<cv::KeyPoint> ExtractSIFTFeatures(char* imageFile, char* resultFile){
-	char* path1="images/l_rot_8.jpg";
-	char* savePath="result/SIFT/l_rot_8.jpg";
-	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	MyLog log;
+	time_t curr;
+	time(&curr);	
+	log.Write(resultFile,ctime(&curr));
+	char* imageFullPath=new char[200];
+	char* saveFullPath=new char[200];
+
+	std::vector<cv::Point> basePoints;
+	strcpy(imageFullPath,"images/");
+	imageFullPath=strcat(imageFullPath,imageFile);
+	strcpy(saveFullPath,"result/SIFT/");
+	saveFullPath=strcat(saveFullPath,imageFile);
+	cv::Mat image1=cv::imread(imageFullPath,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
+	//LOG
+	log.Write(resultFile,"Image Supplied:%s",imageFullPath);
+
 	double threshold=0.04;
 	double linesThreshold=10;
 	std::vector<cv::KeyPoint> keyPoints;
@@ -132,19 +132,32 @@ std::vector<cv::KeyPoint> ExtractSIFTFeatures(char* imageFile, char* resultFile)
 	cv::Ptr<cv::FeatureDetector> detector=new cv::SiftFeatureDetector(threshold,linesThreshold);
 	detector->detect(image1,keyPoints);
 	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
-	printf("ElapsedTime=%f",elapsedTime);
+
+	log.Write(resultFile,"Elapsed Time=%f Seconds.",elapsedTime);
+	log.Write(resultFile,"Got %d key points",keyPoints.size());
 	cv::Mat tmpImage;
 	cv::drawKeypoints(image1,keyPoints,tmpImage);
-	cv::imwrite(savePath,tmpImage);
-	cv::imshow(savePath,tmpImage);
-	cv::waitKey(0);
+	cv::imwrite(saveFullPath,tmpImage);	
 	return keyPoints;
 }
 
 std::vector<cv::KeyPoint> ExtractSUFTFeatures(char* imageFile, char* resultFile){	
-	char* path1="images/l_rot_8.jpg";
-	char* savePath="result/SURF/l_rot_8.jpg";
-	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	MyLog log;
+	time_t curr;
+	time(&curr);	
+	log.Write(resultFile,ctime(&curr));
+	char* imageFullPath=new char[200];
+	char* saveFullPath=new char[200];
+
+	std::vector<cv::Point> basePoints;
+	strcpy(imageFullPath,"images/");
+	imageFullPath=strcat(imageFullPath,imageFile);
+	strcpy(saveFullPath,"result/SURF/");
+	saveFullPath=strcat(saveFullPath,imageFile);
+	cv::Mat image1=cv::imread(imageFullPath,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
+	//LOG
+	log.Write(resultFile,"Image Supplied:%s",imageFullPath);
 
 	double threshold=700;
 	std::vector<cv::KeyPoint> keyPoints;
@@ -153,16 +166,13 @@ std::vector<cv::KeyPoint> ExtractSUFTFeatures(char* imageFile, char* resultFile)
 	detector->detect(image1,keyPoints);
 	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
 
-	printf("Elapsed Time=%f", elapsedTime);
+	log.Write(resultFile,"Elapsed Time=%f Seconds.",elapsedTime);
+	log.Write(resultFile,"Got %d key points",keyPoints.size());
 
 	cv::Mat tmpImage;
 	cv::drawKeypoints(image1,keyPoints,tmpImage);
-	cv::imwrite(savePath,tmpImage);
-	cv::imshow(savePath,tmpImage);
-	cv::waitKey(0);
+	cv::imwrite(saveFullPath,tmpImage);
 	return keyPoints;
 }
-
-
 
 
