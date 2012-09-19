@@ -6,21 +6,31 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
+#include "MyLog.h"
 
-void ExtractHarrisFeatures();
-void ExtractSIFTFeatures();
-void ExtractSUFTFeatures();
+std::vector<cv::Point> ExtractHarrisFeatures();
+std::vector<cv::KeyPoint> ExtractSIFTFeatures();
+std::vector<cv::KeyPoint> ExtractSUFTFeatures();
+
+
+
+char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg",};
+
 
 int main(void)
 {
 	//Testing for feature extraction
-	//ExtractHarrisFeatures();
-	//ExtractSIFTFeatures()
-	ExtractSUFTFeatures();
+	ExtractHarrisFeatures();
+	//ExtractSIFTFeatures();
+	//ExtractSUFTFeatures();
 }
 
-void ExtractHarrisFeatures(){	
-	//HARRIS	
+std::vector<cv::Point> ExtractHarrisFeatures(){	
+	char* resultFile="result/harris/result.txt";
+	MyLog log;
+	log.Write(resultFile,"Harris=>","test");
+
+	std::vector<cv::KeyPoint> basePoints;
 	char* path1="images/l_large_br_rot.jpg";
 	char* savePath="result/harris/l_large_br_rot.jpg";
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);	
@@ -35,6 +45,7 @@ void ExtractHarrisFeatures(){
 
 	cv::Mat cornerStrength;
 	//harrisResult.create(image1.rows,image1.cols,CV_32FC1);
+	int64 tick=cv::getTickCount();
 	cv::cornerHarris(image1,cornerStrength, neighbourhood,aperture,k,cv::BORDER_DEFAULT);
 	//internal threshold computation
 	double minStrength;
@@ -66,6 +77,9 @@ void ExtractHarrisFeatures(){
 			 }
 		 }
 
+	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+	printf("Elapsed Time=%f",elapsedTime);
+
 	std::vector<cv::Point>::const_iterator it=points.begin();
 		 //for all corners
 		 while(it!=points.end()){
@@ -77,9 +91,10 @@ void ExtractHarrisFeatures(){
     cv::imwrite(savePath,image1);
 	cv::imshow(savePath, image1);
 	cv::waitKey(0);
+	return points;
 }
 
-void ExtractSIFTFeatures(){
+std::vector<cv::KeyPoint> ExtractSIFTFeatures(){
 	char* path1="images/l_rot_8.jpg";
 	char* savePath="result/SIFT/l_rot_8.jpg";
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -96,9 +111,10 @@ void ExtractSIFTFeatures(){
 	cv::imwrite(savePath,tmpImage);
 	cv::imshow(savePath,tmpImage);
 	cv::waitKey(0);
+	return keyPoints;
 }
 
-void ExtractSUFTFeatures(){	
+std::vector<cv::KeyPoint> ExtractSUFTFeatures(){	
 	char* path1="images/l_rot_8.jpg";
 	char* savePath="result/SURF/l_rot_8.jpg";
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -110,12 +126,14 @@ void ExtractSUFTFeatures(){
 	detector->detect(image1,keyPoints);
 	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
 
+	printf("Elapsed Time=%f", elapsedTime);
 
 	cv::Mat tmpImage;
 	cv::drawKeypoints(image1,keyPoints,tmpImage);
 	cv::imwrite(savePath,tmpImage);
 	cv::imshow(savePath,tmpImage);
 	cv::waitKey(0);
+	return keyPoints;
 }
 
 
