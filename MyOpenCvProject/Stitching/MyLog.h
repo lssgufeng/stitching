@@ -13,10 +13,10 @@ using namespace std;
 @url: http://www.infernodevelopment.com/c-log-file-class-forget-debuggers
 **/
 class MyLog {
-  public:
-    MyLog();
-    ~MyLog();
-    void Write(char* logline);
+public:
+	MyLog();
+	~MyLog();
+	void Write(char* logline);
 	void Write(const char* logline, ...);
 private:
 	//char* fileName;

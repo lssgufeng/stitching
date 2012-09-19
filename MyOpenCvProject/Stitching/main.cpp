@@ -37,8 +37,8 @@ int main(void)
 
     #pragma region "Input Images"	
 
-	char* path1="C:/Users/krishna/Google Drive/images/Thesis/hc_16.png";
-	char* path2="C:/Users/krishna/Google Drive/images/Thesis/rot_little_br_16.png";	
+	char* path1="C:/Users/krishna/Google Drive/images/16bit/l_16.png";
+	char* path2="C:/Users/krishna/Google Drive/images/16bit/r_16.png";	
 
 
 	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -60,7 +60,8 @@ int main(void)
 	cv::imwrite("output/original2.png",image2);
 
 	int64 tick=cv::getTickCount();
-	cv::Mat stitchedImage=Stitch_Freak(image1, image2,2,true);
+	//cv::Mat stitchedImage=Stitch_Freak(image1, image2,2,true);
+	cv::Mat stitchedImage=Stitch(image1, image2,2,true);
 
 	cv::imwrite("output/stitchedImage.png",stitchedImage);
 	float seconds=(cv::getTickCount()-tick)/cv::getTickFrequency();

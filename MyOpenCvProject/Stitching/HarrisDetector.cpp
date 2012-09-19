@@ -60,7 +60,7 @@ cv::Mat HarrisDetector::getCornerMap(double qualityLevel){
 			 //draw a circle
 			 cv::circle(image,*it,radius, color,thickness);
 			 ++it;
-		 }
+		 }		 
  }
 
 

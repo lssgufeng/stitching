@@ -742,8 +742,6 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 	image1.convertTo(image1_8bit,CV_8U,1./256);
 	image2.convertTo(image2_8bit,CV_8U,1./256);
 
-	//cv::Mat cornerImage(image1_8bit.rows,image1_8bit.cols,image1_8bit.type());
-	//cv::cornerHarris(image1_8bit,cornerImage,3,11,0.04,cv::BORDER_DEFAULT);
 	//Arithmatic arithmatic;
 	//double average=arithmatic.CalculateAverage(cornerImage);
 	//printf("%f", average);
