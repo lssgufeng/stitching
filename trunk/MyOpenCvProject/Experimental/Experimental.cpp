@@ -103,7 +103,7 @@ std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){
 			 ++it;
 		 }		 
 
-		 //cv::imwrite(fullSavePath,image1);
+		 cv::imwrite(saveFullPath,image1);
 		 return points;
 }
 
