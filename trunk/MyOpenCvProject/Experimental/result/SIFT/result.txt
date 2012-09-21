@@ -1,0 +1,56 @@
+
+
+Thu Sep 20 15:18:28 2012
+
+Image Supplied:images/l.jpg
+Elapsed Time=0.402993 Seconds.
+Got 306 key points
+
+
+Thu Sep 20 15:18:29 2012
+
+Image Supplied:images/l_br.jpg
+Elapsed Time=0.350434 Seconds.
+Got 261 key points
+
+
+Thu Sep 20 15:18:30 2012
+
+Image Supplied:images/l_rot_8.jpg
+Elapsed Time=0.270318 Seconds.
+Got 196 key points
+
+
+Thu Sep 20 15:18:30 2012
+
+Image Supplied:images/l_large.jpg
+Elapsed Time=1.019413 Seconds.
+Got 265 key points
+
+
+Thu Sep 20 15:18:32 2012
+
+Image Supplied:images/l_br_rot.jpg
+Elapsed Time=0.252063 Seconds.
+Got 192 key points
+
+
+Thu Sep 20 15:18:33 2012
+
+Image Supplied:images/l_large_br.jpg
+Elapsed Time=0.881370 Seconds.
+Got 263 key points
+
+
+Thu Sep 20 15:18:35 2012
+
+Image Supplied:images/l_large_br_rot.jpg
+Elapsed Time=0.633111 Seconds.
+Got 121 key points
+
+
+Thu Sep 20 15:18:36 2012
+
+Image Supplied:images/l_noise.jpg
+Elapsed Time=0.379934 Seconds.
+Got 488 key points
