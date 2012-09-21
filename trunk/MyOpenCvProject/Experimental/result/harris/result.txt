@@ -1,0 +1,56 @@
+
+
+Thu Sep 20 15:18:28 2012
+
+Image Supplied:images/l.jpg
+Elapsed Time=0.072714 seconds
+Got 245 points
+
+
+Thu Sep 20 15:18:29 2012
+
+Image Supplied:images/l_br.jpg
+Elapsed Time=0.054013 seconds
+Got 183 points
+
+
+Thu Sep 20 15:18:30 2012
+
+Image Supplied:images/l_rot_8.jpg
+Elapsed Time=0.038076 seconds
+Got 173 points
+
+
+Thu Sep 20 15:18:30 2012
+
+Image Supplied:images/l_large.jpg
+Elapsed Time=0.158564 seconds
+Got 481 points
+
+
+Thu Sep 20 15:18:32 2012
+
+Image Supplied:images/l_br_rot.jpg
+Elapsed Time=0.037215 seconds
+Got 166 points
+
+
+Thu Sep 20 15:18:33 2012
+
+Image Supplied:images/l_large_br.jpg
+Elapsed Time=0.165571 seconds
+Got 455 points
+
+
+Thu Sep 20 15:18:35 2012
+
+Image Supplied:images/l_large_br_rot.jpg
+Elapsed Time=0.116911 seconds
+Got 87 points
+
+
+Thu Sep 20 15:18:36 2012
+
+Image Supplied:images/l_noise.jpg
+Elapsed Time=0.053619 seconds
+Got 273 points
