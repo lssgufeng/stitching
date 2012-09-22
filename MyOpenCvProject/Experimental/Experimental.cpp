@@ -11,21 +11,26 @@
 
 std::vector<cv::Point> ExtractHarrisFeatures(char*,char*);
 std::vector<cv::KeyPoint> ExtractSIFTFeatures(char*,char*);
-std::vector<cv::KeyPoint> ExtractSUFTFeatures(char*,char*);
+std::vector<cv::KeyPoint> ExtractSURFFeatures(char*,char*);
+void MatchFeatures(double threshold);
 
 
 
-char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
+//char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 
 int main(void)
 {
-	//Testing for feature extraction
-	for(int i=0; i<8; i++){
-		ExtractHarrisFeatures(files[i],"result/harris/result.txt");
-		ExtractSIFTFeatures(files[i],"result/SIFT/result.txt");
-		ExtractSUFTFeatures(files[i],"result/SURF/result.txt");
-	}
-	
+	////Testing for feature extraction
+	//for(int i=0; i<8; i++){
+	//	ExtractHarrisFeatures(files[i],"result/harris/result.txt");
+	//	ExtractSIFTFeatures(files[i],"result/SIFT/result.txt");
+	//	ExtractSURFFeatures(files[i],"result/SURF/result.txt");
+	//}
+
+	for(int i=1000; i>100; i-=5)
+		MatchFeatures(i);
+
+		
 }
 
 std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){	
@@ -141,7 +146,7 @@ std::vector<cv::KeyPoint> ExtractSIFTFeatures(char* imageFile, char* resultFile)
 	return keyPoints;
 }
 
-std::vector<cv::KeyPoint> ExtractSUFTFeatures(char* imageFile, char* resultFile){	
+std::vector<cv::KeyPoint> ExtractSURFFeatures(char* imageFile, char* resultFile){	
 	MyLog log;
 	time_t curr;
 	time(&curr);	
@@ -175,4 +180,56 @@ std::vector<cv::KeyPoint> ExtractSUFTFeatures(char* imageFile, char* resultFile)
 	return keyPoints;
 }
 
+void MatchFeatures(double threshold){
+	MyLog log;
+	/*time_t curr;
+	time(&curr);	*/
+	char* resultFile="result/matching/matching.txt";
+	/*log.Write(resultFile,ctime(&curr));*/
+
+
+	char* path1="images/l.jpg";
+	char* path2="images/r.jpg";
+	double SIFTTime=0.0;
+	double SURFTime=0.0;
+
+	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
+	
+	std::vector<cv::KeyPoint> keyPoints1;
+	std::vector<cv::KeyPoint> keyPoints2;
+	cv::Mat descriptor1, descriptor2;
+	std::vector<std::vector<cv::DMatch>> matches;
+		
+	cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(threshold);
+	detector->detect(image1,keyPoints1);
+	detector=new cv::SurfFeatureDetector(400);
+	detector->detect(image2, keyPoints2);
+	cv::BruteForceMatcher<cv::L2<float>> matcher;
+
+	/*log.Write(resultFile,"Key Points1 Count:%d",keyPoints1.size());
+	log.Write(resultFile,"Key Points2 Count: %d",keyPoints2.size());*/
+
+	//START FROM SIFT
+	int64 tick=cv::getTickCount();
+	cv::Ptr<cv::DescriptorExtractor> extractor=new cv::SiftDescriptorExtractor();
+	extractor->compute(image1,keyPoints1,descriptor1);
+	extractor->compute(image2,keyPoints2,descriptor2);	
+	
+	matcher.knnMatch(descriptor1,descriptor2,matches,1);
+	SIFTTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
+
+	//SURF	
+	tick=cv::getTickCount();
+	extractor=new cv::SurfDescriptorExtractor();
+	extractor->compute(image1,keyPoints1,descriptor1);
+	extractor->compute(image2,keyPoints2,descriptor2);	
+	matcher.knnMatch(descriptor1,descriptor2,matches,1);
+	SURFTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
+	//LOG
+	log.Write(resultFile,"%d \t %d \t %f \t %f",keyPoints1.size(), keyPoints2.size(),SIFTTime,SURFTime);  
+}
 
