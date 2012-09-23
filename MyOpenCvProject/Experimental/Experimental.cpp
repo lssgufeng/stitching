@@ -12,10 +12,20 @@ std::vector<cv::Point> ExtractHarrisFeatures(char*,char*);
 std::vector<cv::KeyPoint> ExtractSIFTFeatures(char*,char*);
 std::vector<cv::KeyPoint> ExtractSURFFeatures(char*,char*);
 void MatchFeatures(double threshold);
+void EvaluateNN(double threshold);
+void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
+	const std::vector<std::vector<cv::DMatch>>& matches2,
+		std::vector<cv::DMatch>& symMatches);
+void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches);
+void AccurateMatches(cv::Mat image1,cv::Mat image2,std::vector<cv::KeyPoint> keyPoints1, std::vector<cv::KeyPoint> keyPoints2, cv::Mat descriptor1,cv::Mat descriptor2);
+int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold);
 
 
 
-//char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
+
+char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 
 int main(void)
 {
@@ -26,8 +36,13 @@ int main(void)
 	//	ExtractSURFFeatures(files[i],"result/SURF/result.txt");
 	//}
 
-	for(int i=1000; i>100; i-=5)
-		MatchFeatures(i);
+	/*for(int i=1000; i>100; i-=25)
+		MatchFeatures(i);*/
+	/*for(int i=1000;i>100;i-=25){
+		printf(".");
+		EvaluateNN(i);
+	}*/
+	EvaluateNN(100);
 
 		
 }
@@ -231,4 +246,161 @@ void MatchFeatures(double threshold){
 	//LOG
 	log.Write(resultFile,"%d \t %d \t %f \t %f",keyPoints1.size(), keyPoints2.size(),SIFTTime,SURFTime);  
 }
+
+
+void EvaluateNN(double threshold){
+	MyLog log;
+	/*time_t curr;
+	time(&curr);	*/
+	char* resultFile="result/matching/knn_ann.txt";
+	/*log.Write(resultFile,ctime(&curr));*/
+
+
+	char* path1="images/l.jpg";
+	char* path2="images/r.jpg";
+	double SIFTTime=0.0;
+	double SURFTime=0.0;
+
+	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
+	
+	cv::medianBlur(image1,image1,3);
+	cv::medianBlur(image2,image2,3);
+
+	
+	std::vector<cv::KeyPoint> keyPoints1;
+	std::vector<cv::KeyPoint> keyPoints2;
+	cv::Mat descriptor1, descriptor2;
+	std::vector<std::vector<cv::DMatch>> bruteForceMatches;
+	std::vector<cv::DMatch> flannMatches;
+		
+	cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(threshold);
+	detector->detect(image1,keyPoints1);
+	detector=new cv::SurfFeatureDetector(threshold);
+	detector->detect(image2, keyPoints2);
+	cv::BruteForceMatcher<cv::L2<float>> bruteForceMatcher;
+	cv::FlannBasedMatcher flannBasedMatcher;
+
+	cv::Ptr<cv::DescriptorExtractor> extractor=new cv::SurfDescriptorExtractor();
+	extractor->compute(image1,keyPoints1,descriptor1);
+	extractor->compute(image2,keyPoints2,descriptor2);
+    
+	double kNNTime=0.0;
+	double flannTime=0.0;
+
+	int64 tick=cv::getTickCount();
+	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches,1);
+	kNNTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+	tick=cv::getTickCount();
+	flannBasedMatcher.match(descriptor1,descriptor2,flannMatches);
+	flannTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
+	log.Write(resultFile,"%d\t%d\t%f\t%f",keyPoints1.size(),keyPoints2.size(),kNNTime,flannTime);
+
+	cv::Mat outputImage;	
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteForceMatches,outputImage);
+	cv::imwrite("result/matching/Knn_Match.png",outputImage);	
+	
+	std::vector<cv::DMatch> symmetryMatches;
+
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches,outputImage);
+	cv::imwrite("result/matching/flann_Match.png",outputImage);
+
+	AccurateMatches(image1,image2,keyPoints1,keyPoints2,descriptor1,descriptor2);
+}
+
+void AccurateMatches(cv::Mat image1,cv::Mat image2,std::vector<cv::KeyPoint> keyPoints1, std::vector<cv::KeyPoint> keyPoints2, cv::Mat descriptor1,cv::Mat descriptor2){
+	std::vector<cv::DMatch> bruteSymmetryMatches,flannSymmetryMatches;
+	cv::BruteForceMatcher<cv::L2<float>> bruteForceMatcher;
+	cv::FlannBasedMatcher flannBasedMatcher;
+	std::vector<std::vector<cv::DMatch>> bruteForceMatches1,bruteForceMatches2;	
+	std::vector<cv::DMatch> flannMatches1, flannMatches2;
+	cv::Mat outputImage;
+
+	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches1,2);
+	bruteForceMatcher.knnMatch(descriptor2,descriptor1,bruteForceMatches2,2);
+	RatioTest(bruteForceMatches1,0.8);
+	RatioTest(bruteForceMatches2,0.8);
+
+	SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteSymmetryMatches);	
+
+	
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteSymmetryMatches,outputImage);
+	cv::imwrite("result/matching/knn_symmetry.png",outputImage);
+	
+
+	flannBasedMatcher.match(descriptor1,descriptor2,flannMatches1);
+	flannBasedMatcher.match(descriptor2, descriptor1,flannMatches2);
+	SymmetryTest_Flann(flannMatches1,flannMatches2,flannSymmetryMatches);
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannSymmetryMatches,outputImage);
+	cv::imwrite("result/matching/flann_symmetry.png",outputImage);
+	getchar();
+}
+
+void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
+	const std::vector<std::vector<cv::DMatch>>& matches2,
+		std::vector<cv::DMatch>& symMatches){
+			int64 tick=cv::getTickCount();
+			//check for image1->imag2 matches
+			for(std::vector<std::vector<cv::DMatch>>::const_iterator matchIterator1=matches1.begin();
+				matchIterator1!=matches1.end();++matchIterator1){
+					if(matchIterator1->size()<2) continue;
+					//check for image2->image1 matches
+					for(std::vector<std::vector<cv::DMatch>>::const_iterator matchIterator2=matches2.begin();
+						matchIterator2!=matches2.end();++matchIterator2){
+							if(matchIterator2->size()<2)continue;
+							//Match Symmetry Test
+							bool condition=(*matchIterator1)[0].queryIdx==(*matchIterator2)[0].trainIdx
+								&&(*matchIterator1)[0].trainIdx==(*matchIterator2)[0].queryIdx;
+							if(condition){
+								symMatches.push_back(cv::DMatch((*matchIterator1)[0].queryIdx,
+									(*matchIterator1)[0].trainIdx,(*matchIterator1)[0].distance));								
+								break;
+							}						
+					}
+			}
+			printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());			
+}
+
+void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+	const std::vector<cv::DMatch>& matches2,
+	std::vector<cv::DMatch>& symMatches){
+		int64 tick=cv::getTickCount();
+		for(std::vector<cv::DMatch>::const_iterator matchIterator1=matches1.begin();
+			matchIterator1!=matches1.end();++matchIterator1){
+				for(std::vector<cv::DMatch>::const_iterator matchIterator2=matches2.begin();
+					matchIterator2!=matches2.end();++matchIterator2){
+						bool condition=(*matchIterator1).queryIdx==(*matchIterator2).trainIdx
+							&&(*matchIterator1).trainIdx==(*matchIterator2).queryIdx;
+							if(condition){
+								symMatches.push_back(cv::DMatch((*matchIterator1).queryIdx,
+									(*matchIterator1).trainIdx,(*matchIterator1).distance));								
+								break;
+							}
+				}
+		}
+		printf("Flann Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+		printf("Flann Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+}
+
+int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
+	int removed=0;
+	for(std::vector<std::vector<cv::DMatch>>::iterator matchIterator=matches.begin();
+		matchIterator!=matches.end();++matchIterator){
+			if(matchIterator->size()>1){
+				if((*matchIterator)[0].distance/(*matchIterator)[1].distance>threshold){
+					matchIterator->clear();					
+					removed++;
+				}
+			}else{
+				matchIterator->clear();
+				removed++;
+			}
+	}
+	return removed;
+}
+
+
 
