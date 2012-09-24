@@ -13,12 +13,12 @@ std::vector<cv::KeyPoint> ExtractSIFTFeatures(char*,char*);
 std::vector<cv::KeyPoint> ExtractSURFFeatures(char*,char*);
 void MatchFeatures(double threshold);
 void EvaluateNN(double threshold);
-void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
+int SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 	const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches);
-void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
-	const std::vector<cv::DMatch>& matches2,
-	std::vector<cv::DMatch>& symMatches);
+//void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+//	const std::vector<cv::DMatch>& matches2,
+//	std::vector<cv::DMatch>& symMatches);
 void AccurateMatches(double threshold);
 int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold);
 
@@ -349,13 +349,20 @@ void AccurateMatches(double threshold){
 
 	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches1,2);
 	bruteForceMatcher.knnMatch(descriptor2,descriptor1,bruteForceMatches2,2);
+
+	log.Write("kNN matches: %d",bruteForceMatches1.size());
+
 	RatioTest(bruteForceMatches1,0.8);
 	RatioTest(bruteForceMatches2,0.8);
+
+	log.Write("After ratio test: matches=%d",bruteForceMatches1.size());
+
 
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteForceMatches1,outputImage);
 	cv::imwrite("result/matching/knn_ratio.png",outputImage);
 
 	SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteSymmetryMatches);	
+	log.Write("After symmetry test: matches=%d",bruteSymmetryMatches.size());
 		
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteSymmetryMatches,outputImage);
 	cv::imwrite("result/matching/knn_symmetry.png",outputImage);
@@ -374,7 +381,7 @@ void AccurateMatches(double threshold){
 	getchar();
 }
 
-void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
+int SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 	const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches){
 			int64 tick=cv::getTickCount();
@@ -396,30 +403,31 @@ void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 							}						
 					}
 			}
-			printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
-			printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());			
+			//printf("Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+			//printf("Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());			
+			return symMatches.size();
 }
 
-void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
-	const std::vector<cv::DMatch>& matches2,
-	std::vector<cv::DMatch>& symMatches){
-		int64 tick=cv::getTickCount();
-		for(std::vector<cv::DMatch>::const_iterator matchIterator1=matches1.begin();
-			matchIterator1!=matches1.end();++matchIterator1){
-				for(std::vector<cv::DMatch>::const_iterator matchIterator2=matches2.begin();
-					matchIterator2!=matches2.end();++matchIterator2){
-						bool condition=(*matchIterator1).queryIdx==(*matchIterator2).trainIdx
-							&&(*matchIterator1).trainIdx==(*matchIterator2).queryIdx;
-							if(condition){
-								symMatches.push_back(cv::DMatch((*matchIterator1).queryIdx,
-									(*matchIterator1).trainIdx,(*matchIterator1).distance));								
-								break;
-							}
-				}
-		}
-		printf("Flann Symmetry matches removed=%d points",matches1.size()-symMatches.size());
-		printf("Flann Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
-}
+//int SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
+//	const std::vector<cv::DMatch>& matches2,
+//	std::vector<cv::DMatch>& symMatches){
+//		int64 tick=cv::getTickCount();
+//		for(std::vector<cv::DMatch>::const_iterator matchIterator1=matches1.begin();
+//			matchIterator1!=matches1.end();++matchIterator1){
+//				for(std::vector<cv::DMatch>::const_iterator matchIterator2=matches2.begin();
+//					matchIterator2!=matches2.end();++matchIterator2){
+//						bool condition=(*matchIterator1).queryIdx==(*matchIterator2).trainIdx
+//							&&(*matchIterator1).trainIdx==(*matchIterator2).queryIdx;
+//							if(condition){
+//								symMatches.push_back(cv::DMatch((*matchIterator1).queryIdx,
+//									(*matchIterator1).trainIdx,(*matchIterator1).distance));								
+//								break;
+//							}
+//				}
+//		}
+//		printf("Flann Symmetry matches removed=%d points",matches1.size()-symMatches.size());
+//		printf("Flann Symmetry Test Took %f Seconds",(cv::getTickCount()-tick)/cv::getTickFrequency());
+//}
 
 int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
 	int removed=0;
