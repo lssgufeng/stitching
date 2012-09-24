@@ -19,7 +19,7 @@ void SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 void SymmetryTest_Flann(const std::vector<cv::DMatch>& matches1,
 	const std::vector<cv::DMatch>& matches2,
 	std::vector<cv::DMatch>& symMatches);
-void AccurateMatches(cv::Mat image1,cv::Mat image2,std::vector<cv::KeyPoint> keyPoints1, std::vector<cv::KeyPoint> keyPoints2, cv::Mat descriptor1,cv::Mat descriptor2);
+void AccurateMatches(double threshold);
 int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold);
 
 
@@ -42,9 +42,8 @@ int main(void)
 		printf(".");
 		EvaluateNN(i);
 	}*/
-	EvaluateNN(100);
-
-		
+	/*EvaluateNN(100);*/
+	AccurateMatches(100);		
 }
 
 std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){	
@@ -265,8 +264,8 @@ void EvaluateNN(double threshold){
 	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 
 	
-	cv::medianBlur(image1,image1,3);
-	cv::medianBlur(image2,image2,3);
+	//cv::medianBlur(image1,image1,3);
+	//cv::medianBlur(image2,image2,3);
 
 	
 	std::vector<cv::KeyPoint> keyPoints1;
@@ -278,6 +277,7 @@ void EvaluateNN(double threshold){
 	cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(threshold);
 	detector->detect(image1,keyPoints1);
 	detector=new cv::SurfFeatureDetector(threshold);
+	//detector=new cv::SurfFeatureDetector(400);
 	detector->detect(image2, keyPoints2);
 	cv::BruteForceMatcher<cv::L2<float>> bruteForceMatcher;
 	cv::FlannBasedMatcher flannBasedMatcher;
@@ -293,11 +293,12 @@ void EvaluateNN(double threshold){
 	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches,1);
 	kNNTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
 	tick=cv::getTickCount();
-	flannBasedMatcher.match(descriptor1,descriptor2,flannMatches);
+	flannBasedMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches,1);
 	flannTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
 
 	log.Write(resultFile,"%d\t%d\t%f\t%f",keyPoints1.size(),keyPoints2.size(),kNNTime,flannTime);
 
+	//Further Test
 	cv::Mat outputImage;	
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteForceMatches,outputImage);
 	cv::imwrite("result/matching/Knn_Match.png",outputImage);	
@@ -307,15 +308,43 @@ void EvaluateNN(double threshold){
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches,outputImage);
 	cv::imwrite("result/matching/flann_Match.png",outputImage);
 
-	AccurateMatches(image1,image2,keyPoints1,keyPoints2,descriptor1,descriptor2);
+	//AccurateMatches(image1,image2,keyPoints1,keyPoints2,descriptor1,descriptor2);
 }
 
-void AccurateMatches(cv::Mat image1,cv::Mat image2,std::vector<cv::KeyPoint> keyPoints1, std::vector<cv::KeyPoint> keyPoints2, cv::Mat descriptor1,cv::Mat descriptor2){
+void AccurateMatches(double threshold){
+	MyLog log;
+	/*time_t curr;
+	time(&curr);	*/
+	char* resultFile="result/matching/knn_ann.txt";
+	/*log.Write(resultFile,ctime(&curr));*/
+
+	char* path1="images/l.jpg";
+	char* path2="images/r.jpg";
+	double SIFTTime=0.0;
+	double SURFTime=0.0;
+
+	cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+
+	std::vector<cv::KeyPoint> keyPoints1;
+	std::vector<cv::KeyPoint> keyPoints2;
+	cv::Mat descriptor1, descriptor2;
+
+	cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(threshold);
+	detector->detect(image1,keyPoints1);
+	detector=new cv::SurfFeatureDetector(threshold);
+	//detector=new cv::SurfFeatureDetector(400);
+	detector->detect(image2, keyPoints2);
+
+	cv::Ptr<cv::DescriptorExtractor> extractor=new cv::SurfDescriptorExtractor();
+	extractor->compute(image1,keyPoints1,descriptor1);
+	extractor->compute(image2,keyPoints2,descriptor2);
+
 	std::vector<cv::DMatch> bruteSymmetryMatches,flannSymmetryMatches;
 	cv::BruteForceMatcher<cv::L2<float>> bruteForceMatcher;
 	cv::FlannBasedMatcher flannBasedMatcher;
 	std::vector<std::vector<cv::DMatch>> bruteForceMatches1,bruteForceMatches2;	
-	std::vector<cv::DMatch> flannMatches1, flannMatches2;
+	std::vector<std::vector<cv::DMatch>> flannMatches1, flannMatches2;
 	cv::Mat outputImage;
 
 	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches1,2);
@@ -323,16 +352,23 @@ void AccurateMatches(cv::Mat image1,cv::Mat image2,std::vector<cv::KeyPoint> key
 	RatioTest(bruteForceMatches1,0.8);
 	RatioTest(bruteForceMatches2,0.8);
 
-	SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteSymmetryMatches);	
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteForceMatches1,outputImage);
+	cv::imwrite("result/matching/knn_ratio.png",outputImage);
 
-	
+	SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteSymmetryMatches);	
+		
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteSymmetryMatches,outputImage);
 	cv::imwrite("result/matching/knn_symmetry.png",outputImage);
 	
 
-	flannBasedMatcher.match(descriptor1,descriptor2,flannMatches1);
-	flannBasedMatcher.match(descriptor2, descriptor1,flannMatches2);
-	SymmetryTest_Flann(flannMatches1,flannMatches2,flannSymmetryMatches);
+	flannBasedMatcher.knnMatch(descriptor1,descriptor2,flannMatches1,2);
+	flannBasedMatcher.knnMatch(descriptor2, descriptor1,flannMatches2,2);
+	RatioTest(flannMatches1,0.8);
+	RatioTest(flannMatches2,0.8);
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches1,outputImage);
+	cv::imwrite("result/matching/flann_ratio.png",outputImage);
+
+	SymmetryTest(flannMatches1,flannMatches2,flannSymmetryMatches);
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannSymmetryMatches,outputImage);
 	cv::imwrite("result/matching/flann_symmetry.png",outputImage);
 	getchar();
