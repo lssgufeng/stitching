@@ -315,7 +315,7 @@ void AccurateMatches(double threshold){
 	MyLog log;
 	/*time_t curr;
 	time(&curr);	*/
-	char* resultFile="result/matching/knn_ann.txt";
+	char* resultFile="result/matching/accurate_matching.txt";
 	/*log.Write(resultFile,ctime(&curr));*/
 
 	char* path1="images/l.jpg";
