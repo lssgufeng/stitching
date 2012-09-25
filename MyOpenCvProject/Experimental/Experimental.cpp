@@ -371,14 +371,25 @@ void AccurateMatches(double threshold){
 	flannBasedMatcher.knnMatch(descriptor1,descriptor2,flannMatches1,2);      
 	flannBasedMatcher.knnMatch(descriptor2, descriptor1,flannMatches2,2);
 
+	cv::drawMatches(image1,keyPoints1,image2, keyPoints2,flannMatches1,outputImage);
+	cv::imwrite("result/matching/ann_match.png",outputImage);
+
 	log.Write(resultFile,"ANN matches:%d",flannMatches1.size());
 
 	count=RatioTest(flannMatches1,0.8);
 	RatioTest(flannMatches2,0.8);
 
-	log.Write(resultFile,"After ratio test: removed %d points",flannMatches1.size());
+	log.Write(resultFile,"After ratio test: removed %d points",count);
 
-	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches1,outputImage);
+	std::vector<cv::DMatch> flannMatches1Best;
+	
+	std::vector<std::vector<cv::DMatch>>::const_iterator matchIterator=flannMatches1.begin();
+	for(;matchIterator!=flannMatches1.end();matchIterator++){
+		if((*matchIterator).size()==2)
+			flannMatches1Best.push_back((*matchIterator)[0]);
+	}
+
+	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches1Best,outputImage);
 	cv::imwrite("result/matching/flann_ratio.png",outputImage);
 
 	SymmetryTest(flannMatches1,flannMatches2,flannSymmetryMatches);
@@ -387,6 +398,11 @@ void AccurateMatches(double threshold){
 
 	cv::imwrite("result/matching/flann_symmetry.png",outputImage);
 	getchar();
+}
+
+
+void HomographyEstimation(){
+
 }
 
 int SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
