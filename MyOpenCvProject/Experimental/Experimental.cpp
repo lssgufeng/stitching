@@ -350,33 +350,41 @@ void AccurateMatches(double threshold){
 	bruteForceMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches1,2);
 	bruteForceMatcher.knnMatch(descriptor2,descriptor1,bruteForceMatches2,2);
 
-	log.Write("kNN matches: %d",bruteForceMatches1.size());
+	log.Write(resultFile,"kNN matches: %d",bruteForceMatches1.size());
 
-	RatioTest(bruteForceMatches1,0.8);
+	int count=RatioTest(bruteForceMatches1,0.8);
 	RatioTest(bruteForceMatches2,0.8);
 
-	log.Write("After ratio test: matches=%d",bruteForceMatches1.size());
+	log.Write(resultFile,"After ratio test: removed=%d points",count);
 
 
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteForceMatches1,outputImage);
 	cv::imwrite("result/matching/knn_ratio.png",outputImage);
 
 	SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteSymmetryMatches);	
-	log.Write("After symmetry test: matches=%d",bruteSymmetryMatches.size());
+	log.Write(resultFile,"After symmetry test: got %d points",bruteSymmetryMatches.size());
 		
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,bruteSymmetryMatches,outputImage);
 	cv::imwrite("result/matching/knn_symmetry.png",outputImage);
 	
 
-	flannBasedMatcher.knnMatch(descriptor1,descriptor2,flannMatches1,2);
+	flannBasedMatcher.knnMatch(descriptor1,descriptor2,flannMatches1,2);      
 	flannBasedMatcher.knnMatch(descriptor2, descriptor1,flannMatches2,2);
-	RatioTest(flannMatches1,0.8);
+
+	log.Write(resultFile,"ANN matches:%d",flannMatches1.size());
+
+	count=RatioTest(flannMatches1,0.8);
 	RatioTest(flannMatches2,0.8);
+
+	log.Write(resultFile,"After ratio test: removed %d points",flannMatches1.size());
+
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannMatches1,outputImage);
 	cv::imwrite("result/matching/flann_ratio.png",outputImage);
 
 	SymmetryTest(flannMatches1,flannMatches2,flannSymmetryMatches);
 	cv::drawMatches(image1,keyPoints1,image2,keyPoints2,flannSymmetryMatches,outputImage);
+	log.Write(resultFile,"After symmetry matches, got %d points",flannSymmetryMatches.size());
+
 	cv::imwrite("result/matching/flann_symmetry.png",outputImage);
 	getchar();
 }
