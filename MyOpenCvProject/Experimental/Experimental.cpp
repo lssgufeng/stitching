@@ -2,7 +2,10 @@
 //
 #include<stdio.h>
 #include<time.h>
+#include<iostream>
 #include "opencv2\core\core.hpp"
+#include "opencv2\calib3d\calib3d.hpp"
+#include "opencv2\contrib\contrib.hpp"
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
@@ -21,11 +24,16 @@ int SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 //	std::vector<cv::DMatch>& symMatches);
 void AccurateMatches(double threshold);
 int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold);
-
+cv::Mat HomographyTest();
+void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vector<cv::KeyPoint>& keyPoints2,
+	const std::vector<cv::DMatch>& matches, 
+	std::vector<cv::Point2f>& points1,
+	std::vector<cv::Point2f>& points2);
 
 
 
 char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
+bool heading=true;
 
 int main(void)
 {
@@ -43,7 +51,9 @@ int main(void)
 		EvaluateNN(i);
 	}*/
 	/*EvaluateNN(100);*/
-	AccurateMatches(100);		
+	//AccurateMatches(100);		
+
+	HomographyTest();
 }
 
 std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){	
@@ -401,10 +411,6 @@ void AccurateMatches(double threshold){
 }
 
 
-void HomographyEstimation(){
-
-}
-
 int SymmetryTest(const std::vector<std::vector<cv::DMatch>>& matches1,
 	const std::vector<std::vector<cv::DMatch>>& matches2,
 		std::vector<cv::DMatch>& symMatches){
@@ -470,5 +476,116 @@ int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
 	return removed;
 }
 
+
+cv::Mat HomographyTest(){
+		MyLog log;
+		char* resultFile="result/homography/homography.txt";
+		char* path1="images/l.jpg";
+		char* path2="images/r.jpg";
+
+		cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+		cv::Mat image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+		
+		std::vector<cv::KeyPoint> keyPoints1;
+		std::vector<cv::KeyPoint> keyPoints2;
+		cv::Mat descriptor1, descriptor2;
+		
+		cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(100);
+		detector->detect(image1,keyPoints1);
+		detector=new cv::SurfFeatureDetector(100);
+		//detector=new cv::SurfFeatureDetector(400);
+		detector->detect(image2, keyPoints2);
+
+		cv::Ptr<cv::DescriptorExtractor> extractor=new cv::SurfDescriptorExtractor();
+		extractor->compute(image1,keyPoints1,descriptor1);
+		extractor->compute(image2,keyPoints2,descriptor2);
+
+		/*
+		std::vector<cv::DMatch> flannSymmetryMatches;		
+		cv::FlannBasedMatcher flannBasedMatcher;		
+		std::vector<std::vector<cv::DMatch>> flannMatches1, flannMatches2;
+
+		flannBasedMatcher.knnMatch(descriptor1,descriptor2,flannMatches1,2);      
+		flannBasedMatcher.knnMatch(descriptor2, descriptor1,flannMatches2,2);
+
+		RatioTest(flannMatches1,0.8);
+		RatioTest(flannMatches2,0.8);
+		SymmetryTest(flannMatches1,flannMatches2,flannSymmetryMatches);
+		*/
+
+		std::vector<cv::DMatch> bruteForceSymmetryMatches;		
+		cv::FlannBasedMatcher bruteForceBasedMatcher;		
+		std::vector<std::vector<cv::DMatch>> bruteForceMatches1, bruteForceMatches2;
+
+		bruteForceBasedMatcher.knnMatch(descriptor1,descriptor2,bruteForceMatches1,2);      
+		bruteForceBasedMatcher.knnMatch(descriptor2, descriptor1,bruteForceMatches2,2);
+
+		RatioTest(bruteForceMatches1,0.8);
+		RatioTest(bruteForceMatches2,0.8);
+		SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteForceSymmetryMatches);
+
+		if(heading){
+			log.Write(resultFile,"Threshold\tMatches\tInliers");
+			heading=false;
+		}
+		
+		
+		std::vector<cv::Point2f> points1,points2;
+		std::vector<uchar> inliers;
+		GetFloatPoints(keyPoints1,keyPoints2,bruteForceSymmetryMatches,points1,points2);
+
+		for(int distanceThreshold=0;distanceThreshold<10;distanceThreshold++){
+			cv::Mat homography= cv::findHomography(
+				cv::Mat(points1), //Corresponding 
+				cv::Mat(points2), //matching points
+				inliers,          //inliers
+				CV_RANSAC,        //using RANSAC method
+				distanceThreshold);//maximum pixel distance
+			
+			int inliersCount=0;
+			for(std::vector<uchar>::const_iterator iterator=inliers.begin();
+				iterator!=inliers.end();++iterator){
+					if(*iterator){
+						inliersCount++;
+					}
+			}
+
+			log.Write(resultFile,"%d\t%d\t%d",distanceThreshold,bruteForceSymmetryMatches.size(),inliersCount);
+
+			std::vector<cv::DMatch>::const_iterator symmetryIterator=bruteForceSymmetryMatches.begin();
+			std::vector<uchar>::const_iterator inliersIterator=inliers.begin();		
+			
+			std::vector<cv::DMatch> inlierMatches;
+			for(;symmetryIterator!=bruteForceSymmetryMatches.end();symmetryIterator++,inliersIterator++){
+				if(*inliersIterator){			
+					inlierMatches.push_back(*symmetryIterator);
+				}
+			}
+			
+			if(distanceThreshold==0){
+			cv::Mat outputImage;
+			cv::drawMatches(image1,keyPoints1,image2,keyPoints2,inlierMatches,outputImage);			
+			cv::imwrite("result/homography/inliers.png",outputImage);
+			}
+		}
+		cv::Mat result;
+		return result;
+}
+
+void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vector<cv::KeyPoint>& keyPoints2,
+	const std::vector<cv::DMatch>& matches, 
+	std::vector<cv::Point2f>& points1,
+	std::vector<cv::Point2f>& points2){
+		for(std::vector<cv::DMatch>::const_iterator iterator=matches.begin();
+			iterator!=matches.end();
+			++iterator){
+				float x=keyPoints1[iterator->queryIdx].pt.x;
+				float y=keyPoints1[iterator->queryIdx].pt.y;
+				points1.push_back(cv::Point2f(x,y));
+				x=keyPoints2[iterator->trainIdx].pt.x;
+				y=keyPoints2[iterator->trainIdx].pt.y;
+				points2.push_back(cv::Point2f(x,y));
+	}
+}
 
 
