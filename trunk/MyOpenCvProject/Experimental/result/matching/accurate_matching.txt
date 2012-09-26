@@ -1,0 +1,31 @@
+
+kNN matches: 1295
+After ratio test: removed=1133 points
+After symmetry test: got 96 points
+ANN matches:1295
+After ratio test: removed 1295 points
+After symmetry matches, got 0 points
+kNN matches: 1295
+After ratio test: removed=1133 points
+After symmetry test: got 96 points
+ANN matches:1295
+After ratio test: removed 1118 points
+After symmetry matches, got 97 points
+kNN matches: 1295
+kNN matches: 1295
+After ratio test: removed=1133 points
+After symmetry test: got 96 points
+ANN matches:1295
+After ratio test: removed 1118 points
+After symmetry matches, got 97 points
+kNN matches: 1295
+After ratio test: removed=1133 points
+After symmetry test: got 96 points
+ANN matches:1295
+After ratio test: removed 1118 points
+kNN matches: 1295
+After ratio test: removed=1133 points
+After symmetry test: got 96 points
+ANN matches:1295
+After ratio test: removed 1118 points
+After symmetry matches, got 97 points
