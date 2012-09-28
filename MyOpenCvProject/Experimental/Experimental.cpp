@@ -30,6 +30,9 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 	std::vector<cv::Point2f>& points1,
 	std::vector<cv::Point2f>& points2);
 
+void performBlendX(const cv::Mat& leftImage,const cv::Mat& rightImage,cv::Mat& outputImage);
+void performBlendY(const cv::Mat& topImage,const cv::Mat& bottomImage,cv::Mat& outputImage);
+
 
 
 char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
@@ -589,3 +592,33 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 }
 
 
+
+void BlendingTest(){
+	MyLog log;
+	char* resultFile="result/homography/homography.txt";
+	char* path1="l.png";
+	char* path2="r.png";
+
+	cv::imread("l.jpg",CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+	cv::imread("r.jpg",CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
+}
+
+void performBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
+	double alpha=1,beta=0;
+	for(int i=0;i<image1.cols;i++){
+
+		beta=(double)i/(image1.cols-1);
+		alpha=1-beta;
+		cv::addWeighted(image1.col(i),alpha,image2.col(i),beta,0,outputImage.col(i));
+	}
+}
+
+void performBlendY(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
+
+	double alpha=1,beta=0;
+	for(int i=0;i<image1.rows;i++){
+		beta=(double)i/(image1.rows-1);
+		alpha=1-beta;
+		cv::addWeighted(image1.row(i),alpha,image2.row(i),beta,0,outputImage.row(i));
+	}
+}
