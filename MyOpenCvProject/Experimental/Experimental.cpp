@@ -51,7 +51,7 @@ void BlendingTest();
 
 char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 bool heading=true;
-int level=3;
+int level=1005;
 
 int main(void)
 {
@@ -618,15 +618,19 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 void BlendingTest(){
 	MyLog log;
 	char* resultFile="result/homography/homography.txt";
-	char* path1="images/blending/l_8.png";
-	char* path2="images/blending/r_8.png";
-	cv::Mat image1, image2,blendImage;
+	char* path1="images/blending/r.png";
+	char* path2="images/blending/r_br.png";
+	cv::Mat image1, image2,blendImageAlpha, blendImageLapPyr;
 	image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-	//performAlphaBlend(image1,image2,blendImage);
-	performLaplacianBlend(image1,image2,blendImage);
-	cv::imshow("Blend Image",blendImage);
-	cv::waitKey(0);
+	performAlphaBlend(image1,image2,blendImageAlpha);
+	performLaplacianBlend(image1,image2,blendImageLapPyr);
+	cv::imwrite("result/blending/diff1.png",10*(blendImageAlpha-blendImageLapPyr));
+	cv::imwrite("result/blending/diff2.png",10*(blendImageLapPyr-blendImageAlpha));
+	//cout<<(blendImageAlpha-blendImageLapPyr);
+
+	
+	
 }
 
 void performAlphaBlendX(const cv::Mat& image1,const cv::Mat& image2,cv::Mat& outputImage){
@@ -664,45 +668,50 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,cv::Mat& outputIma
 	cv::imwrite("result/blending/alpha_blend.png",outputImage);
 }
 
-void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& outputImage){	
-	cv::Mat_<cv::Vec3f> colorTop, colorBottom;
+void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& blendedImage){	
+	cv::Mat_<cv::Vec3f> t,b; 
 	cv::Vector<cv::Mat_<cv::Vec3f>> topLapPyr, bottomLapPyr, resultPyr;
 
 	//Smallest Images
-	cv::Mat topSmallestLevel, bottomSmallestLevel;
-	cv::Mat_<cv::Vec3f> resultSmallestLevel;
+	cv::Mat topSmallestLevel, bottomSmallestLevel,resultSmallestLevel;
 	//Mask Gaussian Pyramid
-	cv::Vector<cv::Mat_<cv::Vec3f>> topMaskGaussianPyramid,bottomMaskGaussianPyramid;
+	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid;
+	
+
+	top.convertTo(t,CV_32F,1.0/255.0);
+	bottom.convertTo(b,CV_32F,1.0/255.0);
+	
+
+	cv::cvtColor(t,t,CV_GRAY2BGR);
+	cv::cvtColor(b,b,CV_GRAY2BGR);
+
+
+	generateLaplacianPyramid(t,topLapPyr,topSmallestLevel);
+	generateLaplacianPyramid(b,bottomLapPyr,bottomSmallestLevel);
+
+
 	//Blend Mask
-	cv::Mat_<float> blendMask;
+	cv::Mat_<float> blendMask(t.rows,t.cols,0.0);
 
-	cv::cvtColor(top,colorTop,CV_GRAY2BGR);
-	cv::cvtColor(bottom,colorBottom,CV_GRAY2BGR);
-
-	generateLaplacianPyramid(colorTop,topLapPyr,topSmallestLevel);
-	generateLaplacianPyramid(colorBottom,bottomLapPyr,bottomSmallestLevel);
-
-
-	blendMask.create(colorBottom.rows,colorBottom.cols);
-	blendMask.at<float>(0,0)=1;
-
-	for(int i=1;i<colorBottom.cols;i++){
-		for(int j=1;j<colorBottom.rows;j++){
-			int shortX=std::min(i,(colorBottom.cols-i));
-			int shortY=std::min(j,(colorBottom.rows-j));
+	for(int i=1;i<t.cols;i++){
+		for(int j=1;j<t.rows;j++){
+			int shortX=std::min(i,(t.cols-i));
+			int shortY=std::min(j,(t.rows-j));
 			blendMask.at<float>(j,i)=1.0-(float)shortX/(shortX+shortY);
 		}
 	}
 
 
-	generateGaussianPyramid(blendMask, topLapPyr, topSmallestLevel, topMaskGaussianPyramid);
+	generateGaussianPyramid(blendMask, topLapPyr, topSmallestLevel, maskGaussianPyramid);
 	//generateGaussianPyramid(blendMask, bottomLapPyr, bottomSmallestLevel, bottomMaskGaussianPyramid);
-	blendLapPyrs(topLapPyr,bottomLapPyr,topSmallestLevel,bottomSmallestLevel,blendMask,topMaskGaussianPyramid,resultSmallestLevel,resultPyr);
-	cv::Mat blendedImage=reconstructImage(resultPyr,resultSmallestLevel);
-	cv::cvtColor(blendedImage,blendedImage,CV_BGR2GRAY);
-	cv::imshow("Laplacian Blending",blendedImage);
-	cv::waitKey(0);
-	return;
+	blendLapPyrs(topLapPyr,bottomLapPyr,topSmallestLevel,bottomSmallestLevel,blendMask,maskGaussianPyramid,resultSmallestLevel,resultPyr);
+	cv::Mat blendedImage_32=reconstructImage(resultPyr,resultSmallestLevel);
+	cv::cvtColor(blendedImage_32,blendedImage_32,CV_BGR2GRAY);
+	
+	
+	blendedImage_32.convertTo(blendedImage,CV_8U,255);
+	cv::imwrite("result/blending/lap_pyr_blend.png",blendedImage);
+	
 }
 
 void generateLaplacianPyramid(const cv::Mat& image,
@@ -760,12 +769,9 @@ void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 			smallestLevel1.rows,smallestLevel1.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
 		printf("Smallest Level2 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
 			smallestLevel2.rows,smallestLevel2.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
+	
 
-		for(int i=0;i<level+1;i++){
-			cv::imshow(""+i,maskGaussianPyramid[i]);cv::waitKey(0);
-		}
-
-		resultSmallestLevel=smallestLevel1;//.mul(maskGaussianPyramid.back())+smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramid.back());
+		resultSmallestLevel=smallestLevel1.mul(maskGaussianPyramid.back())+smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramid.back());
 			
 		for(int i=0;i<level;i++){
 			cv::Mat A=lapPyr1[i].mul(maskGaussianPyramid[i]);
