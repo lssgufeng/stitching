@@ -681,6 +681,7 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& o
 	generateLaplacianPyramid(colorTop,topLapPyr,topSmallestLevel);
 	generateLaplacianPyramid(colorBottom,bottomLapPyr,bottomSmallestLevel);
 
+
 	blendMask.create(colorBottom.rows,colorBottom.cols);
 	blendMask.at<float>(0,0)=1;
 
@@ -688,9 +689,11 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& o
 		for(int j=1;j<colorBottom.rows;j++){
 			int shortX=std::min(i,(colorBottom.cols-i));
 			int shortY=std::min(j,(colorBottom.rows-j));
-			blendMask.at<float>(i,j)=1.0-(float)shortX/(shortX+shortY);
+			blendMask.at<float>(j,i)=1.0-(float)shortX/(shortX+shortY);
 		}
 	}
+
+
 	generateGaussianPyramid(blendMask, topLapPyr, topSmallestLevel, topMaskGaussianPyramid);
 	//generateGaussianPyramid(blendMask, bottomLapPyr, bottomSmallestLevel, bottomMaskGaussianPyramid);
 	blendLapPyrs(topLapPyr,bottomLapPyr,topSmallestLevel,bottomSmallestLevel,blendMask,topMaskGaussianPyramid,resultSmallestLevel,resultPyr);
@@ -753,9 +756,16 @@ void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 	cv::Mat_<float>& blendMask,
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid,
 	cv::Mat& resultSmallestLevel,cv::Vector<cv::Mat_<cv::Vec3f>>& resultPyr){
+		printf("Smallest Level1 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
+			smallestLevel1.rows,smallestLevel1.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
+		printf("Smallest Level2 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
+			smallestLevel2.rows,smallestLevel2.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
+
 		for(int i=0;i<level+1;i++){
 			cv::imshow(""+i,maskGaussianPyramid[i]);cv::waitKey(0);
 		}
+		cv::imshow("1",smallestLevel1);cv::waitKey(0);cv::imshow("2",smallestLevel2);cv::waitKey(0);
+
 		resultSmallestLevel=smallestLevel1.mul(maskGaussianPyramid.back())+
 			smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramid.back());
 		for(int i=0;i<level;i++){
