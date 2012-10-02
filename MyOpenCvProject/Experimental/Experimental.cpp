@@ -753,6 +753,9 @@ void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 	cv::Mat_<float>& blendMask,
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid,
 	cv::Mat& resultSmallestLevel,cv::Vector<cv::Mat_<cv::Vec3f>>& resultPyr){
+		for(int i=0;i<level+1;i++){
+			cv::imshow(""+i,maskGaussianPyramid[i]);cv::waitKey(0);
+		}
 		resultSmallestLevel=smallestLevel1.mul(maskGaussianPyramid.back())+
 			smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramid.back());
 		for(int i=0;i<level;i++){
