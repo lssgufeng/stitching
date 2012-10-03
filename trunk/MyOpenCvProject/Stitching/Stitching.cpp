@@ -275,8 +275,8 @@ cv::Mat Stitching::Stitch(int direction,bool crop){
 	cv::imwrite("output/o_raw_joined_image.png",stitchedImage);
 
 
-	//cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
-	//cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
+	cv::imwrite("output/o_common_base.png",this->baseImage(commonBaseRegion));
+	cv::imwrite("output/o_common_float.png",this->rotatedImage(commonFloatRegion));
 
 
 	AlphaBlender alphaBlender;
