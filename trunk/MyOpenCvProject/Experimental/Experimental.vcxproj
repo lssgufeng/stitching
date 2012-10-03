@@ -87,6 +87,7 @@
   <ItemGroup>
     <ClCompile Include="Experimental.cpp" />
     <ClCompile Include="MyLog.cpp" />
+    <ClCompile Include="StitchingTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyLog.h" />
