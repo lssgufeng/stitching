@@ -9,8 +9,8 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\imgproc\imgproc.hpp"
 #include "opencv2\features2d\features2d.hpp"
-#include "MyLog.h"
-
+//#include "MyLog.h"
+#include "StitchingTest.cpp"
 
 std::vector<cv::Point> ExtractHarrisFeatures(char*,char*);
 std::vector<cv::KeyPoint> ExtractSIFTFeatures(char*,char*);
@@ -52,7 +52,7 @@ void BlendingTest();
 
 char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 bool heading=true;
-int level=1;
+int level=2;
 
 
 int main(void)
@@ -74,13 +74,17 @@ int main(void)
 	//AccurateMatches(100);		
 
 	//HomographyTest();
-	BlendingTest();
+	//BlendingTest();
 	/*char* path1="images/blending/l.png";
 	char* path2="images/blending/r.png";
 	cv::Mat image1=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 	image1.convertTo(image1,CV_8U,1/255.0);
 	cv::imwrite("images/blending/r_8.png",image1);*/
-
+	
+	StitchingTest* stitchingTest=new StitchingTest();
+	stitchingTest->performOverallStitch();
+	
+	
 }
 
 #pragma region Other
