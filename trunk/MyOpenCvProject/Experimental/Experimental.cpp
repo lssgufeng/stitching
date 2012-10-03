@@ -43,7 +43,7 @@ void generateGaussianPyramid(cv::Mat& blendMask,cv::Vector<cv::Mat_<cv::Vec3f>> 
 	cv::Vector<cv::Mat_<cv::Vec3f>>& maskGaussianPyramid);
 void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2, 
-	cv::Mat& smallestLevel1,cv::Mat& smallestLevel2, 
+	cv::Mat_<cv::Vec3f>& smallestLevel1,cv::Mat_<cv::Vec3f>& smallestLevel2, 
 	cv::Mat_<float>& blendMask,
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid,
 	cv::Mat& resultSmallestLevel,cv::Vector<cv::Mat_<cv::Vec3f>>& resultPyr);
@@ -745,7 +745,7 @@ void generateLaplacianPyramid(const cv::Mat_<cv::Vec3f>& image,
 	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
 	cv::Mat_<cv::Vec3f>& smallestLevel){
 			lapPyr.clear();
-			cv::Mat currentImage=image.clone();
+			cv::Mat_<cv::Vec3f> currentImage=image.clone();
 			for(int i=0;i<level;i++){
 				cv::Mat down, up;
 				cv::pyrDown(currentImage,down);
@@ -788,7 +788,7 @@ void generateGaussianPyramid(cv::Mat& blendMask,cv::Vector<cv::Mat_<cv::Vec3f>> 
 
 void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr2, 
-	cv::Mat& smallestLevel1,cv::Mat& smallestLevel2, 
+	cv::Mat_<cv::Vec3f>& smallestLevel1,cv::Mat_<cv::Vec3f>& smallestLevel2, 
 	cv::Mat_<float>& blendMask,
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid,
 	cv::Mat& resultSmallestLevel,cv::Vector<cv::Mat_<cv::Vec3f>>& resultPyr){
