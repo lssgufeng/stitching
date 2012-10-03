@@ -743,7 +743,7 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& b
 
 void generateLaplacianPyramid(const cv::Mat_<cv::Vec3f>& image,
 	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
-	cv::Mat_<cv::Vec3f>& smallestLevel){
+	cv::Mat_<cv::Vec3f>& smallestLevel){		
 			lapPyr.clear();
 			cv::Mat_<cv::Vec3f> currentImage=image.clone();
 			for(int i=0;i<level;i++){
