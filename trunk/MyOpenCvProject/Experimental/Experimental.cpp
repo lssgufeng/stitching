@@ -51,7 +51,8 @@ void BlendingTest();
 
 char files[][100]={"l.jpg","l_br.jpg","l_rot_8.jpg","l_large.jpg","l_br_rot.jpg","l_large_br.jpg","l_large_br_rot.jpg","l_noise.jpg"};
 bool heading=true;
-int level=1005;
+int level=10;
+
 
 int main(void)
 {
@@ -81,6 +82,7 @@ int main(void)
 
 }
 
+#pragma region Other
 std::vector<cv::Point> ExtractHarrisFeatures(char* imageFile,char* resultFile){	
 	MyLog log;
 	time_t curr;
@@ -613,7 +615,7 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 	}
 }
 
-
+#pragma endregion Other Operations
 
 void BlendingTest(){
 	MyLog log;
@@ -628,8 +630,6 @@ void BlendingTest(){
 	cv::imwrite("result/blending/diff1.png",10*(blendImageAlpha-blendImageLapPyr));
 	cv::imwrite("result/blending/diff2.png",10*(blendImageLapPyr-blendImageAlpha));
 	//cout<<(blendImageAlpha-blendImageLapPyr);
-
-	
 	
 }
 
