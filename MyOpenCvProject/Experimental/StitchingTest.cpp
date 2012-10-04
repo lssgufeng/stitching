@@ -26,7 +26,7 @@ class StitchingTest{
 
 public:
 	StitchingTest(){
-		char* path1="images/l.jpg";
+		char* path1="images/l_br.jpg";
 		char* path2="images/r.jpg";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
@@ -385,10 +385,13 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 
 void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,cv::Mat& outputImage){
 	double alpha=1.0, beta=0.0;
-	outputImage.create(image1.rows,image1.cols,image1.type());
+	outputImage.create(image1.rows,image1.cols,image1.type());	
+
+
 	outputImage.at<uchar>(0,0)=image1.at<uchar>(0,0);
-	for(int i=1;i<image1.rows;i++){
-		for(int j=1;j<image1.cols;j++){
+	for(int i=0;i<image1.rows;i++){
+		for(int j=0;j<image1.cols;j++){
+			if(i==0 && j==0) continue;
 			int shortY=std::min(i,(image1.rows-i));
 			int shortX=std::min(j,(image1.cols-j));
 			beta=(double)shortX/(shortX+shortY);
@@ -425,8 +428,12 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& b
 	//Blend Mask
 	cv::Mat_<float> blendMask(t.rows,t.cols,0.0);
 
-	for(int i=1;i<t.cols;i++){
-		for(int j=1;j<t.rows;j++){
+	for(int i=0;i<t.cols;i++){
+		for(int j=0;j<t.rows;j++){
+			if(i==0 && j==0){
+				blendMask.at<float>(j,i)=1.0;
+				continue;
+			}
 			int shortX=std::min(i,(t.cols-i));
 			int shortY=std::min(j,(t.rows-j));
 			blendMask.at<float>(j,i)=1.0-(float)shortX/(shortX+shortY);
@@ -477,6 +484,9 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& b
 	cv::imwrite("result/blending/lap_pyr_blend.png",blendedImage);
 	
 }
+
+
+
 
 void generateLaplacianPyramid(const cv::Mat_<cv::Vec3f>& image,
 	cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr,
