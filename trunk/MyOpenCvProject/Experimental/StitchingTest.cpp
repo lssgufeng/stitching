@@ -24,6 +24,20 @@ class StitchingTest{
 		int Index;
 	};
 
+	enum ImageInfo{
+		NONE,
+		FLOAT,
+		BASE		
+	};
+	struct Neighbor{
+		ImageInfo Left;
+		ImageInfo Top;
+		ImageInfo Bottom;
+		ImageInfo Right;
+	};
+
+	
+
 public:
 	StitchingTest(){
 		char* path1="images/l_br.jpg";
@@ -570,32 +584,36 @@ cv::Mat reconstructImage(cv::Vector<cv::Mat_<cv::Vec3f>> resultPyr,cv::Mat resul
 }
 
 
-cv::Mat_<float> createBlendMask(int rows, int cols, int direction){
+cv::Mat_<float> createBlendMask(int rows, int cols, Neighbor neighbor){
 	cv::Mat_<float> blendMask(rows,cols,0.0);
 	float alpha=1.0;
+	//if(direction==0){
+	//	for(int i=0;i<cols;i++){
+	//		alpha=1.0-(float)i/cols;
+	//		for(int j=0;j<rows;j++){
+	//			blendMask.at<float>(j,i)=alpha;
+	//		}
+	//	}		
+	//}else if(direction==1){
+	//	for(int j=0;j<rows;j++){
+	//		alpha=1.0-(float)j/rows;
+	//		for(int i=0;i<cols;i++){
+	//			blendMask.at<float>(j,i)=alpha;
+	//		}
+	//	}
+	//}else{
+	//	for(int i=0;i<cols;i++){
+	//		for(int j=0;j<rows;j++){
+	//			if(i==0 && j==0) alpha=1.0;
+	//			else
+	//			alpha=1.0-(float)i/(i+j);
+	//			blendMask.at<float>(j,i)=alpha;
+	//		}
+	//	}
+	//}
+	for(int i=0; i<rows;i++){
+		for(int j=0;j<cols;j++){
 
-	if(direction==0){
-		for(int i=0;i<cols;i++){
-			alpha=1.0-(float)i/cols;
-			for(int j=0;j<rows;j++){
-				blendMask.at<float>(j,i)=alpha;
-			}
-		}		
-	}else if(direction==1){
-		for(int j=0;j<rows;j++){
-			alpha=1.0-(float)j/rows;
-			for(int i=0;i<cols;i++){
-				blendMask.at<float>(j,i)=alpha;
-			}
-		}
-	}else{
-		for(int i=0;i<cols;i++){
-			for(int j=0;j<rows;j++){
-				if(i==0 && j==0) alpha=1.0;
-				else
-				alpha=1.0-(float)i/(i+j);
-				blendMask.at<float>(j,i)=alpha;
-			}
 		}
 	}
 
