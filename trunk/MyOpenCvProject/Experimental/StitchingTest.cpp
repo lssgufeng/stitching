@@ -33,7 +33,7 @@ public:
 		distanceThreshold=2;
 		level=2;
 		//performOverallStitch();
-		createBlendMask(image1.rows,image1.cols,0);
+		createBlendMask(150,150,2);
 		getchar();
 	}
 	~StitchingTest(){
@@ -578,28 +578,29 @@ cv::Mat_<float> createBlendMask(int rows, int cols, int direction){
 		for(int i=0;i<cols;i++){
 			alpha=1.0-(float)i/cols;
 			for(int j=0;j<rows;j++){
-				blendMask.at<float>(i,j)=alpha;
+				blendMask.at<float>(j,i)=alpha;
 			}
 		}		
-	}
-	else if(direction==1){
+	}else if(direction==1){
 		for(int j=0;j<rows;j++){
 			alpha=1.0-(float)j/rows;
 			for(int i=0;i<cols;i++){
-				blendMask.at<float>(i,j)=alpha;
+				blendMask.at<float>(j,i)=alpha;
 			}
 		}
 	}else{
 		for(int i=0;i<cols;i++){
 			for(int j=0;j<rows;j++){
-				if(i==0 && j==0)
+				if(i==0 && j==0) alpha=1.0;
+				else
 				alpha=1.0-(float)i/(i+j);
+				blendMask.at<float>(j,i)=alpha;
 			}
 		}
 	}
 
-
-
+	cv::imshow("blend mask", blendMask);
+	cv::waitKey(0);
 	return blendMask;
 }
 };
