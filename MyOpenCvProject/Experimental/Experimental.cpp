@@ -82,7 +82,7 @@ int main(void)
 	cv::imwrite("images/blending/r_8.png",image1);*/
 	
 	StitchingTest* stitchingTest=new StitchingTest();
-	stitchingTest->performOverallStitch();
+	//stitchingTest->performOverallStitch();
 	
 	
 }

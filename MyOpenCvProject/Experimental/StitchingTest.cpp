@@ -32,7 +32,9 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch();
+		//performOverallStitch();
+		createBlendMask(image1.rows,image1.cols,0);
+		getchar();
 	}
 	~StitchingTest(){
 	}
@@ -567,6 +569,39 @@ cv::Mat reconstructImage(cv::Vector<cv::Mat_<cv::Vec3f>> resultPyr,cv::Mat resul
 	return currentImage;
 }
 
+
+cv::Mat_<float> createBlendMask(int rows, int cols, int direction){
+	cv::Mat_<float> blendMask(rows,cols,0.0);
+	float alpha=1.0;
+
+	if(direction==0){
+		for(int i=0;i<cols;i++){
+			alpha=1.0-(float)i/cols;
+			for(int j=0;j<rows;j++){
+				blendMask.at<float>(i,j)=alpha;
+			}
+		}		
+	}
+	else if(direction==1){
+		for(int j=0;j<rows;j++){
+			alpha=1.0-(float)j/rows;
+			for(int i=0;i<cols;i++){
+				blendMask.at<float>(i,j)=alpha;
+			}
+		}
+	}else{
+		for(int i=0;i<cols;i++){
+			for(int j=0;j<rows;j++){
+				if(i==0 && j==0)
+				alpha=1.0-(float)i/(i+j);
+			}
+		}
+	}
+
+
+
+	return blendMask;
+}
 };
 
 
