@@ -611,13 +611,32 @@ cv::Mat_<float> createBlendMask(int rows, int cols, Neighbor neighbor){
 	//		}
 	//	}
 	//}
-	for(int i=0; i<rows;i++){
-		for(int j=0;j<cols;j++){
+	
+	//Vertical
+	 if(neighbor.Left==neighbor.Right==ImageInfo::NONE){
+		 for(int i=0; i<rows;i++){
+			 alpha=1.0-(float)i/rows;
+			 for(int j=0;j<cols;j++){
+				 blendMask.at<float>(i,j)=alpha;
+			 }
+		 }
+	 }else if(neighbor.Top==neighbor.Bottom==ImageInfo::NONE){
+		 for(int j=0;j<cols;j++){
+			 alpha=1.0-(float)j/cols;
+			 for(int i=0;i<rows;i++){
+				 blendMask.at<float>(i,j)=alpha;
+			 }
+		 }
+	 }else{
+		 for(int i=0;i<rows;i++){
+			 for(int j=0;i<cols;j++){
+				 alpha=1.0-(float)j/(i+j);
+				 blendMask.at<float>(i,j)=alpha;
+			 }
+		 }
+	 }
 
-		}
-	}
-
-	cv::imshow("blend mask", blendMask);
+		 cv::imshow("blend mask", blendMask);
 	cv::waitKey(0);
 	return blendMask;
 }
