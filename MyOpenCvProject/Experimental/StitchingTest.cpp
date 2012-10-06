@@ -52,7 +52,7 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch(2);
+		performOverallStitch(0);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
 		neighbor.Left=ImageInfo::BASE;
@@ -211,9 +211,11 @@ public:
 
 		Neighbor neighbor;
 		if(direction==0){
-			neighbor.Left==ImageInfo::FLOAT; neighbor.Right==ImageInfo::BASE;			
+			neighbor.Left=ImageInfo::FLOAT; neighbor.Right=ImageInfo::BASE;	
+			neighbor.Top=ImageInfo::NONE;neighbor.Bottom=ImageInfo::NONE;
 		}else if(direction==1){
-			neighbor.Top ==ImageInfo::FLOAT;neighbor.Bottom==ImageInfo::BASE;
+			neighbor.Top =ImageInfo::FLOAT;neighbor.Bottom=ImageInfo::BASE;
+			neighbor.Left=ImageInfo::NONE;neighbor.Right=ImageInfo::NONE;
 		}else{
 			neighbor.Left=left.Index==0?ImageInfo::FLOAT:ImageInfo::BASE;
 			neighbor.Top=top.Index==0?ImageInfo::FLOAT:ImageInfo::BASE;
