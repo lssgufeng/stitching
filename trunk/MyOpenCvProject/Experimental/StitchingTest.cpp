@@ -47,7 +47,10 @@ public:
 		distanceThreshold=2;
 		level=2;
 		//performOverallStitch();
-		createBlendMask(150,150,2);
+		Neighbor neighbor;
+		neighbor.Top=ImageInfo::NONE;
+
+		createBlendMask(150,150,);
 		getchar();
 	}
 	~StitchingTest(){
