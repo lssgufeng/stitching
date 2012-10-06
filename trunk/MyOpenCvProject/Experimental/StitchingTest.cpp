@@ -429,44 +429,50 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	cv::Mat_<float> image1F,image2F;
 	image1.convertTo(image1F,CV_32F,1.0/255.0);
 	image2.convertTo(image2F,CV_32F,1.0/255.0);
+	int count=0;
 	//outputImage=0;
 	BlendMask blendMask=createBlendMask(image1.rows,image1.cols,neighbor);
 	if(neighbor.Left==ImageInfo::FLOAT){
-		blendedImage=blendMask.Left.mul(image1F);
-		cv::imshow("outpuot",blendedImage);
-		cv::waitKey(0);
+		blendedImage+=blendMask.Left.mul(image1F);
+		count++;
 	}
 	else if(neighbor.Left==ImageInfo::BASE){
 		blendedImage+=blendMask.Left.mul(image2F);
-		cv::imshow("outpuot",blendedImage);
-		cv::waitKey(0);
+		count++;
 	}
 
 	if(neighbor.Top==ImageInfo::FLOAT){
 		blendedImage+=blendMask.Top.mul(image1F);
-		cv::imshow("outpuot",blendedImage);
-		cv::waitKey(0);
+		count++;
 	}
 	else if(neighbor.Top==ImageInfo::BASE){
 		blendedImage+=blendMask.Top.mul(image2F);
-		cv::imshow("outpuot",blendedImage);
-		cv::waitKey(0);
+		count++;
 	}
 
 
-	if(neighbor.Right==ImageInfo::FLOAT)
+	if(neighbor.Right==ImageInfo::FLOAT){
 		blendedImage+=blendMask.Right.mul(image1F);
-	else if(neighbor.Right==ImageInfo::BASE)
+		count++;
+	}
+	else if(neighbor.Right==ImageInfo::BASE){
 		blendedImage+=blendMask.Right.mul(image2F);
+		count++;
+	}
 
-	if(neighbor.Bottom==ImageInfo::FLOAT)
+	if(neighbor.Bottom==ImageInfo::FLOAT){
 		blendedImage+=blendMask.Bottom.mul(image1F);
-	else if(neighbor.Bottom==ImageInfo::BASE)
+		count++;
+	}
+	else if(neighbor.Bottom==ImageInfo::BASE){
 		blendedImage+=blendMask.Bottom.mul(image2F);
+		count++;
+	}
 	
-	cv::imwrite("result/blending/alpha_blend.png",blendedImage);
+	//cv::imwrite("result/blending/alpha_blend.png",blendedImage/count);
 
-	//cv::imshow("Alpha Blend",outputImage);
+	blendedImage=blendedImage/count;
+	blendedImage.convertTo(outputImage,CV_8U,255.0);	
 }
 
 #pragma region Pyramid Blending
@@ -662,7 +668,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			blendMask.Bottom.at<float>(i,j)=(d1+d2+d3)/(float)denominator;
 		}
 	}
-	cv::imshow("Left",blendMask.Left);
+	/*cv::imshow("Left",blendMask.Left);
 	cv::waitKey(0);
 	cv::imshow("Top",blendMask.Top);
 	cv::waitKey(0);
@@ -671,7 +677,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	cv::imshow("Bottom",blendMask.Bottom);
 	cv::waitKey(0);
 	cv::imshow("Total",0.25*((blendMask.Left)+(blendMask.Top)+(blendMask.Right)+(blendMask.Bottom)));
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 	return blendMask;
 }
 };
