@@ -1,27 +1,172 @@
-﻿Build started 10/3/2012 10:40:20 PM.
-     1>Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" on node 2 (build target(s)).
-     1>InitializeBuildStatus:
+﻿Build started 10/7/2012 9:55:40 PM.
+     1>Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\Experimental.lastbuildstate".
+       InitializeBuildStatus:
          Creating "Release\Experimental.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv2.3\build\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt StitchingTest.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv2.3\build\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Experimental.cpp MyLog.cpp StitchingTest.cpp
+         Experimental.cpp
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(247): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(249): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(250): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(252): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(335): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(337): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(340): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(342): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(430): warning C4305: 'argument' : truncation from 'double' to 'const float'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(437): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(441): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(446): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(450): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(456): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(465): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(469): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(514): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(533): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(539): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(546): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(598): warning C4018: '<' : signed/unsigned mismatch
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(656): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(659): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(662): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(665): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(680): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(688): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(692): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(703): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(704): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(710): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(711): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(717): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(718): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(724): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(725): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Experimental.cpp(95): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\time.inl(86) : see declaration of 'ctime'
+     1>Experimental.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(101): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(102): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(103): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(152): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Experimental.cpp(174): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\time.inl(86) : see declaration of 'ctime'
+     1>Experimental.cpp(179): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(180): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(181): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(182): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(194): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Experimental.cpp(208): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\time.inl(86) : see declaration of 'ctime'
+     1>Experimental.cpp(213): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(214): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(215): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(105) : see declaration of 'strcpy'
+     1>Experimental.cpp(216): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\string.h(110) : see declaration of 'strcat'
+     1>Experimental.cpp(227): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>Experimental.cpp(671): warning C4244: '=' : conversion from 'double' to 'uchar', possible loss of data
+     1>Experimental.cpp(710): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Experimental.cpp(729): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>Experimental.cpp(735): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>Experimental.cpp(742): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>Experimental.cpp(791): warning C4018: '<' : signed/unsigned mismatch
+         MyLog.cpp
+     1>MyLog.cpp(21): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(354) : see declaration of 'vsnprintf'
          StitchingTest.cpp
-     1>StitchingTest.cpp(204): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(206): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(207): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(209): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(292): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(294): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(297): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(299): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(397): warning C4244: '=' : conversion from 'double' to 'uchar', possible loss of data
-     1>StitchingTest.cpp(432): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(451): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(247): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(249): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(250): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(252): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(335): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(337): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(340): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(342): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(430): warning C4305: 'argument' : truncation from 'double' to 'const float'
+     1>StitchingTest.cpp(437): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(441): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(446): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(450): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(456): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(465): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(469): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(514): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(533): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(457): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(539): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(464): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(546): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(513): warning C4018: '<' : signed/unsigned mismatch
+     1>StitchingTest.cpp(598): warning C4018: '<' : signed/unsigned mismatch
+     1>StitchingTest.cpp(656): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(659): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(662): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(665): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(680): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(684): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(688): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(692): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(703): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(704): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(710): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(711): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(717): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(718): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(724): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(725): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\opencv2.3\vs2010\lib\Release opencv_core231.lib opencv_highgui231.lib opencv_imgproc231.lib opencv_contrib231.lib opencv_features2d231.lib opencv_calib3d231.lib opencv_flann231.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Experimental.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.lib" /MACHINE:X86 Release\Experimental.obj
          Release\MyLog.obj
@@ -34,8 +179,8 @@
        FinalizeBuildStatus:
          Deleting file "Release\Experimental.unsuccessfulbuild".
          Touching "Release\Experimental.lastbuildstate".
-     1>Done Building Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" (build target(s)).
+     1>Done Building Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" (rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.09
+Time Elapsed 00:00:03.84
