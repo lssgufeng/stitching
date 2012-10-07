@@ -664,13 +664,14 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			d3=d3Enabled?(cols-j):0;
 			d4=d4Enabled?(rows-i):0;
 			int denominator=d1+d2+d3+d4;
-			blendMask.Left.at<float>(i,j)=(d2+d3+d4)/(float)denominator;
-			blendMask.Top.at<float>(i,j)=(d1+d3+d4)/(float)denominator;
-			blendMask.Right.at<float>(i,j)=(d1+d2+d4)/(float)denominator;
-			blendMask.Bottom.at<float>(i,j)=(d1+d2+d3)/(float)denominator;
+			float value1,value2,value3,value4,
+			blendMask.Left.at<float>(i,j)=value1=(d2+d3+d4)/(float)denominator;
+			blendMask.Top.at<float>(i,j)=value2=(d1+d3+d4)/(float)denominator;
+			blendMask.Right.at<float>(i,j)=value3=(d1+d2+d4)/(float)denominator;
+			blendMask.Bottom.at<float>(i,j)=value4=(d1+d2+d3)/(float)denominator;
 		}
 	}
-	/*cv::imshow("Left",blendMask.Left);
+	cv::imshow("Left",blendMask.Left);
 	cv::waitKey(0);
 	cv::imshow("Top",blendMask.Top);
 	cv::waitKey(0);
@@ -679,7 +680,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	cv::imshow("Bottom",blendMask.Bottom);
 	cv::waitKey(0);
 	cv::imshow("Total",0.25*((blendMask.Left)+(blendMask.Top)+(blendMask.Right)+(blendMask.Bottom)));
-	cv::waitKey(0);*/
+	cv::waitKey(0);
 	return blendMask;
 }
 };
