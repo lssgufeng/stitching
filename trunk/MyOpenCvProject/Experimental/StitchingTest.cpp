@@ -667,13 +667,13 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			printf("d1=%d,d2=%d,d3=%d,d4=%d",d1,d2,d3,d4);
 
 			int denominator=d1+d2+d3+d4;
-			float value1=(d2+d3+d4)/(float)denominator;
+			float value1=1.0-d1/(float)denominator;//(d2+d3+d4)/(float)denominator;
 			blendMask.Left.at<float>(i,j)=value1;
-			float value2=(d1+d3+d4)/(float)denominator;
+			float value2=1.0-d1/(float)denominator;//(d1+d3+d4)/(float)denominator;
 			blendMask.Top.at<float>(i,j)=value2;
-			float value3=(d1+d2+d4)/(float)denominator;
+			float value3=1.0-d1/(float)denominator;//(d1+d2+d4)/(float)denominator;
 			blendMask.Right.at<float>(i,j)=value3;
-			float value4=(d1+d2+d3)/(float)denominator;
+			float value4=1.0-d1/(float)denominator;//(d1+d2+d3)/(float)denominator;
 			blendMask.Bottom.at<float>(i,j)=value4;
 
 			float total=value1+value2+value3+value4;
