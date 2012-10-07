@@ -652,10 +652,19 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	blendMask.Bottom.create(rows,cols);
 
 	int d1=-1,d2=-1, d3=-1,d4=-1;//left top right bottom
+	int count=0;
 	bool d1Enabled=!(neighbor.Left==ImageInfo::NONE);
+	if(d1Enabled) count+=1;
+	
 	bool d2Enabled=!(neighbor.Top==ImageInfo::NONE);
+	if(d2Enabled) count+=1;
+	
 	bool d3Enabled=!(neighbor.Right==ImageInfo::NONE);
+	if(d3Enabled) count+=1;
+	
 	bool d4Enabled=!(neighbor.Bottom==ImageInfo::NONE);
+	if(d4Enabled) count+=1;
+	printf("%d",count);
 
 	for(int i=0;i<rows;i++){
 		for(int j=0;j<cols;j++){
@@ -663,21 +672,64 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			d2=d2Enabled?i:0;
 			d3=d3Enabled?(cols-j):0;
 			d4=d4Enabled?(rows-i):0;
-
-			printf("d1=%d,d2=%d,d3=%d,d4=%d",d1,d2,d3,d4);
-
 			int denominator=d1+d2+d3+d4;
-			float value1=1.0-d1/(float)denominator;//(d2+d3+d4)/(float)denominator;
-			blendMask.Left.at<float>(i,j)=value1;
-			float value2=1.0-d1/(float)denominator;//(d1+d3+d4)/(float)denominator;
-			blendMask.Top.at<float>(i,j)=value2;
-			float value3=1.0-d1/(float)denominator;//(d1+d2+d4)/(float)denominator;
-			blendMask.Right.at<float>(i,j)=value3;
-			float value4=1.0-d1/(float)denominator;//(d1+d2+d3)/(float)denominator;
-			blendMask.Bottom.at<float>(i,j)=value4;
 
-			float total=value1+value2+value3+value4;
-			printf("denominator=%d\tvalue1=%f\tvalue2=%fvalue3=%fvalue4=%f",denominator,value1,value2,value3,value4);
+			int divisor=count;
+			float testValue=0.0;
+			if(d1Enabled){
+				testValue=1.0/count-d1/(float)denominator;
+				if(testValue<0) divisor-=1;
+			}
+			if(d2Enabled){
+				testValue=1.0/count-d2/(float)denominator;
+				if(testValue<0) divisor-=1;
+			}
+			if(d3Enabled){
+				testValue=1.0/count-d3/(float)denominator;
+				if(testValue<0) divisor-=1;
+			}
+			if(d4Enabled){
+				testValue=1.0/count-d4/(float)denominator;
+				if(testValue<0) divisor-=1;
+			}
+
+
+
+
+			
+			float sum=0;
+			float value=0.00;
+			if(d1Enabled){
+				value= 1.0/count-d1/(float)denominator;//(d2+d3+d4)/(float)denominator;
+				value=value<0?0:(1.0/divisor-d1/(float)denominator);
+				printf("%f\t",value);
+				blendMask.Left.at<float>(i,j)=value;
+				sum+=value;
+			}
+			if(d2Enabled){
+				value=1.0/count-d2/(float)denominator;//(d1+d3+d4)/(float)denominator;
+				value=value<0?0:(1.0/divisor-d2/(float)denominator);
+				printf("%f\t",value);
+				blendMask.Top.at<float>(i,j)=value;
+				sum+=value;
+			}
+			if(d3Enabled){
+				value=1.0/count-d3/(float)denominator;//(d1+d2+d4)/(float)denominator;
+				value=value<0?0:(1.0/divisor-d3/(float)denominator);
+				printf("%f\t",value);
+				blendMask.Right.at<float>(i,j)=value;
+				sum+=value;
+			}
+			if(d4Enabled){
+				value=1.0/count-d4/(float)denominator;//(d1+d2+d3)/(float)denominator;
+				value=value<0?0:(1.0/divisor-d4/(float)denominator);
+				printf("%f\t",value);
+				blendMask.Bottom.at<float>(i,j)=value;
+				sum+=value;
+			}
+
+			//float total=value1+value2+value3+value4;
+			printf("denominator=%d\ttotal=%f",denominator,sum);
 
 		}
 	}
