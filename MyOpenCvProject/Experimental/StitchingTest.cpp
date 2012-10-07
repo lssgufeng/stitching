@@ -52,7 +52,7 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch(0);
+		performOverallStitch(2);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
 		neighbor.Left=ImageInfo::BASE;
@@ -663,12 +663,22 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			d2=d2Enabled?i:0;
 			d3=d3Enabled?(cols-j):0;
 			d4=d4Enabled?(rows-i):0;
+
+			printf("d1=%d,d2=%d,d3=%d,d4=%d",d1,d2,d3,d4);
+
 			int denominator=d1+d2+d3+d4;
-			float value1,value2,value3,value4,
-			blendMask.Left.at<float>(i,j)=value1=(d2+d3+d4)/(float)denominator;
-			blendMask.Top.at<float>(i,j)=value2=(d1+d3+d4)/(float)denominator;
-			blendMask.Right.at<float>(i,j)=value3=(d1+d2+d4)/(float)denominator;
-			blendMask.Bottom.at<float>(i,j)=value4=(d1+d2+d3)/(float)denominator;
+			float value1=(d2+d3+d4)/(float)denominator;
+			blendMask.Left.at<float>(i,j)=value1;
+			float value2=(d1+d3+d4)/(float)denominator;
+			blendMask.Top.at<float>(i,j)=value2;
+			float value3=(d1+d2+d4)/(float)denominator;
+			blendMask.Right.at<float>(i,j)=value3;
+			float value4=(d1+d2+d3)/(float)denominator;
+			blendMask.Bottom.at<float>(i,j)=value4;
+
+			float total=value1+value2+value3+value4;
+			printf("denominator=%d\tvalue1=%f\tvalue2=%fvalue3=%fvalue4=%f",denominator,value1,value2,value3,value4);
+
 		}
 	}
 	cv::imshow("Left",blendMask.Left);
