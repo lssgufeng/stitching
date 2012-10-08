@@ -59,7 +59,7 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch(0);
+		performOverallStitch(2);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
 		neighbor.Left=ImageInfo::BASE;
@@ -434,62 +434,59 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 
 
 void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,cv::Mat& outputImage){
-	cv::Mat_<float> blendedImage(image1.rows,image1.cols,0.0);
+	cv::Mat_<float> blendedImage[5];
+	for(int i=0;i<5;i++)
+		blendedImage[i]=cv::Mat(image1.rows,image1.cols,0.0);
 	cv::Mat_<float> image1F,image2F;
 	image1.convertTo(image1F,CV_32F,1.0/255.0);
 	image2.convertTo(image2F,CV_32F,1.0/255.0);
 	//outputImage=0;
 	BlendMask blendMask=createBlendMask(image1.rows,image1.cols,neighbor);
 	if(neighbor.Left==ImageInfo::FLOAT){
-		blendedImage+=blendMask.Left.mul(image1F);
-		cv::imshow("1",blendedImage);
+		blendedImage[0]=blendMask.Left.mul(image1F);
 		cv::waitKey(0);
 	}
 	else if(neighbor.Left==ImageInfo::BASE){
-		blendedImage+=blendMask.Left.mul(image2F);
-		cv::imshow("1",blendedImage);
+		blendedImage[0]=blendMask.Left.mul(image2F);
 		cv::waitKey(0);
 	}
 
 	if(neighbor.Top==ImageInfo::FLOAT){
-		blendedImage+=blendMask.Top.mul(image1F);
-		cv::imshow("2",blendedImage);
+		blendedImage[1]=blendMask.Top.mul(image1F);
 		cv::waitKey(0);
 	}
 	else if(neighbor.Top==ImageInfo::BASE){
-		blendedImage+=blendMask.Top.mul(image2F);
-		cv::imshow("2",blendedImage);
+		blendedImage[1]=blendMask.Top.mul(image2F);
 		cv::waitKey(0);
 	}
 
 
 	if(neighbor.Right==ImageInfo::FLOAT){
-		blendedImage+=blendMask.Right.mul(image1F);
-		cv::imshow("3",blendedImage);
+		blendedImage[2]=blendMask.Right.mul(image1F);
 		cv::waitKey(0);
 	}
 	else if(neighbor.Right==ImageInfo::BASE){
-		blendedImage+=blendMask.Right.mul(image2F);
-		cv::imshow("3",blendedImage);
+		blendedImage[2]=blendMask.Right.mul(image2F);
 		cv::waitKey(0);
 	}
 
 	if(neighbor.Bottom==ImageInfo::FLOAT){
-		blendedImage+=blendMask.Bottom.mul(image1F);
-		cv::imshow("4",blendedImage);
+		blendedImage[3]=blendMask.Bottom.mul(image1F);
 		cv::waitKey(0);
 	}
 	else if(neighbor.Bottom==ImageInfo::BASE){
-		blendedImage+=blendMask.Bottom.mul(image2F);
-		cv::imshow("4",blendedImage);
+		blendedImage[3]=blendMask.Bottom.mul(image2F);
 		cv::waitKey(0);
 	}
-	cv::Mat blended8Bit;
-	blendedImage.convertTo(blended8Bit,CV_8U,255);
-	cv::imwrite("result/blending/alpha_blend.png",blended8Bit);
+	blendedImage[4]=blendedImage[0]+blendedImage[1]+blendedImage[2]+blendedImage[3];
 
-	//blendedImage=blendedImage;
-	blendedImage.convertTo(outputImage,CV_8U,255);	
+	for(int i=0;i<5;i++){
+		cv::imshow(""+i,blendedImage[i]);
+		cv::waitKey(0);
+	}
+	
+	blendedImage[4].convertTo(outputImage,CV_8U,255);
+	cv::imwrite("result/blending/alpha_blend.png",outputImage);
 }
 
 #pragma region Pyramid Blending
@@ -705,42 +702,45 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	}
 
 	float value[4]={0.0,0.0,0.0,0.0};
+	cv::Mat_<float> totalMask;
 		switch(vertical){
 		case BlendDirection::BOTH:
 			switch(horizontal){
 			case BlendDirection::BOTH:
 				for(int i=0; i<rows;i++){		
 					for(int j=0;j<cols;j++){
-						value[0]=0.5*(cols-j)/cols;
+						value[0]=0.5*(cols-j)/(float)cols;
 						blendMask.Left.at<float>(i,j)=value[0];
-						value[2]=0.5*j/cols;
+						value[2]=0.5*j/(float)cols;
 						blendMask.Right.at<float>(i,j)=value[2];
-						value[1]=0.5*(rows-i)/rows;
+						value[1]=0.5*(rows-i)/(float)rows;
 						blendMask.Top.at<float>(i,j)=value[1];
-						value[3]=0.5*i/rows;
+						value[3]=0.5*i/(float)rows;
 						blendMask.Bottom.at<float>(i,j)=value[3];
 						//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
 						
 					}
 				}
+				totalMask=blendMask.Left+blendMask.Top+blendMask.Right+blendMask.Bottom;
+				//cout<<totalMask;
+				imshow("test",totalMask);
 				break;
 			case BlendDirection::DIR1:
-				for(int i=0; i<rows;i++){					
-					for(int j=0;j<cols;j++){
-						for(int j=0;j<cols;j++){
-							value[0]=0.5*(rows-i)/rows;
-							blendMask.Left.at<float>(i,j)=value[0];
-							value[2]=0.5*i/rows;
-							blendMask.Right.at<float>(i,j)=value[2];
-							value[1]=0.5*(cols-j)/cols;
-							blendMask.Top.at<float>(i,j)=value[1];
-							value[3]=0.5*j/cols;
-							blendMask.Bottom.at<float>(i,j)=value[3];
-							//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
-						}
-					}
-				}
-
+				//for(int i=0; i<rows;i++){					
+				//	for(int j=0;j<cols;j++){						
+				//			value[0]=0.5*(rows-i)/rows;
+				//			blendMask.Left.at<float>(i,j)=value[0];
+				//			value[2]=0.5*i/rows;
+				//			blendMask.Right.at<float>(i,j)=value[2];
+				//			value[1]=0.5*(rows-j)/rows;
+				//			blendMask.Top.at<float>(i,j)=value[1];
+				//			value[3]=0.5*j/cols;
+				//			blendMask.Bottom.at<float>(i,j)=value[3];
+				//			//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
+				//		}
+				//	}
+				//}
+				
 				break;
 			case BlendDirection::DIR2:
 				for(int i=0; i<rows;i++){		
