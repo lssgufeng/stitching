@@ -728,7 +728,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 				for(int i=0; i<rows;i++){					
 					for(int j=0;j<cols;j++){
 						for(int j=0;j<cols;j++){
-							value[0]=0.33*(rows-i)/rows;
+							value[0]=0.5*(rows-i)/rows;
 							blendMask.Left.at<float>(i,j)=value[0];
 							value[2]=0.5*i/rows;
 							blendMask.Right.at<float>(i,j)=value[2];
@@ -751,6 +751,10 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			case BlendDirection::NODIR:
 				for(int i=0; i<rows;i++){		
 					for(int j=0;j<cols;j++){
+						value[1]=(rows-i)/(float)rows;
+						blendMask.Top.at<float>(i,j)=value[1];
+						value[3]=i/(float)rows;
+						blendMask.Bottom.at<float>(i,j)=value[3];
 					}
 				}
 				break;
