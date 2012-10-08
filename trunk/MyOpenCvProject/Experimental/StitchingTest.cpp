@@ -53,8 +53,8 @@ class StitchingTest{
 
 public:
 	StitchingTest(){
-		char* path1="images/l_br.jpg";
-		char* path2="images/r.jpg";
+		char* path1="images/hc.png";
+		char* path2="images/vc.png";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
@@ -444,39 +444,27 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	BlendMask blendMask=createBlendMask(image1.rows,image1.cols,neighbor);
 	if(neighbor.Left==ImageInfo::FLOAT){
 		blendedImage[0]=blendMask.Left.mul(image1F);
-		cv::waitKey(0);
-	}
-	else if(neighbor.Left==ImageInfo::BASE){
+	}else if(neighbor.Left==ImageInfo::BASE){
 		blendedImage[0]=blendMask.Left.mul(image2F);
-		cv::waitKey(0);
 	}
 
 	if(neighbor.Top==ImageInfo::FLOAT){
 		blendedImage[1]=blendMask.Top.mul(image1F);
-		cv::waitKey(0);
-	}
-	else if(neighbor.Top==ImageInfo::BASE){
+	}else if(neighbor.Top==ImageInfo::BASE){
 		blendedImage[1]=blendMask.Top.mul(image2F);
-		cv::waitKey(0);
 	}
 
 
 	if(neighbor.Right==ImageInfo::FLOAT){
 		blendedImage[2]=blendMask.Right.mul(image1F);
-		cv::waitKey(0);
-	}
-	else if(neighbor.Right==ImageInfo::BASE){
+	}else if(neighbor.Right==ImageInfo::BASE){
 		blendedImage[2]=blendMask.Right.mul(image2F);
-		cv::waitKey(0);
 	}
 
 	if(neighbor.Bottom==ImageInfo::FLOAT){
 		blendedImage[3]=blendMask.Bottom.mul(image1F);
-		cv::waitKey(0);
-	}
-	else if(neighbor.Bottom==ImageInfo::BASE){
+	}else if(neighbor.Bottom==ImageInfo::BASE){
 		blendedImage[3]=blendMask.Bottom.mul(image2F);
-		cv::waitKey(0);
 	}
 	blendedImage[4]=blendedImage[0]+blendedImage[1]+blendedImage[2]+blendedImage[3];
 
@@ -485,8 +473,20 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 		cv::waitKey(0);
 	}
 	
+	//cout<<blendedImage[4];
 	blendedImage[4].convertTo(outputImage,CV_8U,255);
 	cv::imwrite("result/blending/alpha_blend.png",outputImage);
+
+	cv::imshow("DIff1",(outputImage-image1));
+	cv::waitKey(0);
+
+	cv::imshow("DIff2",(image1-outputImage));
+	cv::waitKey(0);
+	cv::imshow("DIff1",(outputImage-image2));
+	cv::waitKey(0);
+
+	cv::imshow("DIff2",(image2-outputImage));
+	cv::waitKey(0);
 }
 
 #pragma region Pyramid Blending
@@ -714,17 +714,21 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 						value[2]=0.5*j/(float)cols;
 						blendMask.Right.at<float>(i,j)=value[2];
 						value[1]=0.5*(rows-i)/(float)rows;
+						//printf("value1=%f",value[0]);
 						blendMask.Top.at<float>(i,j)=value[1];
 						value[3]=0.5*i/(float)rows;
 						blendMask.Bottom.at<float>(i,j)=value[3];
 						//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
-						
+						//cout<<blendMask.Top;
 					}
 				}
 				totalMask=blendMask.Left+blendMask.Top+blendMask.Right+blendMask.Bottom;
 				//cout<<totalMask;
-				imshow("test",totalMask);
+				cv::imshow("test",blendMask.Left);
+				cv::waitKey(0);
 				break;
+			}
+				/*
 			case BlendDirection::DIR1:
 				//for(int i=0; i<rows;i++){					
 				//	for(int j=0;j<cols;j++){						
@@ -841,8 +845,11 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			case BlendDirection::NODIR:
 				//Not feasible
 				break;
-			}
+			}*/
 		}	
+		
+
+
 		imshow("Left",blendMask.Left);
 						cv::waitKey(0);
 						imshow("Top",blendMask.Top);
