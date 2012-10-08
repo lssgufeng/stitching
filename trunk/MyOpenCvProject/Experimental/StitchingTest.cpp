@@ -29,6 +29,13 @@ class StitchingTest{
 		FLOAT,
 		BASE		
 	};
+
+	enum BlendDirection{
+		NODIR,
+		DIR1,
+		DIR2,
+		BOTH
+	};
 	struct Neighbor{
 		ImageInfo Left;
 		ImageInfo Top;
@@ -650,101 +657,180 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	blendMask.Top.create(rows,cols);
 	blendMask.Right.create(rows,cols);
 	blendMask.Bottom.create(rows,cols);
+	int d1=-1,d2=-1,d3=-1,d4=-1;
+	bool d1Enabled=false,d2Enabled=false,d3Enabled=false,d4Enabled=false;
+	bool dEnabled[4];
+	dEnabled[0]=neighbor.Left==ImageInfo::NONE;
+	dEnabled[1]=neighbor.Top==ImageInfo::NONE;
+	dEnabled[2]=neighbor.Right==ImageInfo::NONE;
+	dEnabled[3]=neighbor.Bottom==ImageInfo::NONE;
 
-	int d1=-1,d2=-1, d3=-1,d4=-1;//left top right bottom
-	int count=0;
-	bool d1Enabled=!(neighbor.Left==ImageInfo::NONE);
-	if(d1Enabled) count+=1;
+	BlendDirection vertical=BlendDirection::BOTH;
+	BlendDirection horizontal=BlendDirection::BOTH;
 	
-	bool d2Enabled=!(neighbor.Top==ImageInfo::NONE);
-	if(d2Enabled) count+=1;
-	
-	bool d3Enabled=!(neighbor.Right==ImageInfo::NONE);
-	if(d3Enabled) count+=1;
-	
-	bool d4Enabled=!(neighbor.Bottom==ImageInfo::NONE);
-	if(d4Enabled) count+=1;
-	printf("%d",count);
-
-	for(int i=0;i<rows;i++){
-		for(int j=0;j<cols;j++){
-			d1=d1Enabled?j:0;
-			d2=d2Enabled?i:0;
-			d3=d3Enabled?(cols-j):0;
-			d4=d4Enabled?(rows-i):0;
-			int denominator=d1+d2+d3+d4;
-
-			int divisor=count;
-			float testValue=0.0;
-			if(d1Enabled){
-				testValue=1.0/count-d1/(float)denominator;
-				if(testValue<0) divisor-=1;
-			}
-			if(d2Enabled){
-				testValue=1.0/count-d2/(float)denominator;
-				if(testValue<0) divisor-=1;
-			}
-			if(d3Enabled){
-				testValue=1.0/count-d3/(float)denominator;
-				if(testValue<0) divisor-=1;
-			}
-			if(d4Enabled){
-				testValue=1.0/count-d4/(float)denominator;
-				if(testValue<0) divisor-=1;
-			}
-
-
-
-
-			
-			float sum=0;
-			float value=0.00;
-			if(d1Enabled){
-				value= 1.0/count-d1/(float)denominator;//(d2+d3+d4)/(float)denominator;
-				value=value<0?0:(1.0/divisor-d1/(float)denominator);
-				printf("%f\t",value);
-				blendMask.Left.at<float>(i,j)=value;
-				sum+=value;
-			}
-			if(d2Enabled){
-				value=1.0/count-d2/(float)denominator;//(d1+d3+d4)/(float)denominator;
-				value=value<0?0:(1.0/divisor-d2/(float)denominator);
-				printf("%f\t",value);
-				blendMask.Top.at<float>(i,j)=value;
-				sum+=value;
-			}
-			if(d3Enabled){
-				value=1.0/count-d3/(float)denominator;//(d1+d2+d4)/(float)denominator;
-				value=value<0?0:(1.0/divisor-d3/(float)denominator);
-				printf("%f\t",value);
-				blendMask.Right.at<float>(i,j)=value;
-				sum+=value;
-			}
-			if(d4Enabled){
-				value=1.0/count-d4/(float)denominator;//(d1+d2+d3)/(float)denominator;
-				value=value<0?0:(1.0/divisor-d4/(float)denominator);
-				printf("%f\t",value);
-				blendMask.Bottom.at<float>(i,j)=value;
-				sum+=value;
-			}
-
-			//float total=value1+value2+value3+value4;
-			printf("denominator=%d\ttotal=%f",denominator,sum);
-
+	if(neighbor.Top==ImageInfo::NONE){
+		if(neighbor.Bottom==ImageInfo::NONE){
+			vertical=BlendDirection::NODIR;
+		}else{
+			vertical=BlendDirection::DIR2;
+		}
+	}else{
+		if(neighbor.Bottom==ImageInfo::NONE){
+			vertical==BlendDirection::DIR1;
+		}else{
+			vertical=BlendDirection::BOTH;
 		}
 	}
-	cv::imshow("Left",blendMask.Left);
-	cv::waitKey(0);
-	cv::imshow("Top",blendMask.Top);
-	cv::waitKey(0);
-	cv::imshow("Right",blendMask.Right);
-	cv::waitKey(0);
-	cv::imshow("Bottom",blendMask.Bottom);
-	cv::waitKey(0);
-	cv::imshow("Total",0.25*((blendMask.Left)+(blendMask.Top)+(blendMask.Right)+(blendMask.Bottom)));
-	cv::waitKey(0);
-	return blendMask;
-}
+
+	if(neighbor.Left==ImageInfo::NONE){
+		if(neighbor.Right==ImageInfo::NONE){
+			horizontal=BlendDirection::NODIR;
+		}else{
+			horizontal=BlendDirection::DIR2;
+		}
+	}else{
+		if(neighbor.Right==ImageInfo::NONE){
+			horizontal==BlendDirection::DIR1;
+		}else{
+			horizontal=BlendDirection::BOTH;
+		}
+	}
+
+	float value[4]={0.0,0.0,0.0,0.0};
+		switch(vertical){
+		case BlendDirection::BOTH:
+			switch(horizontal){
+			case BlendDirection::BOTH:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+						value[0]=0.5*(rows-i)/rows;
+						blendMask.Left.at<float>(i,j)=value[0];
+						value[2]=0.5*i/rows;
+						blendMask.Right.at<float>(i,j)=value[2];
+						value[1]=0.5*(cols-j)/cols;
+						blendMask.Top.at<float>(i,j)=value[1];
+						value[3]=0.5*j/cols;
+						blendMask.Bottom.at<float>(i,j)=value[3];
+						//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
+						
+					}
+				}
+				break;
+			case BlendDirection::DIR1:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+						for(int j=0;j<cols;j++){
+							value[0]=0.5*(rows-i)/rows;
+							blendMask.Left.at<float>(i,j)=value[0];
+							value[2]=0.5*i/rows;
+							blendMask.Right.at<float>(i,j)=value[2];
+							value[1]=0.5*(cols-j)/cols;
+							blendMask.Top.at<float>(i,j)=value[1];
+							value[3]=0.5*j/cols;
+							blendMask.Bottom.at<float>(i,j)=value[3];
+							//cout<<value[0]<<" "<<value[1]<<" "<<value[2]<<" "<<value[3]<<endl;
+						}
+					}
+				}
+
+				break;
+			case BlendDirection::DIR2:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::NODIR:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			}
+		case BlendDirection::DIR1:
+			switch(horizontal){
+			case BlendDirection::BOTH:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR1:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR2:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::NODIR:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			}
+		case BlendDirection::DIR2:
+			switch(horizontal){
+			case BlendDirection::BOTH:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR1:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR2:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::NODIR:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			}
+		case BlendDirection::NODIR:
+			switch(horizontal){
+			case BlendDirection::BOTH:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR1:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+					}
+				}
+				break;
+			case BlendDirection::DIR2:
+				for(int i=0; i<rows;i++){		
+					for(int j=0;j<cols;j++){
+
+					}
+				}
+				break;
+			case BlendDirection::NODIR:
+				//Not feasible
+				break;
+			}
+		}	
+		imshow("Left",blendMask.Left);
+						cv::waitKey(0);
+		return blendMask;
+	}
 };
 
 
