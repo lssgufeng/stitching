@@ -1,4 +1,4 @@
-﻿Build started 10/7/2012 9:55:40 PM.
+﻿Build started 10/8/2012 11:33:07 PM.
      1>Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\Experimental.lastbuildstate".
@@ -7,63 +7,75 @@
        ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv2.3\build\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt Experimental.cpp MyLog.cpp StitchingTest.cpp
          Experimental.cpp
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(247): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(249): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(250): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(252): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(335): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(337): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(340): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(224): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(224): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(225): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(225): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(227): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(227): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(228): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(228): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(229): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(229): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(230): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(230): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(254): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(256): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(257): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(259): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(342): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(430): warning C4305: 'argument' : truncation from 'double' to 'const float'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(437): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(441): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(446): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(450): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(456): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(344): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(347): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(349): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(439): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(445): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(447): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(451): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(453): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(458): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(465): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(469): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(514): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(533): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(464): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(466): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(526): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(545): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(539): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(551): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(546): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(558): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(598): warning C4018: '<' : signed/unsigned mismatch
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(656): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(659): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(662): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(665): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(680): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(688): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(692): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(703): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(704): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(710): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(711): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(717): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(718): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(724): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(725): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(610): warning C4018: '<' : signed/unsigned mismatch
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(668): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(669): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(670): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(671): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(673): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(674): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(676): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(677): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(683): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(686): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(690): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(691): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(692): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(694): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(697): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(698): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(698): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(700): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(707): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(709): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(712): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(714): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(716): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(719): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>Experimental.cpp(95): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\time.inl(86) : see declaration of 'ctime'
      1>Experimental.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
@@ -110,63 +122,75 @@
      1>MyLog.cpp(21): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(354) : see declaration of 'vsnprintf'
          StitchingTest.cpp
-     1>StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(214): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(215): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(217): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(218): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(220): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(221): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(222): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(223): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(247): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(249): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(250): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(252): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
-     1>StitchingTest.cpp(335): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(337): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(340): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(224): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(224): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(225): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(225): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(227): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(227): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(228): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(228): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(229): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(229): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(230): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(230): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(254): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(256): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(257): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>StitchingTest.cpp(259): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
      1>StitchingTest.cpp(342): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>StitchingTest.cpp(430): warning C4305: 'argument' : truncation from 'double' to 'const float'
-     1>StitchingTest.cpp(437): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(441): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(446): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(450): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(456): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(344): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(347): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(349): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>StitchingTest.cpp(439): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>StitchingTest.cpp(445): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(447): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(451): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(453): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(458): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(465): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(469): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(514): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(533): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(464): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(466): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(526): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(545): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(539): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(551): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(546): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(558): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(598): warning C4018: '<' : signed/unsigned mismatch
-     1>StitchingTest.cpp(656): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(659): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(662): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(665): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(680): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(684): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(688): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(692): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(703): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(704): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(710): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(711): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(717): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(718): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(724): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(725): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(610): warning C4018: '<' : signed/unsigned mismatch
+     1>StitchingTest.cpp(668): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(669): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(670): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(671): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(673): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(674): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(676): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(677): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(683): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(684): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(684): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>StitchingTest.cpp(686): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(690): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(691): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(692): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(694): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(697): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(698): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(698): warning C4553: '==' : operator has no effect; did you intend '='?
+     1>StitchingTest.cpp(700): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(707): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(709): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
+     1>StitchingTest.cpp(712): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(714): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(716): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(719): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\opencv2.3\vs2010\lib\Release opencv_core231.lib opencv_highgui231.lib opencv_imgproc231.lib opencv_contrib231.lib opencv_features2d231.lib opencv_calib3d231.lib opencv_flann231.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Experimental.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.lib" /MACHINE:X86 Release\Experimental.obj
          Release\MyLog.obj
@@ -183,4 +207,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.84
+Time Elapsed 00:00:03.40
