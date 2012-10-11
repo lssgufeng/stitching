@@ -699,16 +699,17 @@ cv::Mat_<float>* createBlendMask(int rows, int cols, Neighbor neighbor){
 
 
 
-			/*printf("Index(0)=%d, Index(1)=%d, Index(2)=%d, Index(3)=%d \n",index[0],index[1],index[2],index[3]);
+			/*
+			printf("Index(0)=%d, Index(1)=%d, Index(2)=%d, Index(3)=%d \n",index[0],index[1],index[2],index[3]);
 			printf("dtemp(0)=%d, dtemp(1)=%d, dtemp(2)=%d, dtemp(3)=%d \n",dtemp[0],dtemp[1],dtemp[2],dtemp[3]);
-*/
+            */
 			if(d[index[0]]==d[index[1]] && d[index[0]]==0){
 				d[index[0]]=d[index[1]]=1;
 			}
 			float value1=(float)d[index[1]]/(d[index[0]]+d[index[1]]);
 			float value2=(float)d[index[0]]/(d[index[0]]+d[index[1]]);
 
-		/*	cout<<"i,j="<<i<<","<<j<<" value1="<<value1<<"value2 "<<value2<<endl;*/
+		   /* cout<<"i,j="<<i<<","<<j<<" value1="<<value1<<"value2 "<<value2<<endl;*/
 
 			blendMask[index[0]].at<float>(i,j)=value1;
 			blendMask[index[1]].at<float>(i,j)=value2;
