@@ -712,7 +712,6 @@ cv::Mat_<float>* createBlendMask(int rows, int cols, Neighbor neighbor){
 
 			blendMask[index[0]].at<float>(i,j)=value1;
 			blendMask[index[1]].at<float>(i,j)=value2;
-
 		}
 	}
 	/*cout<<blendMask[0]+blendMask[2]+blendMask[1]+blendMask[3];*/
