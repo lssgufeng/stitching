@@ -1,0 +1,121 @@
+﻿Build started 10/10/2012 8:58:28 PM.
+     1>Project "G:\WorkingFolder\MyOpenCVProject\Stitching\Stitching.vcxproj" on node 3 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\Stitching.lastbuildstate".
+       InitializeBuildStatus:
+         Creating "Release\Stitching.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /IC:\opencv2.3\build\include /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt AlphaBlender.cpp Corners.cpp freak.cpp HarrisDetector.cpp LaplacianBlender.cpp main.cpp Matching.cpp MyLog.cpp Stitching.cpp Utility.cpp Utility.h Warp.cpp
+         AlphaBlender.cpp
+     1>AlphaBlender.cpp(62): warning C4244: '=' : conversion from 'double' to 'ushort', possible loss of data
+     1>AlphaBlender.cpp(94): warning C4244: '=' : conversion from 'double' to 'ushort', possible loss of data
+         Corners.cpp
+     1>Corners.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>Corners.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>Corners.cpp(84): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+         freak.cpp
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(64): warning C4309: 'argument' : truncation of constant value
+     1>freak.cpp(239): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>freak.cpp(240): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>freak.cpp(241): warning C4244: '=' : conversion from 'const double' to 'float', possible loss of data
+     1>freak.cpp(244): warning C4244: 'initializing' : conversion from 'double' to 'const int', possible loss of data
+     1>freak.cpp(322): warning C4244: 'initializing' : conversion from 'const double' to 'const float', possible loss of data
+     1>freak.cpp(393): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>freak.cpp(464): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>freak.cpp(519): warning C4244: 'initializing' : conversion from 'const float' to 'const int', possible loss of data
+     1>freak.cpp(520): warning C4244: 'initializing' : conversion from 'const float' to 'const int', possible loss of data
+         HarrisDetector.cpp
+         LaplacianBlender.cpp
+     1>LaplacianBlender.cpp(97): warning C4244: '=' : conversion from 'double' to 'ushort', possible loss of data
+     1>LaplacianBlender.cpp(111): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>LaplacianBlender.cpp(121): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>LaplacianBlender.cpp(161): warning C4018: '<' : signed/unsigned mismatch
+         main.cpp
+     1>g:\workingfolder\myopencvproject\stitching\Matching.h(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+     1>main.cpp(67): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>main.cpp(35): warning C4101: 'szBuffer' : unreferenced local variable
+         Matching.cpp
+     1>g:\workingfolder\myopencvproject\stitching\Matching.h(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         MyLog.cpp
+     1>MyLog.cpp(22): warning C4996: 'vsnprintf': This function or variable may be unsafe. Consider using vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(354) : see declaration of 'vsnprintf'
+         Stitching.cpp
+     1>g:\workingfolder\myopencvproject\stitching\Matching.h(11): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+         Utility.cpp
+         Utility.h
+         Warp.cpp
+     1>Warp.cpp(14): warning C4244: 'initializing' : conversion from 'int64' to 'double', possible loss of data
+     1>Warp.cpp(33): warning C4244: 'initializing' : conversion from 'int64' to 'double', possible loss of data
+     1>Warp.cpp(41): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(41): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(48): warning C4244: 'initializing' : conversion from 'int64' to 'double', possible loss of data
+     1>Warp.cpp(79): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>Warp.cpp(81): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>Warp.cpp(82): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>Warp.cpp(84): warning C4244: '=' : conversion from 'const int' to 'float', possible loss of data
+     1>Warp.cpp(121): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(123): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(124): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(126): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(160): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(162): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(163): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(165): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>Warp.cpp(339): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>Warp.cpp(341): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>Warp.cpp(344): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>Warp.cpp(346): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>Warp.cpp(416): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(431): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(433): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(435): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(436): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(437): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(478): warning C4244: 'initializing' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(493): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(495): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(497): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(498): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>Warp.cpp(499): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\WorkingFolder\MyOpenCVProject\Release\Stitching.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\opencv2.3\vs2010\lib\Release opencv_core231.lib opencv_highgui231.lib opencv_imgproc231.lib opencv_contrib231.lib opencv_features2d231.lib opencv_calib3d231.lib opencv_flann231.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Stitching.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"G:\WorkingFolder\MyOpenCVProject\Release\Stitching.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\WorkingFolder\MyOpenCVProject\Release\Stitching.lib" /MACHINE:X86 Release\AlphaBlender.obj
+         Release\Corners.obj
+         Release\freak.obj
+         Release\HarrisDetector.obj
+         Release\LaplacianBlender.obj
+         Release\main.obj
+         Release\Matching.obj
+         Release\MyLog.obj
+         Release\Stitching.obj
+         Release\Utility.obj
+         Release\Utility.obj
+         Release\Warp.obj
+     1>Release\Utility.obj : warning LNK4042: object specified more than once; extras ignored
+         Generating code
+         Finished generating code
+         Stitching.vcxproj -> G:\WorkingFolder\MyOpenCVProject\Release\Stitching.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"G:\WorkingFolder\MyOpenCVProject\Release\Stitching.exe;#1" /manifest Release\Stitching.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         Deleting file "Release\Stitching.unsuccessfulbuild".
+         Touching "Release\Stitching.lastbuildstate".
+     1>Done Building Project "G:\WorkingFolder\MyOpenCVProject\Stitching\Stitching.vcxproj" (rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.76
