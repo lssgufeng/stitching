@@ -1,4 +1,4 @@
-﻿Build started 10/8/2012 11:33:07 PM.
+﻿Build started 10/10/2012 10:28:58 PM.
      1>Project "G:\WorkingFolder\MyOpenCVProject\Experimental\Experimental.vcxproj" on node 2 (rebuild target(s)).
      1>_PrepareForClean:
          Deleting file "Release\Experimental.lastbuildstate".
@@ -32,50 +32,33 @@
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(347): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(349): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(439): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(445): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(447): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(451): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(453): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(458): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(457): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(459): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(464): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(466): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(526): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(545): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(470): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(472): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(532): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(551): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(558): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(557): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(610): warning C4018: '<' : signed/unsigned mismatch
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(668): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(669): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(670): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(671): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(673): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(674): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(676): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(564): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(616): warning C4018: '<' : signed/unsigned mismatch
      1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(677): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(683): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(684): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(686): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(690): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(691): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(692): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(694): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(697): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(698): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(698): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(700): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(707): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(709): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(712): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(714): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(716): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(719): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(679): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(713): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(685) : definition of 'i' ignored
+                 g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(675) : definition of 'i' used
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(714): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(685) : definition of 'i' ignored
+                 g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(675) : definition of 'i' used
+     1>g:\workingfolder\myopencvproject\experimental\StitchingTest.cpp(728): warning C4172: returning address of local variable or temporary
      1>Experimental.cpp(95): warning C4996: 'ctime': This function or variable may be unsafe. Consider using ctime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\time.inl(86) : see declaration of 'ctime'
      1>Experimental.cpp(100): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
@@ -147,50 +130,33 @@
      1>StitchingTest.cpp(347): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
      1>StitchingTest.cpp(349): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
      1>StitchingTest.cpp(439): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>StitchingTest.cpp(445): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(447): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(451): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(453): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(458): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(460): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(457): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(459): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(464): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
      1>StitchingTest.cpp(466): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(526): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(545): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>StitchingTest.cpp(470): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(472): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(532): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>StitchingTest.cpp(551): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(558): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+     1>StitchingTest.cpp(557): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
-     1>StitchingTest.cpp(610): warning C4018: '<' : signed/unsigned mismatch
-     1>StitchingTest.cpp(668): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(669): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(670): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(671): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(673): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(674): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(676): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(564): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>StitchingTest.cpp(616): warning C4018: '<' : signed/unsigned mismatch
      1>StitchingTest.cpp(677): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(683): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(684): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(684): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>StitchingTest.cpp(686): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(690): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(691): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(692): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(694): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(697): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
-     1>StitchingTest.cpp(698): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(698): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>StitchingTest.cpp(700): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(707): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(709): warning C4482: nonstandard extension used: enum 'StitchingTest::BlendDirection' used in qualified name
-     1>StitchingTest.cpp(712): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(714): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(716): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>StitchingTest.cpp(719): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>StitchingTest.cpp(678): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(679): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(680): warning C4482: nonstandard extension used: enum 'StitchingTest::ImageInfo' used in qualified name
+     1>StitchingTest.cpp(713): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 StitchingTest.cpp(685) : definition of 'i' ignored
+                 StitchingTest.cpp(675) : definition of 'i' used
+     1>StitchingTest.cpp(714): warning C4258: 'i' : definition from the for loop is ignored; the definition from the enclosing scope is used
+                 StitchingTest.cpp(685) : definition of 'i' ignored
+                 StitchingTest.cpp(675) : definition of 'i' used
+     1>StitchingTest.cpp(728): warning C4172: returning address of local variable or temporary
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:C:\opencv2.3\vs2010\lib\Release opencv_core231.lib opencv_highgui231.lib opencv_imgproc231.lib opencv_contrib231.lib opencv_features2d231.lib opencv_calib3d231.lib opencv_flann231.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Release\Experimental.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"G:\WorkingFolder\MyOpenCVProject\Release\Experimental.lib" /MACHINE:X86 Release\Experimental.obj
          Release\MyLog.obj
@@ -207,4 +173,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.40
+Time Elapsed 00:00:03.28
