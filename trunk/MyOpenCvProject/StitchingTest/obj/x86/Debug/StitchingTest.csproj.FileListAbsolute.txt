@@ -1,0 +1,9 @@
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\bin\Debug\ImageStitcher.exe
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\bin\Debug\ImageStitcher.pdb
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\ResolveAssemblyReference.cache
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\ImageStitcher.MainForm.resources
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\ImageStitcher.Properties.Resources.resources
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\GenerateResource.read.1.tlog
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\GenerateResource.write.1.tlog
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\ImageStitcher.exe
+G:\WorkingFolder\MyOpenCVProject\StitchingTest\obj\x86\Debug\ImageStitcher.pdb
