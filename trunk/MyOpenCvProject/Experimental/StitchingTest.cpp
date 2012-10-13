@@ -757,7 +757,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 				}
 			}
 
-			if(d[index[2]]!=maxInt){
+			if(d[index[3]]!=maxInt){
 				//printf("BOTTOM");
 				value4=bonus+(1-(float)d[index[3]]/denominator);
 				if(value1+value2+value3+value4>1.0){
