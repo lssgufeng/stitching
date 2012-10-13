@@ -53,8 +53,8 @@ class StitchingTest{
 
 public:
 	StitchingTest(){
-		char* path1="images/l.jpg";
-		char* path2="images/r.jpg";
+		char* path1="images/vc.png";
+		char* path2="images/hc.png";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
@@ -749,7 +749,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 					value3=bonus+(1-(float)d[index[2]]/denominator)*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
 				    bonus=(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
 				}else{
-					value2=1-value2-value1;
+					value3=1-value2-value1;
 				}
 				
 				if(value1+value2+value3>1.0){
@@ -788,22 +788,11 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 		cv::waitKey(0);
 	}
 	cv::imshow("sum",sum);
-<<<<<<< .mine
-	cv::waitKey(0);*/
-
-	for(int i=0;i<4;i++){
-		cv::imshow(""+i,blendMask[i]);
-		cv::waitKey(0);
-	}
-
-	return blendMask;
-=======
 	cv::waitKey(0);
 
 	masks.Left=blendMask[0];masks.Top=blendMask[1];masks.Right=blendMask[2];masks.Bottom=blendMask[3];
-	return masks;
 
->>>>>>> .r607
+	return masks;
 }
 };
 
