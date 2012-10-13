@@ -53,8 +53,8 @@ class StitchingTest{
 
 public:
 	StitchingTest(){
-		char* path1="images/hc.png";
-		char* path2="images/vc.png";
+		char* path1="images/l.jpg";
+		char* path2="images/r.jpg";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
@@ -440,7 +440,7 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	cv::Mat_<float> image1F,image2F;
 	image1.convertTo(image1F,CV_32F,1.0/255.0);
 	image2.convertTo(image2F,CV_32F,1.0/255.0);
-	//outputImage=0;
+	
 	BlendMask masks=createBlendMask(image1.rows,image1.cols,neighbor);
 	cv::Mat_<float> blendMask[4];
 	blendMask[0]=masks.Left;
@@ -449,7 +449,7 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	blendMask[3]=masks.Bottom;
 
 	for(int i=0;i<4;i++){
-		cv::imshow(""+i,blendMask[i]);
+		cv::imshow(""+i,blendMask[1]);
 		cv::waitKey(0);
 	}
 
@@ -788,11 +788,22 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 		cv::waitKey(0);
 	}
 	cv::imshow("sum",sum);
+<<<<<<< .mine
+	cv::waitKey(0);*/
+
+	for(int i=0;i<4;i++){
+		cv::imshow(""+i,blendMask[i]);
+		cv::waitKey(0);
+	}
+
+	return blendMask;
+=======
 	cv::waitKey(0);
 
 	masks.Left=blendMask[0];masks.Top=blendMask[1];masks.Right=blendMask[2];masks.Bottom=blendMask[3];
 	return masks;
 
+>>>>>>> .r607
 }
 };
 
