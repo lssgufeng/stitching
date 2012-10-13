@@ -721,33 +721,39 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			int denominator=(d[index[0]]==maxInt?0:d[index[0]])+
 				(d[index[1]]==maxInt?0:d[index[1]])+
 				(d[index[2]]==maxInt?0:d[index[2]])+
-
 				(d[index[3]]==maxInt?0:d[index[3]]);
 			float value1=0.0,value2=0.0,value3=0.0,value4=0.0;
 			float bonus;
 			if(d[index[0]]!=maxInt){
 				//printf("LEFT");
-				value1=(1-(float)d[index[0]]/denominator)*(float)d[index[1]]/(d[index[0]]+d[index[1]]);
-				bonus=(float)d[index[0]]/(d[index[0]]+d[index[1]]);
+				if(d[index[1]]!=maxInt){
+					value1=(1-(float)d[index[0]]/denominator)*(float)d[index[1]]/(d[index[0]]+d[index[1]]);
+					bonus=value1*(float)d[index[0]]/(d[index[0]]+d[index[1]]);
+				}else{
+					value1=1.0;
+
+				}
 			}
 			if(d[index[1]]!=maxInt){	
 				//printf("TOP");
 				if(d[index[2]]!=maxInt){
-					value2=bonus+(1-(float)d[index[1]]/denominator)*(float)d[index[2]]/(d[index[1]]+d[index[2]]);
-					bonus=(float)d[index[1]]/(d[index[1]]+d[index[2]]);
+					value2=(bonus+(1-(float)d[index[1]]/denominator))*(float)d[index[2]]/(d[index[1]]+d[index[2]]);
+					bonus=value2*(float)d[index[1]]/(d[index[1]]+d[index[2]]);
 				}else{
 					value2=1-value1;
+				}
 				
 				if(value1+value2>1.0){
 					value2=1-value1;
 				}
+				value2=value2<0?0:value2;
 			}
 
 			if(d[index[2]]!=maxInt){	
 				//printf("RIGHT");
 				if(d[index[3]]!=maxInt){
-					value3=bonus+(1-(float)d[index[2]]/denominator)*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
-				    bonus=(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
+					value3=(bonus+(1-(float)d[index[2]]/denominator))*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
+				    bonus=value3*(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
 				}else{
 					value3=1-value2-value1;
 				}
@@ -755,6 +761,8 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 				if(value1+value2+value3>1.0){
 					value3=1-value1-value2;
 				}
+
+				value3=value3<0?0:value3;
 			}
 
 			if(d[index[3]]!=maxInt){
@@ -763,14 +771,16 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 				if(value1+value2+value3+value4>1.0){
 					value4=1-value1-value2-value3;
 				}
+
+				value4=value4<0?0:value4;
 			}
 
 			
 			
 			
-			    if(i==j)
-				cout<<"i,j= "<<i<<","<<j<<" value1= "<<value1<<"value2 "<<value2<<"value3 "<<value3<<"value4 "<<value4<<"Sum "<<value1+value2+value3+value4<<endl;
-
+			   /* if(i>450 && i<550 && j>450 && j<500)
+					cout<<"i,j= "<<i<<","<<j<<" value1= "<<value1<<"value2 "<<value2<<"value3 "<<value3<<"value4 "<<value4<<"Sum "<<value1+value2+value3+value4<<endl;
+*/
 			blendMask[index[0]].at<float>(i,j)=value1;
 			blendMask[index[1]].at<float>(i,j)=value2;
 			blendMask[index[2]].at<float>(i,j)=value3;
@@ -778,13 +788,15 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 
 		}
 	}
-	}
 	/*cout<<blendMask[0]+blendMask[2]+blendMask[1]+blendMask[3];*/
 
 	cv::Mat_<float> sum(rows,cols,0.0);
 	for(int i=0;i<4;i++){
 		sum+=blendMask[i];
-		cv::imshow(""+i,blendMask[i]);
+		char* fileName=(char*)malloc(100*sizeof(char));
+		sprintf(fileName,"result/blending/BlendMask%d.png",i);
+		cv::imwrite(fileName,blendMask[i]);
+		cv::imshow(fileName,blendMask[i]);
 		cv::waitKey(0);
 	}
 	cv::imshow("sum",sum);
