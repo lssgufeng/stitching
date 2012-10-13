@@ -441,7 +441,13 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	image1.convertTo(image1F,CV_32F,1.0/255.0);
 	image2.convertTo(image2F,CV_32F,1.0/255.0);
 	//outputImage=0;
-	cv::Mat_<float>* blendMask=createBlendMask(image1.rows,image1.cols,neighbor);
+	BlendMask masks=createBlendMask(image1.rows,image1.cols,neighbor);
+	cv::Mat_<float> blendMask[4];
+	blendMask[0]=masks.Left;
+	blendMask[1]=masks.Top;
+	blendMask[2]=masks.Right;
+	blendMask[3]=masks.Bottom;
+
 	for(int i=0;i<4;i++){
 		cv::imshow(""+i,blendMask[i]);
 		cv::waitKey(0);
@@ -662,7 +668,12 @@ cv::Mat reconstructImage(cv::Vector<cv::Mat_<cv::Vec3f>> resultPyr,cv::Mat resul
 
 #pragma endregion Pyramid Blending Ends
 
-cv::Mat_<float>* createBlendMask(int rows, int cols, Neighbor neighbor){
+BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
+	int maxInt=numeric_limits<int>::max();
+
+	BlendMask masks;
+	masks.Left=masks.Top=masks.Right=masks.Bottom=cv::Mat_<float>(rows,cols,0.0);
+
 	cv::Mat_<float> blendMask[4];
 	blendMask[0]=cv::Mat_<float>(rows,cols,0.0);
 	blendMask[1]=cv::Mat_<float>(rows,cols,0.0);
@@ -706,26 +717,53 @@ cv::Mat_<float>* createBlendMask(int rows, int cols, Neighbor neighbor){
 			if(d[index[0]]==d[index[1]] && d[index[0]]==0){
 				d[index[0]]=d[index[1]]=1;
 			}
-			float value1=(float)d[index[1]]/(d[index[0]]+d[index[1]]);
-			float value2=(float)d[index[0]]/(d[index[0]]+d[index[1]]);
 
-		   /* cout<<"i,j="<<i<<","<<j<<" value1="<<value1<<"value2 "<<value2<<endl;*/
+			int denominator=d[index[0]]==maxInt?0:d[index[0]]+d[index[1]]==maxInt?0:d[index[1]]+
+				d[index[2]]==maxInt?0:d[index[2]]+d[index[3]]==maxInt?0:d[index[3]];
+			float value1=0.0,value2=0.0,value3=0.0,value4=0.0;
+			if(d[index[0]]!=maxInt){
+				value1=1-(float)d[index[0]]/denominator;
+			}
+			if(d[index[1]]!=maxInt){	
+				value2=1-(float)d[index[1]]/denominator;
+				if(value1+value2>1.0){
+					value2=1-value1;
+				}
+			}
+
+			if(d[index[2]]!=maxInt){	
+				value3=1-(float)d[index[2]]/denominator;
+				if(value1+value2+value3>1.0){
+					value3=1-value1-value2;
+				}
+			}
+
+			value4=1-value1-value2-value3;	
+			
+			
+			if(i==j)
+				cout<<"i,j="<<i<<","<<j<<" value1="<<value1<<"value2 "<<value2<<"value3"<<value3<<"value4"<<value4<<endl;
 
 			blendMask[index[0]].at<float>(i,j)=value1;
 			blendMask[index[1]].at<float>(i,j)=value2;
+			blendMask[index[2]].at<float>(i,j)=value3;
+			blendMask[index[3]].at<float>(i,j)=value4;
+
 		}
 	}
 	/*cout<<blendMask[0]+blendMask[2]+blendMask[1]+blendMask[3];*/
 
-	/*cv::Mat_<float> sum(rows,cols,0.0);
+	cv::Mat_<float> sum(rows,cols,0.0);
 	for(int i=0;i<4;i++){
 		sum+=blendMask[i];
 		cv::imshow(""+i,blendMask[i]);
 		cv::waitKey(0);
 	}
 	cv::imshow("sum",sum);
-	cv::waitKey(0);*/
-	return blendMask;
+	cv::waitKey(0);
+
+	masks.Left=blendMask[0];masks.Top=blendMask[1];masks.Right=blendMask[2];masks.Bottom=blendMask[3];
+	return masks;
 }
 };
 
