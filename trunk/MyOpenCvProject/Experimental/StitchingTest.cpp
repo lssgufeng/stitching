@@ -718,21 +718,25 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 				d[index[0]]=d[index[1]]=1;
 			}
 
-			int denominator=d[index[0]]==maxInt?0:d[index[0]]+d[index[1]]==maxInt?0:d[index[1]]+
-				d[index[2]]==maxInt?0:d[index[2]]+d[index[3]]==maxInt?0:d[index[3]];
+			int denominator=(d[index[0]]==maxInt?0:d[index[0]])+
+				(d[index[1]]==maxInt?0:d[index[1]])+
+				(d[index[2]]==maxInt?0:d[index[2]])+
+
+				(d[index[3]]==maxInt?0:d[index[3]]);
 			float value1=0.0,value2=0.0,value3=0.0,value4=0.0;
+
 			if(d[index[0]]!=maxInt){
-				value1=1-(float)d[index[0]]/denominator;
+				value1=(1-(float)d[index[0]]/denominator)*d[index[1]]/(d[index[0]]+d[index[1]]);
 			}
 			if(d[index[1]]!=maxInt){	
-				value2=1-(float)d[index[1]]/denominator;
+				value2=(1-(float)d[index[1]]/denominator)*d[index[2]]/(d[index[1]]+d[index[2]]);
 				if(value1+value2>1.0){
 					value2=1-value1;
 				}
 			}
 
 			if(d[index[2]]!=maxInt){	
-				value3=1-(float)d[index[2]]/denominator;
+				value3=(1-(float)d[index[2]]/denominator)*d[index[2]]/(d[index[1]]+d[index[2]]);
 				if(value1+value2+value3>1.0){
 					value3=1-value1-value2;
 				}
