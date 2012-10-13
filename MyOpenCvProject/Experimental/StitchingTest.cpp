@@ -59,7 +59,7 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch(0);
+		performOverallStitch(2);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
 		neighbor.Left=ImageInfo::BASE;
@@ -744,7 +744,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			}
 
 			if(d[index[2]]!=maxInt){	
-				printf("RIGHT");
+				//printf("RIGHT");
 				if(d[index[3]]!=maxInt){
 					value3=bonus+(1-(float)d[index[2]]/denominator)*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
 				    bonus=(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
@@ -758,7 +758,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			}
 
 			if(d[index[2]]!=maxInt){
-				printf("BOTTOM");
+				//printf("BOTTOM");
 				value4=bonus+(1-(float)d[index[3]]/denominator);
 				if(value1+value2+value3+value4>1.0){
 					value4=1-value1-value2-value3;
