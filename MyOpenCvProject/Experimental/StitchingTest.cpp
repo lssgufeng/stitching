@@ -59,7 +59,7 @@ public:
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
 		level=2;
-		performOverallStitch(2);
+		performOverallStitch(0);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
 		neighbor.Left=ImageInfo::BASE;
@@ -724,29 +724,52 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 
 				(d[index[3]]==maxInt?0:d[index[3]]);
 			float value1=0.0,value2=0.0,value3=0.0,value4=0.0;
-
+			float bonus;
 			if(d[index[0]]!=maxInt){
-				value1=(1-(float)d[index[0]]/denominator)*d[index[1]]/(d[index[0]]+d[index[1]]);
+				//printf("LEFT");
+				value1=(1-(float)d[index[0]]/denominator)*(float)d[index[1]]/(d[index[0]]+d[index[1]]);
+				bonus=(float)d[index[0]]/(d[index[0]]+d[index[1]]);
 			}
 			if(d[index[1]]!=maxInt){	
-				value2=(1-(float)d[index[1]]/denominator)*d[index[2]]/(d[index[1]]+d[index[2]]);
+				//printf("TOP");
+				if(d[index[2]]!=maxInt){
+					value2=bonus+(1-(float)d[index[1]]/denominator)*(float)d[index[2]]/(d[index[1]]+d[index[2]]);
+					bonus=(float)d[index[1]]/(d[index[1]]+d[index[2]]);
+				}else{
+					value2=1-value1;
+				
 				if(value1+value2>1.0){
 					value2=1-value1;
 				}
 			}
 
 			if(d[index[2]]!=maxInt){	
-				value3=(1-(float)d[index[2]]/denominator)*d[index[2]]/(d[index[1]]+d[index[2]]);
+				printf("RIGHT");
+				if(d[index[3]]!=maxInt){
+					value3=bonus+(1-(float)d[index[2]]/denominator)*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
+				    bonus=(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
+				}else{
+					value2=1-value2-value1;
+				}
+				
 				if(value1+value2+value3>1.0){
 					value3=1-value1-value2;
 				}
 			}
 
-			value4=1-value1-value2-value3;	
+			if(d[index[2]]!=maxInt){
+				printf("BOTTOM");
+				value4=bonus+(1-(float)d[index[3]]/denominator);
+				if(value1+value2+value3+value4>1.0){
+					value4=1-value1-value2-value3;
+				}
+			}
+
 			
 			
-			if(i==j)
-				cout<<"i,j="<<i<<","<<j<<" value1="<<value1<<"value2 "<<value2<<"value3"<<value3<<"value4"<<value4<<endl;
+			
+			    if(i==j)
+				cout<<"i,j= "<<i<<","<<j<<" value1= "<<value1<<"value2 "<<value2<<"value3 "<<value3<<"value4 "<<value4<<"Sum "<<value1+value2+value3+value4<<endl;
 
 			blendMask[index[0]].at<float>(i,j)=value1;
 			blendMask[index[1]].at<float>(i,j)=value2;
@@ -754,6 +777,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 			blendMask[index[3]].at<float>(i,j)=value4;
 
 		}
+	}
 	}
 	/*cout<<blendMask[0]+blendMask[2]+blendMask[1]+blendMask[3];*/
 
@@ -768,6 +792,7 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 
 	masks.Left=blendMask[0];masks.Top=blendMask[1];masks.Right=blendMask[2];masks.Bottom=blendMask[3];
 	return masks;
+
 }
 };
 
