@@ -1,0 +1,5 @@
+Alpha Blending Took 0.015268 seconds
+Pyramid Blending Took 0.140580 seconds
+Alpha Blending Inaccuracy=17564.503906 
+Pyramid Bleidng Inaccuracy Level2=18750.882813
+Pyramid Bleidng Inaccuracy Level4=21644.531250
