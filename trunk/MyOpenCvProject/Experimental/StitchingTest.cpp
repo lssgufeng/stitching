@@ -53,8 +53,8 @@ class StitchingTest{
 
 public:
 	StitchingTest(){
-		char* path1="images/vc.png";
-		char* path2="images/hc.png";
+		char* path1="images/l.jpg";
+		char* path2="images/r.jpg";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=2;
