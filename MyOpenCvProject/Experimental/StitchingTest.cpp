@@ -52,13 +52,13 @@ class StitchingTest{
 	
 
 public:
-	StitchingTest(){
-		char* path1="images/l.jpg";
-		char* path2="images/r.jpg";
+	StitchingTest(char* path1, char* path2,int direction){
+		//char* path1="images/hc.png";
+		//char* path2="images/vc.png";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
-		distanceThreshold=2;
-		level=2;
+		distanceThreshold=1;
+		level=4;
 		performOverallStitch(2);
 		/*Neighbor neighbor;
 		neighbor.Top=ImageInfo::FLOAT;
@@ -207,11 +207,11 @@ public:
 	}
 		warpedImage.copyTo(stitchedImage(floatRegion));
 		image2.copyTo(stitchedImage(baseRegion));
-		cv::imwrite("result/blending/o_raw_joined_image.png",stitchedImage);
+		//cv::imwrite("result/blending/raw-composite-image.png",stitchedImage);
 
 
-		cv::imwrite("result/blending/o_common_base.png",image2(commonBaseRegion));
-		cv::imwrite("result/blending/o_common_float.png",warpedImage(commonFloatRegion));
+		//cv::imwrite("result/blending/o_common_base.png",image2(commonBaseRegion));
+		//cv::imwrite("result/blending/o_common_float.png",warpedImage(commonFloatRegion));
 
 
 		cv::Mat blendedRegion;//=cv::Mat(commonFloatRegion.height,commonFloatRegion.width,CV_8U);
@@ -230,16 +230,36 @@ public:
 			neighbor.Bottom=bottom.Index==0?ImageInfo::FLOAT:ImageInfo::BASE;
 		}
 
-
-		performAlphaBlend(warpedImage(commonFloatRegion),image2(commonBaseRegion),neighbor,blendedRegion);
+		float alphaTime=performAlphaBlend(warpedImage(commonFloatRegion),image2(commonBaseRegion),neighbor,blendedRegion);
+		/*cv::Mat reference;
+		stitchedImage(commonStitchedRegion).copyTo(reference);
+		cv::Mat alphaDiff;
+		cv::absdiff(reference,blendedRegion,alphaDiff);
+		cv::imwrite("result/blending/Diff_Alpha.png",alphaDiff);*/
 		blendedRegion.copyTo(stitchedImage(commonStitchedRegion));
-		cv::imwrite("result/blending/StitchedImage(Alpha).png",stitchedImage);
-
-		performLaplacianBlend(warpedImage(commonFloatRegion),image2(commonBaseRegion),blendedRegion);
+		cv::imshow("StitchedImage",stitchedImage);
+		cv::waitKey(0);
+		/*float laplacianTime=performLaplacianBlend(warpedImage(commonFloatRegion),image2(commonBaseRegion),blendedRegion);
+		cv::Mat pyramidDifference;
+		cv::absdiff(reference,blendedRegion,pyramidDifference);
+		cv::imwrite("result/blending/Diff_Pyramid.png",pyramidDifference);
 		blendedRegion.copyTo(stitchedImage(commonStitchedRegion));
-		cv::imwrite("result/blending/StitchedImage(Laplacian).png",stitchedImage);
+		cv::imwrite("result/blending/StitchedImage(Laplacian).png",stitchedImage);	
 
+		log.Write(resultFile,"Alpha Blending Took %f seconds",alphaTime);
+		log.Write(resultFile,"Pyramid Blending Took %f seconds",laplacianTime);
+
+		float alphaError=0.0,laplaceError=0.0;
 		
+		for(int i=0;i<alphaDiff.rows;i++){
+			for(int j=0;j<alphaDiff.cols;j++){
+				alphaError+=alphaDiff.at<uchar>(i,j)/255.0; 
+				laplaceError+=pyramidDifference.at<uchar>(i,j)/255.0;
+			}
+		}
+
+		log.Write(resultFile,"Alpha Blending Inaccuracy=%f ",alphaError);
+		log.Write(resultFile,"Pyramid Bleidng Inaccuracy=%f",laplaceError);*/
 	}
 
 	void rotateImage(const cv::Mat image,cv::Mat homography,cv::Mat& outputImage,
@@ -248,7 +268,6 @@ public:
 		cv:: Mat corners2(1,4,CV_32F);
 		cv::Mat corners(1,4,CV_32F);
 		cv::vector<cv::Mat> planes;
-
 		corners1.at<float>(0,0)=0;
 		corners2.at<float>(0,0)=0;
 		corners1.at<float>(0,1)=image.cols;
@@ -289,9 +308,9 @@ public:
 		std::vector<cv::KeyPoint> keyPoints2;
 		cv::Mat descriptor1, descriptor2;
 		
-		cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(100);
+		cv::Ptr<cv::FeatureDetector> detector=new cv::SurfFeatureDetector(20);
 		detector->detect(image1,keyPoints1);
-		detector=new cv::SurfFeatureDetector(100);
+		//detector=new cv::SurfFeatureDetector(100);
 		//detector=new cv::SurfFeatureDetector(400);
 		detector->detect(image2, keyPoints2);
 
@@ -433,14 +452,22 @@ void GetFloatPoints(const std::vector<cv::KeyPoint>& keyPoints1,const std::vecto
 
 
 
-void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,cv::Mat& outputImage){
+float performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,cv::Mat& outputImage){
+	int64 tick=cv::getTickCount();
 	cv::Mat_<float> blendedImage[5];
-	for(int i=0;i<5;i++)
-		blendedImage[i]=cv::Mat(image1.rows,image1.cols,0.0);
+	for(int i=0;i<5;i++){
+		blendedImage[i].create(image1.rows,image1.cols);
+		//cv::imshow("BlendedImage",blendedImage[i]);
+		//cv::waitKey(0);
+	}
+	  
+
+
 	cv::Mat_<float> image1F,image2F;
 	image1.convertTo(image1F,CV_32F,1.0/255.0);
 	image2.convertTo(image2F,CV_32F,1.0/255.0);
 	
+	//BlendMask masks=createHorizontalBlendask(image1.rows,image1.cols);
 	BlendMask masks=createBlendMask(image1.rows,image1.cols,neighbor);
 	cv::Mat_<float> blendMask[4];
 	blendMask[0]=masks.Left;
@@ -448,9 +475,14 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	blendMask[2]=masks.Right;
 	blendMask[3]=masks.Bottom;
 
+	cv::Mat temp;
 	for(int i=0;i<4;i++){
-		cv::imshow(""+i,blendMask[1]);
-		cv::waitKey(0);
+		char* name=(char*)malloc(100*sizeof(char));
+		sprintf(name,"result/blending/blending-mask-%d.png",i);
+		blendMask[i].convertTo(temp,CV_8U,255);
+		cv::imwrite(name,temp);
+		/*cv::imshow("Mask",blendMask[i]);
+		cv::waitKey(0);*/
 	}
 
 
@@ -478,31 +510,27 @@ void performAlphaBlend(const cv::Mat& image1, cv::Mat& image2,Neighbor neighbor,
 	}else if(neighbor.Bottom==ImageInfo::BASE){
 		blendedImage[3]=blendMask[3].mul(image2F);
 	}
+
 	blendedImage[4]=blendedImage[0]+blendedImage[1]+blendedImage[2]+blendedImage[3];
 
 	for(int i=0;i<5;i++){
-		cv::imshow(""+i,blendedImage[i]);
+		cv::imshow("Blended",blendedImage[i]);
 		cv::waitKey(0);
 	}
 	
 	//cout<<blendedImage[4];
 	blendedImage[4].convertTo(outputImage,CV_8U,255);
+	
+	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
+
 	cv::imwrite("result/blending/alpha_blend.png",outputImage);
-
-	cv::imshow("DIff1",(outputImage-image1));
-	cv::waitKey(0);
-
-	cv::imshow("DIff2",(image1-outputImage));
-	cv::waitKey(0);
-	cv::imshow("DIff1",(outputImage-image2));
-	cv::waitKey(0);
-
-	cv::imshow("DIff2",(image2-outputImage));
-	cv::waitKey(0);
+	return elapsedTime;
 }
 
 #pragma region Pyramid Blending
-void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& blendedImage){	
+float performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& blendedImage){	
+	int64 tick=cv::getTickCount();
+	
 	cv::Mat_<cv::Vec3f> t,b; 
 	cv::Vector<cv::Mat_<cv::Vec3f>> topLapPyr, bottomLapPyr, resultPyr;
 
@@ -525,9 +553,11 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& b
 
 
 	//Blend Mask
-	cv::Mat_<float> blendMask(t.rows,t.cols,0.0);
+	BlendMask masks=createHorizontalBlendMask(t.rows,t.cols);
 
-	for(int i=0;i<t.cols;i++){
+	cv::Mat_<float> blendMask=masks.Left;
+
+	/*for(int i=0;i<t.cols;i++){
 		for(int j=0;j<t.rows;j++){
 			if(i==0 && j==0){
 				blendMask.at<float>(j,i)=1.0;
@@ -537,52 +567,54 @@ void performLaplacianBlend(const cv::Mat& top, const cv::Mat& bottom, cv::Mat& b
 			int shortY=std::min(j,(t.rows-j));
 			blendMask.at<float>(j,i)=1.0-(float)shortX/(shortX+shortY);
 		}
-	}
+	}*/
 
 
 	generateGaussianPyramid(blendMask, topLapPyr, topSmallestLevel, maskGaussianPyramid);
 	
-	cv::Mat temp;
+	/*cv::Mat temp;
 	cv::cvtColor(topSmallestLevel,temp,CV_RGB2GRAY);
-	temp.convertTo(temp,CV_8U,255.0);
-	cv::imwrite("result/blending/top_smallest.png",temp);
+	temp.convertTo(temp,CV_8U,255.0);*/
+	//cv::imwrite("result/blending/top_smallest.png",temp);
 
-	cv::cvtColor(bottomSmallestLevel,temp,CV_RGB2GRAY);
-	temp.convertTo(temp,CV_8U,255.0);
-	cv::imwrite("result/blending/bottom_smallest.png",temp);
+	/*cv::cvtColor(bottomSmallestLevel,temp,CV_RGB2GRAY);
+	temp.convertTo(temp,CV_8U,255.0);*/
+	//cv::imwrite("result/blending/bottom_smallest.png",temp);
 
 
-	for(int i=0;i<level;i++){
-		char name[100];
-		sprintf(name,"result/blending/pyramids/gaussian/gaussian_pyramids_%d.png",i);
-		cv::Mat temp1,temp2;
-		cv::cvtColor(maskGaussianPyramid[i],temp1,CV_RGB2GRAY);
-		temp1.convertTo(temp2,CV_8U,255.0);
-		cv::imwrite(name,temp2);
+	//for(int i=0;i<level;i++){
+	//	char name[100];
+		//sprintf(name,"result/blending/pyramids/gaussian/gaussian_pyramids_%d.png",i);
+		//cv::Mat temp1,temp2;
+		//cv::cvtColor(maskGaussianPyramid[i],temp1,CV_RGB2GRAY);
+		//temp1.convertTo(temp2,CV_8U,255.0);
+		//cv::imwrite(name,temp2);
 
-		sprintf(name,"result/blending/pyramids/laplacian/image1/lap_pyramids_%d.png",i);
-		cv::cvtColor(topLapPyr[i],temp1,CV_RGB2GRAY);
-		temp1.convertTo(temp2,CV_8U,255.0);
-		cv::imwrite(name,temp2);
+		//sprintf(name,"result/blending/pyramids/laplacian/image1/lap_pyramids_%d.png",i);
+	//	cv::cvtColor(topLapPyr[i],temp1,CV_RGB2GRAY);
+	//	temp1.convertTo(temp2,CV_8U,255.0);
+	//	cv::imwrite(name,temp2);
 
 		
 
-		sprintf(name,"result/blending/pyramids/laplacian/image2/lap_pyramids_%d.png",i);
-		cv::cvtColor(bottomLapPyr[i],temp1,CV_RGB2GRAY);
-		temp1.convertTo(temp2,CV_8U,255.0);
-		cv::imwrite(name,temp2);
+		//sprintf(name,"result/blending/pyramids/laplacian/image2/lap_pyramids_%d.png",i);
+		//cv::cvtColor(bottomLapPyr[i],temp1,CV_RGB2GRAY);
+		//temp1.convertTo(temp2,CV_8U,255.0);
+		//cv::imwrite(name,temp2);
 
-	}
+	//}
 	//generateGaussianPyramid(blendMask, bottomLapPyr, bottomSmallestLevel, bottomMaskGaussianPyramid);
 	blendLapPyrs(topLapPyr,bottomLapPyr,topSmallestLevel,bottomSmallestLevel,blendMask,maskGaussianPyramid,resultSmallestLevel,resultPyr);
 	cv::Mat blendedImage_32=reconstructImage(resultPyr,resultSmallestLevel);
-	cv::cvtColor(blendedImage_32,blendedImage_32,CV_BGR2GRAY);
-	 
-	
+	cv::cvtColor(blendedImage_32,blendedImage_32,CV_BGR2GRAY);	
 	blendedImage_32.convertTo(blendedImage,CV_8U,255);
+
+	float elapsedTime=(cv::getTickCount()-tick)/cv::getTickFrequency();
 	cv::imwrite("result/blending/lap_pyr_blend.png",blendedImage);
+	return elapsedTime;
 	
 }
+
 
 
 
@@ -639,10 +671,10 @@ void blendLapPyrs(cv::Vector<cv::Mat_<cv::Vec3f>>& lapPyr1,
 	cv::Mat_<float>& blendMask,
 	cv::Vector<cv::Mat_<cv::Vec3f>> maskGaussianPyramid,
 	cv::Mat& resultSmallestLevel,cv::Vector<cv::Mat_<cv::Vec3f>>& resultPyr){
-		printf("Smallest Level1 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
+		/*printf("Smallest Level1 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
 			smallestLevel1.rows,smallestLevel1.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
 		printf("Smallest Level2 Size:row=%d, column=%d\t Mask gauss. Size row=%d col=%d",
-			smallestLevel2.rows,smallestLevel2.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); 
+			smallestLevel2.rows,smallestLevel2.cols,maskGaussianPyramid.back().rows,maskGaussianPyramid.back().cols); */
 	
 
 		resultSmallestLevel=smallestLevel1.mul(maskGaussianPyramid.back())+smallestLevel2.mul(cv::Scalar(1.0,1.0,1.0)-maskGaussianPyramid.back());
@@ -668,7 +700,39 @@ cv::Mat reconstructImage(cv::Vector<cv::Mat_<cv::Vec3f>> resultPyr,cv::Mat resul
 
 #pragma endregion Pyramid Blending Ends
 
+BlendMask createHorizontalBlendMask(int rows, int cols){
+	BlendMask masks;
+	masks.Left=masks.Top=masks.Right=masks.Bottom=cv::Mat_<float>(rows,cols,0.0);
+	cv::Mat_<float> blendMask[4];
+	blendMask[0]=cv::Mat_<float>(rows,cols,0.0);
+	blendMask[1]=cv::Mat_<float>(rows,cols,0.0);
+	blendMask[2]=cv::Mat_<float>(rows,cols,0.0);
+	blendMask[3]=cv::Mat_<float>(rows,cols,0.0);
+
+	for(int j=0;j<cols;j++){
+		float value1=(float)(cols-j)/cols;
+		float value2=(float)j/cols;
+		//printf("value1=%f\tvalue2=%f\n",value1,value2);
+		for(int i=0;i<rows;i++){
+			blendMask[0].at<float>(i,j)=value1;
+			blendMask[2].at<float>(i,j)=value2;
+		}
+	}
+	masks.Left=blendMask[0];
+	masks.Right=blendMask[2];
+	cv::Mat tmpImage;
+	blendMask[0].convertTo(tmpImage,CV_8U,255);	
+	cv::imwrite("result/blending/LeftMask.png",tmpImage);
+	blendMask[2].convertTo(tmpImage,CV_8U,255);
+	cv::imwrite("result/blending/RightMask.png",tmpImage);
+	return masks;
+}
+
 BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
+	MyLog log;
+	char* resultFile="result/blending/blending.txt";
+	log.Write(resultFile,"-----------------------------------------------\n--------------------------------");
+
 	int maxInt=numeric_limits<int>::max();
 
 	BlendMask masks;
@@ -683,125 +747,40 @@ BlendMask createBlendMask(int rows, int cols, Neighbor neighbor){
 	float value[4]={0.0,0.0,0.0,0.0};
 	cv::Mat_<float> totalMask;
 	int d[4],dtemp[4], index[4];
-	for(int i=0;i<rows;i++){
-		for(int j=0;j<cols;j++){
-			d[0]=dtemp[0]=neighbor.Left==ImageInfo::NONE?numeric_limits<int>::max():j;
-			d[1]=dtemp[1]=neighbor.Top==ImageInfo::NONE?numeric_limits<int>::max():i;
-			d[2]=dtemp[2]=neighbor.Right==ImageInfo::NONE?numeric_limits<int>::max():cols-j;
-			d[3]=dtemp[3]=neighbor.Bottom==ImageInfo::NONE?numeric_limits<int>::max():rows-i;
-			for(int i=0;i<4;i++){				
-				index[i]=i;
-				/*cout<<d[i]<<endl<<endl;*/
+	float cum=0.0;
+	for(int row=0;row<rows;row++){
+		for(int col=0;col<cols;col++){
+			/*d[0]=dtemp[0]=neighbor.Left==ImageInfo::NONE?numeric_limits<int>::max():col;
+			d[1]=dtemp[1]=neighbor.Top==ImageInfo::NONE?numeric_limits<int>::max():row;
+			d[2]=dtemp[2]=neighbor.Right==ImageInfo::NONE?numeric_limits<int>::max():cols-col;
+			d[3]=dtemp[3]=neighbor.Bottom==ImageInfo::NONE?numeric_limits<int>::max():rows-row;*/
+			int denominator[4];
+			if(row==col && row==0)
+			{
+				value[0]=0.5;
+				value[1]=0.5;
+				value[2]=0.0;
+				value[3]=0.0;
+			}else{
+				int minX=cv::min(col,cols-col);
+				int minY=cv::min(row,rows-row);
+				float valueX=(1.0-(float)minX/(minX+minY));
+				float valueY=(1-(float)minY/(minX+minY));
+				value[0]=valueX*(1-(float)col/cols);
+				value[2]=valueX*(float)col/cols;
+				value[1]=valueY*(1-(float)row/rows);
+				value[3]=valueY*(float)row/rows;
+				cum=value[0]+value[1]+value[2]+value[3];
 			}
-			for(int i=0;i<3;i++){				
-				for(int j=i+1;j<4;j++){
-					if(dtemp[j]<dtemp[i]){
-						int temp=index[i];
-						index[i]=index[j];
-						index[j]=temp;						
-						temp=dtemp[i];
-						dtemp[i]=dtemp[j];
-						dtemp[j]=temp;
-					}
-				}
-			}
+			blendMask[0].at<float>(row,col)=value[0];
+			blendMask[1].at<float>(row,col)=value[1];
+			blendMask[2].at<float>(row,col)=value[2];
+			blendMask[3].at<float>(row,col)=value[3];
 
-			//cout<<dtemp[0]<<"\t"<<dtemp[1]<<"\t"<<dtemp[2]<<"\t"<<dtemp[3]<<endl;
-
-
-
-			/*
-			printf("Index(0)=%d, Index(1)=%d, Index(2)=%d, Index(3)=%d \n",index[0],index[1],index[2],index[3]);
-			printf("dtemp(0)=%d, dtemp(1)=%d, dtemp(2)=%d, dtemp(3)=%d \n",dtemp[0],dtemp[1],dtemp[2],dtemp[3]);
-            */
-			if(d[index[0]]==d[index[1]] && d[index[0]]==0){
-				d[index[0]]=d[index[1]]=1;
-			}
-
-			int denominator=(d[index[0]]==maxInt?0:d[index[0]])+
-				(d[index[1]]==maxInt?0:d[index[1]])+
-				(d[index[2]]==maxInt?0:d[index[2]])+
-				(d[index[3]]==maxInt?0:d[index[3]]);
-			float value1=0.0,value2=0.0,value3=0.0,value4=0.0;
-			float bonus;
-			if(d[index[0]]!=maxInt){
-				//printf("LEFT");
-				if(d[index[1]]!=maxInt){
-					value1=(1-(float)d[index[0]]/denominator)*(float)d[index[1]]/(d[index[0]]+d[index[1]]);
-					bonus=value1*(float)d[index[0]]/(d[index[0]]+d[index[1]]);
-				}else{
-					value1=1.0;
-
-				}
-			}
-			if(d[index[1]]!=maxInt){	
-				//printf("TOP");
-				if(d[index[2]]!=maxInt){
-					value2=(bonus+(1-(float)d[index[1]]/denominator))*(float)d[index[2]]/(d[index[1]]+d[index[2]]);
-					bonus=value2*(float)d[index[1]]/(d[index[1]]+d[index[2]]);
-				}else{
-					value2=1-value1;
-				}
-				
-				if(value1+value2>1.0){
-					value2=1-value1;
-				}
-				value2=value2<0?0:value2;
-			}
-
-			if(d[index[2]]!=maxInt){	
-				//printf("RIGHT");
-				if(d[index[3]]!=maxInt){
-					value3=(bonus+(1-(float)d[index[2]]/denominator))*(float)d[index[3]]/(d[index[2]]+d[index[3]]);
-				    bonus=value3*(float)d[index[2]]/(d[index[2]]+d[index[3]]);	
-				}else{
-					value3=1-value2-value1;
-				}
-				
-				if(value1+value2+value3>1.0){
-					value3=1-value1-value2;
-				}
-
-				value3=value3<0?0:value3;
-			}
-
-			if(d[index[3]]!=maxInt){
-				//printf("BOTTOM");
-				value4=bonus+(1-(float)d[index[3]]/denominator);
-				if(value1+value2+value3+value4>1.0){
-					value4=1-value1-value2-value3;
-				}
-
-				value4=value4<0?0:value4;
-			}
-
-			
-			
-			
-			   /* if(i>450 && i<550 && j>450 && j<500)
-					cout<<"i,j= "<<i<<","<<j<<" value1= "<<value1<<"value2 "<<value2<<"value3 "<<value3<<"value4 "<<value4<<"Sum "<<value1+value2+value3+value4<<endl;
-*/
-			blendMask[index[0]].at<float>(i,j)=value1;
-			blendMask[index[1]].at<float>(i,j)=value2;
-			blendMask[index[2]].at<float>(i,j)=value3;
-			blendMask[index[3]].at<float>(i,j)=value4;
-
+			//log.Write(resultFile,"(%d,%d)value[0]=%f value[1]=%f value[2]=%f value[3]=%f , sum=%f\n",row,col,value[0],value[1],value[2],value[3],cum);
 		}
 	}
-	/*cout<<blendMask[0]+blendMask[2]+blendMask[1]+blendMask[3];*/
-
-	cv::Mat_<float> sum(rows,cols,0.0);
-	for(int i=0;i<4;i++){
-		sum+=blendMask[i];
-		char* fileName=(char*)malloc(100*sizeof(char));
-		sprintf(fileName,"result/blending/BlendMask%d.png",i);
-		cv::imwrite(fileName,blendMask[i]);
-		cv::imshow(fileName,blendMask[i]);
-		cv::waitKey(0);
-	}
-	cv::imshow("sum",sum);
-	cv::waitKey(0);
-
+			
 	masks.Left=blendMask[0];masks.Top=blendMask[1];masks.Right=blendMask[2];masks.Bottom=blendMask[3];
 
 	return masks;
