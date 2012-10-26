@@ -82,7 +82,7 @@ int main(void)
 	cv::imwrite("images/blending/r_8.png",image1);*/
 	
 	StitchingTest* stitchingTest=new StitchingTest();
-	//stitchingTest->performOverallStitch();
+	/*stitchingTest->performOverallStitch();*/
 	
 	
 }
@@ -360,7 +360,7 @@ void AccurateMatches(double threshold){
 	char* resultFile="result/matching/accurate_matching.txt";
 	/*log.Write(resultFile,ctime(&curr));*/
 
-	char* path1="images/l.jpg";
+	char* path1="images/l_rot_8.jpg";
 	char* path2="images/r.jpg";
 	double SIFTTime=0.0;
 	double SURFTime=0.0;
@@ -512,7 +512,7 @@ int RatioTest(std::vector<std::vector<cv::DMatch>>& matches,double threshold){
 cv::Mat HomographyTest(){
 		MyLog log;
 		char* resultFile="result/homography/homography.txt";
-		char* path1="images/l.jpg";
+		char* path1="images/l_rot_8.jpg";
 		char* path2="images/r.jpg";
 
 		cv::Mat image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
