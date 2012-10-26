@@ -52,9 +52,9 @@ class StitchingTest{
 	
 
 public:
-	StitchingTest(char* path1, char* path2,int direction){
-		//char* path1="images/hc.png";
-		//char* path2="images/vc.png";
+	StitchingTest(){
+		char* path1="images/l_rot_8.jpg";
+		char* path2="images/r.jpg";
 		image1=cv::imread(path1,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		image2=cv::imread(path2,CV_LOAD_IMAGE_ANYDEPTH|CV_LOAD_IMAGE_GRAYSCALE);
 		distanceThreshold=1;
@@ -340,6 +340,8 @@ public:
 
 		RatioTest(bruteForceMatches1,0.8);
 		RatioTest(bruteForceMatches2,0.8);
+
+
 		SymmetryTest(bruteForceMatches1,bruteForceMatches2,bruteForceSymmetryMatches);	
 		
 		
@@ -352,7 +354,8 @@ public:
 			cv::Mat(points2), //matching points
 			inliers,          //inliers
 			CV_RANSAC,        //using RANSAC method
-			distanceThreshold);//maximum pixel distance
+			distanceThreshold);//maximum pixel distance	
+
 		return homography;
 	}
 
