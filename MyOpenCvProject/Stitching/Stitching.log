@@ -666,3 +666,13 @@ TopLeft:-892,0 	 BottomRight:245,1750
 left:I=0,V=-892	 top:I=1,V=0
 right:I=1,V=1390	bottom:I=1,V=1751
 Case 2
+After Y-crop Rotation:
+TopLeft:-362,32 	 BottomRight:132,881
+left:I=0,V=-362	 top:I=1,V=0
+right:I=1,V=768	bottom:I=1,V=967
+Case 2
+After Y-crop Rotation:
+TopLeft:-362,32 	 BottomRight:132,881
+left:I=0,V=-362	 top:I=1,V=0
+right:I=1,V=768	bottom:I=1,V=967
+Case 2
