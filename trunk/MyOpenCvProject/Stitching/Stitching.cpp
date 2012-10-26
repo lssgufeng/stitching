@@ -814,6 +814,21 @@ bool Stitching::calculateHomography(cv::Mat image1,cv::Mat image2,cv::Mat& homog
 
 	matching.DrawInliers(points2,inliers,image2,tmpImage);
 	cv::imwrite("output/o_Image2(inliers).png",tmpImage);
+
+	std::vector<cv::DMatch>::const_iterator symmetryIterator=symmetryMatches.begin();
+	std::vector<uchar>::const_iterator inliersIterator=inliers.begin();		
+	
+	std::vector<cv::DMatch> inlierMatches;
+	for(;symmetryIterator!=symmetryMatches.end();symmetryIterator++,inliersIterator++){
+		if(*inliersIterator){			
+			inlierMatches.push_back(*symmetryIterator);
+		}
+	}
+	cv::Mat outputImage;
+	cv::drawMatches(image1_8bit,keyPoints1,image2_8bit,keyPoints2,inlierMatches,outputImage);			
+	cv::imwrite("output/o_inliers.png",outputImage);
+
+
 	
 	Utility utility;
 	utility.WriteHomography("Homography",homography);
