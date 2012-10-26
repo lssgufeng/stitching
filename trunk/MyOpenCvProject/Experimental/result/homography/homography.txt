@@ -20,3 +20,14 @@ Threshold	Matches	Inliers
 7	97	71
 8	97	72
 9	97	73
+Threshold	Matches	Inliers
+0	29	8
+1	29	5
+2	29	7
+3	29	8
+4	29	8
+5	29	8
+6	29	8
+7	29	8
+8	29	8
+9	29	8
